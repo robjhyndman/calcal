@@ -10,6 +10,9 @@ rd_fixed <- S7::new_class(
     if (!is.numeric(self@date)) {
       "@dates must be numeric values"
     }
+    if (any(abs(self@date - round(self@date)) > 1e-10)) {
+      "@dates must be an integer"
+    }
   }
 )
 
@@ -30,8 +33,14 @@ method(print, rd_fixed) <- function(x, ...) {
 method(`+`, list(rd_fixed, class_numeric)) <- function(e1, e2) {
   as_rd(e1@date + e2)
 }
+method(`+`, list(class_numeric, rd_fixed)) <- function(e1, e2) {
+  as_rd(e1 + e2@date)
+}
 method(`-`, list(rd_fixed, class_numeric)) <- function(e1, e2) {
   as_rd(e1@date - e2)
+}
+method(`-`, list(class_numeric, rd_fixed)) <- function(e1, e2) {
+  as_rd(e1 - e2@date)
 }
 method(`-`, list(rd_fixed, rd_fixed)) <- function(e1, e2) {
   e1@date - e2@date
@@ -49,6 +58,9 @@ method(`<`, list(rd_fixed, rd_fixed)) <- function(e1, e2) {
 }
 method(`<=`, list(rd_fixed, rd_fixed)) <- function(e1, e2) {
   e1@date <= e2@date
+}
+method(`==`, list(rd_fixed, rd_fixed)) <- function(e1, e2) {
+  e1@date == e2@date
 }
 
 #' Convert date to rd_fixed date
@@ -78,7 +90,7 @@ method(as_rd, class_Date) <- function(date, ...) {
 }
 
 method(as.Date, rd_fixed) <- function(x, ...) {
-  as.Date(date@date, origin = "01-01-01")
+  as.Date(x@date, origin = "01-01-01") - 1
 }
 
 method(as_rd, class_any) <- function(date, ...) {
