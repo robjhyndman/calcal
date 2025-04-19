@@ -113,6 +113,9 @@ method(as_gregorian, class_any) <- function(date, ...) {
   as_gregorian(as_rd(date))
 }
 
+method(as.Date, gregorian_date) <- function(x, ...) {
+  as.Date(paste(x@year, x@month, x@day, sep = "-"))
+}
 
 gregorian_year_from_fixed <- function(date) {
   # Gregorian year corresponding to the fixed date
