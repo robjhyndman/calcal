@@ -1,0 +1,13 @@
+test_that("gregorian", {
+  expect_equal(new_gregorian_date(2025, 1, 1), as_gregorian("2025-01-01"))
+  expect_equal(as.Date(new_gregorian_date(2025, 4, 19)), as.Date("2025-04-19"))
+  expect_equal(as_rd(new_gregorian_date(2025, 4, 19)), as_rd("2025-04-19"))
+  expect_error(new_gregorian_date(2025, 13, 1))
+  expect_error(new_gregorian_date(2025, 2, 30))
+  expect_error(new_gregorian_date(2025, 2, 29))
+  expect_error(new_gregorian_date(2024.4, 2, 12))
+  expect_no_error(new_gregorian_date(2025, 2, 28))
+  expect_no_error(new_gregorian_date(2020, 2, 29))
+  expect_no_error(new_gregorian_date(2000, 2, 29))
+  expect_error(new_gregorian_date(1900, 2, 29))
+})
