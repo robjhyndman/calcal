@@ -1,0 +1,10 @@
+test_that("rd_fixed", {
+  expect_equal(new_rd_fixed(1234567)@date, 1234567)
+  expect_error(new_rd_fixed(1.5))
+  expect_equal(as.Date(as_rd("2020-02-02")), as.Date("2020-02-02"))
+  expect_true(as_rd("2020-02-02") > as_rd("2020-02-01"))
+  expect_true(as_rd("2020-02-02") >= as_rd("2020-02-02"))
+  expect_true(as_rd("2020-02-02") < as_rd("2020-02-03"))
+  expect_true(as_rd("2020-02-02") <= as_rd("2020-02-02"))
+  expect_true(as_rd("2020-02-02") == as_rd("2020-02-02"))
+})
