@@ -1,0 +1,17 @@
+Package: calcal
+Title: Calendrical Calculations
+Version: 0.0.0.9000
+Authors@R:
+    person("Rob", "Hyndman", , "Rob.Hyndman@monash.edu", role = c("aut", "cre", "cph"),
+           comment = c(ORCID = "0000-0002-2140-5352"))
+Description: An R implementation of the algorithms described in Reingold and
+    Dershowitz (2018) <doi:10.1017/9781107415058>.
+License: GPL (>= 3)
+ByteCompile: TRUE
+Encoding: UTF-8
+LazyData: yes
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Imports:
+    lubridate,
+    S7
