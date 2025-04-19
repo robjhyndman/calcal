@@ -8,7 +8,9 @@ gregorian_date <- S7::new_class(
     day = class_numeric
   ),
   validator = function(self) {
-    if (!is.numeric(self@year)) {
+    if (!all(c(length(self@month), length(self@day)) == length(self@year))) {
+      "@year, @month, and @day must have the same length"
+    } else if (!is.numeric(self@year)) {
       "@year must be numeric values"
     } else if (!is.numeric(self@month)) {
       "@month must be numeric values"
@@ -20,22 +22,18 @@ gregorian_date <- S7::new_class(
       "@month must be an integer"
     } else if (any(abs(self@day - round(self@day)) > 1e-10)) {
       "@day must be an integer"
-    } else if (any(self@month < 1 || self@month > 12)) {
+    } else if (any(self@month < 1 | self@month > 12)) {
       "@month must be between 1 and 12"
-    } else if (any(self@day > 30 && self@month %in% c(4, 6, 9, 11))) {
+    } else if (any(self@day > 30 & self@month %in% c(4, 6, 9, 11))) {
       "@day must be between 1 and 30"
-    } else if (any(self@day > 29 && self@month == 2)) {
+    } else if (any(self@day > 29 & self@month == 2)) {
       "@day must be between 1 and 29"
     } else if (
-      any(self@day > 28 && self@month == 2 && !gregorian_leap_year(self@year))
+      any(self@day > 28 & self@month == 2 & !gregorian_leap_year(self@year))
     ) {
       "@day must be between 1 and 28"
-    } else if (any(self@day < 1 || self@day > 31)) {
+    } else if (any(self@day < 1 | self@day > 31)) {
       "@day must be between 1 and 31"
-    } else if (
-      !identical(length(self@year), length(self@month), length(self@day))
-    ) {
-      "@year, @month, and @day must have the same length"
     }
   }
 )
@@ -50,6 +48,11 @@ gregorian_date <- S7::new_class(
 #' new_gregorian_date(2025, 4, 19)
 #' @export
 new_gregorian_date <- function(year, month, day) {
+  # Cycle values of length 1
+  n <- max(length(year), length(month), length(day))
+  if (length(year) == 1) year <- rep(year, n)
+  if (length(month) == 1) month <- rep(month, n)
+  if (length(day) == 1) day <- rep(day, n)
   gregorian_date(year, month, day)
 }
 
@@ -98,14 +101,14 @@ method(as_rd, gregorian_date) <- function(date, ...) {
 method(as_gregorian, rd_fixed) <- function(date, ...) {
   # Gregorian (year month day) corresponding to fixed date
   year <- gregorian_year_from_fixed(date)
-  prior_days <- date - as_rd(gregorian_date(year, 1, 1))
+  prior_days <- date - as_rd(new_gregorian_date(year, 1, 1))
   # Correction to simulate a 30-day Feb
-  correction <- (date >= as_rd(gregorian_date(year, 3, 1))) *
+  correction <- (date >= as_rd(new_gregorian_date(year, 3, 1))) *
     (2 - gregorian_leap_year(year))
   # Assuming a 30-day Feb
   month <- (12 * (prior_days + correction) + 373) %/% 367
   # Calculate the day by subtraction
-  day <- date - as_rd(gregorian_date(year, month, 1)) + 1
+  day <- date - as_rd(new_gregorian_date(year, month, 1)) + 1
   new_gregorian_date(year, month, day)
 }
 
@@ -130,11 +133,11 @@ gregorian_year_from_fixed <- function(date) {
   year <- 400 * n400 + 100 * n100 + 4 * n4 + n1
 
   # leap year adjustment
-  leap <- !(n100 == 4 || n1 == 4)
+  leap <- !(n100 == 4 | n1 == 4)
   year + leap
 }
 
 gregorian_leap_year <- function(g_year) {
   # True if g_year is a leap year on the Gregorian calendar
-  (g_year %% 4 == 0) && !(g_year %% 400 %in% c(100, 200, 300))
+  (g_year %% 4 == 0) & !(g_year %% 400 %in% c(100, 200, 300))
 }

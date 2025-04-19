@@ -10,4 +10,7 @@ test_that("gregorian", {
   expect_no_error(new_gregorian_date(2020, 2, 29))
   expect_no_error(new_gregorian_date(2000, 2, 29))
   expect_error(new_gregorian_date(1900, 2, 29))
+  expect_no_error(as_gregorian(as_rd(1:100)))
+  expect_error(new_gregorian_date(1:3, 2:4, 5:6))
+  expect_no_error(new_gregorian_date(1:3, 2:4, 5))
 })
