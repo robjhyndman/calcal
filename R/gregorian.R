@@ -10,33 +10,31 @@ gregorian_date <- S7::new_class(
   validator = function(self) {
     if (!is.numeric(self@year)) {
       "@year must be numeric values"
-    }
-    if (!is.numeric(self@month)) {
+    } else if (!is.numeric(self@month)) {
       "@month must be numeric values"
-    }
-    if (!is.numeric(self@day)) {
+    } else if (!is.numeric(self@day)) {
       "@day must be numeric values"
-    }
-    if (any(abs(self@year - round(self@year)) > 1e-10)) {
+    } else if (any(abs(self@year - round(self@year)) > 1e-10)) {
       "@year must be an integer"
-    }
-    if (any(abs(self@month - round(self@month)) > 1e-10)) {
+    } else if (any(abs(self@month - round(self@month)) > 1e-10)) {
       "@month must be an integer"
-    }
-    if (any(abs(self@day - round(self@day)) > 1e-10)) {
+    } else if (any(abs(self@day - round(self@day)) > 1e-10)) {
       "@day must be an integer"
-    }
-    if (any(self@month < 1 || self@month > 12)) {
+    } else if (any(self@month < 1 || self@month > 12)) {
       "@month must be between 1 and 12"
-    }
-    if (any(self@day > 30 && self@month %in% c(4, 6, 9, 11))) {
+    } else if (any(self@day > 30 && self@month %in% c(4, 6, 9, 11))) {
       "@day must be between 1 and 30"
     } else if (any(self@day > 29 && self@month == 2)) {
       "@day must be between 1 and 29"
+    } else if (
+      any(self@day > 28 && self@month == 2 && !gregorian_leap_year(self@year))
+    ) {
+      "@day must be between 1 and 28"
     } else if (any(self@day < 1 || self@day > 31)) {
       "@day must be between 1 and 31"
-    }
-    if (!identical(length(self@year), length(self@month), length(self@day))) {
+    } else if (
+      !identical(length(self@year), length(self@month), length(self@day))
+    ) {
       "@year, @month, and @day must have the same length"
     }
   }

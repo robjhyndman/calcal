@@ -9,8 +9,7 @@ rd_fixed <- S7::new_class(
   validator = function(self) {
     if (!is.numeric(self@date)) {
       "@dates must be numeric values"
-    }
-    if (any(abs(self@date - round(self@date)) > 1e-10)) {
+    } else if (any(abs(self@date - round(self@date)) > 1e-10)) {
       "@dates must be an integer"
     }
   }
