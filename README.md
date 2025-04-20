@@ -7,8 +7,9 @@
 <!-- badges: end -->
 
 The goal of calcal is to do calendrical calculations, based on the
-algorithms described in Reingold and Dershowitz (2018)
-<doi:10.1017/9781107415058>.
+algorithms described in [Reingold and Dershowitz (2018) *Calendrical
+Calculations*, 4th edition, Cambridge University
+Press](https://doi.org/10.1017/9781107415058).
 
 ## Installation
 
