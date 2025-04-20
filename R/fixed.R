@@ -25,7 +25,7 @@ new_rd_fixed <- function(date) {
 
 # Register print method for rd_fixed class
 method(print, rd_fixed) <- function(x, ...) {
-  cat("RD", x@date, "\n")
+  paste("RD", x@date) |> print()
 }
 
 # Arithmetic operations
