@@ -1,7 +1,3 @@
-.onLoad <- function(...) {
-  S7::methods_register()
-}
-
 # Day of week constants
 SUNDAY <- 0
 MONDAY <- SUNDAY + 1
