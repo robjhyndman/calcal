@@ -2,10 +2,12 @@
 
 export(advent)
 export(as_gregorian)
+export(as_julian)
 export(as_rd)
 export(christmas)
 export(epiphany)
 export(new_gregorian_date)
+export(new_julian_date)
 export(us_daylight_saving_end)
 export(us_daylight_saving_start)
 export(us_election_day)
