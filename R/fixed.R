@@ -1,5 +1,3 @@
-#' @importFrom S7 class_any class_numeric class_character class_Date new_class new_generic method `method<-`
-
 # A class representing an RD fixed date with day 1 being 01-01-01
 rd_fixed <- S7::new_class(
   "rd_fixed",
@@ -25,7 +23,7 @@ new_rd_fixed <- function(date) {
 
 # Register print method for rd_fixed class
 method(print, rd_fixed) <- function(x, ...) {
-  paste("RD", x@date) |> print()
+  print_date("RD", x@date)
 }
 
 # Arithmetic operations
@@ -94,4 +92,9 @@ method(as.Date, rd_fixed) <- function(x, ...) {
 
 method(as_rd, class_any) <- function(date, ...) {
   as_rd(as.Date(date))
+}
+
+day_of_week_from_fixed <- function(date) {
+  # The residue class of the day of the week of date
+  date@date %% 7
 }

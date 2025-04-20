@@ -10,20 +10,13 @@ julian_date <-
       day = class_numeric
     ),
     validator = function(self) {
-      if (!all(c(length(self@month), length(self@day)) == length(self@year))) {
-        "@year, @month, and @day must have the same length"
-      } else if (!is.numeric(self@year)) {
-        "@year must be numeric values"
-      } else if (!is.numeric(self@month)) {
-        "@month must be numeric values"
-      } else if (!is.numeric(self@day)) {
-        "@day must be numeric values"
-      } else if (any(abs(self@year - round(self@year)) > 1e-10)) {
-        "@year must be an integer"
-      } else if (any(abs(self@month - round(self@month)) > 1e-10)) {
-        "@month must be an integer"
-      } else if (any(abs(self@day - round(self@day)) > 1e-10)) {
-        "@day must be an integer"
+      args <- list(self@year, self@month, self@day)
+      if (!all_equal_length(args)) {
+        "all elements of a date must have the same length"
+      } else if (!all_numeric(args)) {
+        "all elements of a date must be numeric values"
+      } else if (!all_integer(args)) {
+        "all elements of a date must be integer values"
       } else if (any(self@month < 1 | self@month > 12)) {
         "@month must be between 1 and 12"
       } else if (any(self@day > 30 & self@month %in% c(4, 6, 9, 11))) {
@@ -60,16 +53,7 @@ new_julian_date <- function(year, month, day) {
 
 # Register print method for julian_date
 method(print, julian_date) <- function(x, ...) {
-  paste(
-    "J",
-    x@year,
-    "-",
-    sprintf("%.2d", x@month),
-    "-",
-    sprintf("%.2d", x@day),
-    sep = ""
-  ) |>
-    print()
+  print_date("J", list(x@year, x@month, x@day))
 }
 
 #' Convert to julian_date
@@ -106,9 +90,9 @@ method(as_julian, rd_fixed) <- function(date, ...) {
   # Julian (year month day) corresponding to fixed date
   year <- approx - (approx <= 0)
 
-  prior_days <- date - as_rd(new_julian_date(year, 1, 1))
+  prior_days <- date - as_rd(new_julian_date(year, JANUARY, 1))
   # Correction to simulate a 30-day Feb
-  correction <- (date >= as_rd(new_julian_date(year, 3, 1))) *
+  correction <- (date >= as_rd(new_julian_date(year, MARCH, 1))) *
     (2 - julian_leap_year(year))
   # Assuming a 30-day Feb
   month <- (12 * (prior_days + correction) + 373) %/% 367
