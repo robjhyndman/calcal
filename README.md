@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# calcal
+# calcal <img src="man/figures/calcal-hex.png" align="right" width = 150 />
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -27,6 +27,11 @@ Today’s date in multiple calendars:
 
 ``` r
 library(calcal)
+#> 
+#> Attaching package: 'calcal'
+#> The following object is masked from 'package:base':
+#> 
+#>     julian
 today <- Sys.Date()
 as_rd(today)
 #> <rd_fixed[1]>
