@@ -6,13 +6,20 @@
 #'
 #' @rdname us_holidays
 #' @examples
+#' us_memorial_day(2025)
 #' us_independence_day(2025)
 #' us_labor_day(2025)
-#' us_memorial_day(2025)
 #' us_election_day(2025)
 #' us_daylight_saving_start(2025)
 #' us_daylight_saving_end(2025)
 #'
+#' @export
+us_memorial_day <- function(year) {
+  # Fixed date of United States Memorial Day in Gregorian year--the last Monday in May
+  as_gregorian(last_kday(MONDAY, gregorian(year, MAY, 31)))
+}
+
+#' @rdname us_holidays
 #' @export
 us_independence_day <- function(year) {
   # Fixed date of United States Independence Day in Gregorian year
@@ -24,13 +31,6 @@ us_independence_day <- function(year) {
 us_labor_day <- function(year) {
   # Fixed date of United States Labor Day in Gregorian year--the first Monday in September
   as_gregorian(first_kday(MONDAY, gregorian(year, SEPTEMBER, 1)))
-}
-
-#' @rdname us_holidays
-#' @export
-us_memorial_day <- function(year) {
-  # Fixed date of United States Memorial Day in Gregorian year--the last Monday in May
-  as_gregorian(last_kday(MONDAY, gregorian(year, MAY, 31)))
 }
 
 #' @rdname us_holidays

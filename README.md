@@ -45,18 +45,31 @@ Some US holidays
 
 ``` r
 c(
+  us_memorial_day(2025),
   us_independence_day(2025),
   us_labor_day(2025),
-  us_memorial_day(2025),
   us_election_day(2025),
   us_daylight_saving_start(2025),
-  us_daylight_saving_end(2025),
+  us_daylight_saving_end(2025)
+)
+#> <gregorian[6]>
+#> [1] 2025-05-26 2025-07-04 2025-09-01 2025-11-04 2025-04-06 2025-10-26
+```
+
+Some Christian holidays
+
+``` r
+c(
+  advent(2025),
   christmas(2025),
   eastern_orthodox_christmas(2025),
-  advent(2025),
-  epiphany(2025)
+  epiphany(2025),
+  easter(2025),
+  orthodox_easter(2025),
+  alt_orthodox_easter(2025),
+  pentecost(2025)
 )
-#> <gregorian[10]>
-#>  [1] 2025-07-04 2025-09-01 2025-05-26 2025-11-04 2025-04-06 2025-10-26
-#>  [7] 2025-12-25 2025-01-07 2025-11-30 2025-01-05
+#> <gregorian[8]>
+#> [1] 2025-11-30 2025-12-25 2025-01-07 2025-01-05 2025-04-20 2025-04-20 2025-04-20
+#> [8] 2025-06-08
 ```

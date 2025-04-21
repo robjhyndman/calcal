@@ -47,15 +47,26 @@ Some US holidays
 
 ```{r holidays}
 c(
+  us_memorial_day(2025),
   us_independence_day(2025),
   us_labor_day(2025),
-  us_memorial_day(2025),
   us_election_day(2025),
   us_daylight_saving_start(2025),
-  us_daylight_saving_end(2025),
+  us_daylight_saving_end(2025)
+)
+```
+
+Some Christian holidays
+
+```{r christian-holidays}
+c(
+  advent(2025),
   christmas(2025),
   eastern_orthodox_christmas(2025),
-  advent(2025),
-  epiphany(2025)
+  epiphany(2025),
+  easter(2025),
+  orthodox_easter(2025),
+  alt_orthodox_easter(2025),
+  pentecost(2025)
 )
 ```
