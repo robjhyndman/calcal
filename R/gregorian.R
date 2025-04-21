@@ -50,11 +50,11 @@ check_gregorian <- function(args) {
     stop("all elements of a date must be integer values")
   } else if (any(month < 1 | month > 12)) {
     stop("month must be between 1 and 12")
-  } else if (any(day > 30 & month %in% c(4, 6, 9, 11))) {
+  } else if (any(day > 30 & month %in% c(APRIL, JUNE, SEPTEMBER, NOVEMBER))) {
     stop("day must be between 1 and 30")
-  } else if (any(day > 29 & month == 2)) {
+  } else if (any(day > 29 & month == FEBRUARY)) {
     stop("day must be between 1 and 29")
-  } else if (any(day > 28 & month == 2 & !gregorian_leap_year(year))) {
+  } else if (any(day > 28 & month == FEBRUARY & !gregorian_leap_year(year))) {
     stop("day must be between 1 and 28")
   } else if (any(day < 1 | day > 31)) {
     stop("day must be between 1 and 31")
