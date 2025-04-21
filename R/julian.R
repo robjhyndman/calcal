@@ -165,10 +165,10 @@ vec_arith.julian.julian <- function(op, x, y, ...) {
 #' @export
 #' @method vec_arith.numeric julian
 vec_arith.numeric.julian <- function(op, x, y, ...) {
-  as_julian(vec_arith(op, as_rd(x), as_rd(y)))
+  as_julian(vec_arith(op, x, as_rd(y)))
 }
 #' @export
 #' @method vec_arith.julian numeric
 vec_arith.julian.numeric <- function(op, x, y, ...) {
-  as_julian(vec_arith(op, as_rd(x), as_rd(y)))
+  as_julian(vec_arith(op, as_rd(x), y))
 }

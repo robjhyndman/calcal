@@ -172,10 +172,10 @@ vec_arith.gregorian.gregorian <- function(op, x, y, ...) {
 #' @export
 #' @method vec_arith.numeric gregorian
 vec_arith.numeric.gregorian <- function(op, x, y, ...) {
-  as_gregorian(vec_arith(op, as_rd(x), as_rd(y)))
+  as_gregorian(vec_arith(op, x, as_rd(y)))
 }
 #' @export
 #' @method vec_arith.gregorian numeric
 vec_arith.gregorian.numeric <- function(op, x, y, ...) {
-  as_gregorian(vec_arith(op, as_rd(x), as_rd(y)))
+  as_gregorian(vec_arith(op, as_rd(x), y))
 }
