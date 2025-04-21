@@ -2,22 +2,25 @@
 % Please edit documentation in R/julian.R
 \name{as_julian}
 \alias{as_julian}
-\title{Convert to julian_date}
+\title{Convert to a Julian date}
 \usage{
 as_julian(date, ...)
 }
 \arguments{
-\item{date}{Date on some calendar}
+\item{date}{Vector of dates on some calendar}
 
-\item{...}{Additional arguments}
-}
-\value{
-An julian_date object
+\item{...}{Additional arguments not currently used
+rdname julian}
 }
 \description{
-Convert to julian_date
+Convert to a Julian date
 }
 \examples{
 as_julian("2016-01-01")
 as_julian(Sys.Date())
+tibble::tibble(
+  x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
+  y = as_gregorian(x),
+  z = as_julian(x)
+)
 }

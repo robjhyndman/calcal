@@ -1,21 +1,5 @@
 # Functions to handle Gregorian dates
 
-GREGORIAN_EPOCH <- 1 # Fixed date of start of the (proleptic) Gregorian calendar
-
-# Month constants for Julian/Gregorian calendar
-JANUARY <- 1
-FEBRUARY <- JANUARY + 1
-MARCH <- JANUARY + 2
-APRIL <- JANUARY + 3
-MAY <- JANUARY + 4
-JUNE <- JANUARY + 5
-JULY <- JANUARY + 6
-AUGUST <- JANUARY + 7
-SEPTEMBER <- JANUARY + 8
-OCTOBER <- JANUARY + 9
-NOVEMBER <- JANUARY + 10
-DECEMBER <- JANUARY + 11
-
 #' Gregorian dates
 #'
 #' Create a Gregorian date object. Dates before the establishment of the Gregorian calendar are computed retrospectively.
@@ -91,7 +75,6 @@ as_gregorian <- function(date, ...) {
 
 #' @export
 # Convert gregorian to rd_fixed
-# Method for gregorian objects
 as_rd.gregorian <- function(date, ...) {
   year <- field(date, "year")
   month <- field(date, "month")
