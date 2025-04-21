@@ -18,9 +18,11 @@ all_numeric <- function(args) {
 
 all_integer <- function(args) {
   # Check if all arguments are integer
-  all(unlist(lapply(args, function(x) all(abs(x - round(x)) < 1e-10))))
+  all(unlist(lapply(
+    args,
+    function(x) all(abs(x - round(x)) < 1e-10, na.rm = TRUE)
+  )))
 }
-
 
 # Format date
 format_date <- function(parts) {

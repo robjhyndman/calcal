@@ -26,22 +26,23 @@ check_julian <- function(args) {
   year <- args$year
   month <- args$month
   day <- args$day
-
   if (!all_equal_length(args)) {
     stop("all elements of a date must have the same length")
   } else if (!all_numeric(args)) {
     stop("all elements of a date must be numeric values")
   } else if (!all_integer(args)) {
     stop("all elements of a date must be integer values")
-  } else if (any(month < 1 | month > 12)) {
+  } else if (any(month < 1 | month > 12, na.rm = TRUE)) {
     stop("month must be between 1 and 12")
-  } else if (any(day > 30 & month %in% c(4, 6, 9, 11))) {
+  } else if (any(day > 30 & month %in% c(4, 6, 9, 11), na.rm = TRUE)) {
     stop("day must be between 1 and 30")
-  } else if (any(day > 29 & month == 2)) {
+  } else if (any(day > 29 & month == 2, na.rm = TRUE)) {
     stop("day must be between 1 and 29")
-  } else if (any(day > 28 & month == 2 & !julian_leap_year(year))) {
+  } else if (
+    any(day > 28 & month == 2 & !julian_leap_year(year), na.rm = TRUE)
+  ) {
     stop("day must be between 1 and 28")
-  } else if (any(day < 1 | day > 31)) {
+  } else if (any(day < 1 | day > 31, na.rm = TRUE)) {
     stop("day must be between 1 and 31")
   }
 }

@@ -32,15 +32,19 @@ check_gregorian <- function(args) {
     stop("all elements of a date must be numeric values")
   } else if (!all_integer(args)) {
     stop("all elements of a date must be integer values")
-  } else if (any(month < 1 | month > 12)) {
+  } else if (any(month < 1 | month > 12, na.rm = TRUE)) {
     stop("month must be between 1 and 12")
-  } else if (any(day > 30 & month %in% c(APRIL, JUNE, SEPTEMBER, NOVEMBER))) {
+  } else if (
+    any(day > 30 & month %in% c(APRIL, JUNE, SEPTEMBER, NOVEMBER), na.rm = TRUE)
+  ) {
     stop("day must be between 1 and 30")
-  } else if (any(day > 29 & month == FEBRUARY)) {
+  } else if (any(day > 29 & month == FEBRUARY, na.rm = TRUE)) {
     stop("day must be between 1 and 29")
-  } else if (any(day > 28 & month == FEBRUARY & !gregorian_leap_year(year))) {
+  } else if (
+    any(day > 28 & month == FEBRUARY & !gregorian_leap_year(year), na.rm = TRUE)
+  ) {
     stop("day must be between 1 and 28")
-  } else if (any(day < 1 | day > 31)) {
+  } else if (any(day < 1 | day > 31, na.rm = TRUE)) {
     stop("day must be between 1 and 31")
   }
 }

@@ -15,4 +15,5 @@ test_that("rd_fixed", {
   expect_equal(vec_cast(1L, rd_fixed()), rd_fixed(1))
   expect_equal(vec_cast(rd_fixed(1), integer()), 1L)
   expect_equal(vec_cast(rd_fixed(1), double()), 1)
+  expect_no_error(as_rd(NA_integer_))
 })
