@@ -11,18 +11,18 @@ img_cropped <- hex_crop(
   images = here::here("hexsticker", "calcal.png"),
   bg_fill = "#fffffe",
   border_colour = "#68c3b5",
-  border_size = 50
+  border_size = 60
 )
 
 ggplot() +
   geom_from_path(aes(0.5, 0.5, path = img_cropped)) +
   annotate(
     "text",
-    x = -0.1,
-    y = 1.55,
+    x = -0.13,
+    y = -0.37,
     label = "calcal",
     family = "firasans",
-    size = 24,
+    size = 28,
     colour = "#013037",
     hjust = 0,
     fontface = "bold"
