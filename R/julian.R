@@ -1,107 +1,115 @@
-# Julian Calendar
-JULIAN_EPOCH <- as_rd(new_gregorian_date(0, 12, 30))@date
+# Functions to handle Julian calendar dates
 
-julian_date <-
-  julian <- S7::new_class(
-    "julian",
-    properties = list(
-      year = class_numeric,
-      month = class_numeric,
-      day = class_numeric
-    ),
-    validator = function(self) {
-      args <- list(self@year, self@month, self@day)
-      if (!all_equal_length(args)) {
-        "all elements of a date must have the same length"
-      } else if (!all_numeric(args)) {
-        "all elements of a date must be numeric values"
-      } else if (!all_integer(args)) {
-        "all elements of a date must be integer values"
-      } else if (any(self@month < 1 | self@month > 12)) {
-        "@month must be between 1 and 12"
-      } else if (any(self@day > 30 & self@month %in% c(4, 6, 9, 11))) {
-        "@day must be between 1 and 30"
-      } else if (any(self@day > 29 & self@month == 2)) {
-        "@day must be between 1 and 29"
-      } else if (
-        any(self@day > 28 & self@month == 2 & !julian_leap_year(self@year))
-      ) {
-        "@day must be between 1 and 28"
-      } else if (any(self@day < 1 | self@day > 31)) {
-        "@day must be between 1 and 31"
-      }
-    }
-  )
-
-#' Create a new julian_date object
+#' Julian dates
 #'
-#' @param year The numeric year
-#' @param month The numeric month of year
-#' @param day The numeric day of month
-#' @return A julian_date object
+#' Create a Julian date object.
+#'
+#' @param year A numeric vector of years
+#' @param month A numeric vector of months
+#' @param day A numeric vector of days
+#' @return A julian vector object
 #' @examples
-#' new_julian_date(2025, 4, 19)
+#' julian(2025, 4, 19)
 #' @export
-new_julian_date <- function(year, month, day) {
-  # Cycle values of length 1
-  n <- max(length(year), length(month), length(day))
-  if (length(year) == 1) year <- rep(year, n)
-  if (length(month) == 1) month <- rep(month, n)
-  if (length(day) == 1) day <- rep(day, n)
-  julian_date(year, month, day)
+julian <- function(
+  year = integer(),
+  month = integer(),
+  day = integer()
+) {
+  lst <- vec_cast_common(year = year, month = month, day = day, .to = integer())
+  lst <- vec_recycle_common(year = lst$year, month = lst$month, day = lst$day)
+  check_julian(lst)
+  new_rcrd(lst, class = "julian")
 }
 
-# Register print method for julian_date
-method(print, julian_date) <- function(x, ...) {
-  print_date("J", list(x@year, x@month, x@day))
+check_julian <- function(args) {
+  year <- args$year
+  month <- args$month
+  day <- args$day
+
+  if (!all_equal_length(args)) {
+    stop("all elements of a date must have the same length")
+  } else if (!all_numeric(args)) {
+    stop("all elements of a date must be numeric values")
+  } else if (!all_integer(args)) {
+    stop("all elements of a date must be integer values")
+  } else if (any(month < 1 | month > 12)) {
+    stop("month must be between 1 and 12")
+  } else if (any(day > 30 & month %in% c(4, 6, 9, 11))) {
+    stop("day must be between 1 and 30")
+  } else if (any(day > 29 & month == 2)) {
+    stop("day must be between 1 and 29")
+  } else if (any(day > 28 & month == 2 & !julian_leap_year(year))) {
+    stop("day must be between 1 and 28")
+  } else if (any(day < 1 | day > 31)) {
+    stop("day must be between 1 and 31")
+  }
 }
 
-#' Convert to julian_date
+# Register format method for julian_date
+#' @export
+format.julian <- function(x, ...) {
+  format_date(x)
+}
+
+#' Convert to a Julian date
 #'
-#' @param date Date on some calendar
-#' @param ... Additional arguments
-#' @return An julian_date object
+#' @param date Vector of dates on some calendar
+#' @param ... Additional arguments not currently used
+#' rdname julian
 #' @examples
 #' as_julian("2016-01-01")
 #' as_julian(Sys.Date())
-#' @export
-as_julian <- new_generic("as_julian", "date")
+#' tibble::tibble(
+#'   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
+#'   y = as_gregorian(x),
+#'   z = as_julian(x)
+#' )
 
 #' @export
-# Convert julian_date to rd_fixed
-# Method for julian_date objects
-method(as_rd, julian_date) <- function(date, ...) {
-  y <- date@year + (date@year < 0)
+as_julian <- function(date, ...) {
+  UseMethod("as_julian")
+}
+
+
+#' @export
+# Convert julian to rd_fixed
+as_rd.julian <- function(date, ...) {
+  year <- field(date, "year")
+  month <- field(date, "month")
+  day <- field(date, "day")
+  y <- year + (year < 0)
   result <- JULIAN_EPOCH -
     1 + # Days before start of calendar
     365 * (y - 1) + # Ordinary days since epoch
     (y - 1) %/% 4 + # Leap days since epoch
-    (367 * date@month - 362) %/% 12 # Days in prior months this year
+    (367 * month - 362) %/% 12 # Days in prior months this year
 
   # Adjust for leap years
-  adjustment <- (date@month > 2) * (-2 + julian_leap_year(date@year))
-  new_rd_fixed(result + adjustment + date@day)
+  adjustment <- (month > 2) * (-2 + julian_leap_year(year))
+  rd_fixed(result + adjustment + day)
 }
 
 #' @export
-# Convert rd_fixed to julian_date
-method(as_julian, rd_fixed) <- function(date, ...) {
-  approx <- (4 * (date@date - JULIAN_EPOCH) + 1464) %/% 1461 # Nominal year
+# Convert rd_fixed to julian
+as_julian.rd_fixed <- function(date, ...) {
+  approx <- (4 * (vec_data(date) - JULIAN_EPOCH) + 1464) %/% 1461 # Nominal year
   # Julian (year month day) corresponding to fixed date
   year <- approx - (approx <= 0)
 
-  prior_days <- date - as_rd(new_julian_date(year, JANUARY, 1))
+  prior_days <- date - as_rd(julian(year, JANUARY, 1))
   # Correction to simulate a 30-day Feb
-  correction <- (date >= as_rd(new_julian_date(year, MARCH, 1))) *
+  correction <- (date >= as_rd(julian(year, MARCH, 1))) *
     (2 - julian_leap_year(year))
   # Assuming a 30-day Feb
   month <- (12 * (prior_days + correction) + 373) %/% 367
   # Calculate the day by subtraction
-  day <- date - as_rd(new_julian_date(year, month, 1)) + 1
-  new_julian_date(year, month, day)
+  day <- date - as_rd(julian(year, month, 1)) + 1
+  julian(year, month, day)
 }
 
-method(as_julian, class_any) <- function(date, ...) {
+#' @export
+as_julian.default <- function(date, ...) {
   as_julian(as_rd(date))
 }
 

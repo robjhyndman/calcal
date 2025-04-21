@@ -1,6 +1,3 @@
-#' @importFrom S7 class_any class_numeric class_character class_logical class_Date
-#' @importFrom S7 new_class new_generic method `method<-`
-
 adjusted_mod <- function(x, y) {
   # The value of (x mod y) with y instead of 0
   y + (x %% y)
@@ -25,15 +22,9 @@ all_integer <- function(args) {
 }
 
 
-# Print date
-print_date <- function(suffix, parts) {
-  print(
-    paste(
-      suffix,
-      apply(as.data.frame(parts), 1, function(x) {
-        paste(sprintf("%.2d", x), collapse = "-")
-      }),
-      sep = ""
-    )
-  )
+# Format date
+format_date <- function(parts) {
+  apply(as.data.frame(unclass(parts)), 1, function(x) {
+    paste(sprintf("%.2d", x), collapse = "-")
+  })
 }

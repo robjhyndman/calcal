@@ -29,9 +29,28 @@ Today’s date in multiple calendars:
 library(calcal)
 today <- Sys.Date()
 as_rd(today)
-#> [1] "RD 739361"
+#> <rd_fixed[1]>
+#> [1] 739362
 as_gregorian(today)
-#> [1] "G2025-04-20"
-as_julian(today)
-#> [1] "J2025-04-07"
+#> <gregorian[1]>
+#> [1] 2025-04-21
+```
+
+Some US holidays
+
+``` r
+c(
+  us_independence_day(2025),
+  us_labor_day(2025),
+  us_memorial_day(2025),
+  us_election_day(2025),
+  us_daylight_saving_start(2025),
+  us_daylight_saving_end(2025),
+  christmas(2025),
+  advent(2025),
+  epiphany(2025)
+)
+#> <gregorian[9]>
+#> [1] 2025-07-04 2025-09-01 2025-05-26 2025-11-04 2025-04-06 2025-10-26 2025-12-25
+#> [8] 2025-11-30 2025-01-05
 ```
