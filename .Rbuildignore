@@ -1,6 +1,10 @@
 ^calcal\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
-calendrica.R
 ^README\.Rmd$
 other
+.github
+_pkgdown.yml
+pkgdown
+docs
+hexsticker
