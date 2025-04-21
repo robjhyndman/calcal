@@ -53,7 +53,7 @@ format.gregorian <- function(x, ...) {
 
 #' @export
 vec_ptype_abbr.gregorian <- function(x, ...) {
-  "Greg"
+  "Gre"
 }
 
 #' Convert to a Gregorian date
