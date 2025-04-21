@@ -9,6 +9,15 @@
 #' @param year Gregorian year
 #'
 #' @rdname christian
+#' @examples
+#' advent(2025)
+#' christmas(2025)
+#' eastern_orthodox_christmas(2025)
+#' epiphany(2025)
+#' easter(2025)
+#' orthodox_easter(2025)
+#' alt_orthodox_easter(2025)
+#' pentecost(2025)
 #' @export
 advent <- function(year) {
   # Fixed date of Advent in Gregorian year--the Sunday closest to November 30

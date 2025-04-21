@@ -33,3 +33,13 @@ pentecost(year)
 \description{
 Functions to return Gregorian dates for various Christian ecclesiastical holidays and other special days
 }
+\examples{
+advent(2025)
+christmas(2025)
+eastern_orthodox_christmas(2025)
+epiphany(2025)
+easter(2025)
+orthodox_easter(2025)
+alt_orthodox_easter(2025)
+pentecost(2025)
+}
