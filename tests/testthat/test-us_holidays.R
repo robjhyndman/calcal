@@ -1,13 +1,8 @@
-test_that("holidays", {
+test_that("us_holidays", {
   expect_equal(us_independence_day(2025), gregorian(2025, 7, 4))
   expect_equal(us_labor_day(2025), gregorian(2025, 9, 1))
   expect_equal(us_memorial_day(2025), gregorian(2025, 5, 26))
   expect_equal(us_election_day(2025), gregorian(2025, 11, 4))
   expect_equal(us_daylight_saving_start(2025), gregorian(2025, 4, 6))
   expect_equal(us_daylight_saving_end(2025), gregorian(2025, 10, 26))
-  expect_equal(christmas(2025), gregorian(2025, 12, 25))
-  expect_equal(advent(2025), gregorian(2025, 11, 30))
-  expect_equal(epiphany(2025), gregorian(2025, 1, 5))
-  expect_equal(eastern_orthodox_christmas(2025), gregorian(2025, 1, 7))
-  expect_equal(eastern_orthodox_christmas(1100), gregorian(NA, NA, NA))
 })
