@@ -8,6 +8,14 @@
 \description{
 An R implementation of the algorithms described in Reingold and Dershowitz (2018) \doi{10.1017/9781107415058}.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://pkg.robjhyndman.com/calcal/}
+  \item \url{https://github.com/robjhyndman/calcal}
+}
+
+}
 \author{
 \strong{Maintainer}: Rob Hyndman \email{Rob.Hyndman@monash.edu} (\href{https://orcid.org/0000-0002-2140-5352}{ORCID}) [copyright holder]
 
