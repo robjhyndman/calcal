@@ -54,6 +54,7 @@ c(
   us_daylight_saving_start(2025),
   us_daylight_saving_end(2025),
   christmas(2025),
+  eastern_orthodox_christmas(2025),
   advent(2025),
   epiphany(2025)
 )
