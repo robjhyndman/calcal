@@ -83,20 +83,30 @@
 <p>Some US holidays</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="reference/holidays.html">us_independence_day</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="reference/holidays.html">us_labor_day</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="reference/holidays.html">us_memorial_day</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="reference/holidays.html">us_election_day</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="reference/holidays.html">us_daylight_saving_start</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="reference/holidays.html">us_daylight_saving_end</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="reference/holidays.html">christmas</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="reference/holidays.html">eastern_orthodox_christmas</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="reference/holidays.html">advent</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="reference/holidays.html">epiphany</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="reference/us_holidays.html">us_memorial_day</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="reference/us_holidays.html">us_independence_day</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="reference/us_holidays.html">us_labor_day</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="reference/us_holidays.html">us_election_day</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="reference/us_holidays.html">us_daylight_saving_start</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="reference/us_holidays.html">us_daylight_saving_end</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; &lt;gregorian[10]&gt;</span></span>
-<span><span class="co">#&gt;  [1] 2025-07-04 2025-09-01 2025-05-26 2025-11-04 2025-04-06 2025-10-26</span></span>
-<span><span class="co">#&gt;  [7] 2025-12-25 2025-01-07 2025-11-30 2025-01-05</span></span></code></pre></div>
+<span><span class="co">#&gt; &lt;gregorian[6]&gt;</span></span>
+<span><span class="co">#&gt; [1] 2025-05-26 2025-07-04 2025-09-01 2025-11-04 2025-04-06 2025-10-26</span></span></code></pre></div>
+<p>Some Christian holidays</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="reference/christian.html">advent</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="reference/christian.html">christmas</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="reference/christian.html">eastern_orthodox_christmas</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="reference/christian.html">epiphany</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="reference/christian.html">easter</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="reference/christian.html">orthodox_easter</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="reference/christian.html">alt_orthodox_easter</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="reference/christian.html">pentecost</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;gregorian[8]&gt;</span></span>
+<span><span class="co">#&gt; [1] 2025-11-30 2025-12-25 2025-01-07 2025-01-05 2025-04-20 2025-04-20 2025-04-20</span></span>
+<span><span class="co">#&gt; [8] 2025-06-08</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
