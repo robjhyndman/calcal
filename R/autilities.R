@@ -23,12 +23,8 @@ all_integer <- function(args) {
 
 
 # Format date
-format_date <- function(suffix, parts) {
-  paste(
-    suffix,
-    apply(as.data.frame(parts), 1, function(x) {
-      paste(sprintf("%.2d", x), collapse = "-")
-    }),
-    sep = ""
-  )
+format_date <- function(parts) {
+  apply(as.data.frame(unclass(parts)), 1, function(x) {
+    paste(sprintf("%.2d", x), collapse = "-")
+  })
 }

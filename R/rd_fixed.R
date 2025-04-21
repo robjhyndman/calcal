@@ -1,18 +1,20 @@
-#' Create a new rd_fixed object representing an RD fixed date with day 1 being 01-01-01
+#' RD fixed dates
 #'
-#' @param date The integer date representing the number of days since (and including) 01-01-01.
-#' @return An rd_fixed object
+#' Create an rd_fixed object representing an RD (Rata Die) fixed date with day 1 being 01-01-01
+#'
+#' @param rd An integer vector representing the number of days since (and including) 01-01-01.
+#' @return An rd_fixed vector object
 #' @export
 #' @examples
 #' rd_fixed(1:100)
-rd_fixed <- function(date = integer()) {
-  new_vctr(vec_cast(date, integer()), class = "rd_fixed")
+rd_fixed <- function(rd = integer()) {
+  new_vctr(vec_cast(rd, integer()), class = "rd_fixed")
 }
 
 # Register format method for rd_fixed class
 #' @export
 format.rd_fixed <- function(x, ...) {
-  format_date("RD", x)
+  format_date(x)
 }
 
 #' @export
@@ -23,10 +25,6 @@ vec_ptype_abbr.rd_fixed <- function(x, ...) {
 #' @export
 vec_ptype2.rd_fixed.rd_fixed <- function(x, y, ...) rd_fixed()
 #' @export
-vec_ptype2.rd_fixed.double <- function(x, y, ...) double()
-#' @export
-vec_ptype2.double.rd_fixed <- function(x, y, ...) double()
-
 
 #' @export
 vec_cast.rd_fixed.rd_fixed <- function(x, to, ...) x
@@ -34,16 +32,18 @@ vec_cast.rd_fixed.rd_fixed <- function(x, to, ...) x
 vec_cast.rd_fixed.double <- function(x, to, ...) rd_fixed(x)
 #' @export
 vec_cast.double.rd_fixed <- function(x, to, ...) vec_data(x)
+#' @export
+vec_cast.integer.rd_fixed <- function(x, to, ...) vec_data(x)
 
 
 #' Convert date to rd_fixed date
 #'
-#' @param date Date on some calendar
-#' @param ... Additional arguments
-#' @return An rd_fixed object representing RD fixed date
+#' @param date Vector of dates on some calendar
+#' @param ... Additional arguments not currently used
+#' @rdname rd_fixed
 #' @examples
-#' #as_rd("2016-01-01")
-#' #as_rd(Sys.Date())
+#' as_rd("2016-01-01")
+#' as_rd(Sys.Date())
 #' @export
 as_rd <- function(date, ...) {
   UseMethod("as_rd")
@@ -51,7 +51,26 @@ as_rd <- function(date, ...) {
 
 #' @export
 as_rd.default <- function(date, ...) {
+  stop("cannot coerce class ", class(date), " to rd_fixed")
+}
+
+#' @export
+as_rd.numeric <- function(date, ...) {
   vec_cast(date, rd_fixed())
+}
+
+#' @export
+as_rd.Date <- function(date, ...) {
+  as_rd(gregorian(
+    lubridate::year(date),
+    lubridate::month(date),
+    lubridate::day(date)
+  ))
+}
+
+#' @export
+as_rd.character <- function(date, ...) {
+  as_rd(as.Date(date))
 }
 
 # Arithmetic

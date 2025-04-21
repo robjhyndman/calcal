@@ -16,114 +16,130 @@ OCTOBER <- JANUARY + 9
 NOVEMBER <- JANUARY + 10
 DECEMBER <- JANUARY + 11
 
-gregorian_date <- S7::new_class(
-  "gregorian",
-  properties = list(
-    year = class_numeric,
-    month = class_numeric,
-    day = class_numeric
-  ),
-  validator = function(self) {
-    args <- list(self@year, self@month, self@day)
-    if (!all_equal_length(args)) {
-      "all elements of a date must have the same length"
-    } else if (!all_numeric(args)) {
-      "all elements of a date must be numeric values"
-    } else if (!all_integer(args)) {
-      "all elements of a date must be integer values"
-    } else if (any(self@month < 1 | self@month > 12)) {
-      "@month must be between 1 and 12"
-    } else if (any(self@day > 30 & self@month %in% c(4, 6, 9, 11))) {
-      "@day must be between 1 and 30"
-    } else if (any(self@day > 29 & self@month == 2)) {
-      "@day must be between 1 and 29"
-    } else if (
-      any(self@day > 28 & self@month == 2 & !gregorian_leap_year(self@year))
-    ) {
-      "@day must be between 1 and 28"
-    } else if (any(self@day < 1 | self@day > 31)) {
-      "@day must be between 1 and 31"
-    }
-  }
-)
-
-#' Create a new gregorian_date object
+#' Gregorian dates
 #'
-#' @param year The numeric year
-#' @param month The numeric month of year
-#' @param day The numeric day of month
-#' @return A gregorian_date object
+#' Create a Gregorian date object. Dates before the establishment of the Gregorian calendar are computed retrospectively.
+#'
+#' @param year A numeric vector of years
+#' @param month A numeric vector of months
+#' @param day A numeric vector of days
+#' @return A gregorian vector object
 #' @examples
-#' new_gregorian_date(2025, 4, 19)
+#' gregorian(2025, 4, 19)
 #' @export
-new_gregorian_date <- function(year, month, day) {
-  # Cycle values of length 1
-  n <- max(length(year), length(month), length(day))
-  if (length(year) == 1) year <- rep(year, n)
-  if (length(month) == 1) month <- rep(month, n)
-  if (length(day) == 1) day <- rep(day, n)
-  gregorian_date(year, month, day)
+gregorian <- function(
+  year = integer(),
+  month = integer(),
+  day = integer()
+) {
+  lst <- vec_cast_common(year = year, month = month, day = day, .to = integer())
+  lst <- vec_recycle_common(year = lst$year, month = lst$month, day = lst$day)
+  check_gregorian(lst)
+  new_rcrd(lst, class = "gregorian")
 }
 
-# Register print method for gregorian_date
-method(print, gregorian_date) <- function(x, ...) {
-  print_date("G", list(x@year, x@month, x@day))
+check_gregorian <- function(args) {
+  year <- args$year
+  month <- args$month
+  day <- args$day
+  if (!all_equal_length(args)) {
+    stop("all elements of a date must have the same length")
+  } else if (!all_numeric(args)) {
+    stop("all elements of a date must be numeric values")
+  } else if (!all_integer(args)) {
+    stop("all elements of a date must be integer values")
+  } else if (any(month < 1 | month > 12)) {
+    stop("month must be between 1 and 12")
+  } else if (any(day > 30 & month %in% c(4, 6, 9, 11))) {
+    stop("day must be between 1 and 30")
+  } else if (any(day > 29 & month == 2)) {
+    stop("day must be between 1 and 29")
+  } else if (any(day > 28 & month == 2 & !gregorian_leap_year(year))) {
+    stop("day must be between 1 and 28")
+  } else if (any(day < 1 | day > 31)) {
+    stop("day must be between 1 and 31")
+  }
 }
 
-#' Convert to gregorian_date
+# Register format method for gregorian date
+#' @export
+format.gregorian <- function(x, ...) {
+  format_date(x)
+}
+
+#' @export
+vec_ptype_abbr.gregorian <- function(x, ...) {
+  "Greg"
+}
+
+#' Convert to a Gregorian date
 #'
-#' @param date Date on some calendar
-#' @param ... Additional arguments
-#' @return An gregorian_date object
+#' @param date Vector of dates on some calendar
+#' @param ... Additional arguments not currently used
+#' @rdname gregorian
 #' @examples
 #' as_gregorian("2016-01-01")
 #' as_gregorian(Sys.Date())
+#' tibble::tibble(
+#'   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
+#'   y = as_gregorian(x)
+#' )
 #' @export
-as_gregorian <- new_generic("as_gregorian", "date")
-
-#' @export
-# Convert gregorian_date to rd_fixed
-# Method for gregorian_date objects
-method(as_rd, gregorian_date) <- function(date, ...) {
-  result <- GREGORIAN_EPOCH -
-    1 + # Days before start of calendar
-    365 * (date@year - 1) + # Ordinary days since epoch
-    (date@year - 1) %/% 4 - # Julian leap days since epoch...
-    (date@year - 1) %/% 100 + # ...minus century years since epoch...
-    (date@year - 1) %/% 400 + # ...plus years since epoch divisible by 400
-    (367 * date@month - 362) %/% 12 # Days in prior months this year...
-  # Adjust for leap years
-  adjustment <- (date@month > 2) * (-2 + gregorian_leap_year(date@year))
-  new_rd_fixed(result + adjustment + date@day)
+as_gregorian <- function(date, ...) {
+  UseMethod("as_gregorian")
 }
 
 #' @export
-# Convert rd_fixed to gregorian_date
-method(as_gregorian, rd_fixed) <- function(date, ...) {
+# Convert gregorian to rd_fixed
+# Method for gregorian objects
+as_rd.gregorian <- function(date, ...) {
+  year <- field(date, "year")
+  month <- field(date, "month")
+  day <- field(date, "day")
+  result <- GREGORIAN_EPOCH -
+    1 + # Days before start of calendar
+    365 * (year - 1) + # Ordinary days since epoch
+    (year - 1) %/% 4 - # Julian leap days since epoch...
+    (year - 1) %/% 100 + # ...minus century years since epoch...
+    (year - 1) %/% 400 + # ...plus years since epoch divisible by 400
+    (367 * month - 362) %/% 12 # Days in prior months this year...
+  # Adjust for leap years
+  adjustment <- (month > 2) * (-2 + gregorian_leap_year(year))
+  rd_fixed(result + adjustment + day)
+}
+
+#' @export
+# Convert rd_fixed to gregorian
+as_gregorian.rd_fixed <- function(date, ...) {
   # Gregorian (year month day) corresponding to fixed date
   year <- gregorian_year_from_fixed(date)
-  prior_days <- date - as_rd(new_gregorian_date(year, JANUARY, 1))
+  prior_days <- date - as_rd(gregorian(year, JANUARY, 1))
   # Correction to simulate a 30-day Feb
-  correction <- (date >= as_rd(new_gregorian_date(year, MARCH, 1))) *
+  correction <- (date >= as_rd(gregorian(year, MARCH, 1))) *
     (2 - gregorian_leap_year(year))
   # Assuming a 30-day Feb
   month <- (12 * (prior_days + correction) + 373) %/% 367
   # Calculate the day by subtraction
-  day <- date - as_rd(new_gregorian_date(year, month, 1)) + 1
-  new_gregorian_date(year, month, day)
+  day <- date - as_rd(gregorian(year, month, 1)) + 1
+  gregorian(year, month, day)
 }
 
-method(as_gregorian, class_any) <- function(date, ...) {
+#' @export
+as_gregorian.default <- function(date, ...) {
   as_gregorian(as_rd(date))
 }
 
-method(as.Date, gregorian_date) <- function(x, ...) {
-  as.Date(paste(x@year, x@month, x@day, sep = "-"))
+#' @export
+as.Date.gregorian <- function(x, ...) {
+  year <- field(x, "year")
+  month <- field(x, "month")
+  day <- field(x, "day")
+  as.Date(paste(year, month, day, sep = "-"))
 }
 
 gregorian_year_from_fixed <- function(date) {
   # Gregorian year corresponding to the fixed date
-  d0 <- date@date - GREGORIAN_EPOCH # Prior days
+  d0 <- vec_data(date) - GREGORIAN_EPOCH # Prior days
   n400 <- d0 %/% 146097 # Completed 400-year cycles
   d1 <- d0 %% 146097 # Prior days not in n400
   n100 <- d1 %/% 36524 # 100-year cycles not in n400
@@ -145,10 +161,10 @@ gregorian_leap_year <- function(g_year) {
 
 day_number <- function(g_date) {
   # Day number in year of Gregorian date g_date
-  as_rd(g_date) - as_rd(new_gregorian_date(g_date@year - 1, DECEMBER, 31))
+  as_rd(g_date) - as_rd(gregorian(g_date@year - 1, DECEMBER, 31))
 }
 
 days_remaining <- function(g_date) {
   # Days remaining in year after Gregorian date g_date
-  as_rd(new_gregorian_date(g_date@year, DECEMBER, 31)) - as_rd(g_date)
+  as_rd(gregorian(g_date@year, DECEMBER, 31)) - as_rd(g_date)
 }
