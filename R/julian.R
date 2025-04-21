@@ -52,11 +52,16 @@ format.julian <- function(x, ...) {
   format_date(x)
 }
 
+#' @export
+vec_ptype_abbr.julian <- function(x, ...) {
+  "Jul"
+}
+
 #' Convert to a Julian date
 #'
 #' @param date Vector of dates on some calendar
 #' @param ... Additional arguments not currently used
-#' rdname julian
+#' @rdname julian
 #' @examples
 #' as_julian("2016-01-01")
 #' as_julian(Sys.Date())
