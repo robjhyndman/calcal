@@ -80,3 +80,10 @@ epiphany <- function(year) {
   # Fixed date of Epiphany in U.S. in Gregorian year--the first Sunday after January 1
   as_gregorian(first_kday(SUNDAY, gregorian(year, JANUARY, 2)))
 }
+
+#' @rdname holidays
+#' @export
+eastern_orthodox_christmas <- function(year) {
+  # List of zero or one fixed dates of Eastern Orthodox Christmas in Gregorian year
+  julian_in_gregorian(DECEMBER, 25, year)
+}

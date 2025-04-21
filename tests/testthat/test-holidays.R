@@ -8,4 +8,6 @@ test_that("holidays", {
   expect_equal(christmas(2025), gregorian(2025, 12, 25))
   expect_equal(advent(2025), gregorian(2025, 11, 30))
   expect_equal(epiphany(2025), gregorian(2025, 1, 5))
+  expect_equal(eastern_orthodox_christmas(2025), gregorian(2025, 1, 7))
+  expect_equal(eastern_orthodox_christmas(1100), gregorian(NA, NA, NA))
 })

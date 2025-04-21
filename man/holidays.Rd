@@ -10,6 +10,7 @@
 \alias{christmas}
 \alias{advent}
 \alias{epiphany}
+\alias{eastern_orthodox_christmas}
 \title{US Holidays}
 \usage{
 us_independence_day(year)
@@ -29,6 +30,8 @@ christmas(year)
 advent(year)
 
 epiphany(year)
+
+eastern_orthodox_christmas(year)
 }
 \arguments{
 \item{year}{Gregorian year}
