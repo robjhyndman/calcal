@@ -122,3 +122,27 @@ julian_leap_year <- function(j_year) {
   # True if j_year is a leap year on the Julian calendar
   (j_year > 0) * (j_year %% 4 == 0) + (1 - (j_year > 0)) * (j_year %% 4 == 3)
 }
+
+
+# Arithmetic
+
+#' @export
+#' @method vec_arith julian
+vec_arith.julian <- function(op, x, y, ...) {
+  UseMethod("vec_arith.julian", y)
+}
+#' @export
+#' @method vec_arith.julian julian
+vec_arith.julian.julian <- function(op, x, y, ...) {
+  vec_arith(op, as_rd(x), as_rd(y))
+}
+#' @export
+#' @method vec_arith.numeric julian
+vec_arith.numeric.julian <- function(op, x, y, ...) {
+  as_julian(vec_arith(op, as_rd(x), as_rd(y)))
+}
+#' @export
+#' @method vec_arith.julian numeric
+vec_arith.julian.numeric <- function(op, x, y, ...) {
+  as_julian(vec_arith(op, as_rd(x), as_rd(y)))
+}

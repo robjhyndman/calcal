@@ -151,3 +151,27 @@ days_remaining <- function(g_date) {
   # Days remaining in year after Gregorian date g_date
   as_rd(gregorian(g_date@year, DECEMBER, 31)) - as_rd(g_date)
 }
+
+
+# Arithmetic
+
+#' @export
+#' @method vec_arith gregorian
+vec_arith.gregorian <- function(op, x, y, ...) {
+  UseMethod("vec_arith.gregorian", y)
+}
+#' @export
+#' @method vec_arith.gregorian gregorian
+vec_arith.gregorian.gregorian <- function(op, x, y, ...) {
+  vec_arith(op, as_rd(x), as_rd(y))
+}
+#' @export
+#' @method vec_arith.numeric gregorian
+vec_arith.numeric.gregorian <- function(op, x, y, ...) {
+  as_gregorian(vec_arith(op, as_rd(x), as_rd(y)))
+}
+#' @export
+#' @method vec_arith.gregorian numeric
+vec_arith.gregorian.numeric <- function(op, x, y, ...) {
+  as_gregorian(vec_arith(op, as_rd(x), as_rd(y)))
+}
