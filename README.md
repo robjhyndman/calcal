@@ -4,6 +4,7 @@
 # calcal <img src="man/figures/calcal-hex.png" align="right" width = 150 />
 
 <!-- badges: start -->
+
 <!-- badges: end -->
 
 The goal of calcal is to do calendrical calculations, based on the
@@ -23,7 +24,7 @@ pak::pak("robjhyndman/calcal")
 
 ## Example
 
-Today’s date in multiple calendars:
+Dates in multiple calendars:
 
 ``` r
 library(calcal)
@@ -32,13 +33,30 @@ library(calcal)
 #> The following object is masked from 'package:base':
 #> 
 #>     julian
-today <- Sys.Date()
-as_rd(today)
-#> <rd_fixed[1]>
-#> [1] 739362
-as_gregorian(today)
-#> <gregorian[1]>
-#> [1] 2025-04-21
+tibble::tibble(
+  today = seq(as.Date("1900-02-27"), length = 15, by = "1 day"),
+  RD = as_rd(today),
+  Gregorian = as_gregorian(today),
+  Julian = as_julian(today)
+)
+#> # A tibble: 15 × 4
+#>    today          RD  Gregorian     Julian
+#>    <date>       <RD>      <Gre>      <Jul>
+#>  1 1900-02-27 693653 1900-02-27 1900-02-15
+#>  2 1900-02-28 693654 1900-02-28 1900-02-16
+#>  3 1900-03-01 693655 1900-03-01 1900-02-17
+#>  4 1900-03-02 693656 1900-03-02 1900-02-18
+#>  5 1900-03-03 693657 1900-03-03 1900-02-19
+#>  6 1900-03-04 693658 1900-03-04 1900-02-20
+#>  7 1900-03-05 693659 1900-03-05 1900-02-21
+#>  8 1900-03-06 693660 1900-03-06 1900-02-22
+#>  9 1900-03-07 693661 1900-03-07 1900-02-23
+#> 10 1900-03-08 693662 1900-03-08 1900-02-24
+#> 11 1900-03-09 693663 1900-03-09 1900-02-25
+#> 12 1900-03-10 693664 1900-03-10 1900-02-26
+#> 13 1900-03-11 693665 1900-03-11 1900-02-27
+#> 14 1900-03-12 693666 1900-03-12 1900-02-28
+#> 15 1900-03-13 693667 1900-03-13 1900-02-29
 ```
 
 Some US holidays
@@ -60,16 +78,16 @@ Some Christian holidays
 
 ``` r
 c(
-  advent(2025),
-  christmas(2025),
-  eastern_orthodox_christmas(2025),
-  epiphany(2025),
   easter(2025),
   orthodox_easter(2025),
   alt_orthodox_easter(2025),
-  pentecost(2025)
+  pentecost(2025),
+  advent(2025),
+  christmas(2025),
+  epiphany(2026),
+  eastern_orthodox_christmas(2026)
 )
 #> <gregorian[8]>
-#> [1] 2025-11-30 2025-12-25 2025-01-07 2025-01-05 2025-04-20 2025-04-20 2025-04-20
-#> [8] 2025-06-08
+#> [1] 2025-04-20 2025-04-20 2025-04-20 2025-06-08 2025-11-30 2025-12-25 2026-01-04
+#> [8] 2026-01-07
 ```

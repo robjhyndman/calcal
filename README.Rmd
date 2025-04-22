@@ -33,14 +33,17 @@ pak::pak("robjhyndman/calcal")
 
 ## Example
 
-Today's date in multiple calendars:
+Dates in multiple calendars:
 
 
 ```{r example}
 library(calcal)
-today <- Sys.Date()
-as_rd(today)
-as_gregorian(today)
+tibble::tibble(
+  today = seq(as.Date("1900-02-27"), length = 15, by = "1 day"),
+  RD = as_rd(today),
+  Gregorian = as_gregorian(today),
+  Julian = as_julian(today)
+)
 ```
 
 Some US holidays
@@ -60,13 +63,13 @@ Some Christian holidays
 
 ```{r christian-holidays}
 c(
-  advent(2025),
-  christmas(2025),
-  eastern_orthodox_christmas(2025),
-  epiphany(2025),
   easter(2025),
   orthodox_easter(2025),
   alt_orthodox_easter(2025),
-  pentecost(2025)
+  pentecost(2025),
+  advent(2025),
+  christmas(2025),
+  epiphany(2026),
+  eastern_orthodox_christmas(2026)
 )
 ```
