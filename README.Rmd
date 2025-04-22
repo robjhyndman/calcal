@@ -39,10 +39,10 @@ Dates in multiple calendars:
 ```{r example}
 library(calcal)
 tibble::tibble(
-  today = seq(as.Date("1900-02-27"), length = 15, by = "1 day"),
-  RD = as_rd(today),
-  Gregorian = as_gregorian(today),
-  Julian = as_julian(today)
+  dates = seq(as.Date("1900-02-27"), length = 15, by = "1 day"),
+  RD = as_rd(dates),
+  Gregorian = as_gregorian(dates),
+  Julian = as_julian(dates)
 )
 ```
 

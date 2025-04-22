@@ -34,13 +34,13 @@ library(calcal)
 #> 
 #>     julian
 tibble::tibble(
-  today = seq(as.Date("1900-02-27"), length = 15, by = "1 day"),
-  RD = as_rd(today),
-  Gregorian = as_gregorian(today),
-  Julian = as_julian(today)
+  dates = seq(as.Date("1900-02-27"), length = 15, by = "1 day"),
+  RD = as_rd(dates),
+  Gregorian = as_gregorian(dates),
+  Julian = as_julian(dates)
 )
 #> # A tibble: 15 × 4
-#>    today          RD  Gregorian     Julian
+#>    dates          RD  Gregorian     Julian
 #>    <date>       <RD>      <Gre>      <Jul>
 #>  1 1900-02-27 693653 1900-02-27 1900-02-15
 #>  2 1900-02-28 693654 1900-02-28 1900-02-16
