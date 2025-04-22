@@ -65,7 +65,7 @@
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<p>Today’s date in multiple calendars:</p>
+<p>Dates in multiple calendars:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pkg.robjhyndman.com/calcal/">calcal</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -73,13 +73,30 @@
 <span><span class="co">#&gt; The following object is masked from 'package:base':</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;     julian</span></span>
-<span><span class="va">today</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/rd_fixed.html">as_rd</a></span><span class="op">(</span><span class="va">today</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &lt;rd_fixed[1]&gt;</span></span>
-<span><span class="co">#&gt; [1] 739362</span></span>
-<span><span class="fu"><a href="reference/gregorian.html">as_gregorian</a></span><span class="op">(</span><span class="va">today</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &lt;gregorian[1]&gt;</span></span>
-<span><span class="co">#&gt; [1] 2025-04-21</span></span></code></pre></div>
+<span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
+<span>  today <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"1900-02-27"</span><span class="op">)</span>, length <span class="op">=</span> <span class="fl">15</span>, by <span class="op">=</span> <span class="st">"1 day"</span><span class="op">)</span>,</span>
+<span>  RD <span class="op">=</span> <span class="fu"><a href="reference/rd_fixed.html">as_rd</a></span><span class="op">(</span><span class="va">today</span><span class="op">)</span>,</span>
+<span>  Gregorian <span class="op">=</span> <span class="fu"><a href="reference/gregorian.html">as_gregorian</a></span><span class="op">(</span><span class="va">today</span><span class="op">)</span>,</span>
+<span>  Julian <span class="op">=</span> <span class="fu"><a href="reference/julian.html">as_julian</a></span><span class="op">(</span><span class="va">today</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 15 × 4</span></span>
+<span><span class="co">#&gt;    today          RD  Gregorian     Julian</span></span>
+<span><span class="co">#&gt;    &lt;date&gt;       &lt;RD&gt;      &lt;Gre&gt;      &lt;Jul&gt;</span></span>
+<span><span class="co">#&gt;  1 1900-02-27 693653 1900-02-27 1900-02-15</span></span>
+<span><span class="co">#&gt;  2 1900-02-28 693654 1900-02-28 1900-02-16</span></span>
+<span><span class="co">#&gt;  3 1900-03-01 693655 1900-03-01 1900-02-17</span></span>
+<span><span class="co">#&gt;  4 1900-03-02 693656 1900-03-02 1900-02-18</span></span>
+<span><span class="co">#&gt;  5 1900-03-03 693657 1900-03-03 1900-02-19</span></span>
+<span><span class="co">#&gt;  6 1900-03-04 693658 1900-03-04 1900-02-20</span></span>
+<span><span class="co">#&gt;  7 1900-03-05 693659 1900-03-05 1900-02-21</span></span>
+<span><span class="co">#&gt;  8 1900-03-06 693660 1900-03-06 1900-02-22</span></span>
+<span><span class="co">#&gt;  9 1900-03-07 693661 1900-03-07 1900-02-23</span></span>
+<span><span class="co">#&gt; 10 1900-03-08 693662 1900-03-08 1900-02-24</span></span>
+<span><span class="co">#&gt; 11 1900-03-09 693663 1900-03-09 1900-02-25</span></span>
+<span><span class="co">#&gt; 12 1900-03-10 693664 1900-03-10 1900-02-26</span></span>
+<span><span class="co">#&gt; 13 1900-03-11 693665 1900-03-11 1900-02-27</span></span>
+<span><span class="co">#&gt; 14 1900-03-12 693666 1900-03-12 1900-02-28</span></span>
+<span><span class="co">#&gt; 15 1900-03-13 693667 1900-03-13 1900-02-29</span></span></code></pre></div>
 <p>Some US holidays</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
@@ -95,18 +112,18 @@
 <p>Some Christian holidays</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="reference/christian.html">advent</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="reference/christian.html">christmas</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="reference/christian.html">eastern_orthodox_christmas</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="reference/christian.html">epiphany</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="reference/christian.html">easter</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="reference/christian.html">orthodox_easter</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="reference/christian.html">alt_orthodox_easter</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="reference/christian.html">pentecost</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="reference/christian.html">pentecost</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="reference/christian.html">advent</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="reference/christian.html">christmas</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="reference/christian.html">epiphany</a></span><span class="op">(</span><span class="fl">2026</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="reference/christian.html">eastern_orthodox_christmas</a></span><span class="op">(</span><span class="fl">2026</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; &lt;gregorian[8]&gt;</span></span>
-<span><span class="co">#&gt; [1] 2025-11-30 2025-12-25 2025-01-07 2025-01-05 2025-04-20 2025-04-20 2025-04-20</span></span>
-<span><span class="co">#&gt; [8] 2025-06-08</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 2025-04-20 2025-04-20 2025-04-20 2025-06-08 2025-11-30 2025-12-25 2026-01-04</span></span>
+<span><span class="co">#&gt; [8] 2026-01-07</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
