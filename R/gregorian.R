@@ -26,13 +26,7 @@ check_gregorian <- function(args) {
   year <- args$year
   month <- args$month
   day <- args$day
-  if (!all_equal_length(args)) {
-    stop("all elements of a date must have the same length")
-  } else if (!all_numeric(args)) {
-    stop("all elements of a date must be numeric values")
-  } else if (!all_integer(args)) {
-    stop("all elements of a date must be integer values")
-  } else if (any(month < 1 | month > 12, na.rm = TRUE)) {
+  if (any(month < 1 | month > 12, na.rm = TRUE)) {
     stop("month must be between 1 and 12")
   } else if (
     any(day > 30 & month %in% c(APRIL, JUNE, SEPTEMBER, NOVEMBER), na.rm = TRUE)
