@@ -2,19 +2,13 @@
 #'
 #' Create an rd_fixed object representing an RD (Rata Die) fixed date with day 1 being 01-01-01
 #'
-#' @param rd An integer vector representing the number of days since (and including) 01-01-01.
+#' @param rd A numeric vector representing the number of days since (and including) 01-01-01.
 #' @return An rd_fixed vector object
 #' @export
 #' @examples
 #' rd_fixed(1:100)
-rd_fixed <- function(rd = integer()) {
-  new_vctr(vec_cast(rd, integer()), class = "rd_fixed")
-}
-
-# Register format method for rd_fixed class
-#' @export
-format.rd_fixed <- function(x, ...) {
-  format_date(x)
+rd_fixed <- function(rd = double()) {
+  new_vctr(vec_cast(rd, double()), class = "rd_fixed")
 }
 
 #' @export
@@ -25,6 +19,9 @@ vec_ptype_abbr.rd_fixed <- function(x, ...) {
 #' @export
 vec_ptype2.rd_fixed.rd_fixed <- function(x, y, ...) rd_fixed()
 #' @export
+vec_ptype2.rd_fixed.double <- function(x, y, ...) rd_fixed()
+#' @export
+vec_ptype2.double.rd_fixed <- function(x, y, ...) rd_fixed()
 
 #' @export
 vec_cast.rd_fixed.rd_fixed <- function(x, to, ...) x
