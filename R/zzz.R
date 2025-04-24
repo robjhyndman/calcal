@@ -24,5 +24,8 @@ FRIDAY <- SUNDAY + 5
 SATURDAY <- SUNDAY + 6
 
 GREGORIAN_EPOCH <- 1 # Fixed date of start of the (proleptic) Gregorian calendar
-
 JULIAN_EPOCH <- vec_data(as_rd(gregorian(0, DECEMBER, 30)))
+
+MECCA <- location(angle(21, 25, 24), angle(39, 49, 24), 1000, 2)  # Location of Mecca
+HAIFA <- location(32.82, 35, 0, 2)  # Location of Haifa, Israel
+JERUSALEM <- location(31.8, 35.2, 800, 2)  # Location of Jerusalem
