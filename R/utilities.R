@@ -30,3 +30,19 @@ format_date <- function(parts) {
     paste(sprintf("%.2d", x), collapse = "-")
   })
 }
+
+
+# Sum powers of x with coefficients in vector a
+poly <- function(x, a) {
+  p <- length(a)
+  if(p == 0) {
+    return(rep(0, length(x)))
+  }
+  X <- matrix(1, nrow = length(x), ncol=p+1)
+  if(p > 1) {
+    for(i in seq(p)) {
+      X[,i+1] <- X[,i] * x
+    }
+  }
+  return(c(X %*% c(1, a)))
+}

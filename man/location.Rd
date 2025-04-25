@@ -16,9 +16,9 @@ location(
 
 \item{longitude}{A numeric vector of longitudes}
 
-\item{elevation}{A numeric vector of elevations}
+\item{elevation}{A numeric vector of elevations above sea level}
 
-\item{zone}{A numeric vector of time zones}
+\item{zone}{A numeric vector of time zones (relative to UTC)}
 }
 \value{
 A location vector object

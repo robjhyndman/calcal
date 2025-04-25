@@ -107,6 +107,7 @@ vec_arith.rd_fixed.numeric <- function(op, x, y, ...) {
     op,
     "+" = rd_fixed(vec_arith_base(op, x, y)),
     "-" = rd_fixed(vec_arith_base(op, x, y)),
+    "/" = vec_arith_base(op, x, y),
     stop_incompatible_op(op, x, y)
   )
 }

@@ -76,3 +76,19 @@ format.location <- function(x, ...) {
 vec_ptype2.location.location <- function(x, y, ...) location()
 
   
+direction <- function(locale, focus) {
+  # Angle (clockwise from North) to face focus when standing in locale
+  # Subject to errors near focus and its antipode
+  phi <- latitude(locale)
+  phi_prime <- latitude(focus)
+  psi <- longitude(locale)
+  psi_prime <- longitude(focus)
+  
+  denom <- cosine_degrees(phi) * tangent_degrees(phi_prime) -
+    sin_degrees(phi) * cosine_degrees(psi - psi_prime)
+  result <- arctan_degrees(
+    sin_degrees(psi_prime - psi) / denom, 1 + denom < 0
+  ) 
+  (result %% 360) * (denom != 0)
+}
+
