@@ -5,12 +5,12 @@
 \alias{as_rd}
 \title{RD fixed dates}
 \usage{
-rd_fixed(rd = integer())
+rd_fixed(rd = double())
 
 as_rd(date, ...)
 }
 \arguments{
-\item{rd}{An integer vector representing the number of days since (and including) 01-01-01.}
+\item{rd}{A numeric vector representing the number of days since (and including) 01-01-01.}
 
 \item{date}{Vector of dates on some calendar}
 
