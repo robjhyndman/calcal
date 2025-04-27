@@ -44,7 +44,12 @@ check_time <- function(args) {
 
 #' @export
 format.time <- function(x, ...) {
-  sprintf("%.2d:%.2d:%.2f", field(x, "hour"), field(x, "minute"), field(x, "second"))
+  sprintf(
+    "%.2d:%.2d:%.2f",
+    field(x, "hour"),
+    field(x, "minute"),
+    field(x, "second")
+  )
 }
 
 #' Convert to time of day
@@ -87,8 +92,8 @@ as_time.POSIXct <- function(x, ...) {
 
 #' @export
 as_time.POSIXlt <- function(x, ...) {
-  c(x$hour, x$min, x$sec)
+  time(x$hour, x$min, x$sec)
 }
 
 #' @export
-vec_ptype2.time.time  <- function(x, y, ...) time()
+vec_ptype2.time.time <- function(x, y, ...) time()
