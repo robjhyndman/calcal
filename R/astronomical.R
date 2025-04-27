@@ -2,6 +2,131 @@
 # Section: Time and Astronomy
 # ==============================================================================
 
+#' Sunrise, sunset and asr given a date and location
+#'
+#' Calculate the time of sunrise and sunset at a specific location and date
+#'
+#' @param date Date in rd_fixed format
+#' @param locale Location of class "location", usually the output from the `location` function
+#' @param ... Additional arguments passed to specific methods
+#' @return Time of sunrise
+#' @examples
+#' melbourne <- location(-37.8136, 144.9631, 31, 10)
+#' sydney <- location(-33.8688, 151.2093, 3, 10)
+#' sunrise("2025-01-01", c(melbourne, sydney))
+#' sunset("2025-01-01", c(melbourne, sydney))
+#' asr("2025-01-01", c(melbourne, sydney))
+#' @export
+sunrise <- function(date, locale, ...) {
+  UseMethod("sunrise")
+}
+
+#' @export
+#' @rdname sunrise
+sunset <- function(date, locale, ...) {
+  UseMethod("sunset")
+}
+
+#' @export
+#' @rdname sunrise
+asr <- function(date, locale, ...) {
+  UseMethod("asr")
+}
+
+#' @export
+sunrise.rd_fixed <- function(date, locale, as_time = TRUE, ...) {
+  lst <- vec_recycle_common(
+    date = date,
+    locale = locale
+  )
+  # Standard time of sunrise on date at locale
+  h <- max(0, elevation(lst$locale))
+  cap_R <- mt(6.372e6) # Radius of Earth
+  # Depression of visible horizon
+  dip <- arccos_degrees(cap_R / (cap_R + h))
+  alpha <- angle(0, 50, 0) + dip
+  output <- dawn(lst$date, lst$locale, alpha)
+  if (as_time) {
+    as_time(output)
+  } else {
+    output
+  }
+}
+
+#' @export
+sunrise.default <- function(date, locale, ...) {
+  sunrise(as_rd(date), locale, ...)
+}
+
+#' @export
+sunset.rd_fixed <- function(date, locale, as_time = TRUE, ...) {
+  lst <- vec_recycle_common(
+    date = date,
+    locale = locale
+  )
+  # Standard time of sunset on fixed date at locale
+  h <- max(0, elevation(lst$locale))
+  cap_R <- mt(6.372e6) # Radius of Earth
+
+  # Depression of visible horizon
+  dip <- arccos_degrees(cap_R / (cap_R + h))
+  alpha <- angle(0, 50, 0) + dip
+  output <- dusk(lst$date, lst$locale, alpha)
+
+  if (as_time) {
+    as_time(output)
+  } else {
+    output
+  }
+}
+
+#' @export
+sunset.default <- function(date, locale, ...) {
+  sunset(as_rd(date), locale, ...)
+}
+
+#' @export
+asr.rd_fixed <- function(date, locale, as_time = TRUE, ...) {
+  lst <- vec_recycle_common(
+    date = date,
+    locale = locale
+  )
+  # Standard time of asr on fixed date at locale
+  # Time when sun nearest zenith
+  noon <- universal_from_standard(midday(lst$date, lst$locale), lst$locale)
+  phi <- latitude(lst$locale)
+
+  # Solar declination at noon
+  delta <- arcsin_degrees(
+    sin_degrees(obliquity(noon)) * sin_degrees(solar_longitude(noon))
+  )
+
+  # Solar altitude at noon
+  altitude <- arcsin_degrees(
+    sin_degrees(phi) *
+      sin_degrees(delta) +
+      cosine_degrees(phi) * cosine_degrees(delta)
+  )
+
+  # Sun's altitude when shadow increases by double its length
+  h <- arctan_degrees(
+    tangent_degrees(altitude) / (1 + 2 * tangent_degrees(altitude)),
+    1
+  )
+  output <- dusk(lst$date, lst$locale, -h)
+
+  if (as_time) {
+    as_time(output)
+  } else {
+    output
+  }
+}
+
+#' @export
+asr.default <- function(date, locale, ...) {
+  asr(as_rd(date), locale, ...)
+}
+
 hr <- function(x) {
   # x hours
   x / 24
@@ -131,63 +256,6 @@ dusk <- function(date, locale, alpha) {
 }
 
 
-#' Sunrise, sunset and asr given a date and location
-#'
-#' Calculate the time of sunrise and sunset at a specific location and date
-#'
-#' @param date Date in rd_fixed format
-#' @param locale Location of class "location", usually the output from the `location` function
-#' @param as_time If TRUE, returns result as a time object (h:m:s), otherwise it returns a numerical value equal to RD fixed date-time.
-#' @return Time of sunrise
-#' @examples
-#' melbourne <- location(-37.8136, 144.9631, 31, 10)
-#' sydney <- location(-33.8688, 151.2093, 3, 10)
-#' sunrise(as_rd("2025-01-01"), c(melbourne, sydney))
-#' sunset(as_rd("2025-01-01"), c(melbourne, sydney))
-#' asr(as_rd("2025-01-01"), c(melbourne, sydney))
-#' @export
-sunrise <- function(date, locale, as_time = TRUE) {
-  lst <- vec_recycle_common(
-    date = date,
-    locale = locale
-  )
-  # Standard time of sunrise on date at locale
-  h <- max(0, elevation(lst$locale))
-  cap_R <- mt(6.372e6) # Radius of Earth
-  # Depression of visible horizon
-  dip <- arccos_degrees(cap_R / (cap_R + h))
-  alpha <- angle(0, 50, 0) + dip
-  output <- dawn(lst$date, lst$locale, alpha)
-  if (as_time) {
-    as_time(output)
-  } else {
-    output
-  }
-}
-
-#' @export
-#' @rdname sunrise
-sunset <- function(date, locale, as_time = TRUE) {
-  lst <- vec_recycle_common(
-    date = date,
-    locale = locale
-  )
-  # Standard time of sunset on fixed date at locale
-  h <- max(0, elevation(lst$locale))
-  cap_R <- mt(6.372e6) # Radius of Earth
-
-  # Depression of visible horizon
-  dip <- arccos_degrees(cap_R / (cap_R + h))
-  alpha <- angle(0, 50, 0) + dip
-  output <- dusk(lst$date, lst$locale, alpha)
-
-  if (as_time) {
-    as_time(output)
-  } else {
-    output
-  }
-}
-
 jewish_dusk <- function(date, locale) {
   # Standard time of Jewish dusk on fixed date at locale (as per Vilna Gaon)
   dusk(date, locale, angle(4, 40, 0))
@@ -200,7 +268,7 @@ jewish_sabbath_ends <- function(date, locale) {
 
 temporal_hour <- function(date, locale) {
   # Length of daytime temporal hour on fixed date at locale
-  (sunset(date, locale) - sunrise(date, locale)) / 12
+  (sunset(date, locale) - sunrise(date, locale, as_time = FALSE)) / 12
 }
 
 standard_from_sundial <- function(date, hour, locale) {
@@ -217,44 +285,6 @@ standard_from_sundial <- function(date, hour, locale) {
 jewish_morning_end <- function(date, locale) {
   # Standard time on fixed date at locale of end of morning according to Jewish ritual
   standard_from_sundial(date, 10, locale)
-}
-
-#' @export
-#' @rdname sunrise
-asr <- function(date, locale, as_time = TRUE) {
-  lst <- vec_recycle_common(
-    date = date,
-    locale = locale
-  )
-  # Standard time of asr on fixed date at locale
-  # Time when sun nearest zenith
-  noon <- universal_from_standard(midday(lst$date, lst$locale), lst$locale)
-  phi <- latitude(lst$locale)
-
-  # Solar declination at noon
-  delta <- arcsin_degrees(
-    sin_degrees(obliquity(noon)) * sin_degrees(solar_longitude(noon))
-  )
-
-  # Solar altitude at noon
-  altitude <- arcsin_degrees(
-    sin_degrees(phi) *
-      sin_degrees(delta) +
-      cosine_degrees(phi) * cosine_degrees(delta)
-  )
-
-  # Sun's altitude when shadow increases by double its length
-  h <- arctan_degrees(
-    tangent_degrees(altitude) / (1 + 2 * tangent_degrees(altitude)),
-    1
-  )
-  output <- dusk(lst$date, lst$locale, -h)
-
-  if (as_time) {
-    as_time(output)
-  } else {
-    output
-  }
 }
 
 universal_from_dynamical <- function(tee) {
@@ -1791,7 +1821,6 @@ phasis_on_or_before <- function(date, locale) {
     visible_crescent(d, locale)
   })
 }
-
 
 
 astronomical_easter <- function(g_year) {
