@@ -2,7 +2,7 @@
 # Section: Time and Astronomy
 # ==============================================================================
 
-#' Sunrise, sunset and asr given a date and location
+#' Sunrise and sunset given a date and location
 #'
 #' Calculate the time of sunrise and sunset at a specific location and date
 #'
@@ -15,7 +15,6 @@
 #' sydney <- location(-33.8688, 151.2093, 3, 10)
 #' sunrise("2025-01-01", c(melbourne, sydney))
 #' sunset("2025-01-01", c(melbourne, sydney))
-#' asr("2025-01-01", c(melbourne, sydney))
 #' @export
 sunrise <- function(date, locale, ...) {
   UseMethod("sunrise")
@@ -25,12 +24,6 @@ sunrise <- function(date, locale, ...) {
 #' @rdname sunrise
 sunset <- function(date, locale, ...) {
   UseMethod("sunset")
-}
-
-#' @export
-#' @rdname sunrise
-asr <- function(date, locale, ...) {
-  UseMethod("asr")
 }
 
 #' @export
@@ -85,47 +78,6 @@ sunset.default <- function(date, locale, ...) {
   sunset(as_rd(date), locale, ...)
 }
 
-#' @export
-asr.rd_fixed <- function(date, locale, as_time = TRUE, ...) {
-  lst <- vec_recycle_common(
-    date = date,
-    locale = locale
-  )
-  # Standard time of asr on fixed date at locale
-  # Time when sun nearest zenith
-  noon <- universal_from_standard(midday(lst$date, lst$locale), lst$locale)
-  phi <- latitude(lst$locale)
-
-  # Solar declination at noon
-  delta <- arcsin_degrees(
-    sin_degrees(obliquity(noon)) * sin_degrees(solar_longitude(noon))
-  )
-
-  # Solar altitude at noon
-  altitude <- arcsin_degrees(
-    sin_degrees(phi) *
-      sin_degrees(delta) +
-      cosine_degrees(phi) * cosine_degrees(delta)
-  )
-
-  # Sun's altitude when shadow increases by double its length
-  h <- arctan_degrees(
-    tangent_degrees(altitude) / (1 + 2 * tangent_degrees(altitude)),
-    1
-  )
-  output <- dusk(lst$date, lst$locale, -h)
-
-  if (as_time) {
-    as_time(output)
-  } else {
-    output
-  }
-}
-
-#' @export
-asr.default <- function(date, locale, ...) {
-  asr(as_rd(date), locale, ...)
-}
 
 hr <- function(x) {
   # x hours
@@ -255,6 +207,32 @@ dusk <- function(date, locale, alpha) {
   standard_from_local(result, locale)
 }
 
+asr <- function(date, locale, ...) {
+  # Standard time of asr on fixed date at locale
+  # Time when sun nearest zenith
+  noon <- universal_from_standard(midday(date, locale), locale)
+  phi <- latitude(locale)
+
+  # Solar declination at noon
+  delta <- arcsin_degrees(
+    sin_degrees(obliquity(noon)) * sin_degrees(solar_longitude(noon))
+  )
+
+  # Solar altitude at noon
+  altitude <- arcsin_degrees(
+    sin_degrees(phi) *
+      sin_degrees(delta) +
+      cosine_degrees(phi) * cosine_degrees(delta)
+  )
+
+  # Sun's altitude when shadow increases by double its length
+  h <- arctan_degrees(
+    tangent_degrees(altitude) / (1 + 2 * tangent_degrees(altitude)),
+    1
+  )
+  dusk(date, locale, -h)
+}
+
 
 jewish_dusk <- function(date, locale) {
   # Standard time of Jewish dusk on fixed date at locale (as per Vilna Gaon)
@@ -268,7 +246,7 @@ jewish_sabbath_ends <- function(date, locale) {
 
 temporal_hour <- function(date, locale) {
   # Length of daytime temporal hour on fixed date at locale
-  (sunset(date, locale) - sunrise(date, locale, as_time = FALSE)) / 12
+  (sunset(date, locale, as_time = FALSE) - sunrise(date, locale, as_time = FALSE)) / 12
 }
 
 standard_from_sundial <- function(date, hour, locale) {
@@ -1781,7 +1759,7 @@ estimate_prior_solar_longitude <- function(tee, phi) {
 
 sunset_in_haifa <- function(date) {
   # Universal time of sunset of evening before fixed date in Haifa
-  universal_from_standard(sunset(date - 1, HAIFA), HAIFA)
+  universal_from_standard(sunset(date - 1, HAIFA, as_time = FALSE), HAIFA)
 }
 
 visible_crescent <- function(date, locale) {
@@ -1856,7 +1834,7 @@ classical_passover_eve <- function(g_year) {
   new_moon <- phasis_on_or_before(floor(equinox) + 10, JERUSALEM)
 
   # Time (UT) of sunset at end of 15th
-  set <- universal_from_standard(sunset(new_moon + 14, JERUSALEM), JERUSALEM)
+  set <- universal_from_standard(sunset(new_moon + 14, JERUSALEM, as_time = FALSE), JERUSALEM)
 
   # First day of Nisan
   nisan1 <- if (equinox < set) {

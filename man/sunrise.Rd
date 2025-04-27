@@ -3,14 +3,11 @@
 \name{sunrise}
 \alias{sunrise}
 \alias{sunset}
-\alias{asr}
-\title{Sunrise, sunset and asr given a date and location}
+\title{Sunrise and sunset given a date and location}
 \usage{
 sunrise(date, locale, ...)
 
 sunset(date, locale, ...)
-
-asr(date, locale, ...)
 }
 \arguments{
 \item{date}{Date in rd_fixed format}
@@ -30,5 +27,4 @@ melbourne <- location(-37.8136, 144.9631, 31, 10)
 sydney <- location(-33.8688, 151.2093, 3, 10)
 sunrise("2025-01-01", c(melbourne, sydney))
 sunset("2025-01-01", c(melbourne, sydney))
-asr("2025-01-01", c(melbourne, sydney))
 }
