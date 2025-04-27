@@ -1,12 +1,14 @@
 #' Locations
-#' 
+#'
 #' Create a location object
-#' 
+#'
 #' @param latitude A numeric vector of latitudes
 #' @param longitude A numeric vector of longitudes
 #' @param elevation A numeric vector of elevations above sea level
 #' @param zone A numeric vector of time zones (relative to UTC)
 #' @return A location vector object
+#' @examples
+#' melbourne <- location(-37.8136, 144.9631, 31, 10)
 #' @export
 location <- function(
   latitude = numeric(),
@@ -75,7 +77,7 @@ format.location <- function(x, ...) {
 #' @export
 vec_ptype2.location.location <- function(x, y, ...) location()
 
-  
+
 direction <- function(locale, focus) {
   # Angle (clockwise from North) to face focus when standing in locale
   # Subject to errors near focus and its antipode
@@ -83,12 +85,11 @@ direction <- function(locale, focus) {
   phi_prime <- latitude(focus)
   psi <- longitude(locale)
   psi_prime <- longitude(focus)
-  
+
   denom <- cosine_degrees(phi) * tangent_degrees(phi_prime) -
     sin_degrees(phi) * cosine_degrees(psi - psi_prime)
   result <- arctan_degrees(
     sin_degrees(psi_prime - psi) / denom, 1 + denom < 0
-  ) 
+  )
   (result %% 360) * (denom != 0)
 }
-

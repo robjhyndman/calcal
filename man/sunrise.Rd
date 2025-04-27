@@ -2,18 +2,33 @@
 % Please edit documentation in R/astronomical.R
 \name{sunrise}
 \alias{sunrise}
-\title{Sunrise given a date and location}
+\alias{sunset}
+\alias{asr}
+\title{Sunrise, sunset and asr given a date and location}
 \usage{
-sunrise(date, locale)
+sunrise(date, locale, as_time = TRUE)
+
+sunset(date, locale, as_time = TRUE)
+
+asr(date, locale, as_time = TRUE)
 }
 \arguments{
 \item{date}{Date in rd_fixed format}
 
 \item{locale}{Location of class "location", usually the output from the \code{location} function}
+
+\item{as_time}{If TRUE, returns result as a time object (h:m:s), otherwise it returns a numerical value equal to RD fixed date-time.}
 }
 \value{
 Time of sunrise
 }
 \description{
-Calculate the time of sunrise at a specific location and date
+Calculate the time of sunrise and sunset at a specific location and date
+}
+\examples{
+melbourne <- location(-37.8136, 144.9631, 31, 10)
+sydney <- location(-33.8688, 151.2093, 3, 10)
+sunrise(as_rd("2025-01-01"), c(melbourne, sydney))
+sunset(as_rd("2025-01-01"), c(melbourne, sydney))
+asr(as_rd("2025-01-01"), c(melbourne, sydney))
 }

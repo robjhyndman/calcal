@@ -57,6 +57,11 @@ as_rd.numeric <- function(date, ...) {
 }
 
 #' @export
+as_rd.integer <- function(date, ...) {
+  vec_cast(as.double(date), rd_fixed())
+}
+
+#' @export
 as_rd.Date <- function(date, ...) {
   as_rd(gregorian(
     lubridate::year(date),

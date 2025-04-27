@@ -46,3 +46,43 @@ poly <- function(x, a) {
   }
   return(c(X %*% c(1, a)))
 }
+
+
+# First integer greater or equal to initial such that condition holds
+next_value <- function(initial, condition_func) {
+  index <- initial
+  while (!condition_func(index)) {
+    index <- index + 1
+  }
+  return(index)
+}
+
+binary_search_single <- function(lo, hi, test_func, end_func) {
+  # Bisection search
+  l <- lo
+  h <- hi
+  x <- FALSE
+
+  repeat {
+    x <- (l + h) / 2
+    left <- test_func(x)
+    if (left) {
+      l <- l
+      h <- x
+    } else {
+      l <- x
+      h <- h
+    }
+
+    if (end_func(l, h)) {
+      return((l + h) / 2)
+    }
+  }
+}
+
+binary_search <- function(lo, hi, test_func, end_func) {
+  # Bisection search
+  mapply(function(l, h) {
+    binary_search_single(l, h, test_func, end_func)
+  }, lo, hi, SIMPLIFY = TRUE)
+}

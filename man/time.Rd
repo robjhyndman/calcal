@@ -5,12 +5,7 @@
 \alias{as_time}
 \title{Time of day}
 \usage{
-time(
-  hour = integer(),
-  minute = integer(),
-  second = numeric(),
-  zone = numeric()
-)
+time(hour = integer(), minute = integer(), second = numeric())
 
 as_time(x, ...)
 }

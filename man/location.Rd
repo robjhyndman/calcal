@@ -26,3 +26,6 @@ A location vector object
 \description{
 Create a location object
 }
+\examples{
+melbourne <- location(-37.8136, 144.9631, 31, 10)
+}

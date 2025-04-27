@@ -1,0 +1,11 @@
+test_that("time", {
+  x <- time(hour = 1, minute = 2:3, second = c(3.5, 5L))
+  expect_equal(vctrs::field(x, "hour"), c(1,1))
+  expect_equal(vctrs::field(x, "minute"), c(2,3))
+  expect_equal(vctrs::field(x, "second"), c(3.5, 5L))
+  expect_error(time(hour = -1, minute = 2, second = 3.5))
+  expect_error(time(hour = 25, minute = 2, second = 3.5))
+  expect_error(time(hour = 1, minute = -1, second = 3.5))
+  expect_error(time(hour = 1, minute = 60, second = 3.5))
+  expect_error(time(hour = 1, minute = 2, second = -1))
+})
