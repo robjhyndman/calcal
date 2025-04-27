@@ -128,6 +128,21 @@ dusk <- function(date, locale, alpha) {
   standard_from_local(result, locale)
 }
 
+
+#' Sunrise given a date and location
+#'
+#' Calculate the time of sunrise at a specific location and date
+#'  
+#' @param date Date in rd_fixed format
+#' @param locale Location of class "location", usually the output from the `location` function
+#' @return Time of sunrise
+#' @examples
+#' melbourne <- location
+#' sunrise(as_rd(Sys.Date()),
+#'   location("New York", "America/New_York")
+#' )
+#' 
+#' @export
 sunrise <- function(date, locale) {
   # Standard time of sunrise on date at locale
   h <- max(0, elevation(locale))
