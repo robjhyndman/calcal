@@ -5,14 +5,14 @@
 \alias{sunset}
 \title{Sunrise and sunset given a date and location}
 \usage{
-sunrise(date, locale, ...)
+sunrise(date, location, ...)
 
-sunset(date, locale, ...)
+sunset(date, location, ...)
 }
 \arguments{
 \item{date}{Date in rd_fixed format}
 
-\item{locale}{Location of class "location", usually the output from the \code{location} function}
+\item{location}{Location of class "location", usually the output from the \code{location} function}
 
 \item{...}{Additional arguments passed to specific methods}
 }
@@ -20,7 +20,8 @@ sunset(date, locale, ...)
 Time of sunrise
 }
 \description{
-Calculate the time of sunrise and sunset at a specific location and date
+Calculate the time of sunrise and sunset at a specific location and date. The
+time zone of the location is used as specified in the \code{location} object.
 }
 \examples{
 melbourne <- location(-37.8136, 144.9631, 31, 10)
