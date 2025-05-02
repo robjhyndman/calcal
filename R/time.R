@@ -7,7 +7,7 @@
 #' @param second A numeric vector of seconds
 #' @return A time vector object
 #' @export
-time <- function(
+time_of_day <- function(
     hour = integer(),
     minute = integer(),
     second = numeric()) {
@@ -23,7 +23,7 @@ time <- function(
     second = lst$second
   )
   check_time(lst)
-  new_rcrd(lst, class = "time")
+  new_rcrd(lst, class = "time_of_day")
 }
 
 check_time <- function(args) {
@@ -42,7 +42,7 @@ check_time <- function(args) {
 }
 
 #' @export
-format.time <- function(x, ...) {
+format.time_of_day <- function(x, ...) {
   sprintf(
     "%.2d:%.2d:%.2f",
     field(x, "hour"),
@@ -57,42 +57,42 @@ format.time <- function(x, ...) {
 #' @param ... Additional arguments not currently used
 #' @rdname time
 #' @examples
-#' as_time(Sys.time())
+#' as_time_of_day(Sys.time())
 #' @export
-as_time <- function(x, ...) {
-  UseMethod("as_time")
+as_time_of_day <- function(x, ...) {
+  UseMethod("as_time_of_day")
 }
 
 #' @export
-as_time.default <- function(x, ...) {
+as_time_of_day.default <- function(x, ...) {
   stop("cannot coerce class ", class(x), " to time")
 }
 
 # Interpret x as days.
 # Convert final partial day to hours, minutes, seconds
 #' @export
-as_time.numeric <- function(x, ...) {
+as_time_of_day.numeric <- function(x, ...) {
   x <- 24 * (x %% 1)
   h <- trunc(x)
   m <- trunc((x - h) * 60)
   s <- (x - h - m / 60) * 3600
-  time(h, m, s)
+  time_of_day(h, m, s)
 }
 
 #' @export
-as_time.rd_fixed <- function(x, ...) {
-  as_time(vec_data(x))
+as_time_of_day.rd_fixed <- function(x, ...) {
+  as_time_of_day(vec_data(x))
 }
 
 #' @export
-as_time.POSIXct <- function(x, ...) {
-  as_time(as.POSIXlt(x))
+as_time_of_day.POSIXct <- function(x, ...) {
+  as_time_of_day(as.POSIXlt(x))
 }
 
 #' @export
-as_time.POSIXlt <- function(x, ...) {
-  time(x$hour, x$min, x$sec)
+as_time_of_day.POSIXlt <- function(x, ...) {
+  time_of_day(x$hour, x$min, x$sec)
 }
 
 #' @export
-vec_ptype2.time.time <- function(x, y, ...) time()
+vec_ptype2.time_of_day.time_of_day <- function(x, y, ...) time_of_day()
