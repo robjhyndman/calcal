@@ -17,10 +17,11 @@
 #'   orthodox_christmas = orthodox_christmas(year),
 #'   epiphany = epiphany(year),
 #'   easter = easter(year),
+#'   astronomical_easter = astronomical_easter(year),
 #'   orthodox_easter = orthodox_easter(year),
 #'   alt_orthodox_easter = alt_orthodox_easter(year),
 #'   pentecost = pentecost(year)
-#'  )
+#' )
 #' @export
 advent <- function(year) {
   # Fixed date of Advent in Gregorian year--the Sunday closest to November 30
@@ -50,6 +51,30 @@ orthodox_christmas <- function(year) {
 epiphany <- function(year) {
   # Fixed date of Epiphany in U.S. in Gregorian year--the first Sunday after January 1
   as_gregorian(first_kday(SUNDAY, gregorian(year, JANUARY, 2)))
+}
+
+#' @rdname christian
+#' @export
+astronomical_easter <- function(year) {
+  # Date of (proposed) astronomical Easter in Gregorian year
+  # Beginning of year
+  jan1 <- as_rd(gregorian(year, JANUARY, 1))
+
+  # Spring equinox
+  equinox <- solar_longitude_after(jan1, SPRING)
+
+  # Date of next full moon
+  paschal_moon <- floor(
+    apparent_from_local(
+      local_from_universal(
+        lunar_phase_after(equinox, FULL),
+        JERUSALEM
+      )
+    )
+  )
+
+  # Return the Sunday following the Paschal moon
+  as_gregorian(kday_after(paschal_moon, SUNDAY))
 }
 
 #' @rdname christian

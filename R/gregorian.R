@@ -140,14 +140,27 @@ gregorian_leap_year <- function(g_year) {
   (g_year %% 4 == 0) & !(g_year %% 400 %in% c(100, 200, 300))
 }
 
+#' @title Day of year
+#'
+#' @description Day number in year or days remaining in year given a Gregorian date
+#'
+#' @param g_date A Gregorian date object
+#' @return A numeric vector of the same length as g_date
+#' @examples
+#' day_number(gregorian(2025, 5, 2))
+#' days_remaining(gregorian(2025, 5, 2))
+#'
+#' @export
 day_number <- function(g_date) {
   # Day number in year of Gregorian date g_date
-  as_rd(g_date) - as_rd(gregorian(g_date@year - 1, DECEMBER, 31))
+  as_rd(g_date) - as_rd(gregorian(field(g_date, "year") - 1, DECEMBER, 31))
 }
 
+#' @rdname day_number
+#' @export
 days_remaining <- function(g_date) {
   # Days remaining in year after Gregorian date g_date
-  as_rd(gregorian(g_date@year, DECEMBER, 31)) - as_rd(g_date)
+  as_rd(gregorian(field(g_date, "year"), DECEMBER, 31)) - as_rd(g_date)
 }
 
 

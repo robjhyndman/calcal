@@ -5,6 +5,7 @@
 \alias{christmas}
 \alias{orthodox_christmas}
 \alias{epiphany}
+\alias{astronomical_easter}
 \alias{easter}
 \alias{orthodox_easter}
 \alias{alt_orthodox_easter}
@@ -18,6 +19,8 @@ christmas(year)
 orthodox_christmas(year)
 
 epiphany(year)
+
+astronomical_easter(year)
 
 easter(year)
 
@@ -41,8 +44,9 @@ tibble::tibble(
   orthodox_christmas = orthodox_christmas(year),
   epiphany = epiphany(year),
   easter = easter(year),
+  astronomical_easter = astronomical_easter(year),
   orthodox_easter = orthodox_easter(year),
   alt_orthodox_easter = alt_orthodox_easter(year),
   pentecost = pentecost(year)
- )
+)
 }
