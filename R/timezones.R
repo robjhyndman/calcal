@@ -41,7 +41,7 @@ local_from_apparent <- function(tee, locale) {
 
 apparent_from_local <- function(tee, locale) {
   # Sundial time at local time tee
-  tee + equation_of_time(universal_from_local(tee))
+  tee + equation_of_time(universal_from_local(tee, locale))
 }
 
 
@@ -58,7 +58,7 @@ dynamical_from_universal <- function(tee) {
 midday <- function(date, locale) {
   # Standard time on fixed date of midday at locale
   standard_from_local(
-    local_from_apparent(date + hr(12)),
+    local_from_apparent(date + hr(12), locale),
     locale
   )
 }
@@ -66,7 +66,7 @@ midday <- function(date, locale) {
 midnight <- function(date, locale) {
   # Standard time on fixed date of true (apparent) midnight at locale
   standard_from_local(
-    local_from_apparent(date),
+    local_from_apparent(date, locale),
     locale
   )
 }

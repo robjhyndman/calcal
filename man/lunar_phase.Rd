@@ -10,6 +10,8 @@ lunar_phase(date, location, ...)
 \item{date}{Date vector}
 
 \item{location}{Location object}
+
+\item{...}{Additional arguments}
 }
 \description{
 Lunar phase at date, as an angle in degrees. An angle of 0 means a new moon,

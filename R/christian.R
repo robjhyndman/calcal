@@ -58,7 +58,7 @@ epiphany <- function(year) {
 astronomical_easter <- function(year) {
   # Date of (proposed) astronomical Easter in Gregorian year
   # Beginning of year
-  jan1 <- as_rd(gregorian(year, JANUARY, 1))
+  jan1 <- vec_data(as_rd(gregorian(year, JANUARY, 1)))
 
   # Spring equinox
   equinox <- solar_longitude_after(jan1, SPRING)
@@ -69,7 +69,8 @@ astronomical_easter <- function(year) {
       local_from_universal(
         lunar_phase_after(equinox, FULL),
         JERUSALEM
-      )
+      ),
+      JERUSALEM
     )
   )
 

@@ -36,7 +36,7 @@ sunrise.rd_fixed <- function(date, location, as_time = TRUE, ...) {
   alpha <- refraction(lst$date, lst$location)
   output <- dawn(lst$date, lst$location, alpha)
   if (as_time) {
-    as_time(output)
+    as_time_of_day(output)
   } else {
     output
   }
@@ -56,7 +56,7 @@ sunset.rd_fixed <- function(date, location, as_time = TRUE, ...) {
   alpha <- refraction(lst$date, lst$location)
   output <- dusk(lst$date, lst$location, alpha)
   if (as_time) {
-    as_time(output)
+    as_time_of_day(output)
   } else {
     output
   }
@@ -70,10 +70,10 @@ sunset.default <- function(date, location, ...) {
 
 refraction <- function(tee, location) {
   # Return refraction angle at location 'location' and time 'tee'
-  h <- max(mt(0), elevation(location))
+  h <- pmax(mt(0), elevation(location))
   cap_R <- mt(6.372E6)
   dip <- arccos_degrees(cap_R / (cap_R + h))
-  return(angle(0, 50, 0) + dip + secs(19) * sqrt(h))
+  return(angle(0, 50, 0) + dip + 19 / 3600 * sqrt(h))
 }
 
 hr <- function(x) {
@@ -183,51 +183,53 @@ sine_offset <- function(tee, location, alpha) {
   phi <- latitude(location)
   tee_prime <- universal_from_local(tee, location)
   delta <- declination(tee_prime, deg(0), solar_longitude(tee_prime))
-  return((tan_degrees(phi) * tan_degrees(delta)) +
-    (sin_degrees(alpha) / (cos_degrees(delta) *
-      cos_degrees(phi))))
-}
-approx_moment_of_depression <- function(tee, location, alpha, early) {
-  # Return the moment in local time near tee when depression angle
-  # of sun is alpha (negative if above horizon) at location;
-  # early is true when MORNING event is sought and false for EVENING.
-  # Returns BOGUS if depression angle is not reached
-  ttry <- sine_offset(tee, location, alpha)
-  date <- fixed_from_moment(tee)
-  alt <- data + !early
-  alt[alpha < 0] <- date[alpha < 0] + 0.5
-  idx <- which(abs(ttry) > 1)
-  value[idx] <- sine_offset(alt[idx], location[idx], alpha[idx])
-  idx <- abs(value) <= 1
-  temp <- rep(NA_real_, length(value))
-  temp[idx] <- 1 - 2 * early[idx]
-  temp[idx] <- temp[idx] * (0.5 + arcsin_degrees(value[idx]) / deg(360)) %% 1 - 0.25
-  temp[idx] <- temp[idx] + date[idx] + 0.5
-  temp[idx] <- local_from_apparent(temp[idx], location[idx])
-  return(temp)
+  return((tangent_degrees(phi) * tangent_degrees(delta)) +
+    (sin_degrees(alpha) / (cosine_degrees(delta) *
+      cosine_degrees(phi))))
 }
 
-moment_of_depression <- function(approx, location, alpha, early) {
-  # Return the moment in local time near approx when depression
-  # angle of sun is alpha (negative if above horizon) at location;
-  # early is true when MORNING event is sought, and false for EVENING.
-  # Returns BOGUS if depression angle is not reached
-  tee <- approx_moment_of_depression(approx, location, alpha, early)
-  alt_tee <- moment_of_depression(tee, location, alpha, early)
-  idx <- abs(approx - tee) >= days_from_seconds(30)
-  tee[idx] <- alt_tee[idx]
-  return(tee)
+moment_from_depression <- function(approx, locale, alpha) {
+  # Moment in Local Time near approx when depression angle of sun is alpha
+  # (negative if above horizon) at locale; bogus if never occurs
+  approx <- vec_data(approx)
+  phi <- latitude(locale)
+  tee <- universal_from_local(approx, locale)
+  # Declination of sun
+  delta <- arcsin_degrees(
+    sin_degrees(obliquity(tee)) * sin_degrees(solar_longitude(tee))
+  )
+  morning <- (approx %% 1) < 0.5
+  sine_offset <- tangent_degrees(phi) *
+    tangent_degrees(delta) +
+    sin_degrees(alpha) / (cosine_degrees(delta) * cosine_degrees(phi))
+  result <- local_from_apparent(
+    floor(approx) +
+      0.5 +
+      (1 - 2 * morning) *
+        ((0.5 + arcsin_degrees(sine_offset) / 360) %% 1 - 0.25),
+    locale
+  )
+  result[abs(sine_offset) > 1] <- NA_real_
+  return(result)
 }
 
 dawn <- function(date, locale, alpha) {
   # Standard time in morning of date at locale when depression angle of sun is alpha
-  result <- moment_of_depression(date + 0.25, locale, alpha, early = TRUE)
+  # First, get an approximate time
+  approx <- moment_from_depression(date + 0.25, locale, alpha)
+  # Then refine the calculation
+  date[!is.na(approx)] <- approx[!is.na(approx)]
+  result <- moment_from_depression(date, locale, alpha)
   standard_from_local(result, locale)
 }
 
 dusk <- function(date, locale, alpha) {
   # Standard time in evening on date at locale when depression angle of sun is alpha
-  result <- moment_of_depression(date + 0.75, locale, alpha, early = FALSE)
+  # First, get an approximate time
+  approx <- moment_from_depression(date + 0.75, locale, alpha)
+  # Then refine the calculation
+  approx[!is.na(approx)] <- date[!is.na(approx)] + 0.99
+  result <- moment_from_depression(approx, locale, alpha)
   standard_from_local(result, locale)
 }
 
@@ -364,7 +366,7 @@ equation_of_time <- function(tee) {
       -0.5 * y * y * sin_degrees(4 * longitude) +
       -1.25 * eccentricity * eccentricity * sin_degrees(2 * anomaly))
 
-  sign(equation) * min(abs(equation), hr(12))
+  sign(equation) * pmin(abs(equation), hr(12))
 }
 
 solar_longitude <- function(tee) {
@@ -441,33 +443,6 @@ aberration <- function(tee) {
   deg(0.0000974) *
     cosine_degrees(deg(177.63) + deg(35999.01848) * u) -
     deg(0.005575)
-}
-
-solar_longitude_after <- function(tee, phi) {
-  # Moment UT of the first time at or after tee when the solar longitude will be phi degrees
-  varepsilon <- 1e-5 # Accuracy of solar-longitude
-  tee <- vec_data(tee)
-
-  # Mean days for 1 degree change
-  rate <- MEAN_TROPICAL_YEAR / 360
-
-  # Estimate (within 5 days)
-  tau <- tee + rate * ((phi - solar_longitude(tee)) %% 360)
-
-  l <- max(tee, tau - 5) # At or after tee
-  u <- tau + 5
-
-  # Bisection search
-  binary_search(
-    l,
-    u,
-    function(x) {
-      ((solar_longitude(x) - phi) %% 360) < 180
-    },
-    function(l, u) {
-      (u - l) < varepsilon
-    }
-  )
 }
 
 # Lunar position functions
@@ -715,6 +690,7 @@ new_moon_after <- function(tee) {
 #'
 #' @param date Date vector
 #' @param location Location object
+#' @param ... Additional arguments
 #' @examples
 #' april2025 <- seq(as.Date("2025-04-01"), as.Date("2025-04-30"), by = "1 day")
 #' melbourne <- location(-37.8136, 144.9631, 31, 10)
@@ -745,55 +721,6 @@ lunar_phase.rd_fixed <- function(date, location, ...) {
   idx <- which(abs(phi - phi_prime) > deg(180))
   phi[idx] <- phi_prime[idx]
   return(phi)
-}
-
-lunar_phase_before <- function(tee, phi) {
-  # Moment UT of the last time at or before tee when the lunar-phase was phi degrees
-  varepsilon <- 1e-5 # Accuracy
-
-  # Estimate
-  tau <- tee -
-    MEAN_SYNODIC_MONTH * (1 / 360) * ((lunar_phase(tee) - phi) %% 360)
-
-  l <- tau - 2
-  u <- min(tee, tau + 2) # At or before tee
-
-  # Bisection search
-  binary_search(
-    l,
-    u,
-    function(x) {
-      ((lunar_phase(x) - phi) %% 360) < 180
-    },
-    function(l, u) {
-      (u - l) < varepsilon
-    }
-  )
-}
-
-
-lunar_phase_after <- function(tee, phi) {
-  # Moment UT of the next time at or after tee when the lunar-phase is phi degrees
-  varepsilon <- 1e-5 # Accuracy
-
-  # Estimate
-  tau <- tee +
-    MEAN_SYNODIC_MONTH * (1 / 360) * ((phi - lunar_phase(tee)) %% 360)
-
-  l <- max(tee, tau - 2) # At or after tee
-  u <- tau + 2
-
-  # Bisection search
-  binary_search(
-    l,
-    u,
-    function(x) {
-      ((lunar_phase(x) - phi) %% 360) < 180
-    },
-    function(l, u) {
-      (u - l) < varepsilon
-    }
-  )
 }
 
 lunar_latitude <- function(tee) {
@@ -879,10 +806,10 @@ lunar_altitude <- function(tee, locale) {
   alpha <- right_ascension(tee, beta, lamb)
   delta <- declination(tee, beta, lamb)
   theta0 <- sidereal_from_moment(tee)
-  cap_H <- mod(theta0 + psi - alpha, 360)
+  cap_H <- (theta0 + psi - alpha) %% 360
   altitude <- arcsin_degrees(
     (sin_degrees(phi) * sin_degrees(delta)) +
-      (cos_degrees(phi) * cos_degrees(delta) * cos_degrees(cap_H))
+      (cosine_degrees(phi) * cosine_degrees(delta) * cosine_degrees(cap_H))
   )
   (altitude + deg(180)) %% 360 - deg(180)
 }
@@ -924,4 +851,99 @@ phasis_on_or_before <- function(date, locale) {
   next_value(tau, function(d) {
     visible_crescent(d, locale)
   })
+}
+
+
+declination <- function(tee, beta, lam) {
+  # Return declination at moment UT tee of object at
+  # longitude 'lam' and latitude 'beta'
+  varepsilon <- obliquity(tee)
+  return(arcsin_degrees(
+    (sin_degrees(beta) * cosine_degrees(varepsilon)) +
+      (cosine_degrees(beta) * sin_degrees(varepsilon) * sin_degrees(lam))
+  ))
+}
+
+lunar_phase_after <- function(tee, phi) {
+  # Moment UT of the next time at or after tee when the lunar-phase is phi degrees
+  varepsilon <- 1e-5 # Accuracy
+
+  # Estimate
+  tau <- tee +
+    MEAN_SYNODIC_MONTH * (1 / 360) * ((phi - lunar_phase(tee)) %% 360)
+
+  l <- pmax(tee, tau - 2) # At or after tee
+  u <- tau + 2
+
+  lst <- vctrs::vec_cast_common(l = l, u = u, phi = phi)
+  output <- rep(0, length(lst$l))
+  for (i in seq_along(output)) {
+    output[i] <- binary_search(
+      lst$l[i], lst$u[i],
+      function(l, u) {
+        (u - l) < varepsilon
+      },
+      function(x) {
+        ((lunar_phase(x) - lst$phi[i]) %% 360) < 180
+      }
+    )
+  }
+  output
+}
+
+
+solar_longitude_after <- function(tee, phi) {
+  # Moment UT of the first time at or after tee when the solar longitude will be phi degrees
+  varepsilon <- 1e-5 # Accuracy of solar-longitude
+
+  # Mean days for 1 degree change
+  rate <- MEAN_TROPICAL_YEAR / 360
+
+  # Estimate (within 5 days)
+  tau <- tee + rate * ((phi - solar_longitude(tee)) %% 360)
+
+  l <- pmax(tee, tau - 5) # At or after tee
+  u <- tau + 5
+
+  lst <- vctrs::vec_cast_common(l = l, u = u, phi = phi)
+  output <- rep(0, length(lst$l))
+  for (i in seq_along(output)) {
+    output[i] <- binary_search(
+      lst$l[i], lst$u[i],
+      function(l, u) {
+        (u - l) < varepsilon
+      },
+      function(x) {
+        ((solar_longitude(x) - lst$phi[i]) %% 360) < 180
+      }
+    )
+  }
+  output
+}
+
+invert_angular <- function(f, y, a, b, prec = 1e-5) {
+  # Find inverse of angular function 'f' at 'y' within interval [a,b].
+  # Default precision is 0.00001
+  # Bisection search
+  lst <- vctrs::vec_cast_common(y = y, a = a, b = b)
+  output <- rep(0, length(lst$y))
+  for (i in seq_along(output)) {
+    output[i] <- binary_search(
+      lst$a[i], lst$b[i],
+      function(l, h) ((h - l) <= prec),
+      function(x) ((f(x) - lst$y[i]) %% 360) < 180
+    )
+  }
+  output
+}
+
+right_ascension <- function(tee, beta, lam) {
+  # Return right ascension at moment UT 'tee' of object at
+  # latitude 'lam' and longitude 'beta'
+  varepsilon <- obliquity(tee)
+  arctan_degrees(
+    (sin_degrees(lam) * cosine_degrees(varepsilon)) -
+      (tangent_degrees(beta) * sin_degrees(varepsilon)),
+    cosine_degrees(lam)
+  )
 }
