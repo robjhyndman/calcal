@@ -8,10 +8,9 @@
 #' @return A time vector object
 #' @export
 time <- function(
-  hour = integer(),
-  minute = integer(),
-  second = numeric()
-) {
+    hour = integer(),
+    minute = integer(),
+    second = numeric()) {
   lst <- vec_cast_common(
     hour = hour,
     minute = minute,

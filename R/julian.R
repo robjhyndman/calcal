@@ -1,6 +1,6 @@
 # Functions to handle Julian calendar dates
 
-#' Julian dates
+#' Julian calendar dates
 #'
 #' Create a Julian date object.
 #'
@@ -9,13 +9,12 @@
 #' @param day A numeric vector of days
 #' @return A julian vector object
 #' @examples
-#' julian(2025, 4, 19)
+#' julian(2025, 4, 19:30)
 #' @export
 julian <- function(
-  year = integer(),
-  month = integer(),
-  day = integer()
-) {
+    year = integer(),
+    month = integer(),
+    day = integer()) {
   lst <- vec_cast_common(year = year, month = month, day = day, .to = integer())
   lst <- vec_recycle_common(year = lst$year, month = lst$month, day = lst$day)
   check_julian(lst)
@@ -26,13 +25,7 @@ check_julian <- function(args) {
   year <- args$year
   month <- args$month
   day <- args$day
-  if (!all_equal_length(args)) {
-    stop("all elements of a date must have the same length")
-  } else if (!all_numeric(args)) {
-    stop("all elements of a date must be numeric values")
-  } else if (!all_integer(args)) {
-    stop("all elements of a date must be integer values")
-  } else if (any(month < 1 | month > 12, na.rm = TRUE)) {
+  if (any(month < 1 | month > 12, na.rm = TRUE)) {
     stop("month must be between 1 and 12")
   } else if (any(day > 30 & month %in% c(4, 6, 9, 11), na.rm = TRUE)) {
     stop("day must be between 1 and 30")
@@ -137,9 +130,9 @@ julian_in_gregorian <- function(j_month, j_day, g_year) {
   date1 <- as_rd(julian(y, j_month, j_day))
   date2 <- as_rd(julian(y_prime, j_month, j_day))
 
-  #date1 occurs in current year
+  # date1 occurs in current year
   d1 <- (jan1 <= date1 & date1 <= dec31)
-  #date2 occurs in current year
+  # date2 occurs in current year
   d2 <- (jan1 <= date2 & date2 <= dec31)
 
   missing <- rd_fixed(NA_integer_)

@@ -3,7 +3,7 @@
 \name{julian}
 \alias{julian}
 \alias{as_julian}
-\title{Julian dates}
+\title{Julian calendar dates}
 \usage{
 julian(year = integer(), month = integer(), day = integer())
 
@@ -27,7 +27,7 @@ A julian vector object
 Create a Julian date object.
 }
 \examples{
-julian(2025, 4, 19)
+julian(2025, 4, 19:30)
 as_julian("2016-01-01")
 as_julian(Sys.Date())
 tibble::tibble(

@@ -11,13 +11,23 @@
 #' melbourne <- location(-37.8136, 144.9631, 31, 10)
 #' @export
 location <- function(
-  latitude = numeric(),
-  longitude = numeric(),
-  elevation = numeric(),
-  zone = numeric()
-) {
-  lst <- vec_cast_common(latitude = latitude, longitude = longitude, elevation = elevation, zone = zone, .to = numeric())
-  lst <- vec_recycle_common(latitude = lst$latitude, longitude = lst$longitude, elevation = lst$elevation, zone = lst$zone)
+    latitude = numeric(),
+    longitude = numeric(),
+    elevation = numeric(),
+    zone = numeric()) {
+  lst <- vec_cast_common(
+    latitude = latitude,
+    longitude = longitude,
+    elevation = elevation,
+    zone = zone,
+    .to = numeric()
+  )
+  lst <- vec_recycle_common(
+    latitude = lst$latitude,
+    longitude = lst$longitude,
+    elevation = lst$elevation,
+    zone = lst$zone
+  )
   check_locale(lst)
   new_rcrd(lst, class = "location")
 }
@@ -27,19 +37,19 @@ check_locale <- function(args) {
   longitude <- args$longitude
   elevation <- args$elevation
   zone <- args$zone
-  if(any(zone < -12 | zone > 14, na.rm = TRUE)) {
+  if (any(zone < -12 | zone > 14, na.rm = TRUE)) {
     stop("zone must be between -12 and 14")
   }
-  if(any(latitude < -90 | latitude > 90, na.rm = TRUE)) {
+  if (any(latitude < -90 | latitude > 90, na.rm = TRUE)) {
     stop("latitude must be between -90 and 90")
   }
-  if(any(longitude < -180 | longitude > 180, na.rm = TRUE)) {
+  if (any(longitude < -180 | longitude > 180, na.rm = TRUE)) {
     stop("longitude must be between -180 and 180")
   }
-  if(any(elevation < -420, na.rm = TRUE)) {
+  if (any(elevation < -420, na.rm = TRUE)) {
     stop("Lowest point on earth is 420m below sea level")
   }
-  if(any(elevation > 8848, na.rm = TRUE)) {
+  if (any(elevation > 8848, na.rm = TRUE)) {
     stop("Highest point on earth is 8848m above sea level")
   }
 }
@@ -71,25 +81,14 @@ vec_ptype_abbr.location <- function(x, ...) {
 
 #' @export
 format.location <- function(x, ...) {
-  sprintf("(%.2f,%.2f)^%d[%s]", latitude(x), longitude(x), elevation(x), zone(x))
+  sprintf(
+    "(%.2f,%.2f)^%d[%s]",
+    latitude(x),
+    longitude(x),
+    elevation(x),
+    zone(x)
+  )
 }
 
 #' @export
 vec_ptype2.location.location <- function(x, y, ...) location()
-
-
-direction <- function(locale, focus) {
-  # Angle (clockwise from North) to face focus when standing in locale
-  # Subject to errors near focus and its antipode
-  phi <- latitude(locale)
-  phi_prime <- latitude(focus)
-  psi <- longitude(locale)
-  psi_prime <- longitude(focus)
-
-  denom <- cosine_degrees(phi) * tangent_degrees(phi_prime) -
-    sin_degrees(phi) * cosine_degrees(psi - psi_prime)
-  result <- arctan_degrees(
-    sin_degrees(psi_prime - psi) / denom, 1 + denom < 0
-  )
-  (result %% 360) * (denom != 0)
-}

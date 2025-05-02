@@ -3,7 +3,7 @@
 \name{gregorian}
 \alias{gregorian}
 \alias{as_gregorian}
-\title{Gregorian dates}
+\title{Gregorian calendar dates}
 \usage{
 gregorian(year = integer(), month = integer(), day = integer())
 
@@ -24,10 +24,10 @@ as_gregorian(date, ...)
 A gregorian vector object
 }
 \description{
-Create a Gregorian date object. Dates before the establishment of the Gregorian calendar are computed retrospectively.
+Create a Gregorian date object.
 }
 \examples{
-gregorian(2025, 4, 19)
+gregorian(2025, 4, 19:30)
 as_gregorian("2016-01-01")
 as_gregorian(Sys.Date())
 tibble::tibble(

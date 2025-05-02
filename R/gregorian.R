@@ -1,21 +1,20 @@
-# Functions to handle Gregorian dates
+# Functions to handle Gregorian calendar dates
 
-#' Gregorian dates
+#' Gregorian calendar dates
 #'
-#' Create a Gregorian date object. Dates before the establishment of the Gregorian calendar are computed retrospectively.
+#' Create a Gregorian date object.
 #'
 #' @param year A numeric vector of years
 #' @param month A numeric vector of months
 #' @param day A numeric vector of days
 #' @return A gregorian vector object
 #' @examples
-#' gregorian(2025, 4, 19)
+#' gregorian(2025, 4, 19:30)
 #' @export
 gregorian <- function(
-  year = integer(),
-  month = integer(),
-  day = integer()
-) {
+    year = integer(),
+    month = integer(),
+    day = integer()) {
   lst <- vec_cast_common(year = year, month = month, day = day, .to = integer())
   lst <- vec_recycle_common(year = lst$year, month = lst$month, day = lst$day)
   check_gregorian(lst)

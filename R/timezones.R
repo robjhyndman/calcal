@@ -34,17 +34,26 @@ local_from_standard <- function(tee_rom_s, locale) {
   )
 }
 
-local_from_apparent <- function(tee) {
+local_from_apparent <- function(tee, locale) {
   # Local time from sundial time tee
-  tee - equation_of_time(tee)
+  tee - equation_of_time(universal_from_local(tee, locale))
 }
 
-apparent_from_local <- function(tee) {
+apparent_from_local <- function(tee, locale) {
   # Sundial time at local time tee
-  tee + equation_of_time(tee)
+  tee + equation_of_time(universal_from_local(tee))
 }
 
 
+universal_from_dynamical <- function(tee) {
+  # Universal moment from Dynamical time tee
+  tee - ephemeris_correction(tee)
+}
+
+dynamical_from_universal <- function(tee) {
+  # Dynamical time at Universal moment tee
+  tee + ephemeris_correction(tee)
+}
 
 midday <- function(date, locale) {
   # Standard time on fixed date of midday at locale
