@@ -3,7 +3,7 @@
 \name{advent}
 \alias{advent}
 \alias{christmas}
-\alias{eastern_orthodox_christmas}
+\alias{orthodox_christmas}
 \alias{epiphany}
 \alias{easter}
 \alias{orthodox_easter}
@@ -15,7 +15,7 @@ advent(year)
 
 christmas(year)
 
-eastern_orthodox_christmas(year)
+orthodox_christmas(year)
 
 epiphany(year)
 
@@ -34,12 +34,15 @@ pentecost(year)
 Functions to return Gregorian dates for various Christian ecclesiastical holidays and other special days
 }
 \examples{
-advent(2025)
-christmas(2025)
-eastern_orthodox_christmas(2025)
-epiphany(2025)
-easter(2025)
-orthodox_easter(2025)
-alt_orthodox_easter(2025)
-pentecost(2025)
+tibble::tibble(
+  year = 2025:2030,
+  advent = advent(year),
+  christmas = christmas(year),
+  orthodox_christmas = orthodox_christmas(year),
+  epiphany = epiphany(year),
+  easter = easter(year),
+  orthodox_easter = orthodox_easter(year),
+  alt_orthodox_easter = alt_orthodox_easter(year),
+  pentecost = pentecost(year)
+ )
 }

@@ -70,6 +70,6 @@ c(
   advent(2025),
   christmas(2025),
   epiphany(2026),
-  eastern_orthodox_christmas(2026)
+  orthodox_christmas(2026)
 )
 ```

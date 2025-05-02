@@ -30,6 +30,9 @@ Dates in multiple calendars:
 library(calcal)
 #> 
 #> Attaching package: 'calcal'
+#> The following object is masked from 'package:stats':
+#> 
+#>     time
 #> The following object is masked from 'package:base':
 #> 
 #>     julian
@@ -85,7 +88,7 @@ c(
   advent(2025),
   christmas(2025),
   epiphany(2026),
-  eastern_orthodox_christmas(2026)
+  orthodox_christmas(2026)
 )
 #> <gregorian[8]>
 #> [1] 2025-04-20 2025-04-20 2025-04-20 2025-06-08 2025-11-30 2025-12-25 2026-01-04
