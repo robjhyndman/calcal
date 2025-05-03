@@ -24,9 +24,8 @@
 #' @export
 advent <- function(year) {
   # Fixed date of Advent in Gregorian year--the Sunday closest to November 30
-  as_gregorian(kday_nearest(
-    as_rd(gregorian(year, NOVEMBER, 30)),
-    SUNDAY
+  as_gregorian(kday_nearest(SUNDAY,
+    as_rd(gregorian(year, NOVEMBER, 30))
   ))
 }
 
@@ -74,7 +73,7 @@ easter <- function(year) {
   paschal_moon <- as_rd(gregorian(year, APRIL, 19)) - adjusted_epact
 
   # Return the Sunday following the Paschal moon
-  as_gregorian(kday_after(paschal_moon, SUNDAY))
+  as_gregorian(kday_after(SUNDAY, paschal_moon))
 }
 
 #' @rdname christian
@@ -88,7 +87,7 @@ orthodox_easter <- function(year) {
   paschal_moon <- as_rd(julian(j_year, APRIL, 19)) - shifted_epact
 
   # Return the Sunday following the Paschal moon
-  as_gregorian(kday_after(paschal_moon, SUNDAY))
+  as_gregorian(kday_after(SUNDAY, paschal_moon))
 }
 
 #' @rdname christian
@@ -104,7 +103,7 @@ alt_orthodox_easter <- function(year) {
     272
 
   # Return the Sunday following the Paschal moon
-  as_gregorian(kday_after(paschal_moon, SUNDAY))
+  as_gregorian(kday_after(SUNDAY, paschal_moon))
 }
 
 #' @rdname christian

@@ -49,14 +49,14 @@ us_election_day <- function(year) {
 #' @export
 us_daylight_saving_start <- function(year) {
   # Fixed date of the start of United States daylight saving time in Gregorian year--the first Sunday in April
-  as_gregorian(nth_kday(2, SUNDAY, gregorian_date(g_year, MARCH, 1)))
+  as_gregorian(nth_kday(2, SUNDAY, gregorian(year, MARCH, 1)))
 }
 
 #' @rdname us_holidays
 #' @export
 us_daylight_saving_end <- function(year) {
   # Fixed date of the end of United States daylight saving time in Gregorian year--the last Sunday in October
-  as_gregorian(first_kday(SUNDAY, gregorian_date(g_year, NOVEMBER, 1)))
+  as_gregorian(first_kday(SUNDAY, gregorian(year, NOVEMBER, 1)))
 }
 
 
