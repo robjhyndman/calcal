@@ -3,6 +3,7 @@
 ^LICENSE\.md$
 ^README\.Rmd$
 other
+conversion
 .github
 _pkgdown.yml
 pkgdown

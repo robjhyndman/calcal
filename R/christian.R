@@ -55,31 +55,6 @@ epiphany <- function(year) {
 
 #' @rdname christian
 #' @export
-astronomical_easter <- function(year) {
-  # Date of (proposed) astronomical Easter in Gregorian year
-  # Beginning of year
-  jan1 <- vec_data(as_rd(gregorian(year, JANUARY, 1)))
-
-  # Spring equinox
-  equinox <- solar_longitude_after(jan1, SPRING)
-
-  # Date of next full moon
-  paschal_moon <- floor(
-    apparent_from_local(
-      local_from_universal(
-        lunar_phase_after(equinox, FULL),
-        JERUSALEM
-      ),
-      JERUSALEM
-    )
-  )
-
-  # Return the Sunday following the Paschal moon
-  as_gregorian(kday_after(paschal_moon, SUNDAY))
-}
-
-#' @rdname christian
-#' @export
 easter <- function(year) {
   # Fixed date of Easter in Gregorian year
   century <- 1 + year %/% 100

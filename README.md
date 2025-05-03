@@ -30,9 +30,6 @@ Dates in multiple calendars:
 library(calcal)
 #> 
 #> Attaching package: 'calcal'
-#> The following object is masked from 'package:stats':
-#> 
-#>     time
 #> The following object is masked from 'package:base':
 #> 
 #>     julian

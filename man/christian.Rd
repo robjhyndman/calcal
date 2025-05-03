@@ -5,7 +5,6 @@
 \alias{christmas}
 \alias{orthodox_christmas}
 \alias{epiphany}
-\alias{astronomical_easter}
 \alias{easter}
 \alias{orthodox_easter}
 \alias{alt_orthodox_easter}
@@ -19,8 +18,6 @@ christmas(year)
 orthodox_christmas(year)
 
 epiphany(year)
-
-astronomical_easter(year)
 
 easter(year)
 
