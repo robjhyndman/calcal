@@ -41,7 +41,6 @@ tibble::tibble(
   orthodox_christmas = orthodox_christmas(year),
   epiphany = epiphany(year),
   easter = easter(year),
-  astronomical_easter = astronomical_easter(year),
   orthodox_easter = orthodox_easter(year),
   alt_orthodox_easter = alt_orthodox_easter(year),
   pentecost = pentecost(year)
