@@ -1,4 +1,6 @@
-# Functions to handle Gregorian calendar dates
+#==============================================================================
+# Gregorian Calendar
+#==============================================================================
 
 #' Gregorian calendar dates
 #'
@@ -93,14 +95,14 @@ as_rd.gregorian <- function(date, ...) {
 as_gregorian.rd_fixed <- function(date, ...) {
   # Gregorian (year month day) corresponding to fixed date
   year <- gregorian_year_from_fixed(date)
-  prior_days <- date - as_rd(gregorian(year, JANUARY, 1))
+  prior_days <- date - gregorian_new_year(year)
   # Correction to simulate a 30-day Feb
   correction <- (date >= as_rd(gregorian(year, MARCH, 1))) *
     (2 - gregorian_leap_year(year))
   # Assuming a 30-day Feb
   month <- (12 * (prior_days + correction) + 373) %/% 367
   # Calculate the day by subtraction
-  day <- date - as_rd(gregorian(year, month, 1)) + 1
+  day <- 1 + date - as_rd(gregorian(year, month, 1))
   gregorian(year, month, day)
 }
 
@@ -160,6 +162,12 @@ day_number <- function(g_date) {
 days_remaining <- function(g_date) {
   # Days remaining in year after Gregorian date g_date
   as_rd(gregorian(field(g_date, "year"), DECEMBER, 31)) - as_rd(g_date)
+}
+
+last_day_of_gregorian_month <- function(g_year, g_month) {
+  y <- g_year + g_month == 12
+  m <- amod(g_month + 1, 12)
+  gregorian(g_year, g_month, 1) - gregorian(y, m, 1)
 }
 
 

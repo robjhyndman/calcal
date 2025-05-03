@@ -78,3 +78,8 @@ in_range <- function(tee, range) {
 list_range <- function(ell, range) {
   ell[in_range(ell, range)]
 }
+
+# Basic arithmetic utilities
+amod <- function(x, y) {
+  (y + (x %% y)) %% y
+}
