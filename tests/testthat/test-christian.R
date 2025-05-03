@@ -3,7 +3,7 @@ test_that("christian", {
   expect_equal(advent(2025), gregorian(2025, 11, 30))
   expect_equal(epiphany(2025), gregorian(2025, 1, 5))
   expect_equal(orthodox_christmas(2025), gregorian(2025, 1, 7))
-  expect_equal(orthodox_christmas(1100), gregorian(NA, NA, NA))
+  expect_equal(orthodox_christmas(1100), gregorian())
   expect_equal(easter(2025), gregorian(2025, 4, 20))
   # expect_equal(astronomical_easter(2025), gregorian(2025, 4, 06))
   expect_equal(orthodox_easter(2025), gregorian(2025, 4, 20))

@@ -74,3 +74,7 @@ binary_search <- function(lo, hi, test_func, end_func) {
 in_range <- function(tee, range) {
   range[1] <= tee & tee < range[2]
 }
+
+list_range <- function(ell, range) {
+  ell[in_range(ell, range)]
+}

@@ -1,4 +1,6 @@
-# Functions to handle Julian calendar dates
+#==============================================================================
+# Julian Calendar
+#==============================================================================
 
 #' Julian calendar dates
 #'
@@ -77,7 +79,7 @@ as_rd.julian <- function(date, ...) {
   year <- field(date, "year")
   month <- field(date, "month")
   day <- field(date, "day")
-  y <- year + (year < 0)
+  y <- year + (year < 0) # No year zero
   result <- JULIAN_EPOCH -
     1 + # Days before start of calendar
     365 * (y - 1) + # Ordinary days since epoch
@@ -112,33 +114,33 @@ as_julian.default <- function(date, ...) {
   as_julian(as_rd(date))
 }
 
+
+bce <- function(n) {
+  -n
+}
+
+ce <- function(n) {
+  n
+}
+
 julian_leap_year <- function(j_year) {
+  j_year_mod_4 <- j_year %% 4
   # True if j_year is a leap year on the Julian calendar
-  (j_year > 0) * (j_year %% 4 == 0) + (1 - (j_year > 0)) * (j_year %% 4 == 3)
+  (j_year > 0) * (j_year_mod_4 == 0) + (1 - (j_year > 0)) * (j_year_mod_4 == 3)
 }
 
 
 julian_in_gregorian <- function(j_month, j_day, g_year) {
   # List of the fixed dates of Julian month, day that occur in Gregorian year
   jan1 <- as_rd(gregorian(g_year, JANUARY, 1))
-  dec31 <- as_rd(gregorian(g_year, DECEMBER, 31))
-
-  y <- field(as_julian(jan1), "year")
+  y <- standard_year(as_julian(jan1))
   y_prime <- 1 + (y != -1) * y
 
   # The possible occurrences in one year are
-  date1 <- as_rd(julian(y, j_month, j_day))
-  date2 <- as_rd(julian(y_prime, j_month, j_day))
+  date0 <- as_rd(julian(y, j_month, j_day))
+  date1 <- as_rd(julian(y_prime, j_month, j_day))
 
-  # date1 occurs in current year
-  d1 <- (jan1 <= date1 & date1 <= dec31)
-  # date2 occurs in current year
-  d2 <- (jan1 <= date2 & date2 <= dec31)
-
-  missing <- rd_fixed(NA_integer_)
-  result <- rep(missing, times = length(date1))
-  result[d1] <- date1[d1]
-  result[d2] <- date2[d2]
+  result <- list_range(c(date0, date1), gregorian_year_range(g_year))
   as_gregorian(result)
 }
 
