@@ -1,3 +1,7 @@
+#==============================================================================
+# Gregorian Calendar - Day and (US) Holiday Functions
+#==============================================================================
+
 #' US Holidays
 #'
 #' Functions to return Gregorian dates for US holidays and other special days
@@ -12,6 +16,7 @@
 #' us_election_day(2025)
 #' us_daylight_saving_start(2025)
 #' us_daylight_saving_end(2025)
+#' unlucky_fridays(2025)
 #'
 #' @export
 us_memorial_day <- function(year) {
@@ -44,12 +49,34 @@ us_election_day <- function(year) {
 #' @export
 us_daylight_saving_start <- function(year) {
   # Fixed date of the start of United States daylight saving time in Gregorian year--the first Sunday in April
-  as_gregorian(first_kday(SUNDAY, gregorian(year, APRIL, 1)))
+  as_gregorian(nth_kday(2, SUNDAY, gregorian_date(g_year, MARCH, 1)))
 }
 
 #' @rdname us_holidays
 #' @export
 us_daylight_saving_end <- function(year) {
   # Fixed date of the end of United States daylight saving time in Gregorian year--the last Sunday in October
-  as_gregorian(last_kday(SUNDAY, gregorian(year, OCTOBER, 31)))
+  as_gregorian(first_kday(SUNDAY, gregorian_date(g_year, NOVEMBER, 1)))
+}
+
+
+#' @rdname us_holidays
+#' @export
+unlucky_fridays <- function(year) {
+  as_gregorian(unlucky_fridays_in_range(gregorian_year_range(year)))
+}
+
+unlucky_fridays_in_range <- function(range) {
+  a <- range[1]
+  b <- range[2]
+  fri <- kday_on_or_after(FRIDAY, a)
+  date <- as_gregorian(fri)
+
+  if (in_range(fri, range)) {
+    result <- if (standard_day(date) == 13) fri else rd_fixed()
+    output <- c(result, unlucky_fridays_in_range(c(fri + 1, b)))
+  } else {
+    output <- rd_fixed()
+  }
+  output
 }

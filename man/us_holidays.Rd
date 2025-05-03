@@ -7,6 +7,7 @@
 \alias{us_election_day}
 \alias{us_daylight_saving_start}
 \alias{us_daylight_saving_end}
+\alias{unlucky_fridays}
 \title{US Holidays}
 \usage{
 us_memorial_day(year)
@@ -20,6 +21,8 @@ us_election_day(year)
 us_daylight_saving_start(year)
 
 us_daylight_saving_end(year)
+
+unlucky_fridays(year)
 }
 \arguments{
 \item{year}{Gregorian year}
@@ -34,5 +37,6 @@ us_labor_day(2025)
 us_election_day(2025)
 us_daylight_saving_start(2025)
 us_daylight_saving_end(2025)
+unlucky_fridays(2025)
 
 }

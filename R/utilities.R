@@ -1,3 +1,18 @@
+
+# Standard date accessors
+standard_month <- function(date) {
+  field(date, "month")
+}
+
+standard_day <- function(date) {
+  field(date, "day")
+}
+
+standard_year <- function(date) {
+  field(date, "year")
+}
+
+
 # Format date
 format_date <- function(parts) {
   apply(as.data.frame(unclass(parts)), 1, function(x) {
@@ -54,4 +69,8 @@ binary_search <- function(lo, hi, test_func, end_func) {
     hi,
     SIMPLIFY = TRUE
   )
+}
+
+in_range <- function(tee, range) {
+  range[1] <= tee & tee < range[2]
 }

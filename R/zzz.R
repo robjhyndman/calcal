@@ -1,29 +1,29 @@
 # To process last when building the package
 
 # Month constants for Julian/Gregorian calendar
-JANUARY <- 1
-FEBRUARY <- JANUARY + 1
-MARCH <- JANUARY + 2
-APRIL <- JANUARY + 3
-MAY <- JANUARY + 4
-JUNE <- JANUARY + 5
-JULY <- JANUARY + 6
-AUGUST <- JANUARY + 7
-SEPTEMBER <- JANUARY + 8
-OCTOBER <- JANUARY + 9
-NOVEMBER <- JANUARY + 10
-DECEMBER <- JANUARY + 11
+JANUARY <- 1L
+FEBRUARY <- JANUARY + 1L
+MARCH <- JANUARY + 2L
+APRIL <- JANUARY + 3L
+MAY <- JANUARY + 4L
+JUNE <- JANUARY + 5L
+JULY <- JANUARY + 6L
+AUGUST <- JANUARY + 7L
+SEPTEMBER <- JANUARY + 8L
+OCTOBER <- JANUARY + 9L
+NOVEMBER <- JANUARY + 10L
+DECEMBER <- JANUARY + 11L
 
 # Day of week constants
-SUNDAY <- 0
-MONDAY <- SUNDAY + 1
-TUESDAY <- SUNDAY + 2
-WEDNESDAY <- SUNDAY + 3
-THURSDAY <- SUNDAY + 4
-FRIDAY <- SUNDAY + 5
-SATURDAY <- SUNDAY + 6
+SUNDAY <- 0L
+MONDAY <- SUNDAY + 1L
+TUESDAY <- SUNDAY + 2L
+WEDNESDAY <- SUNDAY + 3L
+THURSDAY <- SUNDAY + 4L
+FRIDAY <- SUNDAY + 5L
+SATURDAY <- SUNDAY + 6L
 
-GREGORIAN_EPOCH <- 1 # Fixed date of start of the (proleptic) Gregorian calendar
+GREGORIAN_EPOCH <- 1L # Fixed date of start of the (proleptic) Gregorian calendar
 JULIAN_EPOCH <- vec_data(as_rd(gregorian(0, DECEMBER, 30)))
 JD_EPOCH <- -1721424.5
 

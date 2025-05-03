@@ -185,3 +185,16 @@ vec_arith.numeric.gregorian <- function(op, x, y, ...) {
 vec_arith.gregorian.numeric <- function(op, x, y, ...) {
   as_gregorian(vec_arith(op, as_rd(x), y))
 }
+
+
+gregorian_new_year <- function(g_year) {
+  as_rd(gregorian(g_year, JANUARY, 1))
+}
+
+gregorian_year_end <- function(g_year) {
+  as_rd(gregorian(g_year, DECEMBER, 31))
+}
+
+gregorian_year_range <- function(g_year) {
+  c(gregorian_new_year(g_year), gregorian_new_year(g_year + 1))
+}

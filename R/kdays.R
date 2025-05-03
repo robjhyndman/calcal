@@ -1,31 +1,32 @@
-kday_on_or_before <- function(date, k) {
+
+kday_on_or_before <- function(k, date) {
   # Fixed date of the k-day on or before fixed date.
   # k=0 means Sunday, k=1 means Monday, and so on.
-  date - day_of_week_from_fixed(date - k)
+  date - ((vec_data(date) - k) %% 7L)
 }
 
-kday_on_or_after <- function(date, k) {
+kday_on_or_after <- function(k, date) {
   # Fixed date of the k-day on or after fixed date.
   # k=0 means Sunday, k=1 means Monday, and so on.
-  kday_on_or_before(date + 6, k)
+  kday_on_or_before(k, date + 6)
 }
 
-kday_nearest <- function(date, k) {
+kday_nearest <- function(k, date) {
   # Fixed date of the k-day nearest fixed date.
   # k=0 means Sunday, k=1 means Monday, and so on.
-  kday_on_or_before(date + 3, k)
+  kday_on_or_before(k, date + 3)
 }
 
-kday_after <- function(date, k) {
+kday_after <- function(k, date) {
   # Fixed date of the k-day after fixed date.
   # k=0 means Sunday, k=1 means Monday, and so on.
-  kday_on_or_before(date + 7, k)
+  kday_on_or_before(k, date + 7)
 }
 
-kday_before <- function(date, k) {
+kday_before <- function(k, date) {
   # Fixed date of the k-day before fixed date.
   # k=0 means Sunday, k=1 means Monday, and so on.
-  kday_on_or_before(date - 1, k)
+  kday_on_or_before(k, date - 1)
 }
 
 nth_kday <- function(n, k, g_date) {
@@ -36,9 +37,11 @@ nth_kday <- function(n, k, g_date) {
   date <- as_rd(g_date)
 
   if (n > 0) {
-    return(7 * n + kday_before(date, k))
+    kday_before(k, date) + 7 * n
+  } else if (n < 0) {
+    kday_after(k, date) + 7 * n
   } else {
-    return(7 * n + kday_after(date, k))
+    as_rd(NA_integer_)
   }
 }
 
