@@ -1,0 +1,27 @@
+This is the copyright notice from the original Lisp code
+
+;;;;
+;;;; CALENDRICA 4.0 -- Common Lisp
+;;;; E. M. Reingold and N. Dershowitz
+;;;;
+;;;; ================================================================
+;;;;
+;;;; The Functions (code, comments, and definitions) contained in this
+;;;; file (the "Program") were written by Edward M. Reingold and Nachum
+;;;; Dershowitz (the "Authors"), who retain all rights to them except as
+;;;; granted in the License and subject to the warranty and liability
+;;;; limitations listed therein.  These Functions are explained in the Authors'
+;;;; book, "Calendrical Calculations", 4th ed. (Cambridge University
+;;;; Press, 2016), and are subject to an international copyright.
+;;;;
+;;;; Licensed under the Apache License, Version 2.0 <LICENSE or
+;;;; https://www.apache.org/licenses/LICENSE-2.0>.
+;;;;
+;;;; Sample values for the functions (useful for debugging) are given in
+;;;; Appendix C of the book.
+
+;;;; Last modified 20 December 2016.
+
+#### The Lisp code was ported to R by Rob Hyndman.
+#### Reingold and Dershowitz are not responsible for any errors introduced
+#### in the process of translating the code from Lisp to R.

@@ -6,7 +6,7 @@
 \alias{calcal-package}
 \title{calcal: Calendrical Calculations}
 \description{
-An R implementation of the algorithms described in Reingold and Dershowitz (2018) \doi{10.1017/9781107415058}.
+An R implementation of the algorithms described in Reingold and Dershowitz (4th ed., Cambridge University Press, 2018) \doi{10.1017/9781107415058}.
 }
 \seealso{
 Useful links:
@@ -17,7 +17,13 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Rob Hyndman \email{Rob.Hyndman@monash.edu} (\href{https://orcid.org/0000-0002-2140-5352}{ORCID}) [copyright holder]
+\strong{Maintainer}: Rob Hyndman \email{Rob.Hyndman@monash.edu} (\href{https://orcid.org/0000-0002-2140-5352}{ORCID}) (R port) [translator]
+
+Other contributors:
+\itemize{
+  \item Edward Reingold (Original Lisp code) [copyright holder, contributor]
+  \item Nachum Dershowitz (Original Lisp code) [copyright holder, contributor]
+}
 
 }
 \keyword{internal}

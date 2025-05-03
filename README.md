@@ -12,6 +12,9 @@ algorithms described in [Reingold and Dershowitz (2018) *Calendrical
 Calculations*, 4th edition, Cambridge University
 Press](https://doi.org/10.1017/9781107415058).
 
+It is a translation of the Lisp code produced by Reingold and Dershowitz
+for Calendrica 4.0.
+
 ## Installation
 
 You can install the development version of calcal from
@@ -71,7 +74,7 @@ c(
   us_daylight_saving_end(2025)
 )
 #> <gregorian[6]>
-#> [1] 2025-05-26 2025-07-04 2025-09-01 2025-11-04 2025-04-06 2025-10-26
+#> [1] 2025-05-26 2025-07-04 2025-09-01 2025-11-04 2025-03-09 2025-11-02
 ```
 
 Some Christian holidays
