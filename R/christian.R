@@ -36,7 +36,6 @@ christmas <- function(year) {
   gregorian(year, DECEMBER, 25)
 }
 
-
 #' @rdname christian
 #' @export
 orthodox_christmas <- function(year) {
@@ -62,8 +61,7 @@ easter <- function(year) {
   shifted_epact <- (14 +
     11 * (year %% 19) -
     (3 * century) %/% 4 +
-    (5 + 8 * century) %/% 25) %%
-    30
+    (5 + 8 * century) %/% 25) %% 30
 
   # Adjust for 29.5 day month
   adjusted_epact <- shifted_epact +
@@ -95,12 +93,12 @@ orthodox_easter <- function(year) {
 alt_orthodox_easter <- function(year) {
   # Alternate calculation of fixed date of Orthodox Easter in Gregorian year
   # Day after full moon on or after March 21
-  paschal_moon <- 354 *
-    year +
-    30 * (7 * year + 8) %/% 19 +
+  paschal_moon <- 354 * year +
+    30 * ((7 * year + 8) %/% 19) +
     year %/% 4 -
     year %/% 19 -
-    272
+    273 +
+    GREGORIAN_EPOCH
 
   # Return the Sunday following the Paschal moon
   as_gregorian(kday_after(SUNDAY, paschal_moon))
