@@ -4,7 +4,6 @@
 # calcal <img src="man/figures/calcal-hex.png" align="right" width = 150 />
 
 <!-- badges: start -->
-
 <!-- badges: end -->
 
 The goal of calcal is to do calendrical calculations, based on the
@@ -13,7 +12,7 @@ Calculations*, 4th edition, Cambridge University
 Press](https://doi.org/10.1017/9781107415058).
 
 It is a translation of the Lisp code produced by Reingold and Dershowitz
-for Calendrica 4.0.
+for [Calendrica 4.0](https://github.com/EdReingold/calendar-code2).
 
 ## Installation
 
