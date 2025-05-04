@@ -10,6 +10,7 @@
 #' @examples
 #' melbourne <- location(-37.8136, 144.9631, 31, 10)
 #' @export
+# Differs from original code as zone is in hours, not days
 location <- function(
     latitude = numeric(),
     longitude = numeric(),
@@ -26,7 +27,7 @@ location <- function(
     latitude = lst$latitude,
     longitude = lst$longitude,
     elevation = lst$elevation,
-    zone = lst$zone
+    zone = hr(lst$zone)
   )
   check_locale(lst)
   new_rcrd(lst, class = "location")
@@ -37,7 +38,7 @@ check_locale <- function(args) {
   longitude <- args$longitude
   elevation <- args$elevation
   zone <- args$zone
-  if (any(zone < -12 | zone > 14, na.rm = TRUE)) {
+  if (any(zone < hr(-12) | zone > hr(14), na.rm = TRUE)) {
     stop("zone must be between -12 and 14")
   }
   if (any(latitude < -90 | latitude > 90, na.rm = TRUE)) {
