@@ -371,16 +371,26 @@ new_moon_before <- function(tee) {
   t0 <- nth_new_moon(0)
   phi <- lunar_phase(tee)
   n <- round((tee - t0) / MEAN_SYNODIC_MONTH - phi / 360)
-
-  final_value(n - 1, function(k) nth_new_moon(k) < tee)
+  output <- mapply(
+    function(n,t) {
+      final_value(n-1, function(k) nth_new_moon(k) < t)
+    }, 
+    n = n, t = tee, SIMPLIFY = TRUE
+  )
+  output
 }
 
 new_moon_at_or_after <- function(tee) {
   t0 <- nth_new_moon(0)
   phi <- lunar_phase(tee)
   n <- round((tee - t0) / MEAN_SYNODIC_MONTH - phi / 360)
-
-  next_value(n, function(k) nth_new_moon(k) >= tee)
+  output <- mapply(
+    function(n,t) {
+      next_value(n, function(k) nth_new_moon(k) >= t)
+    }, 
+    n = n, t = tee, SIMPLIFY = TRUE
+  )
+  output
 }
 
 lunar_phase_at_or_before <- function(phi, tee) {
