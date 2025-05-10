@@ -259,26 +259,24 @@ lunar_longitude <- function(tee) {
 #' means the last quarter.
 #'
 #' @param date Date vector
-#' @param location Location object
 #' @param ... Additional arguments
 #' @examples
 #' april2025 <- seq(as.Date("2025-04-01"), as.Date("2025-04-30"), by = "1 day")
-#' melbourne <- location(-37.8136, 144.9631, 31, 10)
-#' lunar_phase(april2025, melbourne)
+#' lunar_phase(april2025)
 #'
 #' @export
 #'
-lunar_phase <- function(date, location, ...) {
+lunar_phase <- function(date, ...) {
   UseMethod("lunar_phase")
 }
 
 #' @export
-lunar_phase.default <- function(date, location, ...) {
-  lunar_phase(as_rd(date), location)
+lunar_phase.default <- function(date, ...) {
+  lunar_phase(as_rd(date))
 }
 
 #' @export
-lunar_phase.rd_fixed <- function(date, location, ...) {
+lunar_phase.rd_fixed <- function(date, ...) {
   # Lunar phase, as an angle in degrees, at moment tee
   # An angle of 0 means a new moon, 90 degrees means the first quarter,
   # 180 means a full moon, and 270 degrees means the last quarter

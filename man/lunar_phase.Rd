@@ -4,12 +4,10 @@
 \alias{lunar_phase}
 \title{Lunar phase at date}
 \usage{
-lunar_phase(date, location, ...)
+lunar_phase(date, ...)
 }
 \arguments{
 \item{date}{Date vector}
-
-\item{location}{Location object}
 
 \item{...}{Additional arguments}
 }
@@ -20,7 +18,6 @@ means the last quarter.
 }
 \examples{
 april2025 <- seq(as.Date("2025-04-01"), as.Date("2025-04-30"), by = "1 day")
-melbourne <- location(-37.8136, 144.9631, 31, 10)
-lunar_phase(april2025, melbourne)
+lunar_phase(april2025)
 
 }
