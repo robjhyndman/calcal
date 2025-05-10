@@ -26,6 +26,7 @@ reference:
   - title: Astronomical functions
     contents:
       - lunar_phase
+      - new_moons
       - sunrise
       - sunset
   - title: Fixed RD dates
