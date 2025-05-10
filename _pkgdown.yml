@@ -18,3 +18,37 @@ authors:
 
 navbar:
   type: light
+
+reference:
+  - title: "Package"
+    contents:
+      - calcal-package
+  - title: Astronomical functions
+    contents:
+      - lunar_phase
+      - sunrise
+      - sunset
+  - title: Fixed RD dates
+    contents:
+      - as_rd
+      - rd_fixed
+  - title: Time of day
+    contents:
+      - time_of_day
+      - as_time_of_day
+  - title: Gregorian dates
+    contents:
+      - gregorian
+      - as_gregorian
+      - day_number
+  - title: Julian dates
+    contents:
+      - julian
+      - as_julian
+  - title: Holidays and special days
+    contents:
+      - easter
+      - us_labor_day
+  - title: Locations
+    contents:
+      - location
