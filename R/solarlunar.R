@@ -286,9 +286,8 @@ lunar_phase.rd_fixed <- function(date, location, ...) {
   phi <- (lunar_longitude(tee) - solar_longitude(tee)) %% 360
   t0 <- nth_new_moon(0)
   n <- round((tee - t0) / MEAN_SYNODIC_MONTH)
-  phi_prime <- deg(360) *
-    ((tee - nth_new_moon(n)) / MEAN_SYNODIC_MONTH) %% 1
-  idx <- which(abs(phi - phi_prime) > deg(180))
+  phi_prime <- 360 * ((tee - nth_new_moon(n)) / MEAN_SYNODIC_MONTH) %% 1
+  idx <- which(abs(phi - phi_prime) > 180)
   phi[idx] <- phi_prime[idx]
   return(phi)
 }
