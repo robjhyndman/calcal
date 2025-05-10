@@ -20,21 +20,15 @@ format_date <- function(parts) {
   })
 }
 
-
-# Sum powers of x with coefficients in vector a
+# Polynomial function with coefficients in a
+# return a[1] + a[2]*x + a[3]*x^2 + ... + a[n]*x^n
 poly <- function(x, a) {
-  p <- length(a)
-  if (p == 0) {
-    return(rep(0, length(x)))
+  if (length(a) == 0) {
+    return(0)
   }
-  X <- matrix(1, nrow = length(x), ncol = p + 1)
-  if (p > 1) {
-    for (i in seq(p)) {
-      X[, i + 1] <- X[, i] * x
-    }
-  }
-  return(c(X %*% c(1, a)))
+  a[1] + x * poly(x, a[-1])
 }
+
 binary_search_single <- function(lo, hi, p, e) {
   # Bisection search for x in [lo, hi] such that condition 'e' holds.
   # p determines when to go left
