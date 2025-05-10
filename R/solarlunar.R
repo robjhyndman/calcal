@@ -398,3 +398,38 @@ lunar_phase_at_or_after <- function(phi, tee) {
 
   invert_angular(lunar_phase, phi, c(a, b))
 }
+
+
+#' Full moons and new moons in Gregorian years
+#' 
+#' Calculate all the near-full or near-new moons in a vector of Gregorian years
+#' 
+#' @param year A vector of Gregorian years
+#' @examples
+#' full_moons(2025)
+#' new_moons(2025)
+#' @return A vector of dates
+#' @export
+new_moons <- function(year) {
+  days <- as_rd(
+    seq(as.Date(paste0(min(year), "-01-01")), 
+        as.Date(paste0(max(year), "-12-31")), by = "day"
+      ))
+  lp <- lunar_phase(days)
+  delta <- MEAN_SIDEREAL_YEAR/MEAN_SYNODIC_MONTH/2
+  nm <- abs(lp) < delta | abs(lp-360) < delta
+  as_gregorian(days[nm])
+}
+
+#' @rdname new_moons
+#' @export
+full_moons <- function(year) {
+  days <- as_rd(
+    seq(as.Date(paste0(min(year), "-01-01")), 
+        as.Date(paste0(max(year), "-12-31")), by = "day"
+      ))
+  lp <- lunar_phase(days)
+  delta <- MEAN_SIDEREAL_YEAR/MEAN_SYNODIC_MONTH/2
+  fm <- abs(lp-180) < delta 
+  as_gregorian(days[fm])
+}
