@@ -206,3 +206,8 @@ gregorian_year_end <- function(g_year) {
 gregorian_year_range <- function(g_year) {
   c(gregorian_new_year(g_year), gregorian_new_year(g_year + 1))
 }
+
+#' @export
+as.character.gregorian <- function(x, ...) {
+  format(x)
+}
