@@ -14,12 +14,11 @@ test_that("astronomical", {
 
 test_that("lunar", {
   april2025 <- seq(as.Date("2025-04-01"), as.Date("2025-04-30"), by = "1 day")
-  melbourne <- location(-37.8136, 144.9631, 31, 10)
-  expect_true(all(diff(lunar_phase(april2025, melbourne)) < 15))
+  expect_true(all(diff(lunar_phase(april2025)) < 15))
   # New moon
-  expect_true(abs(lunar_phase("2025-04-28", melbourne)) < 3)
+  expect_true(abs(lunar_phase("2025-04-28")) < 3)
   expect_true(as_gregorian("2025-04-28") %in% new_moons(2025))
   # Full moon
-  expect_true(abs(lunar_phase("2025-04-13", melbourne) - 180) < 1)
+  expect_true(abs(lunar_phase("2025-04-13") - 180) < 1)
   expect_true(as_gregorian("2025-04-13") %in% full_moons(2025))
 })
