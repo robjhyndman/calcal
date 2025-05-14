@@ -372,9 +372,9 @@ new_moon_before <- function(tee) {
   phi <- lunar_phase(tee)
   n <- round((tee - t0) / MEAN_SYNODIC_MONTH - phi / 360)
   output <- mapply(
-    function(n,t) {
-      final_value(n-1, function(k) nth_new_moon(k) < t)
-    }, 
+    function(n, t) {
+      final_value(n - 1, function(k) nth_new_moon(k) < t)
+    },
     n = n, t = tee, SIMPLIFY = TRUE
   )
   output
@@ -385,9 +385,9 @@ new_moon_at_or_after <- function(tee) {
   phi <- lunar_phase(tee)
   n <- round((tee - t0) / MEAN_SYNODIC_MONTH - phi / 360)
   output <- mapply(
-    function(n,t) {
+    function(n, t) {
       next_value(n, function(k) nth_new_moon(k) >= t)
-    }, 
+    },
     n = n, t = tee, SIMPLIFY = TRUE
   )
   output
@@ -411,9 +411,9 @@ lunar_phase_at_or_after <- function(phi, tee) {
 
 
 #' Full moons and new moons in Gregorian years
-#' 
+#'
 #' Calculate all the near-full or near-new moons in a vector of Gregorian years
-#' 
+#'
 #' @param year A vector of Gregorian years
 #' @examples
 #' full_moons(2025)
@@ -421,25 +421,19 @@ lunar_phase_at_or_after <- function(phi, tee) {
 #' @return A vector of dates
 #' @export
 new_moons <- function(year) {
-  days <- as_rd(
-    seq(as.Date(paste0(min(year), "-01-01")), 
-        as.Date(paste0(max(year), "-12-31")), by = "day"
-      ))
-  lp <- lunar_phase(days)
-  delta <- MEAN_SIDEREAL_YEAR/MEAN_SYNODIC_MONTH/2
-  nm <- abs(lp) < delta | abs(lp-360) < delta
-  as_gregorian(days[nm])
+  first <- new_moon_at_or_after(as_rd(gregorian(min(year), JANUARY, 1)))
+  last <- new_moon_before(as_rd(gregorian(max(year) + 1, JANUARY, 1)))
+  nm <- nth_new_moon(first:last)
+  as_gregorian(as_rd(round(nm)))
 }
 
 #' @rdname new_moons
 #' @export
 full_moons <- function(year) {
-  days <- as_rd(
-    seq(as.Date(paste0(min(year), "-01-01")), 
-        as.Date(paste0(max(year), "-12-31")), by = "day"
-      ))
-  lp <- lunar_phase(days)
-  delta <- MEAN_SIDEREAL_YEAR/MEAN_SYNODIC_MONTH/2
-  fm <- abs(lp-180) < delta 
-  as_gregorian(days[fm])
+  first <- new_moon_at_or_after(as_rd(gregorian(min(year), JANUARY, 1)) - 16)
+  last <- new_moon_before(as_rd(gregorian(max(year) + 1, JANUARY, 1)) + 16)
+  nm <- nth_new_moon(first:last)
+  fm <- as_gregorian(as_rd(round(nm + MEAN_SYNODIC_MONTH / 2)))
+  y <- field(fm, "year")
+  fm[y %in% year]
 }
