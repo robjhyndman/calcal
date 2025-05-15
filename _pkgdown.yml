@@ -23,33 +23,38 @@ reference:
   - title: "Package"
     contents:
       - calcal-package
+  - title: Gregorian dates
+    contents:
+      - gregorian
+      - as_gregorian
+      - day_of_week
+      - day_of_month
+      - day_of_year
+      - days_remaining
+      - month_of_year
+      - week_of_year
+  - title: Holidays and special days
+    contents:
+      - easter
+      - us_labor_day
+  - title: Time of day
+    contents:
+      - time_of_day
+      - as_time_of_day
+  - title: Locations
+    contents:
+      - location
   - title: Astronomical functions
     contents:
       - lunar_phase
       - new_moons
       - sunrise
       - sunset
-  - title: Fixed RD dates
-    contents:
-      - as_rd
-      - rd_fixed
-  - title: Time of day
-    contents:
-      - time_of_day
-      - as_time_of_day
-  - title: Gregorian dates
-    contents:
-      - gregorian
-      - as_gregorian
-      - day_number
   - title: Julian dates
     contents:
       - julian
       - as_julian
-  - title: Holidays and special days
+  - title: Fixed RD dates
     contents:
-      - easter
-      - us_labor_day
-  - title: Locations
-    contents:
-      - location
+      - as_rd
+      - rd_fixed
