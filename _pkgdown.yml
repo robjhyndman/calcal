@@ -31,8 +31,9 @@ reference:
       - day_of_month
       - day_of_year
       - days_remaining
-      - month_of_year
+      - week_of_month
       - week_of_year
+      - month_of_year
   - title: Holidays and special days
     contents:
       - easter

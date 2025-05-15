@@ -2,24 +2,27 @@
 % Please edit documentation in R/gregorian.R
 \name{day_of_week}
 \alias{day_of_week}
+\alias{day_of_month}
 \alias{day_of_year}
 \alias{days_remaining}
-\alias{day_of_month}
-\alias{month_of_year}
+\alias{week_of_month}
 \alias{week_of_year}
+\alias{month_of_year}
 \title{Extract parts of a Gregorian date}
 \usage{
 day_of_week(date, numeric = FALSE, first_day = "Monday", abbreviate = FALSE)
+
+day_of_month(date)
 
 day_of_year(date)
 
 days_remaining(date)
 
-day_of_month(date)
-
-month_of_year(date)
+week_of_month(date, first_day = "Monday")
 
 week_of_year(date, first_day = "Monday")
+
+month_of_year(date)
 }
 \arguments{
 \item{date}{A vector of Gregorian dates}
@@ -37,7 +40,12 @@ Extract days, weeks, or months from a vector of Gregorian dates.
 \details{
 \code{week_of_year()} returns the ISO 8601 week number with \code{first_day} as Monday.
 Under this standard, week 1 of a year is defined as the first week with at least 4 days in the year;
-equivalently, it is the week  containing 4 January.
+equivalently, it is the week  containing 4 January. There is no week 0; instead week 1 of a year may
+begin in the previous calendar year.
+
+\code{week_of_month()} is defined analogously where week 1 of a month is the first week with at least
+4 days in the month; equivalently, it is the week containing the 4th day of the month. There is no week 0;
+instead week 1 of a month may begin in the previous calendar month.
 
 \code{days_remaining()} returns the number of days remaining in the year. Other functions should be
 self-explanatory.
@@ -48,6 +56,7 @@ day_of_week(april2025)
 day_of_month(april2025)
 day_of_year(april2025)
 days_remaining(april2025)
-month_of_year(april2025)
+week_of_month(april2025)
 week_of_year(april2025)
+month_of_year(april2025)
 }

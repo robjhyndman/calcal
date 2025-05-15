@@ -196,7 +196,12 @@ as.character.gregorian <- function(x, ...) {
 #' @details
 #' \code{week_of_year()} returns the ISO 8601 week number with \code{first_day} as Monday. 
 #' Under this standard, week 1 of a year is defined as the first week with at least 4 days in the year; 
-#' equivalently, it is the week  containing 4 January. 
+#' equivalently, it is the week  containing 4 January. There is no week 0; instead week 1 of a year may
+#' begin in the previous calendar year.
+#' 
+#' \code{week_of_month()} is defined analogously where week 1 of a month is the first week with at least
+#' 4 days in the month; equivalently, it is the week containing the 4th day of the month. There is no week 0;
+#' instead week 1 of a month may begin in the previous calendar month.
 #' 
 #' \code{days_remaining()} returns the number of days remaining in the year. Other functions should be
 #' self-explanatory.
@@ -212,8 +217,9 @@ as.character.gregorian <- function(x, ...) {
 #' day_of_month(april2025)
 #' day_of_year(april2025)
 #' days_remaining(april2025)
-#' month_of_year(april2025)
+#' week_of_month(april2025)
 #' week_of_year(april2025)
+#' month_of_year(april2025)
 #' @rdname gregorian-parts
 #' @export
 day_of_week <- function(date, numeric = FALSE, first_day = "Monday", abbreviate = FALSE) {
@@ -233,16 +239,19 @@ day_of_week <- function(date, numeric = FALSE, first_day = "Monday", abbreviate 
   }
 }
 
+#' @rdname gregorian-parts
+#' @export
+day_of_month <- function(date) {
+  field(date, "day")
+}
+
 
 #' @rdname gregorian-parts
 #' @export
+# Day number in year of Gregorian date date
+# Called day_number in CC book and code
 day_of_year <- function(date) {
-  day_number(date)
-}
-
-day_number <- function(g_date) {
-  # Day number in year of Gregorian date g_date
-  as_rd(g_date) - as_rd(gregorian(field(g_date, "year") - 1, DECEMBER, 31))
+  as_rd(date) - as_rd(gregorian(field(date, "year") - 1, DECEMBER, 31))
 }
 
 #' @rdname gregorian-parts
@@ -254,14 +263,11 @@ days_remaining <- function(date) {
 
 #' @rdname gregorian-parts
 #' @export
-day_of_month <- function(date) {
-  field(date, "day")
-}
-
-#' @rdname gregorian-parts
-#' @export
-month_of_year <- function(date) {
-  field(date, "month")
+week_of_month <- function(date, first_day = "Monday") {
+  dow <- day_of_week(date, numeric = TRUE, first_day = first_day) 
+  date <- date + (4 - dow)
+  day1 <- gregorian(field(date, "year"), field(date, "month"), 1)
+  (date - day1) %/% 7 + 1
 }
 
 #' @rdname gregorian-parts
@@ -272,3 +278,11 @@ week_of_year <- function(date, first_day = "Monday") {
   jan1 <- gregorian(field(date, "year"), JANUARY, 1)
   (date - jan1) %/% 7 + 1
 }
+
+
+#' @rdname gregorian-parts
+#' @export
+month_of_year <- function(date) {
+  field(date, "month")
+}
+
