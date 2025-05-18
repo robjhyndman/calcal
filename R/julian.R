@@ -167,3 +167,29 @@ vec_arith.numeric.julian <- function(op, x, y, ...) {
 vec_arith.julian.numeric <- function(op, x, y, ...) {
   as_julian(vec_arith(op, as_rd(x), y))
 }
+
+# Julian Day functions
+moment_from_jd <- function(jd) {
+  jd + JD_EPOCH
+}
+
+jd_from_moment <- function(tee) {
+  tee - JD_EPOCH
+}
+
+fixed_from_jd <- function(jd) {
+  floor(moment_from_jd(jd))
+}
+
+jd_from_fixed <- function(date) {
+  jd_from_moment(date)
+}
+
+
+fixed_from_mjd <- function(mjd) {
+  mjd + MJD_EPOCH
+}
+
+mjd_from_fixed <- function(date) {
+  date - MJD_EPOCH
+}

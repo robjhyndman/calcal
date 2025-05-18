@@ -190,25 +190,25 @@ as.character.gregorian <- function(x, ...) {
 }
 
 #' Extract parts of a Gregorian date
-#' 
-#' Extract days, weeks, or months from a vector of Gregorian dates. 
-#' 
+#'
+#' Extract days, weeks, or months from a vector of Gregorian dates.
+#'
 #' @details
-#' \code{week_of_year()} returns the ISO 8601 week number with \code{first_day} as Monday. 
-#' Under this standard, week 1 of a year is defined as the first week with at least 4 days in the year; 
+#' \code{week_of_year()} returns the ISO 8601 week number with \code{first_day} as Monday.
+#' Under this standard, week 1 of a year is defined as the first week with at least 4 days in the year;
 #' equivalently, it is the week  containing 4 January. There is no week 0; instead week 1 of a year may
 #' begin in the previous calendar year.
-#' 
+#'
 #' \code{week_of_month()} is defined analogously where week 1 of a month is the first week with at least
 #' 4 days in the month; equivalently, it is the week containing the 4th day of the month. There is no week 0;
 #' instead week 1 of a month may begin in the previous calendar month.
-#' 
+#'
 #' \code{days_remaining()} returns the number of days remaining in the year. Other functions should be
 #' self-explanatory.
-#' 
+#'
 #' @param date A vector of Gregorian dates
 #' @param numeric Logical. Return a numeric vector if TRUE with 1 denoting the \code{first_day}
-#' @param first_day Character denoting first day of the week. Ignored if \code{numeric} is \code{FALSE}. 
+#' @param first_day Character denoting first day of the week. Ignored if \code{numeric} is \code{FALSE}.
 #' Default is \code{"Monday"}
 #' @param abbreviate Logical. Return abbreviated day names if \code{TRUE}. Ignored if \code{numeric} is \code{TRUE}.
 #' @examples
@@ -257,14 +257,14 @@ day_of_year <- function(date) {
 #' @rdname gregorian-parts
 #' @export
 days_remaining <- function(date) {
-  # Days remaining in year after Gregorian date 
+  # Days remaining in year after Gregorian date
   as_rd(gregorian(field(date, "year"), DECEMBER, 31)) - as_rd(date)
 }
 
 #' @rdname gregorian-parts
 #' @export
 week_of_month <- function(date, first_day = "Monday") {
-  dow <- day_of_week(date, numeric = TRUE, first_day = first_day) 
+  dow <- day_of_week(date, numeric = TRUE, first_day = first_day)
   date <- date + (4 - dow)
   day1 <- gregorian(field(date, "year"), field(date, "month"), 1)
   (date - day1) %/% 7 + 1
@@ -273,7 +273,7 @@ week_of_month <- function(date, first_day = "Monday") {
 #' @rdname gregorian-parts
 #' @export
 week_of_year <- function(date, first_day = "Monday") {
-  dow <- day_of_week(date, numeric = TRUE, first_day = first_day) 
+  dow <- day_of_week(date, numeric = TRUE, first_day = first_day)
   date <- date + (4 - dow)
   jan1 <- gregorian(field(date, "year"), JANUARY, 1)
   (date - jan1) %/% 7 + 1
@@ -285,4 +285,3 @@ week_of_year <- function(date, first_day = "Monday") {
 month_of_year <- function(date) {
   field(date, "month")
 }
-
