@@ -47,8 +47,9 @@ begin in the previous calendar year.
 4 days in the month; equivalently, it is the week containing the 4th day of the month. There is no week 0;
 instead week 1 of a month may begin in the previous calendar month.
 
-\code{days_remaining()} returns the number of days remaining in the year. Other functions should be
-self-explanatory.
+\code{days_remaining()} returns the number of days remaining in the year.
+
+Other functions should be self-explanatory.
 }
 \examples{
 april2025 <- gregorian(2025, 4, 1:30)

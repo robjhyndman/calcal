@@ -203,8 +203,9 @@ as.character.gregorian <- function(x, ...) {
 #' 4 days in the month; equivalently, it is the week containing the 4th day of the month. There is no week 0;
 #' instead week 1 of a month may begin in the previous calendar month.
 #'
-#' \code{days_remaining()} returns the number of days remaining in the year. Other functions should be
-#' self-explanatory.
+#' \code{days_remaining()} returns the number of days remaining in the year.
+#'
+#' Other functions should be self-explanatory.
 #'
 #' @param date A vector of Gregorian dates
 #' @param numeric Logical. Return a numeric vector if TRUE with 1 denoting the \code{first_day}
@@ -276,7 +277,7 @@ week_of_year <- function(date, first_day = "Monday") {
   dow <- day_of_week(date, numeric = TRUE, first_day = first_day)
   date <- date + (4 - dow)
   jan1 <- gregorian(field(date, "year"), JANUARY, 1)
-  (date - jan1) %/% 7 + 1
+  (as_gregorian(date) - jan1) %/% 7 + 1
 }
 
 

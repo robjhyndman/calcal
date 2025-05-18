@@ -36,13 +36,10 @@ nth_kday <- function(n, k, g_date) {
   # A k-day of 0 means Sunday, 1 means Monday, and so on.
   date <- as_rd(g_date)
 
-  if (n > 0) {
-    kday_before(k, date) + 7 * n
-  } else if (n < 0) {
-    kday_after(k, date) + 7 * n
-  } else {
-    as_rd(NA_integer_)
-  }
+  output <- rd_fixed(rep(NA_integer_, length(date)))
+  output[n > 0] <- kday_before(k, date[n > 0]) + 7L * n[n > 0]
+  output[n < 0] <- kday_after(k, date[n < 0]) + 7L * n[n < 0]
+  output
 }
 
 first_kday <- function(k, g_date) {

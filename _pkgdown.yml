@@ -51,6 +51,10 @@ reference:
       - new_moons
       - sunrise
       - sunset
+  - title: ISO dates
+    contents:
+      - iso_date
+      - as_iso
   - title: Julian dates
     contents:
       - julian
