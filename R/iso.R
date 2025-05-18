@@ -108,6 +108,10 @@ iso_long_year <- function(i_year) {
   jan1 == THURSDAY | dec31 == THURSDAY
 }
 
+#' @export
+day_of_year.iso <- function(date, ...) {
+  date - iso_date(field(date, "year"), 1, 1) + 1
+}
 
 
 # Arithmetic

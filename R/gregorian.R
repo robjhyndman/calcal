@@ -248,11 +248,17 @@ day_of_month <- function(date) {
 
 
 #' @rdname gregorian-parts
+#' @param ... Additional arguments not currently used
 #' @export
 # Day number in year of Gregorian date date
 # Called day_number in CC book and code
-day_of_year <- function(date) {
-  as_rd(date) - as_rd(gregorian(field(date, "year") - 1, DECEMBER, 31))
+day_of_year <- function(date, ...) {
+  UseMethod("day_of_year")
+}
+
+#' @export
+day_of_year.gregorian <- function(date, ...) {
+  date - gregorian(field(date, "year") - 1, DECEMBER, 31)
 }
 
 #' @rdname gregorian-parts
