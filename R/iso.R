@@ -93,7 +93,6 @@ as_iso.rd_fixed <- function(date, ...) {
   year <- approx + (date >= as_rd(iso_date(approx + 1, 1, 1)))
   week <- 1 + (date - as_rd(iso_date(year, 1, 1))) %/% 7
   day <- amod(vec_data(date), 7L)
-  day[day == 0] <- 7
   iso_date(year, week, day)
 }
 

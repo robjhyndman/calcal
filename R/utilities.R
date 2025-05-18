@@ -4,7 +4,7 @@
 
 # Basic arithmetic utilities
 amod <- function(x, y) {
-  (y + (x %% y)) %% y
+  y + (x %% (-y))
 }
 
 mod3 <- function(x, a, b) {

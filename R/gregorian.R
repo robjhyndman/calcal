@@ -142,9 +142,9 @@ gregorian_leap_year <- function(g_year) {
 }
 
 last_day_of_gregorian_month <- function(g_year, g_month) {
-  y <- g_year + g_month == 12
+  y <- g_year + (g_month == 12)
   m <- amod(g_month + 1, 12)
-  gregorian(g_year, g_month, 1) - gregorian(y, m, 1)
+  gregorian(y, m, 1) - gregorian(g_year, g_month, 1)
 }
 
 
