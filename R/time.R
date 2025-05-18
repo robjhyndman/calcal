@@ -96,3 +96,17 @@ as_time_of_day.POSIXlt <- function(x, ...) {
 
 #' @export
 vec_ptype2.time_of_day.time_of_day <- function(x, y, ...) time_of_day()
+
+
+
+hour <- function(clock) {
+  field(clock, "hour")
+}
+
+minute <- function(clock) {
+  field(clock, "minute")
+}
+
+seconds <- function(clock) {
+  field(clock, "second")
+}
