@@ -243,6 +243,9 @@ day_of_week <- function(date, numeric = FALSE, first_day = "Monday", abbreviate 
 #' @rdname gregorian-parts
 #' @export
 day_of_month <- function(date) {
+  if(!("month" %in% attributes(date)$names)) {
+    stop("Date must contain months")
+  }
   field(date, "day")
 }
 
