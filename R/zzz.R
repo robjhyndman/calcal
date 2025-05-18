@@ -26,6 +26,8 @@ SATURDAY <- SUNDAY + 6L
 GREGORIAN_EPOCH <- 1L # Fixed date of start of the (proleptic) Gregorian calendar
 JULIAN_EPOCH <- vec_data(as_rd(gregorian(0, DECEMBER, 30)))
 JD_EPOCH <- -1721424.5
+MJD_EPOCH <- 678576
+UNIX_EPOCH <- 719163
 
 # Locations
 MECCA <- location(angle(21, 25, 24), angle(39, 49, 24), mt(298), 3)

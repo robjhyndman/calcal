@@ -113,10 +113,3 @@ vec_arith.rd_fixed.numeric <- function(op, x, y, ...) {
     stop_incompatible_op(op, x, y)
   )
 }
-
-# Helper functions
-
-day_of_week_from_fixed <- function(date) {
-  # The residue class of the day of the week of date
-  vec_cast(date, double()) %% 7
-}

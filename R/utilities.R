@@ -1,32 +1,33 @@
+#==============================================================================
+# Basic constants and utility functions
+#==============================================================================
 
-# Standard date accessors
-standard_month <- function(date) {
-  field(date, "month")
+# Basic arithmetic utilities
+amod <- function(x, y) {
+  (y + (x %% y)) %% y
 }
 
-standard_day <- function(date) {
-  field(date, "day")
+mod3 <- function(x, a, b) {
+  result <-   a + ((x - a) %% (b - a))
+  result[a == b] <- x[a == b]
+  return(result)
 }
 
-standard_year <- function(date) {
-  field(date, "year")
-}
-
-
-# Format date
-format_date <- function(parts) {
-  apply(as.data.frame(unclass(parts)), 1, function(x) {
-    paste(sprintf("%.2d", x), collapse = "-")
-  })
-}
-
-# Polynomial function with coefficients in a
-# return a[1] + a[2]*x + a[3]*x^2 + ... + a[n]*x^n
-poly <- function(x, a) {
-  if (length(a) == 0) {
-    return(0)
+# Search and iteration utilities
+next_value <- function(initial, condition_fn) {
+  index <- initial
+  while (!condition_fn(index)) {
+    index <- index + 1
   }
-  a[1] + x * poly(x, a[-1])
+  return(index)
+}
+
+final_value <- function(initial, condition_fn) {
+  index <- initial
+  while (condition_fn(index)) {
+    index <- index + 1
+  }
+  return(index - 1)
 }
 
 binary_search_single <- function(lo, hi, p, e) {
@@ -72,24 +73,64 @@ invert_angular <- function(f, y, r) {
   output
 }
 
-# Search and iteration utilities
-next_value <- function(initial, condition_fn) {
-  index <- initial
-  while (!condition_fn(index)) {
-    index <- index + 1
+# Polynomial function with coefficients in a
+# return a[1] + a[2]*x + a[3]*x^2 + ... + a[n]*x^n
+poly <- function(x, a) {
+  if (length(a) == 0) {
+    return(0)
   }
-  return(index)
+  a[1] + x * poly(x, a[-1])
 }
 
-final_value <- function(initial, condition_fn) {
-  index <- initial
-  while (condition_fn(index)) {
-    index <- index + 1
-  }
-  return(index - 1)
+# Calendar basics
+rd <- function(tee) {
+  # Identity function for fixed dates/moments
+  epoch <- 0
+  return(tee - epoch)
+}
+
+day_of_week_from_fixed <- function(date) {
+  # The residue class of the day of the week of date
+  vec_cast(date, double()) %% 7
+}
+
+# Standard date accessors
+standard_month <- function(date) {
+  field(date, "month")
+}
+
+standard_day <- function(date) {
+  field(date, "day")
+}
+
+standard_year <- function(date) {
+  field(date, "year")
+}
+
+fixed_from_moment <- function(tee) {
+  floor(tee)
+}
+
+time_from_moment <- function(tee) {
+  tee %% 1
 }
 
 
+clock_from_moment <- function(tee) {
+  result <- to_radix(tee, NULL, c(24, 60, 60))
+  return(result[-1])  # Skip the first element
+}
+
+
+moment_from_unix <- function(s) {
+  UNIX_EPOCH + s / (24 * 60 * 60)
+}
+
+unix_from_moment <- function(tee) {
+  24 * 60 * 60 * (tee - UNIX_EPOCH)
+}
+
+# Basic interval functions
 
 in_range <- function(tee, range) {
   range[1] <= tee & tee < range[2]
@@ -99,21 +140,11 @@ list_range <- function(ell, range) {
   ell[in_range(ell, range)]
 }
 
-# Basic arithmetic utilities
-amod <- function(x, y) {
-  (y + (x %% y)) %% y
-}
 
-mod3 <- function(x, a, b) {
-  result <-   a + ((x - a) %% (b - a))
-  result[a == b] <- x[a == b]
-  return(result)
-}
 
-fixed_from_moment <- function(tee) {
-  floor(tee)
-}
-
-time_from_moment <- function(tee) {
-  tee %% 1
+# Format date
+format_date <- function(parts) {
+  apply(as.data.frame(unclass(parts)), 1, function(x) {
+    paste(sprintf("%.2d", x), collapse = "-")
+  })
 }
