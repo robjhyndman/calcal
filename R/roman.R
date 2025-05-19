@@ -18,12 +18,11 @@
 #'
 #' @export
 roman_date <- function(
-  year = integer(),
-  month = integer(),
-  event = integer(),
-  count = integer(),
-  leap = logical()
-) {
+    year = integer(),
+    month = integer(),
+    event = integer(),
+    count = integer(),
+    leap = logical()) {
   lst <- vec_cast_common(
     year = year,
     month = month,
@@ -57,15 +56,27 @@ check_roman <- function(args) {
   if (any(event < 1 | event > 3, na.rm = TRUE)) {
     stop("`event` must be between 1 and 3")
   }
-  #if (any(count < 1 | count > 19, na.rm = TRUE)) {
+  # if (any(count < 1 | count > 19, na.rm = TRUE)) {
   #  stop("`count` must be between 1 and 19")
-  #}
+  # }
 }
 
 #' @export
 format.roman_date <- function(x, ...) {
-  format_date(x)
+  # format_date(x)
+  event <- c("Kalends", "Nones", "Ides")[roman_event(x)]
+  count <- roman_count(x)
+  prefix <- rep("ad", length(count))
+  prefix[count == 2] <- "pridie"
+  prefix[count == 1] <- ""
+  days <- tolower(utils::as.roman(count))
+  days[count <= 2] <- ""
+  output <- trimws(paste(prefix, days, event))
+  output <- gsub("  ", " ", output)
+  output <- gsub(" ", "_", output)
+  paste(roman_year(x), month.abb[roman_month(x)], output, sep = "-")
 }
+
 
 #' @export
 vec_ptype_abbr.roman_date <- function(x, ...) {
