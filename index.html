@@ -69,35 +69,32 @@
 <p>Dates in multiple calendars:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pkg.robjhyndman.com/calcal/">calcal</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'calcal'</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:base':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     julian</span></span>
 <span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
 <span>  dates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"1900-02-27"</span><span class="op">)</span>, length <span class="op">=</span> <span class="fl">15</span>, by <span class="op">=</span> <span class="st">"1 day"</span><span class="op">)</span>,</span>
 <span>  RD <span class="op">=</span> <span class="fu"><a href="reference/rd_fixed.html">as_rd</a></span><span class="op">(</span><span class="va">dates</span><span class="op">)</span>,</span>
 <span>  Gregorian <span class="op">=</span> <span class="fu"><a href="reference/gregorian.html">as_gregorian</a></span><span class="op">(</span><span class="va">dates</span><span class="op">)</span>,</span>
-<span>  Julian <span class="op">=</span> <span class="fu"><a href="reference/julian.html">as_julian</a></span><span class="op">(</span><span class="va">dates</span><span class="op">)</span></span>
+<span>  ISO <span class="op">=</span> <span class="fu"><a href="reference/iso_date.html">as_iso</a></span><span class="op">(</span><span class="va">dates</span><span class="op">)</span>,</span>
+<span>  Julian <span class="op">=</span> <span class="fu"><a href="reference/julian.html">as_julian</a></span><span class="op">(</span><span class="va">dates</span><span class="op">)</span>,</span>
+<span>  Roman <span class="op">=</span> <span class="fu"><a href="reference/roman_date.html">as_roman</a></span><span class="op">(</span><span class="va">dates</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 15 × 4</span></span>
-<span><span class="co">#&gt;    dates          RD  Gregorian     Julian</span></span>
-<span><span class="co">#&gt;    &lt;date&gt;       &lt;RD&gt;      &lt;Gre&gt;      &lt;Jul&gt;</span></span>
-<span><span class="co">#&gt;  1 1900-02-27 693653 1900-02-27 1900-02-15</span></span>
-<span><span class="co">#&gt;  2 1900-02-28 693654 1900-02-28 1900-02-16</span></span>
-<span><span class="co">#&gt;  3 1900-03-01 693655 1900-03-01 1900-02-17</span></span>
-<span><span class="co">#&gt;  4 1900-03-02 693656 1900-03-02 1900-02-18</span></span>
-<span><span class="co">#&gt;  5 1900-03-03 693657 1900-03-03 1900-02-19</span></span>
-<span><span class="co">#&gt;  6 1900-03-04 693658 1900-03-04 1900-02-20</span></span>
-<span><span class="co">#&gt;  7 1900-03-05 693659 1900-03-05 1900-02-21</span></span>
-<span><span class="co">#&gt;  8 1900-03-06 693660 1900-03-06 1900-02-22</span></span>
-<span><span class="co">#&gt;  9 1900-03-07 693661 1900-03-07 1900-02-23</span></span>
-<span><span class="co">#&gt; 10 1900-03-08 693662 1900-03-08 1900-02-24</span></span>
-<span><span class="co">#&gt; 11 1900-03-09 693663 1900-03-09 1900-02-25</span></span>
-<span><span class="co">#&gt; 12 1900-03-10 693664 1900-03-10 1900-02-26</span></span>
-<span><span class="co">#&gt; 13 1900-03-11 693665 1900-03-11 1900-02-27</span></span>
-<span><span class="co">#&gt; 14 1900-03-12 693666 1900-03-12 1900-02-28</span></span>
-<span><span class="co">#&gt; 15 1900-03-13 693667 1900-03-13 1900-02-29</span></span></code></pre></div>
+<span><span class="co">#&gt; # A tibble: 15 × 6</span></span>
+<span><span class="co">#&gt;    dates          RD  Gregorian        ISO     Julian                    Roman</span></span>
+<span><span class="co">#&gt;    &lt;date&gt;       &lt;RD&gt;      &lt;Gre&gt;      &lt;iso&gt;      &lt;Jul&gt;                    &lt;Rom&gt;</span></span>
+<span><span class="co">#&gt;  1 1900-02-27 693653 1900-02-27 1900-09-02 1900-02-15   1900-Mar-ad_xv_Kalends</span></span>
+<span><span class="co">#&gt;  2 1900-02-28 693654 1900-02-28 1900-09-03 1900-02-16  1900-Mar-ad_xiv_Kalends</span></span>
+<span><span class="co">#&gt;  3 1900-03-01 693655 1900-03-01 1900-09-04 1900-02-17 1900-Mar-ad_xiii_Kalends</span></span>
+<span><span class="co">#&gt;  4 1900-03-02 693656 1900-03-02 1900-09-05 1900-02-18  1900-Mar-ad_xii_Kalends</span></span>
+<span><span class="co">#&gt;  5 1900-03-03 693657 1900-03-03 1900-09-06 1900-02-19   1900-Mar-ad_xi_Kalends</span></span>
+<span><span class="co">#&gt;  6 1900-03-04 693658 1900-03-04 1900-09-07 1900-02-20    1900-Mar-ad_x_Kalends</span></span>
+<span><span class="co">#&gt;  7 1900-03-05 693659 1900-03-05 1900-10-01 1900-02-21   1900-Mar-ad_ix_Kalends</span></span>
+<span><span class="co">#&gt;  8 1900-03-06 693660 1900-03-06 1900-10-02 1900-02-22 1900-Mar-ad_viii_Kalends</span></span>
+<span><span class="co">#&gt;  9 1900-03-07 693661 1900-03-07 1900-10-03 1900-02-23  1900-Mar-ad_vii_Kalends</span></span>
+<span><span class="co">#&gt; 10 1900-03-08 693662 1900-03-08 1900-10-04 1900-02-24   1900-Mar-ad_vi_Kalends</span></span>
+<span><span class="co">#&gt; 11 1900-03-09 693663 1900-03-09 1900-10-05 1900-02-25   1900-Mar-ad_vi_Kalends</span></span>
+<span><span class="co">#&gt; 12 1900-03-10 693664 1900-03-10 1900-10-06 1900-02-26    1900-Mar-ad_v_Kalends</span></span>
+<span><span class="co">#&gt; 13 1900-03-11 693665 1900-03-11 1900-10-07 1900-02-27   1900-Mar-ad_iv_Kalends</span></span>
+<span><span class="co">#&gt; 14 1900-03-12 693666 1900-03-12 1900-11-01 1900-02-28  1900-Mar-ad_iii_Kalends</span></span>
+<span><span class="co">#&gt; 15 1900-03-13 693667 1900-03-13 1900-11-02 1900-02-29  1900-Mar-pridie_Kalends</span></span></code></pre></div>
 <p>Some US holidays</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
