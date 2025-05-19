@@ -63,7 +63,7 @@ as_rd.integer <- function(date, ...) {
 
 #' @export
 as_rd.Date <- function(date, ...) {
-  as_rd(gregorian(
+  as_rd(gregorian_date(
     lubridate::year(date),
     lubridate::month(date),
     lubridate::day(date)

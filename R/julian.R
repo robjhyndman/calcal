@@ -11,9 +11,9 @@
 #' @param day A numeric vector of days
 #' @return A julian vector object
 #' @examples
-#' julian(2025, 4, 19:30)
+#' julian_date(2025, 4, 19:30)
 #' @export
-julian <- function(
+julian_date <- function(
     year = integer(),
     month = integer(),
     day = integer()) {
@@ -98,15 +98,15 @@ as_julian.rd_fixed <- function(date, ...) {
   # Julian (year month day) corresponding to fixed date
   year <- approx - (approx <= 0)
 
-  prior_days <- date - as_rd(julian(year, JANUARY, 1))
+  prior_days <- date - as_rd(julian_date(year, JANUARY, 1))
   # Correction to simulate a 30-day Feb
-  correction <- (date >= as_rd(julian(year, MARCH, 1))) *
+  correction <- (date >= as_rd(julian_date(year, MARCH, 1))) *
     (2 - julian_leap_year(year))
   # Assuming a 30-day Feb
   month <- (12 * (prior_days + correction) + 373) %/% 367
   # Calculate the day by subtraction
-  day <- date - as_rd(julian(year, month, 1)) + 1
-  julian(year, month, day)
+  day <- date - as_rd(julian_date(year, month, 1)) + 1
+  julian_date(year, month, day)
 }
 
 #' @export
@@ -132,13 +132,13 @@ julian_leap_year <- function(j_year) {
 
 julian_in_gregorian <- function(j_month, j_day, g_year) {
   # List of the fixed dates of Julian month, day that occur in Gregorian year
-  jan1 <- as_rd(gregorian(g_year, JANUARY, 1))
+  jan1 <- as_rd(gregorian_date(g_year, JANUARY, 1))
   y <- standard_year(as_julian(jan1))
   y_prime <- 1 + (y != -1) * y
 
   # The possible occurrences in one year are
-  date0 <- as_rd(julian(y, j_month, j_day))
-  date1 <- as_rd(julian(y_prime, j_month, j_day))
+  date0 <- as_rd(julian_date(y, j_month, j_day))
+  date1 <- as_rd(julian_date(y_prime, j_month, j_day))
 
   result <- list_range(c(date0, date1), gregorian_year_range(g_year))
   as_gregorian(result)

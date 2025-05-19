@@ -35,7 +35,7 @@ More flexible week numbering is possible using Gregorian dates with \code{\link{
 \examples{
 iso_date(2025, 23, 2:4)
 as_gregorian(iso_date(2025, 23, 2:4))
-as_iso(gregorian(2025, 1, 1:31))
+as_iso(gregorian_date(2025, 1, 1:31))
 as_iso("2016-01-01")
 as_iso(Sys.Date())
 tibble::tibble(

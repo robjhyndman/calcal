@@ -1,6 +1,6 @@
-#==============================================================================
+# ==============================================================================
 # Basic constants and utility functions
-#==============================================================================
+# ==============================================================================
 
 # Basic arithmetic utilities
 amod <- function(x, y) {
@@ -8,7 +8,7 @@ amod <- function(x, y) {
 }
 
 mod3 <- function(x, a, b) {
-  result <-   a + ((x - a) %% (b - a))
+  result <- a + ((x - a) %% (b - a))
   result[a == b] <- x[a == b]
   return(result)
 }
@@ -61,13 +61,17 @@ invert_angular <- function(f, y, r) {
   # Bisection search
   lst <- vctrs::vec_cast_common(y = y, a = r[1], b = r[2])
   output <- rep(0, length(lst$y))
-  epsilon <- 1/100000
+  epsilon <- 1 / 100000
   for (i in seq_along(output)) {
     output[i] <- binary_search(
       lo = lst$a[i],
       hi = lst$b[i],
-      test_fn = function(x) { ((f(x) - lst$y[i]) %% 360) < 180 },
-      end_fn = function(lo, hi) { (hi - lo) < epsilon }
+      test_fn = function(x) {
+        ((f(x) - lst$y[i]) %% 360) < 180
+      },
+      end_fn = function(lo, hi) {
+        (hi - lo) < epsilon
+      }
     )
   }
   output
@@ -129,7 +133,7 @@ from_radix <- function(a, b, c = NULL) {
     total <- 0
     for (i in 1:length(a)) {
       prod_value <- 1
-      for (j in 1:(i-1)) {
+      for (j in 1:(i - 1)) {
         if (j <= length(b) + length(c)) {
           prod_value <- prod_value * c(b, c)[j]
         }
@@ -157,7 +161,7 @@ to_radix <- function(x, b, c = NULL) {
 
 clock_from_moment <- function(tee) {
   result <- to_radix(tee, NULL, c(24, 60, 60))
-  return(result[-1])  # Skip the first element
+  return(result[-1]) # Skip the first element
 }
 
 
@@ -183,7 +187,12 @@ list_range <- function(ell, range) {
 
 # Format date
 format_date <- function(parts) {
-  apply(as.data.frame(unclass(parts)), 1, function(x) {
+  # Strip out non-numeric parts
+  # Currently this is only the logical indicator of a leap year in a Roman date
+  # May need to update for other calendars
+  parts <- unclass(parts)
+  numeric_col <- unlist(lapply(parts, is.numeric))
+  apply(as.data.frame(parts[numeric_col]), 1, function(x) {
     paste(sprintf("%.2d", x), collapse = "-")
   })
 }

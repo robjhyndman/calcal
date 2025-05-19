@@ -18,7 +18,7 @@ sidereal_from_moment <- function(tee) {
 
 ephemeris_correction <- function(tee) {
   year <- gregorian_year_from_fixed(floor(tee))
-  u <- (gregorian(year, JULY, 1) - gregorian(1900, JANUARY, 1)) / 36525
+  u <- (gregorian_date(year, JULY, 1) - gregorian_date(1900, JANUARY, 1)) / 36525
 
   case1 <- (2051 <= year & year <= 2150)
   case2 <- (2006 <= year & year <= 2050)
@@ -421,8 +421,8 @@ lunar_phase_at_or_after <- function(phi, tee) {
 #' @return A vector of dates
 #' @export
 new_moons <- function(year) {
-  first <- new_moon_at_or_after(as_rd(gregorian(min(year), JANUARY, 1)))
-  last <- new_moon_before(as_rd(gregorian(max(year) + 1, JANUARY, 1)))
+  first <- new_moon_at_or_after(as_rd(gregorian_date(min(year), JANUARY, 1)))
+  last <- new_moon_before(as_rd(gregorian_date(max(year) + 1, JANUARY, 1)))
   nm <- nth_new_moon(first:last)
   as_gregorian(as_rd(round(nm)))
 }
@@ -430,8 +430,8 @@ new_moons <- function(year) {
 #' @rdname new_moons
 #' @export
 full_moons <- function(year) {
-  first <- new_moon_at_or_after(as_rd(gregorian(min(year), JANUARY, 1)) - 16)
-  last <- new_moon_before(as_rd(gregorian(max(year) + 1, JANUARY, 1)) + 16)
+  first <- new_moon_at_or_after(as_rd(gregorian_date(min(year), JANUARY, 1)) - 16)
+  last <- new_moon_before(as_rd(gregorian_date(max(year) + 1, JANUARY, 1)) + 16)
   nm <- nth_new_moon(first:last)
   fm <- as_gregorian(as_rd(round(nm + MEAN_SYNODIC_MONTH / 2)))
   y <- field(fm, "year")

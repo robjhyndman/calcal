@@ -25,7 +25,7 @@
 advent <- function(year) {
   # Fixed date of Advent in Gregorian year--the Sunday closest to November 30
   as_gregorian(kday_nearest(SUNDAY,
-    as_rd(gregorian(year, NOVEMBER, 30))
+    as_rd(gregorian_date(year, NOVEMBER, 30))
   ))
 }
 
@@ -33,7 +33,7 @@ advent <- function(year) {
 #' @export
 christmas <- function(year) {
   # Fixed date of Christmas in Gregorian year
-  gregorian(year, DECEMBER, 25)
+  gregorian_date(year, DECEMBER, 25)
 }
 
 #' @rdname christian
@@ -47,7 +47,7 @@ orthodox_christmas <- function(year) {
 #' @export
 epiphany <- function(year) {
   # Fixed date of Epiphany in U.S. in Gregorian year--the first Sunday after January 1
-  as_gregorian(first_kday(SUNDAY, gregorian(year, JANUARY, 2)))
+  as_gregorian(first_kday(SUNDAY, gregorian_date(year, JANUARY, 2)))
 }
 
 #' @rdname christian
@@ -68,7 +68,7 @@ easter <- function(year) {
     (shifted_epact == 0 | (shifted_epact == 1 & (year %% 19) > 10))
 
   # Day after full moon on or after March 21
-  paschal_moon <- as_rd(gregorian(year, APRIL, 19)) - adjusted_epact
+  paschal_moon <- as_rd(gregorian_date(year, APRIL, 19)) - adjusted_epact
 
   # Return the Sunday following the Paschal moon
   as_gregorian(kday_after(SUNDAY, paschal_moon))
@@ -82,7 +82,7 @@ orthodox_easter <- function(year) {
   j_year <- year - (year <= 0) # Julian year number
 
   # Day after full moon on or after March 21
-  paschal_moon <- as_rd(julian(j_year, APRIL, 19)) - shifted_epact
+  paschal_moon <- as_rd(julian_date(j_year, APRIL, 19)) - shifted_epact
 
   # Return the Sunday following the Paschal moon
   as_gregorian(kday_after(SUNDAY, paschal_moon))

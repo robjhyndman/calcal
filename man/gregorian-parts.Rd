@@ -54,7 +54,7 @@ instead week 1 of a month may begin in the previous calendar month.
 Other functions should be self-explanatory.
 }
 \examples{
-april2025 <- gregorian(2025, 4, 1:30)
+april2025 <- gregorian_date(2025, 4, 1:30)
 day_of_week(april2025)
 day_of_month(april2025)
 day_of_year(april2025)

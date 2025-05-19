@@ -11,9 +11,9 @@
 #' @param day A numeric vector of days
 #' @return A gregorian vector object
 #' @examples
-#' gregorian(2025, 4, 19:30)
+#' gregorian_date(2025, 4, 19:30)
 #' @export
-gregorian <- function(
+gregorian_date <- function(
     year = integer(),
     month = integer(),
     day = integer()) {
@@ -97,13 +97,13 @@ as_gregorian.rd_fixed <- function(date, ...) {
   year <- gregorian_year_from_fixed(date)
   prior_days <- date - gregorian_new_year(year)
   # Correction to simulate a 30-day Feb
-  correction <- (date >= as_rd(gregorian(year, MARCH, 1))) *
+  correction <- (date >= as_rd(gregorian_date(year, MARCH, 1))) *
     (2 - gregorian_leap_year(year))
   # Assuming a 30-day Feb
   month <- (12 * (prior_days + correction) + 373) %/% 367
   # Calculate the day by subtraction
-  day <- 1 + date - as_rd(gregorian(year, month, 1))
-  gregorian(year, month, day)
+  day <- 1 + date - as_rd(gregorian_date(year, month, 1))
+  gregorian_date(year, month, day)
 }
 
 #' @export
@@ -144,7 +144,7 @@ gregorian_leap_year <- function(g_year) {
 last_day_of_gregorian_month <- function(g_year, g_month) {
   y <- g_year + (g_month == 12)
   m <- amod(g_month + 1, 12)
-  gregorian(y, m, 1) - gregorian(g_year, g_month, 1)
+  gregorian_date(y, m, 1) - gregorian_date(g_year, g_month, 1)
 }
 
 
@@ -173,11 +173,11 @@ vec_arith.gregorian.numeric <- function(op, x, y, ...) {
 
 
 gregorian_new_year <- function(g_year) {
-  as_rd(gregorian(g_year, JANUARY, 1))
+  as_rd(gregorian_date(g_year, JANUARY, 1))
 }
 
 gregorian_year_end <- function(g_year) {
-  as_rd(gregorian(g_year, DECEMBER, 31))
+  as_rd(gregorian_date(g_year, DECEMBER, 31))
 }
 
 gregorian_year_range <- function(g_year) {
@@ -213,7 +213,7 @@ as.character.gregorian <- function(x, ...) {
 #' Default is \code{"Monday"}
 #' @param abbreviate Logical. Return abbreviated day names if \code{TRUE}. Ignored if \code{numeric} is \code{TRUE}.
 #' @examples
-#' april2025 <- gregorian(2025, 4, 1:30)
+#' april2025 <- gregorian_date(2025, 4, 1:30)
 #' day_of_week(april2025)
 #' day_of_month(april2025)
 #' day_of_year(april2025)
@@ -261,14 +261,14 @@ day_of_year <- function(date, ...) {
 
 #' @export
 day_of_year.gregorian <- function(date, ...) {
-  date - gregorian(field(date, "year") - 1, DECEMBER, 31)
+  date - gregorian_date(field(date, "year") - 1, DECEMBER, 31)
 }
 
 #' @rdname gregorian-parts
 #' @export
 days_remaining <- function(date) {
   # Days remaining in year after Gregorian date
-  as_rd(gregorian(field(date, "year"), DECEMBER, 31)) - as_rd(date)
+  as_rd(gregorian_date(field(date, "year"), DECEMBER, 31)) - as_rd(date)
 }
 
 #' @rdname gregorian-parts
@@ -276,7 +276,7 @@ days_remaining <- function(date) {
 week_of_month <- function(date, first_day = "Monday") {
   dow <- day_of_week(date, numeric = TRUE, first_day = first_day)
   date <- date + (4 - dow)
-  day1 <- gregorian(field(date, "year"), field(date, "month"), 1)
+  day1 <- gregorian_date(field(date, "year"), field(date, "month"), 1)
   (date - day1) %/% 7 + 1
 }
 
@@ -285,7 +285,7 @@ week_of_month <- function(date, first_day = "Monday") {
 week_of_year <- function(date, first_day = "Monday") {
   dow <- day_of_week(date, numeric = TRUE, first_day = first_day)
   date <- date + (4 - dow)
-  jan1 <- gregorian(field(date, "year"), JANUARY, 1)
+  jan1 <- gregorian_date(field(date, "year"), JANUARY, 1)
   (as_gregorian(date) - jan1) %/% 7 + 1
 }
 

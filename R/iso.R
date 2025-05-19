@@ -19,7 +19,7 @@
 #' @examples
 #' iso_date(2025, 23, 2:4)
 #' as_gregorian(iso_date(2025, 23, 2:4))
-#' as_iso(gregorian(2025, 1, 1:31))
+#' as_iso(gregorian_date(2025, 1, 1:31))
 #' @export
 iso_date <- function(
   year = integer(),
@@ -84,7 +84,7 @@ as_rd.iso <- function(date, ...) {
   day <- iso_day(date)
   year <- iso_year(date)
 
-  nth_kday(week, SUNDAY, gregorian(year - 1, DECEMBER, 28)) + day
+  nth_kday(week, SUNDAY, gregorian_date(year - 1, DECEMBER, 28)) + day
 }
 
 #' @export
