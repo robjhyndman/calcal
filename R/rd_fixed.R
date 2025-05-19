@@ -63,10 +63,11 @@ as_rd.integer <- function(date, ...) {
 
 #' @export
 as_rd.Date <- function(date, ...) {
+  posix <- as.POSIXlt(date)
   as_rd(gregorian_date(
-    lubridate::year(date),
-    lubridate::month(date),
-    lubridate::day(date)
+    posix$year + 1900,
+    posix$mon + 1,
+    posix$mday
   ))
 }
 
