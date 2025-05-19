@@ -44,7 +44,9 @@ tibble::tibble(
   dates = seq(as.Date("1900-02-27"), length = 15, by = "1 day"),
   RD = as_rd(dates),
   Gregorian = as_gregorian(dates),
-  Julian = as_julian(dates)
+  ISO = as_iso(dates),
+  Julian = as_julian(dates),
+  Roman = as_roman(dates)
 )
 ```
 
