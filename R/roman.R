@@ -202,11 +202,6 @@ as_roman.rd_fixed <- function(date, ...) {
   output
 }
 
-#' @export
-as_roman.julian <- function(date, ...) {
-  olympiad_from_julian_year(julian_date(date))
-}
-
 julian_year_from_auc <- function(year) {
   year + YEAR_ROME_FOUNDED - (1 <= year & year <= -YEAR_ROME_FOUNDED)
 }
