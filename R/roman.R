@@ -223,18 +223,12 @@ olympiad_year <- function(o_date) {
 }
 
 olympiad_from_julian_year <- function(j_year) {
-  years <- j_year - OLYMPIAD_START - ifelse(j_year < 0, 0, 1)
+  years <- j_year - OLYMPIAD_START - (j_year >= 0)
   olympiad(1 + years %/% 4, 1 + years %% 4)
 }
 
 julian_year_from_olympiad <- function(o_date) {
   cycle <- olympiad_cycle(o_date)
   year <- olympiad_year(o_date)
-  years <- OLYMPIAD_START + 4 * (cycle - 1) + year - 1
-
-  if (years < 0) {
-    years
-  } else {
-    years + 1
-  }
+  OLYMPIAD_START + 4 * (cycle - 1) + year - 1 + year >= 0
 }
