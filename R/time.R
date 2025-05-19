@@ -8,9 +8,10 @@
 #' @return A time vector object
 #' @export
 time_of_day <- function(
-    hour = integer(),
-    minute = integer(),
-    second = numeric()) {
+  hour = integer(),
+  minute = integer(),
+  second = numeric()
+) {
   lst <- vec_cast_common(
     hour = hour,
     minute = minute,
@@ -20,7 +21,8 @@ time_of_day <- function(
   lst <- vec_recycle_common(
     hour = lst$hour,
     minute = lst$minute,
-    second = lst$second
+    second = lst$second,
+    .size = max(unlist(lapply(lst, length)))
   )
   check_time(lst)
   new_rcrd(lst, class = "time_of_day")
@@ -96,7 +98,6 @@ as_time_of_day.POSIXlt <- function(x, ...) {
 
 #' @export
 vec_ptype2.time_of_day.time_of_day <- function(x, y, ...) time_of_day()
-
 
 
 hour <- function(clock) {

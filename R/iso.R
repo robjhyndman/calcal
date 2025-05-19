@@ -24,11 +24,17 @@
 iso_date <- function(
   year = integer(),
   week = integer(),
-  day = integer()) {
-lst <- vec_cast_common(year = year, week = week, day = day, .to = integer())
-lst <- vec_recycle_common(year = lst$year, week = lst$week, day = lst$day)
-check_iso(lst)
-new_rcrd(lst, class = "iso")
+  day = integer()
+) {
+  lst <- vec_cast_common(year = year, week = week, day = day, .to = integer())
+  lst <- vec_recycle_common(
+    year = lst$year,
+    week = lst$week,
+    day = lst$day,
+    .size = max(unlist(lapply(lst, length)))
+  )
+  check_iso(lst)
+  new_rcrd(lst, class = "iso")
 }
 
 check_iso <- function(args) {

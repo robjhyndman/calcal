@@ -12,10 +12,11 @@
 #' @export
 # Differs from original code as zone is in hours, not days
 location <- function(
-    latitude = numeric(),
-    longitude = numeric(),
-    elevation = numeric(),
-    zone = numeric()) {
+  latitude = numeric(),
+  longitude = numeric(),
+  elevation = numeric(),
+  zone = numeric()
+) {
   lst <- vec_cast_common(
     latitude = latitude,
     longitude = longitude,
@@ -27,7 +28,8 @@ location <- function(
     latitude = lst$latitude,
     longitude = lst$longitude,
     elevation = lst$elevation,
-    zone = hr(lst$zone)
+    zone = hr(lst$zone),
+    .size = max(unlist(lapply(lst, length)))
   )
   check_locale(lst)
   new_rcrd(lst, class = "location")

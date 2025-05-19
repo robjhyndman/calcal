@@ -1,6 +1,6 @@
-#==============================================================================
+# ==============================================================================
 # Julian Calendar
-#==============================================================================
+# ==============================================================================
 
 #' Julian calendar dates
 #'
@@ -18,7 +18,12 @@ julian_date <- function(
     month = integer(),
     day = integer()) {
   lst <- vec_cast_common(year = year, month = month, day = day, .to = integer())
-  lst <- vec_recycle_common(year = lst$year, month = lst$month, day = lst$day)
+  lst <- vec_recycle_common(
+    year = lst$year,
+    month = lst$month,
+    day = lst$day,
+    .size = max(unlist(lapply(lst, length)))
+  )
   check_julian(lst)
   new_rcrd(lst, class = "julian")
 }

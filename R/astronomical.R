@@ -124,7 +124,9 @@ approx_moment_of_depression <- function(tee, loc, alpha, early) {
   alt[alpha < 0] <- date[alpha < 0] + hr(12)
   value <- try_val
   gt1 <- abs(try_val) > 1
-  value[gt1] <- sine_offset(alt[gt1], loc, alpha)
+  if (any(gt1)) {
+    value[gt1] <- sine_offset(alt[gt1], loc, alpha)
+  }
   value[value > 1] <- NA_real_
   offset <- mod3(arcsin_degrees(value) / 360, hr(-12), hr(12))
   date <- date + as.numeric(early) * (hr(6) - offset) + as.numeric(!early) * (hr(18) + offset)
@@ -188,7 +190,8 @@ sunset <- function(date, location, ...) {
 sunrise.rd_fixed <- function(date, location, as_time = TRUE, ...) {
   lst <- vec_recycle_common(
     date = date,
-    location = location
+    location = location,
+    .size = max(length(date), length(location))
   )
   alpha <- refraction(lst$date + hr(6), lst$location) + mins(16)
   output <- dawn(lst$date, lst$location, alpha)
@@ -208,7 +211,8 @@ sunrise.default <- function(date, location, ...) {
 sunset.rd_fixed <- function(date, location, as_time = TRUE, ...) {
   lst <- vec_recycle_common(
     date = date,
-    location = location
+    location = location,
+    .size = max(length(date), length(location))
   )
   alpha <- refraction(lst$date + hr(18), lst$location) + mins(16)
   output <- dusk(lst$date, lst$location, alpha)

@@ -14,11 +14,17 @@
 #' gregorian_date(2025, 4, 19:30)
 #' @export
 gregorian_date <- function(
-    year = integer(),
-    month = integer(),
-    day = integer()) {
+  year = integer(),
+  month = integer(),
+  day = integer()
+) {
   lst <- vec_cast_common(year = year, month = month, day = day, .to = integer())
-  lst <- vec_recycle_common(year = lst$year, month = lst$month, day = lst$day)
+  lst <- vec_recycle_common(
+    year = lst$year,
+    month = lst$month,
+    day = lst$day,
+    .size = max(unlist(lapply(lst, length)))
+  )
   check_gregorian(lst)
   new_rcrd(lst, class = "gregorian")
 }
@@ -93,6 +99,9 @@ as_rd.gregorian <- function(date, ...) {
 #' @export
 # Convert rd_fixed to gregorian
 as_gregorian.rd_fixed <- function(date, ...) {
+  if(length(date) == 0L) {
+    return(gregorian_date())
+  }
   # Gregorian (year month day) corresponding to fixed date
   year <- gregorian_year_from_fixed(date)
   prior_days <- date - gregorian_new_year(year)
@@ -223,19 +232,43 @@ as.character.gregorian <- function(x, ...) {
 #' month_of_year(april2025)
 #' @rdname gregorian-parts
 #' @export
-day_of_week <- function(date, numeric = FALSE, first_day = "Monday", abbreviate = FALSE) {
+day_of_week <- function(
+  date,
+  numeric = FALSE,
+  first_day = "Monday",
+  abbreviate = FALSE
+) {
   dow <- day_of_week_from_fixed(as_rd(date)) + 1
-  if(numeric) {
-    first_day <- pmatch(first_day, c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"))
-    if(is.na(first_day)) {
+  if (numeric) {
+    first_day <- pmatch(
+      first_day,
+      c(
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      )
+    )
+    if (is.na(first_day)) {
       stop("I can't determine the first day of the week")
     }
     return((dow - first_day) %% 7 + 1)
   } else {
-    if(abbreviate) {
+    if (abbreviate) {
       return(c("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")[dow])
     } else {
-      return(c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")[dow])
+      return(c(
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      )[dow])
     }
   }
 }
@@ -243,7 +276,7 @@ day_of_week <- function(date, numeric = FALSE, first_day = "Monday", abbreviate 
 #' @rdname gregorian-parts
 #' @export
 day_of_month <- function(date) {
-  if(!("month" %in% attributes(date)$names)) {
+  if (!("month" %in% attributes(date)$names)) {
     stop("Date must contain months")
   }
   field(date, "day")
