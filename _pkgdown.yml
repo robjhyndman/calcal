@@ -25,7 +25,7 @@ reference:
       - calcal-package
   - title: Gregorian dates
     contents:
-      - gregorian
+      - gregorian_date
       - as_gregorian
       - day_of_week
       - day_of_month
@@ -57,8 +57,12 @@ reference:
       - as_iso
   - title: Julian dates
     contents:
-      - julian
+      - julian_date
       - as_julian
+  - title: Roman dates
+    contents:
+      - roman_date
+      - as_roman
   - title: Fixed RD dates
     contents:
       - as_rd
