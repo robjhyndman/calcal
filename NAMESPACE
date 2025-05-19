@@ -2,6 +2,9 @@
 
 S3method(as.Date,gregorian)
 S3method(as.character,gregorian)
+S3method(as.character,iso)
+S3method(as.character,julian)
+S3method(as.character,roman_date)
 S3method(as_gregorian,default)
 S3method(as_gregorian,rd_fixed)
 S3method(as_iso,default)

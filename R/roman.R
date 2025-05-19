@@ -77,6 +77,10 @@ format.roman_date <- function(x, ...) {
   paste(roman_year(x), month.abb[roman_month(x)], output, sep = "-")
 }
 
+#' @export
+as.character.roman_date <- function(x, ...) {
+  format(x)
+}
 
 #' @export
 vec_ptype_abbr.roman_date <- function(x, ...) {

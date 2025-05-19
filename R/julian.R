@@ -54,6 +54,11 @@ format.julian <- function(x, ...) {
 }
 
 #' @export
+as.character.julian <- function(x, ...) {
+  format(x)
+}
+
+#' @export
 vec_ptype_abbr.julian <- function(x, ...) {
   "Jul"
 }
