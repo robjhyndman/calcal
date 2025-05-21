@@ -14,9 +14,10 @@
 #' gregorian_date(2025, 4, 19:30)
 #' @export
 gregorian_date <- function(
-    year = integer(),
-    month = integer(),
-    day = integer()) {
+  year = integer(),
+  month = integer(),
+  day = integer()
+) {
   lst <- vec_cast_common(year = year, month = month, day = day, .to = integer())
   lst <- vec_recycle_common(
     year = lst$year,
@@ -232,10 +233,11 @@ as.character.gregorian <- function(x, ...) {
 #' @rdname gregorian-parts
 #' @export
 day_of_week <- function(
-    date,
-    numeric = FALSE,
-    first_day = "Monday",
-    abbreviate = FALSE) {
+  date,
+  numeric = FALSE,
+  first_day = "Monday",
+  abbreviate = FALSE
+) {
   dow <- day_of_week_from_fixed(as_rd(date)) + 1
   if (numeric) {
     first_day <- pmatch(

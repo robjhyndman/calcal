@@ -25,7 +25,7 @@ akan_name_difference <- function(a_name1, a_name2) {
   stem2 <- akan_stem(a_name2)
   prefix_difference <- prefix2 - prefix1
   stem_difference <- stem2 - stem1
-  
+
   amod(prefix_difference + 36 * (stem_difference - prefix_difference), 42)
 }
 

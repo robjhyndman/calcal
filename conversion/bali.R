@@ -92,11 +92,11 @@ bali_sangawara_from_fixed <- function(date) {
 bali_dasawara_from_fixed <- function(date) {
   i <- bali_pancawara_from_fixed(date) - 1
   j <- bali_saptawara_from_fixed(date) - 1
-  
+
   i_values <- c(5, 9, 7, 4, 8)
   j_values <- c(5, 4, 3, 7, 8, 6, 9)
-  
-  (1 + i_values[i+1] + j_values[j+1]) %% 10
+
+  (1 + i_values[i + 1] + j_values[j + 1]) %% 10
 }
 
 bali_pawukon_from_fixed <- function(date) {
@@ -121,13 +121,13 @@ bali_week_from_fixed <- function(date) {
 kajeng_keliwon <- function(g_year) {
   year <- gregorian_year_range(g_year)
   cap_Delta <- bali_day_from_fixed(rd(0))
-  
+
   positions_in_range(8, 15, cap_Delta, year)
 }
 
 tumpek <- function(g_year) {
   year <- gregorian_year_range(g_year)
   cap_Delta <- bali_day_from_fixed(rd(0))
-  
+
   positions_in_range(13, 35, cap_Delta, year)
 }

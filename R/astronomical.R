@@ -83,7 +83,10 @@ julian_centuries <- function(tee) {
 obliquity <- function(tee) {
   c <- julian_centuries(tee)
   angle(23, 26, 21.448) +
-    poly(c, c(0, angle(0, 0, -46.815), angle(0, 0, -0.00059), angle(0, 0, 0.001813)))
+    poly(
+      c,
+      c(0, angle(0, 0, -46.815), angle(0, 0, -0.00059), angle(0, 0, 0.001813))
+    )
 }
 
 declination <- function(tee, beta, lam) {
@@ -99,7 +102,9 @@ declination <- function(tee, beta, lam) {
 right_ascension <- function(tee, beta, lambda) {
   varepsilon <- obliquity(tee)
   arctan_degrees(
-    sin_degrees(lambda) * cos_degrees(varepsilon) - tan_degrees(beta) * sin_degrees(varepsilon),
+    sin_degrees(lambda) *
+      cos_degrees(varepsilon) -
+      tan_degrees(beta) * sin_degrees(varepsilon),
     cos_degrees(lambda)
   )
 }
@@ -112,7 +117,8 @@ sine_offset <- function(tee, location, alpha) {
   tee_prime <- universal_from_local(tee, location)
   delta <- declination(tee_prime, deg(0), solar_longitude(tee_prime))
 
-  tan_degrees(phi) * tan_degrees(delta) +
+  tan_degrees(phi) *
+    tan_degrees(delta) +
     sin_degrees(alpha) / (cos_degrees(delta) * cos_degrees(phi))
 }
 
@@ -129,7 +135,9 @@ approx_moment_of_depression <- function(tee, loc, alpha, early) {
   }
   value[value > 1] <- NA_real_
   offset <- mod3(arcsin_degrees(value) / 360, hr(-12), hr(12))
-  date <- date + as.numeric(early) * (hr(6) - offset) + as.numeric(!early) * (hr(18) + offset)
+  date <- date +
+    as.numeric(early) * (hr(6) - offset) +
+    as.numeric(!early) * (hr(18) + offset)
   local_from_apparent(date, loc)
 }
 
@@ -149,7 +157,12 @@ dawn <- function(date, locale, alpha) {
 
 dusk <- function(date, locale, alpha) {
   # Standard time in evening on date at locale when depression angle of sun is alpha
-  result <- moment_of_depression(vec_data(date) + hr(18), locale, alpha, EVENING)
+  result <- moment_of_depression(
+    vec_data(date) + hr(18),
+    locale,
+    alpha,
+    EVENING
+  )
   standard_from_local(result, locale)
 }
 

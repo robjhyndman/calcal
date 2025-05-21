@@ -126,7 +126,9 @@ from_radix <- function(a, b, c = NULL) {
       return(a[1])
     } else {
       result <- vector(length = length(a))
-      result[1] <- from_radix(a[-1], b[-length(b)]) * b[length(b)] + a[length(a)]
+      result[1] <- from_radix(a[-1], b[-length(b)]) *
+        b[length(b)] +
+        a[length(a)]
       return(result[1])
     }
   } else {
@@ -182,7 +184,6 @@ in_range <- function(tee, range) {
 list_range <- function(ell, range) {
   ell[in_range(ell, range)]
 }
-
 
 
 # Format date

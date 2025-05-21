@@ -15,11 +15,11 @@ sec <- function(x) {
 }
 
 mt <- function(x) {
-  x  # For typesetting purposes
+  x # For typesetting purposes
 }
 
 deg <- function(x) {
-  x  # For typesetting purposes
+  x # For typesetting purposes
 }
 
 mins <- function(x) {
@@ -31,7 +31,7 @@ secs <- function(x) {
 }
 
 angle <- function(d, m, s) {
-  d + m/60 + s/3600
+  d + m / 60 + s / 3600
 }
 
 # Trigonometric functions for degrees
@@ -84,7 +84,12 @@ arccos_degrees <- function(x) {
 
 # Location definition
 location <- function(latitude, longitude, elevation, zone) {
-  list(latitude = latitude, longitude = longitude, elevation = elevation, zone = zone)
+  list(
+    latitude = latitude,
+    longitude = longitude,
+    elevation = elevation,
+    zone = zone
+  )
 }
 
 latitude <- function(loc) {
@@ -108,7 +113,7 @@ MECCA <- location(angle(21, 25, 24), angle(39, 49, 24), mt(298), hr(3))
 JERUSALEM <- location(angle(31.78, 0, 0), angle(35.24, 0, 0), mt(740), hr(2))
 TEHRAN <- location(angle(35.68, 0, 0), angle(51.42, 0, 0), mt(1100), hr(3.5))
 BABYLON <- location(angle(32.4794, 0, 0), angle(44.4328, 0, 0), mt(26), hr(3.5))
-UJJAIN <- location(angle(23, 9, 0), angle(75, 46, 6), mt(0), hr(5 + 461/9000))
+UJJAIN <- location(angle(23, 9, 0), angle(75, 46, 6), mt(0), hr(5 + 461 / 9000))
 
 # Time conversion functions
 standard_from_universal <- function(tee_rom_u, loc) {
@@ -164,7 +169,7 @@ midday <- function(date, loc) {
 }
 
 # Astronomical functions for Julian centuries
-J2000 <- hr(12) + gregorian_new_year(2000)  # Noon at start of Gregorian year 2000
+J2000 <- hr(12) + gregorian_new_year(2000) # Noon at start of Gregorian year 2000
 
 julian_centuries <- function(tee) {
   (dynamical_from_universal(tee) - J2000) / 36525
@@ -173,19 +178,27 @@ julian_centuries <- function(tee) {
 obliquity <- function(tee) {
   c <- julian_centuries(tee)
   angle(23, 26, 21.448) +
-    poly(c, c(0, angle(0, 0, -46.815), angle(0, 0, -0.00059), angle(0, 0, 0.001813)))
+    poly(
+      c,
+      c(0, angle(0, 0, -46.815), angle(0, 0, -0.00059), angle(0, 0, 0.001813))
+    )
 }
 
 declination <- function(tee, beta, lambda) {
   varepsilon <- obliquity(tee)
-  arcsin_degrees(sin_degrees(beta) * cos_degrees(varepsilon) +
-                cos_degrees(beta) * sin_degrees(varepsilon) * sin_degrees(lambda))
+  arcsin_degrees(
+    sin_degrees(beta) *
+      cos_degrees(varepsilon) +
+      cos_degrees(beta) * sin_degrees(varepsilon) * sin_degrees(lambda)
+  )
 }
 
 right_ascension <- function(tee, beta, lambda) {
   varepsilon <- obliquity(tee)
   arctan_degrees(
-    sin_degrees(lambda) * cos_degrees(varepsilon) - tan_degrees(beta) * sin_degrees(varepsilon),
+    sin_degrees(lambda) *
+      cos_degrees(varepsilon) -
+      tan_degrees(beta) * sin_degrees(varepsilon),
     cos_degrees(lambda)
   )
 }
@@ -195,7 +208,8 @@ sine_offset <- function(tee, loc, alpha) {
   tee_prime <- universal_from_local(tee, loc)
   delta <- declination(tee_prime, 0, solar_longitude(tee_prime))
 
-  tan_degrees(phi) * tan_degrees(delta) +
+  tan_degrees(phi) *
+    tan_degrees(delta) +
     sin_degrees(alpha) / (cos_degrees(delta) * cos_degrees(phi))
 }
 
@@ -209,9 +223,13 @@ approx_moment_of_depression <- function(tee, loc, alpha, early) {
   }
   value <- if (abs(try_val) > 1) sine_offset(alt, loc, alpha) else try_val
 
-  if (abs(value) <= 1) {  # Event occurs
+  if (abs(value) <= 1) {
+    # Event occurs
     offset <- mod3(arcsin_degrees(value) / 360, hr(-12), hr(12))
-    local_from_apparent(date + if (early) hr(6) - offset else hr(18) + offset, loc)
+    local_from_apparent(
+      date + if (early) hr(6) - offset else hr(18) + offset,
+      loc
+    )
   } else {
     BOGUS
   }
@@ -254,8 +272,8 @@ dusk <- function(date, loc, alpha) {
 
 refraction <- function(tee, loc) {
   h <- max(mt(0), elevation(loc))
-  cap_R <- mt(6.372e6)  # Radius of Earth in meters
-  dip <- arccos_degrees(cap_R / (cap_R + h))  # Depression of visible horizon
+  cap_R <- mt(6.372e6) # Radius of Earth in meters
+  dip <- arccos_degrees(cap_R / (cap_R + h)) # Depression of visible horizon
 
   mins(34) + dip + secs(19) * sqrt(h)
 }

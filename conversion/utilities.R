@@ -6,7 +6,7 @@
 # Basic constants and utility functions
 #==============================================================================
 
-BOGUS <- "bogus"  # Used to denote nonexistent dates
+BOGUS <- "bogus" # Used to denote nonexistent dates
 
 # Basic arithmetic utilities
 amod <- function(x, y) {
@@ -73,7 +73,7 @@ binary_search <- function(lo, hi, test_fn, end_fn) {
 }
 
 invert_angular <- function(f, y, r) {
-  epsilon <- 1/100000
+  epsilon <- 1 / 100000
   binary_search(
     lo = r[1],
     hi = r[2],
@@ -153,14 +153,16 @@ from_radix <- function(a, b, c = NULL) {
       return(a[1])
     } else {
       result <- vector(length = length(a))
-      result[1] <- from_radix(a[-1], b[-length(b)]) * b[length(b)] + a[length(a)]
+      result[1] <- from_radix(a[-1], b[-length(b)]) *
+        b[length(b)] +
+        a[length(a)]
       return(result[1])
     }
   } else {
     total <- 0
     for (i in 1:length(a)) {
       prod_value <- 1
-      for (j in 1:(i-1)) {
+      for (j in 1:(i - 1)) {
         if (j <= length(b) + length(c)) {
           prod_value <- prod_value * c(b, c)[j]
         }
@@ -188,7 +190,7 @@ to_radix <- function(x, b, c = NULL) {
 
 clock_from_moment <- function(tee) {
   result <- to_radix(tee, NULL, c(24, 60, 60))
-  return(result[-1])  # Skip the first element
+  return(result[-1]) # Skip the first element
 }
 
 time_from_clock <- function(hms) {

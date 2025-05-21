@@ -22,9 +22,10 @@
 #' as_iso(gregorian_date(2025, 1, 1:31))
 #' @export
 iso_date <- function(
-    year = integer(),
-    week = integer(),
-    day = integer()) {
+  year = integer(),
+  week = integer(),
+  day = integer()
+) {
   lst <- vec_cast_common(year = year, week = week, day = day, .to = integer())
   lst <- vec_recycle_common(
     year = lst$year,

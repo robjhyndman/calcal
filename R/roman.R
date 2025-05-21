@@ -18,11 +18,12 @@
 #'
 #' @export
 roman_date <- function(
-    year = integer(),
-    month = integer(),
-    event = integer(),
-    count = integer(),
-    leap = logical()) {
+  year = integer(),
+  month = integer(),
+  event = integer(),
+  count = integer(),
+  leap = logical()
+) {
   lst <- vec_cast_common(
     year = year,
     month = month,

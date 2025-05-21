@@ -90,15 +90,13 @@ vec_arith.rd_fixed.default <- function(op, x, y, ...) {
 #' @export
 #' @method vec_arith.rd_fixed rd_fixed
 vec_arith.rd_fixed.rd_fixed <- function(op, x, y, ...) {
-  switch(op,
-    "-" = vec_arith_base(op, x, y),
-    stop_incompatible_op(op, x, y)
-  )
+  switch(op, "-" = vec_arith_base(op, x, y), stop_incompatible_op(op, x, y))
 }
 #' @export
 #' @method vec_arith.numeric rd_fixed
 vec_arith.numeric.rd_fixed <- function(op, x, y, ...) {
-  switch(op,
+  switch(
+    op,
     "+" = rd_fixed(vec_arith_base(op, x, y)),
     "-" = rd_fixed(vec_arith_base(op, x, y)),
     stop_incompatible_op(op, x, y)
@@ -107,7 +105,8 @@ vec_arith.numeric.rd_fixed <- function(op, x, y, ...) {
 #' @export
 #' @method vec_arith.rd_fixed numeric
 vec_arith.rd_fixed.numeric <- function(op, x, y, ...) {
-  switch(op,
+  switch(
+    op,
     "+" = rd_fixed(vec_arith_base(op, x, y)),
     "-" = rd_fixed(vec_arith_base(op, x, y)),
     "/" = vec_arith_base(op, x, y),

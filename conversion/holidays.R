@@ -69,7 +69,10 @@ christmas <- function(g_year) {
 }
 
 advent <- function(g_year) {
-  kday_nearest(SUNDAY, fixed_from_gregorian(gregorian_date(g_year, NOVEMBER, 30)))
+  kday_nearest(
+    SUNDAY,
+    fixed_from_gregorian(gregorian_date(g_year, NOVEMBER, 30))
+  )
 }
 
 epiphany <- function(g_year) {
@@ -85,7 +88,7 @@ unlucky_fridays_in_range <- function(range) {
   b <- end(range)
   fri <- kday_on_or_after(FRIDAY, a)
   date <- gregorian_from_fixed(fri)
-  
+
   if (in_range(fri, range)) {
     result <- if (standard_day(date) == 13) c(fri) else c()
     return(c(result, unlucky_fridays_in_range(interval(fri + 1, b))))

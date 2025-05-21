@@ -24,9 +24,7 @@
 #' @export
 advent <- function(year) {
   # Fixed date of Advent in Gregorian year--the Sunday closest to November 30
-  as_gregorian(kday_nearest(SUNDAY,
-    as_rd(gregorian_date(year, NOVEMBER, 30))
-  ))
+  as_gregorian(kday_nearest(SUNDAY, as_rd(gregorian_date(year, NOVEMBER, 30))))
 }
 
 #' @rdname christian
@@ -61,7 +59,8 @@ easter <- function(year) {
   shifted_epact <- (14 +
     11 * (year %% 19) -
     (3 * century) %/% 4 +
-    (5 + 8 * century) %/% 25) %% 30
+    (5 + 8 * century) %/% 25) %%
+    30
 
   # Adjust for 29.5 day month
   adjusted_epact <- shifted_epact +
@@ -93,7 +92,8 @@ orthodox_easter <- function(year) {
 alt_orthodox_easter <- function(year) {
   # Alternate calculation of fixed date of Orthodox Easter in Gregorian year
   # Day after full moon on or after March 21
-  paschal_moon <- 354 * year +
+  paschal_moon <- 354 *
+    year +
     30 * ((7 * year + 8) %/% 19) +
     year %/% 4 -
     year %/% 19 -

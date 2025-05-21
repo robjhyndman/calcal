@@ -40,7 +40,7 @@ MECCA <- location(angle(21, 25, 24), angle(39, 49, 24), mt(298), 3)
 JERUSALEM <- location(angle(31.78, 0, 0), angle(35.24, 0, 0), mt(740), 2)
 TEHRAN <- location(angle(35.68, 0, 0), angle(51.42, 0, 0), mt(1100), 3.5)
 BABYLON <- location(angle(32.4794, 0, 0), angle(44.4328, 0, 0), mt(26), 3.5)
-UJJAIN <- location(angle(23, 9, 0), angle(75, 46, 6), mt(0), 5 + 461/9000)
+UJJAIN <- location(angle(23, 9, 0), angle(75, 46, 6), mt(0), 5 + 461 / 9000)
 
 J2000 <- vec_data(as_rd("2000-01-01")) + hr(12) # Noon at start of Gregorian year 2000
 

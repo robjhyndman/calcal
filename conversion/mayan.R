@@ -50,7 +50,7 @@ mayan_tzolkin_name <- function(date) {
   date[2]
 }
 
-MAYAN_EPOCH <- fixed_from_jd(584283)  # August 11, -3113
+MAYAN_EPOCH <- fixed_from_jd(584283) # August 11, -3113
 
 fixed_from_mayan_long_count <- function(count) {
   MAYAN_EPOCH + from_radix(count, c(20, 20, 18, 20))
@@ -63,7 +63,7 @@ mayan_long_count_from_fixed <- function(date) {
 mayan_haab_ordinal <- function(h_date) {
   day <- mayan_haab_day(h_date)
   month <- mayan_haab_month(h_date)
-  
+
   (month - 1) * 20 + day
 }
 
@@ -73,7 +73,7 @@ mayan_haab_from_fixed <- function(date) {
   count <- (date - MAYAN_HAAB_EPOCH) %% 365
   day <- count %% 20
   month <- 1 + count %/% 20
-  
+
   mayan_haab_date(month, day)
 }
 
@@ -84,17 +84,18 @@ mayan_haab_on_or_before <- function(haab, date) {
 mayan_tzolkin_ordinal <- function(t_date) {
   number <- mayan_tzolkin_number(t_date)
   name <- mayan_tzolkin_name(t_date)
-  
+
   (number - 1 + 39 * (number - name)) %% 260
 }
 
-MAYAN_TZOLKIN_EPOCH <- MAYAN_EPOCH - mayan_tzolkin_ordinal(mayan_tzolkin_date(4, 20))
+MAYAN_TZOLKIN_EPOCH <- MAYAN_EPOCH -
+  mayan_tzolkin_ordinal(mayan_tzolkin_date(4, 20))
 
 mayan_tzolkin_from_fixed <- function(date) {
   count <- date - MAYAN_TZOLKIN_EPOCH + 1
   number <- amod(count, 13)
   name <- amod(count, 20)
-  
+
   mayan_tzolkin_date(number, name)
 }
 
@@ -106,10 +107,10 @@ mayan_calendar_round_on_or_before <- function(haab, tzolkin, date) {
   haab_count <- mayan_haab_ordinal(haab) + MAYAN_HAAB_EPOCH
   tzolkin_count <- mayan_tzolkin_ordinal(tzolkin) + MAYAN_TZOLKIN_EPOCH
   diff <- tzolkin_count - haab_count
-  
+
   if (diff %% 5 == 0) {
     mod3(haab_count + 365 * diff, date, date - 18980)
   } else {
-    BOGUS  # Impossible combination
+    BOGUS # Impossible combination
   }
 }

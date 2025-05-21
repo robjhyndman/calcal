@@ -1,4 +1,3 @@
-
 # Time conversion functions
 standard_from_universal <- function(tee_rom_u, loc) {
   tee_rom_u + zone(loc)

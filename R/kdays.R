@@ -1,4 +1,3 @@
-
 kday_on_or_before <- function(k, date) {
   # Fixed date of the k-day on or before fixed date.
   # k=0 means Sunday, k=1 means Monday, and so on.
