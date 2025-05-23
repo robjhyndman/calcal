@@ -4,10 +4,10 @@
 #' granularities, one nested within the other. For example, the year and the
 #' month, or the week and the day-of-week. It is assumed that the first
 #' granularity is linear (i.e., it increases over time), and the second
-#' granularity is cycli, nested within the first granularity, and possibly
-#' periodic. Both month-of-year and day-of-week are cyclic and periodic
-#' granularities. But day-of-month is cyclic but not periodic, because the
-#' number of days in a month is not constant.
+#' granularity is cyclic, nested within the first granularity, and possibly
+#' periodic. For example, both month-of-year and day-of-week are cyclic and
+#' periodic granularities, but day-of-month is cyclic but not periodic, because
+#' the number of days in a month is not constant.
 #' @param gran_fun1 A function that extracts a linear granularity from a date.
 #' This function must return an integer.
 #' @param gran_fun2 A function that extracts a cyclic granularity from a date, nested within `gran_fun1`.
