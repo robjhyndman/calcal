@@ -8,6 +8,7 @@
 \alias{week_of_month}
 \alias{week_of_year}
 \alias{month_of_year}
+\alias{year}
 \title{Extract parts of a Gregorian date}
 \usage{
 day_of_week(date, numeric = FALSE, first_day = "Monday", abbreviate = FALSE)
@@ -23,6 +24,8 @@ week_of_month(date, first_day = "Monday")
 week_of_year(date, first_day = "Monday")
 
 month_of_year(date)
+
+year(date)
 }
 \arguments{
 \item{date}{A vector of Gregorian dates}

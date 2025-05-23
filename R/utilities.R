@@ -197,15 +197,3 @@ format_date <- function(parts) {
     paste(sprintf("%.2d", x), collapse = "-")
   })
 }
-
-
-#' Extract year
-#'
-#' Return year from a date variable.
-#'
-#' @param date A vector of dates
-#' @return A vector of years
-#' @export
-year <- function(date) {
-  field(date, "year")
-}

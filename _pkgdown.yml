@@ -34,6 +34,7 @@ reference:
       - week_of_month
       - week_of_year
       - month_of_year
+      - year
   - title: Holidays and special days
     contents:
       - easter
@@ -67,3 +68,6 @@ reference:
     contents:
       - as_rd
       - rd_fixed
+  - title: Granularities
+    contents:
+      - linear_granularity

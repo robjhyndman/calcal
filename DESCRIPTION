@@ -20,6 +20,7 @@ Imports:
     vctrs
 Suggests:
     testthat (>= 3.0.0),
-    tibble
+    tibble,
+    tsibble
 Config/testthat/edition: 3
 URL: https://pkg.robjhyndman.com/calcal/, https://github.com/robjhyndman/calcal

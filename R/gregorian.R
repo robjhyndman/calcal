@@ -323,3 +323,9 @@ week_of_year <- function(date, first_day = "Monday") {
 month_of_year <- function(date) {
   field(date, "month")
 }
+
+#' @rdname gregorian-parts
+#' @export
+year <- function(date) {
+  field(date, "year")
+}

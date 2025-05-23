@@ -4,15 +4,15 @@
 \alias{linear_granularity}
 \title{Linear Granularity}
 \usage{
-linear_granularity(gran_fun, n_gran, name)
+linear_granularity(gran_fun, gran_levels, gran_name)
 }
 \arguments{
 \item{gran_fun}{A function that extracts a cyclic granularity from a date
-variable. This function must return an integer or an ordered factor.}
+variable. This function must return an integer.}
 
-\item{n_gran}{An integer giving the number of granularities per year.}
+\item{gran_levels}{A character vector of the granularity levels.}
 
-\item{name}{A character string giving the name of the granularity}
+\item{gran_name}{A character string giving the name of the granularity}
 }
 \value{
 A function that creates a linear granularity object.
@@ -23,12 +23,8 @@ Linear granularities are produced by combining the year and a cyclic granularity
 \examples{
 # Compute quarter from a Gregorian date
 quarter <- function(date) {
-  factor(ceiling(month_of_year(date) / 3),
-    levels = 1:4,
-    labels = c("Q1", "Q2", "Q3", "Q4"),
-    ordered = TRUE
-  )
+  ceiling(month_of_year(date) / 3)
 }
-year_quarter <- linear_granularity(quarter, 4, "year-quarter")
+year_quarter <- linear_granularity(quarter, paste0("Q",1:4), "year-quarter")
 year_quarter(gregorian_date(2025, 6, 25) + 1:10)
 }
