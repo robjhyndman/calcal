@@ -4,7 +4,7 @@
 \alias{linear_cyclic}
 \title{Create Linear-Cyclic Granularity Combinations}
 \usage{
-linear_cyclic(gran_fun1, gran_fun2, gran_levels, gran_name)
+linear_cyclic(gran_fun1, gran_fun2, gran_levels, gran_name, periodic = TRUE)
 }
 \arguments{
 \item{gran_fun1}{A function that extracts a linear granularity from a date.
@@ -16,14 +16,21 @@ This function must return an integer.}
 \item{gran_levels}{A character vector of the granularity levels for \code{gran_fun2}.}
 
 \item{gran_name}{A character string giving the name of the linear granularity.}
+
+\item{periodic}{A logical vector indicating if the second (cyclic) granularity is periodic.}
 }
 \value{
 A function that creates a linear granularity object.
 }
 \description{
-Linear-cyclic granularity combinations are produced by combining two granularities, one nested within the other.
-For example, the year and the month, or the week and the day-of-week. It is assumed that the
-first granularity is linear (i.e., it increases over time), and the second granularity is cyclic and nested within the first granularity.
+Linear-cyclic granularity combinations are produced by combining two
+granularities, one nested within the other. For example, the year and the
+month, or the week and the day-of-week. It is assumed that the first
+granularity is linear (i.e., it increases over time), and the second
+granularity is cycli, nested within the first granularity, and possibly
+periodic. Both month-of-year and day-of-week are cyclic and periodic
+granularities. But day-of-month is cyclic but not periodic, because the
+number of days in a month is not constant.
 }
 \examples{
 # Year-quarter granularity

@@ -1,14 +1,20 @@
 #' @title Create Linear-Cyclic Granularity Combinations
 #' @description
-#' Linear-cyclic granularity combinations are produced by combining two granularities, one nested within the other.
-#' For example, the year and the month, or the week and the day-of-week. It is assumed that the
-#' first granularity is linear (i.e., it increases over time), and the second granularity is cyclic and nested within the first granularity.
+#' Linear-cyclic granularity combinations are produced by combining two
+#' granularities, one nested within the other. For example, the year and the
+#' month, or the week and the day-of-week. It is assumed that the first
+#' granularity is linear (i.e., it increases over time), and the second
+#' granularity is cycli, nested within the first granularity, and possibly
+#' periodic. Both month-of-year and day-of-week are cyclic and periodic
+#' granularities. But day-of-month is cyclic but not periodic, because the
+#' number of days in a month is not constant.
 #' @param gran_fun1 A function that extracts a linear granularity from a date.
 #' This function must return an integer.
 #' @param gran_fun2 A function that extracts a cyclic granularity from a date, nested within `gran_fun1`.
 #' This function must return an integer.
 #' @param gran_levels A character vector of the granularity levels for `gran_fun2`.
 #' @param gran_name A character string giving the name of the linear granularity.
+#' @param periodic A logical vector indicating if the second (cyclic) granularity is periodic.
 #' @return A function that creates a linear granularity object.
 #' @examples
 #' # Year-quarter granularity
@@ -36,18 +42,29 @@
 #' )
 #' week_day(gregorian_date(2025, 6, 25) + 1:10)
 #' @export
-linear_cyclic <- function(gran_fun1, gran_fun2, gran_levels, gran_name) {
+linear_cyclic <- function(
+    gran_fun1,
+    gran_fun2,
+    gran_levels,
+    gran_name,
+    periodic = TRUE) {
   function(date) {
-    lin_cyc_gran(gran_fun1(date), gran_fun2(date), gran_levels, gran_name)
+    lin_cyc_gran(
+      gran_fun1(date),
+      gran_fun2(date),
+      gran_levels,
+      gran_name,
+      periodic
+    )
   }
 }
 
 lin_cyc_gran <- function(
-  gran1 = integer(),
-  gran2 = integer(),
-  gran_levels = character(),
-  gran_name = character()
-) {
+    gran1 = integer(),
+    gran2 = integer(),
+    gran_levels = character(),
+    gran_name = character(),
+    periodic = logical()) {
   lst <- vec_recycle_common(
     gran1 = gran1,
     gran2 = factor(
@@ -66,6 +83,7 @@ lin_cyc_gran <- function(
   }
   output <- new_rcrd(lst, class = "linear_cyclic")
   attr(output, "name") <- gran_name
+  attr(output, "periodic") <- periodic
   return(output)
 }
 
@@ -93,8 +111,12 @@ vec_ptype2.linear_cyclic.linear_cyclic <- function(x, y, ...) {
 vec_cast.linear_cyclic.linear_cyclic <- function(x, to, ...) x
 #' @export
 vec_cast.double.linear_cyclic <- function(x, to, ...) {
-  field(x, "gran1") +
-    as.numeric(field(x, "gran2")) / length(levels(field(x, "gran2")))
+  if (attr(x, "periodic")) {
+    field(x, "gran1") +
+      as.numeric(field(x, "gran2")) / length(levels(field(x, "gran2")))
+  } else {
+    stop("Cannot cast an aperiodic granularity to numeric")
+  }
 }
 
 # Arithmetic
@@ -108,7 +130,10 @@ vec_arith.linear_cyclic <- function(op, x, y, ...) {
 #' @export
 #' @method vec_arith.linear_cyclic linear_cyclic
 vec_arith.linear_cyclic.linear_cyclic <- function(op, x, y, ...) {
-  switch(op, "-" = vec_arith_base(op, x, y), stop_incompatible_op(op, x, y))
+  switch(op,
+    "-" = vec_arith_base(op, x, y),
+    stop_incompatible_op(op, x, y)
+  )
 }
 
 #' @export
@@ -120,9 +145,11 @@ vec_arith.numeric.linear_cyclic <- function(op, x, y, ...) {
 #' @export
 #' @method vec_arith.linear_cyclic numeric
 vec_arith.linear_cyclic.numeric <- function(op, x, y, ...) {
+  if (!attr(x, "periodic")) {
+    stop("Cannot add a numeric to an aperiodic granularity")
+  }
   nlevels <- length(levels(field(x, "gran2")))
-  new_gran <- switch(
-    op,
+  new_gran <- switch(op,
     "+" = vec_arith_base(op, field(x, "gran2"), y),
     "-" = vec_arith_base(op, field(x, "gran2"), y),
     stop_incompatible_op(op, x, y)
