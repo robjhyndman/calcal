@@ -152,6 +152,10 @@ last_day_of_gregorian_month <- function(g_year, g_month) {
   gregorian_date(y, m, 1) - gregorian_date(g_year, g_month, 1)
 }
 
+#' @export
+vec_cast.double.gregorian <- function(x, to, ...) {
+  year(x) + (day_of_year(x) - 1) / (365 + gregorian_leap_year(year(x)))
+}
 
 # Arithmetic
 
