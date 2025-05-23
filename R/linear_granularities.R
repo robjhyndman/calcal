@@ -1,20 +1,22 @@
-#' @title Create Linear-Cyclic Granularity Combinations
+#' @title Create linear-cyclic granularity combinations
 #' @description
 #' Linear-cyclic granularity combinations are produced by combining two
 #' granularities, one nested within the other. For example, the year and the
 #' month, or the week and the day-of-week. It is assumed that the first
 #' granularity is linear (i.e., it increases over time), and the second
-#' granularity is cyclic, nested within the first granularity, and possibly
-#' periodic. For example, both month-of-year and day-of-week are cyclic and
-#' periodic granularities, but day-of-month is cyclic but not periodic, because
-#' the number of days in a month is not constant.
+#' granularity is cyclic, and nested within the first granularity. The second
+#' granularity may be strictly periodic (e.g., month-of-year or day-of-week),
+#' quasi-periodic (e.g., day-of-month or day-of-year), or
+#' aperiodic (e.g., public holidays).
 #' @param gran_fun1 A function that extracts a linear granularity from a date.
 #' This function must return an integer.
-#' @param gran_fun2 A function that extracts a cyclic granularity from a date, nested within `gran_fun1`.
+#' @param gran_fun2 A function that extracts a cyclic granularity from a date,
+#' that is nested within the linear granularity returned by `gran_fun1`.
 #' This function must return an integer.
 #' @param gran_levels A character vector of the granularity levels for `gran_fun2`.
 #' @param gran_name A character string giving the name of the linear granularity.
-#' @param periodic A logical vector indicating if the second (cyclic) granularity is periodic.
+#' @param periodic A logical value indicating if the second (cyclic) granularity
+#' is strictly periodic.
 #' @return A function that creates a linear granularity object.
 #' @examples
 #' # Year-quarter granularity
