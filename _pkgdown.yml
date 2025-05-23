@@ -70,4 +70,4 @@ reference:
       - rd_fixed
   - title: Granularities
     contents:
-      - linear_granularity
+      - linear_cyclic
