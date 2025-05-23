@@ -25,6 +25,6 @@ Linear granularities are produced by combining the year and a cyclic granularity
 quarter <- function(date) {
   ceiling(month_of_year(date) / 3)
 }
-year_quarter <- linear_granularity(quarter, paste0("Q",1:4), "year-quarter")
+year_quarter <- linear_granularity(quarter, paste0("Q", 1:4), "year-quarter")
 year_quarter(gregorian_date(2025, 6, 25) + 1:10)
 }

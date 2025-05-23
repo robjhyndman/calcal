@@ -11,7 +11,7 @@
 #' quarter <- function(date) {
 #'   ceiling(month_of_year(date) / 3)
 #' }
-#' year_quarter <- linear_granularity(quarter, paste0("Q",1:4), "year-quarter")
+#' year_quarter <- linear_granularity(quarter, paste0("Q", 1:4), "year-quarter")
 #' year_quarter(gregorian_date(2025, 6, 25) + 1:10)
 #' @export
 linear_granularity <- function(gran_fun, gran_levels, gran_name) {
@@ -21,14 +21,13 @@ linear_granularity <- function(gran_fun, gran_levels, gran_name) {
 }
 
 lin_gran <- function(
-  year = integer(),
-  gran = integer(),
-  gran_levels = character(),
-  gran_name = character()
-) {
+    year = integer(),
+    gran = integer(),
+    gran_levels = character(),
+    gran_name = character()) {
   lst <- vec_recycle_common(
     year = year,
-    gran = factor(gran, labels = gran_levels, ordered = TRUE),
+    gran = factor(gran, levels = seq_along(gran_levels), labels = gran_levels, ordered = TRUE),
     .size = max(length(year), length(gran))
   )
   output <- new_rcrd(lst, class = "linear_granularity")
@@ -52,8 +51,9 @@ vec_ptype_full.linear_granularity <- function(x, ...) {
 }
 
 #' @export
-vec_ptype2.linear_granularity.linear_granularity <- function(x, y, ...)
+vec_ptype2.linear_granularity.linear_granularity <- function(x, y, ...) {
   lin_gran()
+}
 
 #' @export
 vec_cast.linear_granularity.linear_granularity <- function(x, to, ...) x
@@ -74,7 +74,10 @@ vec_arith.linear_granularity <- function(op, x, y, ...) {
 #' @export
 #' @method vec_arith.linear_granularity linear_granularity
 vec_arith.linear_granularity.linear_granularity <- function(op, x, y, ...) {
-  switch(op, "-" = vec_arith_base(op, x, y), stop_incompatible_op(op, x, y))
+  switch(op,
+    "-" = vec_arith_base(op, x, y),
+    stop_incompatible_op(op, x, y)
+  )
 }
 
 #' @export
@@ -87,8 +90,7 @@ vec_arith.numeric.linear_granularity <- function(op, x, y, ...) {
 #' @method vec_arith.linear_granularity numeric
 vec_arith.linear_granularity.numeric <- function(op, x, y, ...) {
   nlevels <- length(levels(field(x, "gran")))
-  new_gran <- switch(
-    op,
+  new_gran <- switch(op,
     "+" = vec_arith_base(op, field(x, "gran"), y),
     "-" = vec_arith_base(op, field(x, "gran"), y),
     stop_incompatible_op(op, x, y)
@@ -96,6 +98,7 @@ vec_arith.linear_granularity.numeric <- function(op, x, y, ...) {
   field(x, "year") <- field(x, "year") + (new_gran - 1) %/% nlevels
   field(x, "gran") <- factor(
     (new_gran - 1) %% nlevels + 1,
+    levels = seq_along(levels(field(x, "gran"))),
     labels = levels(field(x, "gran")),
     ordered = TRUE
   )
