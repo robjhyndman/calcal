@@ -203,7 +203,7 @@ as_rd.hebrew <- function(date, ...) {
 #'   z = as_hebrew(x)
 #' )
 #' @export
-as_hebrew <- function(date) {
+as_hebrew <- function(date, ...) {
   UseMethod("as_hebrew", date)
 }
 

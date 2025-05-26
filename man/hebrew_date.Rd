@@ -7,7 +7,7 @@
 \usage{
 hebrew_date(year = integer(), month = integer(), day = integer())
 
-as_hebrew(date)
+as_hebrew(date, ...)
 }
 \arguments{
 \item{year}{A numeric vector of years}
