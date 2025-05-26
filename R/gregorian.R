@@ -52,7 +52,11 @@ check_gregorian <- function(args) {
 # Register format method for gregorian date
 #' @export
 format.gregorian <- function(x, ...) {
-  format_date(x)
+  paste(
+    sprintf("%.2d", year(x)),
+    month.abb[field(x, "month")],
+    sprintf("%.2d", field(x, "day")),
+    sep = "-")
 }
 
 #' @export
@@ -121,7 +125,7 @@ as_gregorian.default <- function(date, ...) {
 
 #' @export
 as.Date.gregorian <- function(x, ...) {
-  as.Date(format(x))
+  as.Date(paste0(year(x), "-", field(x, "month"), "-", field(x, "day")))
 }
 
 gregorian_year_from_fixed <- function(date) {
