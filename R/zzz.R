@@ -28,6 +28,7 @@ JULIAN_EPOCH <- vec_data(as_rd(gregorian_date(0, DECEMBER, 30)))
 JD_EPOCH <- -1721424.5
 MJD_EPOCH <- 678576
 UNIX_EPOCH <- 719163
+HEBREW_EPOCH <- vec_data(as_rd(julian_date(bce(3761), OCTOBER, 7)))
 
 YEAR_ROME_FOUNDED <- bce(753)
 OLYMPIAD_START <- bce(776)
@@ -63,3 +64,18 @@ LAST_QUARTER <- deg(270) # Last quarter moon
 # Time of day
 MORNING <- TRUE
 EVENING <- FALSE
+
+# Hebrew month constants
+NISAN <- 1
+IYYAR <- 2
+SIVAN <- 3
+TAMMUZ <- 4
+AV <- 5
+ELUL <- 6
+TISHRI <- 7
+MARHESHVAN <- 8
+KISLEV <- 9
+TEVET <- 10
+SHEVAT <- 11
+ADAR <- 12
+ADARII <- 13
