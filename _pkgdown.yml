@@ -52,16 +52,14 @@ reference:
       - new_moons
       - sunrise
       - sunset
-  - title: ISO dates
+  - title: Non-Gregorian calendars
     contents:
       - iso_date
       - as_iso
-  - title: Julian dates
-    contents:
       - julian_date
       - as_julian
-  - title: Roman dates
-    contents:
+      - hebrew_date
+      - as_hebrew
       - roman_date
       - as_roman
   - title: Fixed RD dates
