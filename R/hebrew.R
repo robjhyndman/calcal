@@ -150,10 +150,10 @@ short_kislev <- function(h_year) {
 }
 
 #' @export
-as_rd.hebrew <- function(h_date) {
-  month <- standard_month(h_date)
-  day <- standard_day(h_date)
-  year <- standard_year(h_date)
+as_rd.hebrew <- function(date, ...) {
+  month <- standard_month(date)
+  day <- standard_day(date)
+  year <- standard_year(date)
 
   days_in_prior_months <- mapply(
     function(mth, yr) {
@@ -266,13 +266,9 @@ passover <- function(g_year) {
 }
 
 omer <- function(date) {
-  c <- date - passover(gregorian_year_from_fixed(date))
-
-  if (1 <= c && c <= 49) {
-    return(c(c %/% 7, c %% 7))
-  } else {
-    return(BOGUS)
-  }
+  u <- date - passover(gregorian_year_from_fixed(date))
+  u[u < 1 | u > 49] <- NA
+  c(u %/% 7, u %% 7)
 }
 
 purim <- function(g_year) {
@@ -320,7 +316,7 @@ hebrew_birthday <- function(birthdate, h_year) {
 
 hebrew_birthday_in_gregorian <- function(birthdate, g_year) {
   jan1 <- gregorian_new_year(g_year)
-  y <- standard_year(as_hebrew.rd(jan1))
+  y <- standard_year(as_hebrew(jan1))
   date0 <- hebrew_birthday(birthdate, y)
   date1 <- hebrew_birthday(birthdate, y + 1)
   date2 <- hebrew_birthday(birthdate, y + 2)
@@ -368,7 +364,7 @@ yahrzeit <- function(death_date, h_year) {
 
 yahrzeit_in_gregorian <- function(death_date, g_year) {
   jan1 <- gregorian_new_year(g_year)
-  y <- standard_year(as_hebrew.rd(jan1))
+  y <- standard_year(as_hebrew(jan1))
   date0 <- yahrzeit(death_date, y)
   date1 <- yahrzeit(death_date, y + 1)
   date2 <- yahrzeit(death_date, y + 2)
