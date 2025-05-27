@@ -50,7 +50,12 @@ check_julian <- function(args) {
 # Register format method for julian_date
 #' @export
 format.julian <- function(x, ...) {
-  format_date(x)
+  paste(
+    sprintf("%.2d", year(x)),
+    month.abb[field(x, "month")],
+    sprintf("%.2d", field(x, "day")),
+    sep = "-"
+  )
 }
 
 #' @export
