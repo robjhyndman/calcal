@@ -67,7 +67,7 @@ vec_ptype_abbr.julian <- function(x, ...) {
 #'
 #' @param date Vector of dates on some calendar
 #' @param ... Additional arguments not currently used
-#' @rdname julian
+#' @rdname julian_date
 #' @examples
 #' as_julian("2016-01-01")
 #' as_julian(Sys.Date())
@@ -76,7 +76,6 @@ vec_ptype_abbr.julian <- function(x, ...) {
 #'   y = as_gregorian(x),
 #'   z = as_julian(x)
 #' )
-
 #' @export
 as_julian <- function(date, ...) {
   UseMethod("as_julian")
