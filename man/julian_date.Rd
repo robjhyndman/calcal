@@ -2,9 +2,12 @@
 % Please edit documentation in R/julian.R
 \name{julian_date}
 \alias{julian_date}
+\alias{as_julian}
 \title{Julian calendar dates}
 \usage{
 julian_date(year = integer(), month = integer(), day = integer())
+
+as_julian(date, ...)
 }
 \arguments{
 \item{year}{A numeric vector of years}
@@ -12,6 +15,10 @@ julian_date(year = integer(), month = integer(), day = integer())
 \item{month}{A numeric vector of months}
 
 \item{day}{A numeric vector of days}
+
+\item{date}{Vector of dates on some calendar}
+
+\item{...}{Additional arguments not currently used}
 }
 \value{
 A julian vector object
@@ -21,4 +28,11 @@ Create a Julian date object.
 }
 \examples{
 julian_date(2025, 4, 19:30)
+as_julian("2016-01-01")
+as_julian(Sys.Date())
+tibble::tibble(
+  x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
+  y = as_gregorian(x),
+  z = as_julian(x)
+)
 }

@@ -12,6 +12,7 @@
 #' @return A julian vector object
 #' @examples
 #' julian_date(2025, 4, 19:30)
+#' @rdname julian_date
 #' @export
 julian_date <- function(
     year = integer(),
