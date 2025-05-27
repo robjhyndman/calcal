@@ -150,9 +150,16 @@ julian_in_gregorian <- function(j_month, j_day, g_year) {
   date0 <- as_rd(julian_date(y, j_month, j_day))
   date1 <- as_rd(julian_date(y_prime, j_month, j_day))
 
-  as_gregorian(mapply(function(d0, d1, year) {
+  out <- mapply(function(d0, d1, year) {
     list_range(c(d0, d1), gregorian_year_range(year))
-  }, date0, date1, g_year))
+  }, date0, date1, g_year)
+  l <- lapply(out, length)
+  out <- out[l > 0]
+  if (length(out) > 0) {
+    as_gregorian(out)
+  } else {
+    gregorian_date()
+  }
 }
 
 
