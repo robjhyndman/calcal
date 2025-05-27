@@ -27,8 +27,8 @@ A hebrew vector object
 Create a Hebrew date object.
 }
 \examples{
-hebrew_date(2025, 3, 2:4)
-as_gregorian(hebrew_date(2025, 3, 2:4))
+hebrew_date(5785, 3, 2:4)
+as_gregorian(hebrew_date(5785, 3, 2:4))
 as_hebrew(gregorian_date(2025, 1, 1:31))
 as_hebrew("2016-01-01")
 as_hebrew(Sys.Date())

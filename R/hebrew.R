@@ -11,15 +11,14 @@
 #' @param day A numeric vector of days
 #' @return A hebrew vector object
 #' @examples
-#' hebrew_date(2025, 3, 2:4)
-#' as_gregorian(hebrew_date(2025, 3, 2:4))
+#' hebrew_date(5785, 3, 2:4)
+#' as_gregorian(hebrew_date(5785, 3, 2:4))
 #' as_hebrew(gregorian_date(2025, 1, 1:31))
 #' @export
 hebrew_date <- function(
-  year = integer(),
-  month = integer(),
-  day = integer()
-) {
+    year = integer(),
+    month = integer(),
+    day = integer()) {
   lst <- vec_cast_common(year = year, month = month, day = day, .to = integer())
   lst <- vec_recycle_common(
     year = lst$year,
@@ -94,14 +93,16 @@ hebrew_sabbatical_year <- function(h_year) {
 }
 
 last_day_of_hebrew_month <- function(h_year, h_month) {
-  out <- rep(30, length(h_year))
+  lst <- vec_recycle_common(year = h_year, month = h_month)
+  out <- rep(30, length(lst$year))
   out[
-    h_month %in%
+    lst$month %in%
       c(IYYAR, TAMMUZ, ELUL, TEVET, ADARII) |
-      (h_month == ADAR & !hebrew_leap_year(h_year)) |
-      (h_month == MARHESHVAN & !long_marheshvan(h_year)) |
-      (h_month == KISLEV & short_kislev(h_year))
+      (lst$month == ADAR & !hebrew_leap_year(lst$year)) |
+      (lst$month == MARHESHVAN & !long_marheshvan(lst$year)) |
+      (lst$month == KISLEV & short_kislev(lst$year))
   ] <- 29
+  out[lst$month > last_month_of_hebrew_year(lst$year)] <- NA
   return(out)
 }
 
@@ -154,33 +155,22 @@ as_rd.hebrew <- function(date, ...) {
   month <- standard_month(date)
   day <- standard_day(date)
   year <- standard_year(date)
-
   days_in_prior_months <- mapply(
     function(mth, yr) {
       if (mth < TISHRI) {
         # Before Tishri, add days in months from Tishri to last month of year
-        sum_prior_months_from_tishri <- sum(sapply(
-          TISHRI:last_month_of_hebrew_year(yr),
-          function(m) last_day_of_hebrew_month(yr, m)
-        ))
-
+        out <- sum(last_day_of_hebrew_month(yr, TISHRI:last_month_of_hebrew_year(yr)))
         # Add days in months from Nisan to the month before current
         if (mth > 1) {
-          sum_prior_months_from_nisan <- sum(sapply(
-            NISAN:(mth - 1),
-            function(m) last_day_of_hebrew_month(yr, m)
-          ))
-        } else {
-          sum_prior_months_from_nisan <- 0
+          out <- out + sum(last_day_of_hebrew_month(yr, NISAN:(mth - 1)))
         }
-        sum_prior_months_from_tishri + sum_prior_months_from_nisan
-      } else {
+      } else if (mth > TISHRI) {
         # Just sum days in prior months this year starting from Tishri
-        sum(sapply(
-          TISHRI:(mth - 1),
-          function(m) last_day_of_hebrew_month(yr, m)
-        ))
+        out <- sum(last_day_of_hebrew_month(yr, TISHRI:(mth - 1)))
+      } else {
+        out <- 0
       }
+      out
     },
     month,
     year,
@@ -218,16 +208,9 @@ as_hebrew.rd_fixed <- function(date, ...) {
   approx <- 1 + (vec_data(date) - HEBREW_EPOCH) %/% (35975351 / 98496)
 
   # Search forward for year
-  year <- mapply(
-    function(a, d) {
-      final_value(a - 1, function(y) {
-        hebrew_new_year(y) <= d
-      })
-    },
-    approx,
-    date,
-    SIMPLIFY = TRUE
-  )
+  ny <- hebrew_new_year(approx)
+  ny_next <- hebrew_new_year(approx + 1)
+  year <- approx - 1 + (date >= ny) + (date >= ny_next)
 
   start <- rep(NISAN, length(date))
   start[date < as_rd(hebrew_date(year, NISAN, 1))] <- TISHRI
