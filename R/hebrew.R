@@ -159,7 +159,10 @@ as_rd.hebrew <- function(date, ...) {
     function(mth, yr) {
       if (mth < TISHRI) {
         # Before Tishri, add days in months from Tishri to last month of year
-        out <- sum(last_day_of_hebrew_month(yr, TISHRI:last_month_of_hebrew_year(yr)))
+        out <- sum(last_day_of_hebrew_month(
+          yr,
+          TISHRI:last_month_of_hebrew_year(yr)
+        ))
         # Add days in months from Nisan to the month before current
         if (mth > 1) {
           out <- out + sum(last_day_of_hebrew_month(yr, NISAN:(mth - 1)))
@@ -238,31 +241,53 @@ fixed_from_molad <- function(moon) {
   fixed_from_moment(molad(1, TISHRI) + r * 765433)
 }
 
-yom_kippur <- function(g_year) {
-  h_year <- 1 + g_year - gregorian_year_from_fixed(HEBREW_EPOCH)
-  as_rd(hebrew_date(h_year, TISHRI, 10))
+#' Jewish Holidays
+#'
+#' Functions to return Gregorian dates for various Jewish holidays
+#'
+#' @param year A numeric vector of Gregorian years
+#' @examples
+#' tibble::tibble(
+#'   year = 2025:2030,
+#'   rosh_hashanah = rosh_hashanah(year),
+#'   passover = passover(year),
+#'   shavuot = shavuot(year),
+#'   yom_kippur = yom_kippur(year),
+#'   sukkot = sukkot(year),
+#'   hanukkah = hanukkah(year),
+#'   purim = purim(year),
+#' )
+#' @rdname jewish
+#' @export
+yom_kippur <- function(year) {
+  h_year <- 1 + year - gregorian_year_from_fixed(HEBREW_EPOCH)
+  as_gregorian(hebrew_date(h_year, TISHRI, 10))
 }
 
-passover <- function(g_year) {
-  h_year <- g_year - gregorian_year_from_fixed(HEBREW_EPOCH)
-  as_rd(hebrew_date(h_year, NISAN, 15))
+#' @rdname jewish
+#' @export
+passover <- function(year) {
+  h_year <- year - gregorian_year_from_fixed(HEBREW_EPOCH)
+  as_gregorian(hebrew_date(h_year, NISAN, 15))
 }
 
 omer <- function(date) {
-  u <- date - passover(gregorian_year_from_fixed(date))
+  u <- date - as_rd(passover(gregorian_year_from_fixed(date)))
   u[u < 1 | u > 49] <- NA
   c(u %/% 7, u %% 7)
 }
 
-purim <- function(g_year) {
-  h_year <- g_year - gregorian_year_from_fixed(HEBREW_EPOCH)
+#' @rdname jewish
+#' @export
+purim <- function(year) {
+  h_year <- year - gregorian_year_from_fixed(HEBREW_EPOCH)
   last_month <- last_month_of_hebrew_year(h_year)
 
-  as_rd(hebrew_date(h_year, last_month, 14))
+  as_gregorian(hebrew_date(h_year, last_month, 14))
 }
 
 ta_anit_esther <- function(g_year) {
-  purim_date <- purim(g_year)
+  purim_date <- as_rd(purim(g_year))
 
   if (day_of_week_from_fixed(purim_date) == SUNDAY) {
     purim_date - 3 # Prior Thursday
@@ -303,7 +328,16 @@ hebrew_birthday_in_gregorian <- function(birthdate, g_year) {
   date0 <- hebrew_birthday(birthdate, y)
   date1 <- hebrew_birthday(birthdate, y + 1)
   date2 <- hebrew_birthday(birthdate, y + 2)
-  list_range(c(date0, date1, date2), gregorian_year_range(g_year))
+
+  mapply(
+    function(d0, d1, d2, year) {
+      list_range(c(d0, d1, d2), gregorian_year_range(year))
+    },
+    date0,
+    date1,
+    date2,
+    g_year
+  )
 }
 
 yahrzeit <- function(death_date, h_year) {
@@ -351,7 +385,15 @@ yahrzeit_in_gregorian <- function(death_date, g_year) {
   date0 <- yahrzeit(death_date, y)
   date1 <- yahrzeit(death_date, y + 1)
   date2 <- yahrzeit(death_date, y + 2)
-  list_range(c(date0, date1, date2), gregorian_year_range(g_year))
+  mapply(
+    function(d0, d1, d2, year) {
+      list_range(c(d0, d1, d2), gregorian_year_range(year))
+    },
+    date0,
+    date1,
+    date2,
+    g_year
+  )
 }
 
 hebrew_in_gregorian <- function(h_month, h_day, g_year) {
@@ -360,9 +402,37 @@ hebrew_in_gregorian <- function(h_month, h_day, g_year) {
   date0 <- as_rd(hebrew_date(y, h_month, h_day))
   date1 <- as_rd(hebrew_date(y + 1, h_month, h_day))
   date2 <- as_rd(hebrew_date(y + 2, h_month, h_day))
-  list_range(c(date0, date1, date2), gregorian_year_range(g_year))
+  mapply(
+    function(d0, d1, d2, year) {
+      list_range(c(d0, d1, d2), gregorian_year_range(year))
+    },
+    date0,
+    date1,
+    date2,
+    g_year
+  )
 }
 
-hanukkah <- function(g_year) {
-  hebrew_in_gregorian(KISLEV, 25, g_year)
+#' @rdname jewish
+#' @export
+hanukkah <- function(year) {
+  as_gregorian(hebrew_in_gregorian(KISLEV, 25, year))
+}
+
+#' @rdname jewish
+#' @export
+rosh_hashanah <- function(year) {
+  as_gregorian(hebrew_in_gregorian(TISHRI, 1, year))
+}
+
+#' @rdname jewish
+#' @export
+sukkot <- function(year) {
+  as_gregorian(hebrew_in_gregorian(TISHRI, 15, year))
+}
+
+#' @rdname jewish
+#' @export
+shavuot <- function(year) {
+  as_gregorian(hebrew_in_gregorian(SIVAN, 6, year))
 }

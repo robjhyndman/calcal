@@ -14,10 +14,9 @@
 #' julian_date(2025, 4, 19:30)
 #' @export
 julian_date <- function(
-  year = integer(),
-  month = integer(),
-  day = integer()
-) {
+    year = integer(),
+    month = integer(),
+    day = integer()) {
   lst <- vec_cast_common(year = year, month = month, day = day, .to = integer())
   lst <- vec_recycle_common(
     year = lst$year,
@@ -151,8 +150,9 @@ julian_in_gregorian <- function(j_month, j_day, g_year) {
   date0 <- as_rd(julian_date(y, j_month, j_day))
   date1 <- as_rd(julian_date(y_prime, j_month, j_day))
 
-  result <- list_range(c(date0, date1), gregorian_year_range(g_year))
-  as_gregorian(result)
+  as_gregorian(mapply(function(d0, d1, year) {
+    list_range(c(d0, d1), gregorian_year_range(year))
+  }, date0, date1, g_year))
 }
 
 
