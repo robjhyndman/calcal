@@ -45,11 +45,12 @@
 #' week_day(gregorian_date(2025, 6, 25) + 1:10)
 #' @export
 linear_cyclic <- function(
-    gran_fun1,
-    gran_fun2,
-    gran_levels,
-    gran_name,
-    periodic = TRUE) {
+  gran_fun1,
+  gran_fun2,
+  gran_levels,
+  gran_name,
+  periodic = TRUE
+) {
   function(date) {
     lin_cyc_gran(
       gran_fun1(date),
@@ -62,11 +63,12 @@ linear_cyclic <- function(
 }
 
 lin_cyc_gran <- function(
-    gran1 = integer(),
-    gran2 = integer(),
-    gran_levels = character(),
-    gran_name = character(),
-    periodic = logical()) {
+  gran1 = integer(),
+  gran2 = integer(),
+  gran_levels = character(),
+  gran_name = character(),
+  periodic = logical()
+) {
   lst <- vec_recycle_common(
     gran1 = gran1,
     gran2 = factor(
@@ -132,10 +134,7 @@ vec_arith.linear_cyclic <- function(op, x, y, ...) {
 #' @export
 #' @method vec_arith.linear_cyclic linear_cyclic
 vec_arith.linear_cyclic.linear_cyclic <- function(op, x, y, ...) {
-  switch(op,
-    "-" = vec_arith_base(op, x, y),
-    stop_incompatible_op(op, x, y)
-  )
+  switch(op, "-" = vec_arith_base(op, x, y), stop_incompatible_op(op, x, y))
 }
 
 #' @export
@@ -151,7 +150,8 @@ vec_arith.linear_cyclic.numeric <- function(op, x, y, ...) {
     stop("Cannot add a numeric to an aperiodic granularity")
   }
   nlevels <- length(levels(field(x, "gran2")))
-  new_gran <- switch(op,
+  new_gran <- switch(
+    op,
     "+" = vec_arith_base(op, field(x, "gran2"), y),
     "-" = vec_arith_base(op, field(x, "gran2"), y),
     stop_incompatible_op(op, x, y)
