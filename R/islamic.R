@@ -153,11 +153,11 @@ islamic_in_gregorian <- function(i_month, i_day, g_year) {
 #' @examples
 #' tibble::tibble(
 #'   year = 2025:2029,
-#'   islamic_new_year = islamic_new_year(year),
-#'   mawlid = mawlid(year),
-#'   ramadan = ramadan(year),
-#'   eid_al_fitr = eid_al_fitr(year),
-#'   eid_al_adha = eid_al_adha(year)
+#'   `New year` = islamic_new_year(year),
+#'   Mawlid = mawlid(year),
+#'   Ramadan = ramadan(year),
+#'   `Eid al-Fitr` = eid_al_fitr(year),
+#'   `Eid al-Adha` = eid_al_adha(year)
 #' )
 #' ramadan(2030)
 #' @rdname islamic
