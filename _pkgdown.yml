@@ -40,6 +40,7 @@ reference:
       - easter
       - us_labor_day
       - rosh_hashanah
+      - ramadan
   - title: Time of day
     contents:
       - time_of_day
@@ -55,6 +56,8 @@ reference:
       - sunset
   - title: Non-Gregorian calendars
     contents:
+      - islamic_date
+      - as_islamic
       - iso_date
       - as_iso
       - julian_date
