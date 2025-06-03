@@ -29,6 +29,7 @@ JD_EPOCH <- -1721424.5
 MJD_EPOCH <- 678576
 UNIX_EPOCH <- 719163
 HEBREW_EPOCH <- vec_data(as_rd(julian_date(bce(3761), OCTOBER, 7)))
+ISLAMIC_EPOCH <- vec_data(as_rd(julian_date(ce(622), JULY, 16)))
 
 YEAR_ROME_FOUNDED <- bce(753)
 OLYMPIAD_START <- bce(776)
