@@ -34,7 +34,7 @@ iso_date <- function(
     .size = max(unlist(lapply(lst, length)))
   )
   check_iso(lst)
-  new_rcrd(lst, class = "iso")
+  new_rcrd(lst, class = c("iso", "calcalcal"))
 }
 
 check_iso <- function(args) {
@@ -65,11 +65,6 @@ iso_year <- function(date) {
 #' @export
 format.iso <- function(x, ...) {
   format_date(x)
-}
-
-#' @export
-as.character.iso <- function(x, ...) {
-  format(x)
 }
 
 #' Convert to an ISO date
@@ -121,28 +116,4 @@ iso_long_year <- function(i_year) {
 #' @export
 day_of_year.iso <- function(date, ...) {
   date - iso_date(field(date, "year"), 1, 1) + 1
-}
-
-
-# Arithmetic
-
-#' @export
-#' @method vec_arith iso
-vec_arith.iso <- function(op, x, y, ...) {
-  UseMethod("vec_arith.iso", y)
-}
-#' @export
-#' @method vec_arith.iso iso
-vec_arith.iso.iso <- function(op, x, y, ...) {
-  vec_arith(op, as_rd(x), as_rd(y))
-}
-#' @export
-#' @method vec_arith.numeric iso
-vec_arith.numeric.iso <- function(op, x, y, ...) {
-  as_iso(vec_arith(op, x, as_rd(y)))
-}
-#' @export
-#' @method vec_arith.iso numeric
-vec_arith.iso.numeric <- function(op, x, y, ...) {
-  as_iso(vec_arith(op, as_rd(x), y))
 }

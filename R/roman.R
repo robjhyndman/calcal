@@ -42,7 +42,7 @@ roman_date <- function(
     .size = max(unlist(lapply(lst, length)))
   )
   check_roman(lst)
-  new_rcrd(lst, class = "roman_date")
+  new_rcrd(lst, class = c("roman_date", "calcalcal"))
 }
 
 check_roman <- function(args) {
@@ -76,11 +76,6 @@ format.roman_date <- function(x, ...) {
   output <- gsub("  ", " ", output)
   output <- gsub(" ", "_", output)
   paste(roman_year(x), month.abb[roman_month(x)], output, sep = "-")
-}
-
-#' @export
-as.character.roman_date <- function(x, ...) {
-  format(x)
 }
 
 #' @export

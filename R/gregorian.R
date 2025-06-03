@@ -14,9 +14,10 @@
 #' gregorian_date(2025, 4, 19:30)
 #' @export
 gregorian_date <- function(
-    year = integer(),
-    month = integer(),
-    day = integer()) {
+  year = integer(),
+  month = integer(),
+  day = integer()
+) {
   lst <- vec_cast_common(year = year, month = month, day = day, .to = integer())
   lst <- vec_recycle_common(
     year = lst$year,
@@ -25,7 +26,7 @@ gregorian_date <- function(
     .size = max(unlist(lapply(lst, length)))
   )
   check_gregorian(lst)
-  new_rcrd(lst, class = "gregorian")
+  new_rcrd(lst, class = c("gregorian", "calcalcal"))
 }
 
 check_gregorian <- function(args) {
@@ -56,7 +57,8 @@ format.gregorian <- function(x, ...) {
     sprintf("%.2d", year(x)),
     month.abb[field(x, "month")],
     sprintf("%.2d", field(x, "day")),
-    sep = "-")
+    sep = "-"
+  )
 }
 
 #' @export
@@ -161,30 +163,6 @@ vec_cast.double.gregorian <- function(x, to, ...) {
   year(x) + (day_of_year(x) - 1) / (365 + gregorian_leap_year(year(x)))
 }
 
-# Arithmetic
-
-#' @export
-#' @method vec_arith gregorian
-vec_arith.gregorian <- function(op, x, y, ...) {
-  UseMethod("vec_arith.gregorian", y)
-}
-#' @export
-#' @method vec_arith.gregorian gregorian
-vec_arith.gregorian.gregorian <- function(op, x, y, ...) {
-  vec_arith(op, as_rd(x), as_rd(y))
-}
-#' @export
-#' @method vec_arith.numeric gregorian
-vec_arith.numeric.gregorian <- function(op, x, y, ...) {
-  as_gregorian(vec_arith(op, x, as_rd(y)))
-}
-#' @export
-#' @method vec_arith.gregorian numeric
-vec_arith.gregorian.numeric <- function(op, x, y, ...) {
-  as_gregorian(vec_arith(op, as_rd(x), y))
-}
-
-
 gregorian_new_year <- function(g_year) {
   as_rd(gregorian_date(g_year, JANUARY, 1))
 }
@@ -195,11 +173,6 @@ gregorian_year_end <- function(g_year) {
 
 gregorian_year_range <- function(g_year) {
   c(gregorian_new_year(g_year), gregorian_new_year(g_year + 1))
-}
-
-#' @export
-as.character.gregorian <- function(x, ...) {
-  format(x)
 }
 
 #' Extract parts of a Gregorian date
@@ -237,10 +210,11 @@ as.character.gregorian <- function(x, ...) {
 #' @rdname gregorian-parts
 #' @export
 day_of_week <- function(
-    date,
-    numeric = FALSE,
-    first_day = "Monday",
-    abbreviate = FALSE) {
+  date,
+  numeric = FALSE,
+  first_day = "Monday",
+  abbreviate = FALSE
+) {
   dow <- day_of_week_from_fixed(as_rd(date)) + 1
   if (numeric) {
     first_day <- pmatch(

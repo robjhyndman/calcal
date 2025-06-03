@@ -16,9 +16,10 @@
 #' as_hebrew(gregorian_date(2025, 1, 1:31))
 #' @export
 hebrew_date <- function(
-    year = integer(),
-    month = integer(),
-    day = integer()) {
+  year = integer(),
+  month = integer(),
+  day = integer()
+) {
   lst <- vec_cast_common(year = year, month = month, day = day, .to = integer())
   lst <- vec_recycle_common(
     year = lst$year,
@@ -27,7 +28,7 @@ hebrew_date <- function(
     .size = max(unlist(lapply(lst, length)))
   )
   check_hebrew(lst)
-  new_rcrd(lst, class = "hebrew")
+  new_rcrd(lst, class = c("hebrew", "calcalcal"))
 }
 
 check_hebrew <- function(args) {
@@ -72,10 +73,6 @@ format.hebrew <- function(x, ...) {
     sprintf("%.2d", field(x, "day")),
     sep = "-"
   )
-}
-
-as.character.hebrew <- function(x, ...) {
-  format(x)
 }
 
 hebrew_leap_year <- function(h_year) {

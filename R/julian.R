@@ -15,9 +15,10 @@
 #' @rdname julian_date
 #' @export
 julian_date <- function(
-    year = integer(),
-    month = integer(),
-    day = integer()) {
+  year = integer(),
+  month = integer(),
+  day = integer()
+) {
   lst <- vec_cast_common(year = year, month = month, day = day, .to = integer())
   lst <- vec_recycle_common(
     year = lst$year,
@@ -26,7 +27,7 @@ julian_date <- function(
     .size = max(unlist(lapply(lst, length)))
   )
   check_julian(lst)
-  new_rcrd(lst, class = "julian")
+  new_rcrd(lst, class = c("julian", "calcalcal"))
 }
 
 check_julian <- function(args) {
@@ -57,11 +58,6 @@ format.julian <- function(x, ...) {
     sprintf("%.2d", field(x, "day")),
     sep = "-"
   )
-}
-
-#' @export
-as.character.julian <- function(x, ...) {
-  format(x)
 }
 
 #' @export
@@ -155,9 +151,14 @@ julian_in_gregorian <- function(j_month, j_day, g_year) {
   date0 <- as_rd(julian_date(y, j_month, j_day))
   date1 <- as_rd(julian_date(y_prime, j_month, j_day))
 
-  out <- mapply(function(d0, d1, year) {
-    list_range(c(d0, d1), gregorian_year_range(year))
-  }, date0, date1, g_year)
+  out <- mapply(
+    function(d0, d1, year) {
+      list_range(c(d0, d1), gregorian_year_range(year))
+    },
+    date0,
+    date1,
+    g_year
+  )
   l <- lapply(out, length)
   out <- out[l > 0]
   if (length(out) > 0) {
@@ -167,29 +168,6 @@ julian_in_gregorian <- function(j_month, j_day, g_year) {
   }
 }
 
-
-# Arithmetic
-
-#' @export
-#' @method vec_arith julian
-vec_arith.julian <- function(op, x, y, ...) {
-  UseMethod("vec_arith.julian", y)
-}
-#' @export
-#' @method vec_arith.julian julian
-vec_arith.julian.julian <- function(op, x, y, ...) {
-  vec_arith(op, as_rd(x), as_rd(y))
-}
-#' @export
-#' @method vec_arith.numeric julian
-vec_arith.numeric.julian <- function(op, x, y, ...) {
-  as_julian(vec_arith(op, x, as_rd(y)))
-}
-#' @export
-#' @method vec_arith.julian numeric
-vec_arith.julian.numeric <- function(op, x, y, ...) {
-  as_julian(vec_arith(op, as_rd(x), y))
-}
 
 # Julian Day functions
 moment_from_jd <- function(jd) {
