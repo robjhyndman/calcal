@@ -1,14 +1,14 @@
 test_that("granularities", {
-  expect_equal(granularities(iso_date(2025, 23, 2:4)), c("year", "week", "day"))
-  expect_equal(
-    granularities(gregorian_date(2025, 4, 19:30)),
-    c("year", "month", "day")
-  )
-  expect_equal(
-    granularities(as_roman(Sys.Date())),
+  date <- as.Date("2025-04-26") + 1:7
+  expect_equal(granularities(as_iso(date)), c("year", "week", "day"))
+  expect_equal(granularities(as_gregorian(date)), c("year", "month", "day"))
+  expect_equal(granularities(as_roman(date)),
     c("year", "month", "event", "count", "leap")
   )
-  expect_equal(granularity(iso_date(2025, 23, 2:4), "week"), 23)
-  expect_equal(granularity(gregorian_date(2025, 4, 19:21), "month"), 4)
-  expect_equal(granularity(as_roman(Sys.Date()), "event"), 1)
+  expect_equal(granularity(as_iso(date), "week"), c(17, rep(18, 6)))
+  expect_equal(
+    granularity(as_gregorian(date), "month"),
+    c(rep(4, 4), rep(5, 3))
+  )
+  expect_equal(granularity(as_roman(date), "count"), 18:12)
 })
