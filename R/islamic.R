@@ -193,3 +193,15 @@ eid_al_fitr <- function(year) {
 eid_al_adha <- function(year) {
   as_gregorian(islamic_in_gregorian(12, 10, year))
 }
+
+
+
+
+#' @export
+vec_cast.double.islamic <- function(x, to, ...) {
+  vec_data(as_rd(x))
+}
+#' @export
+vec_cast.integer.islamic <- function(x, to, ...) {
+  as.integer(as.numeric(x))
+}

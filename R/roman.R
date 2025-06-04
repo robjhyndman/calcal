@@ -243,3 +243,15 @@ julian_year_from_olympiad <- function(o_date) {
   year <- olympiad_year(o_date)
   OLYMPIAD_START + 4 * (cycle - 1) + year - 1 + year >= 0
 }
+
+
+
+
+#' @export
+vec_cast.double.roman_date <- function(x, to, ...) {
+  vec_data(as_rd(x))
+}
+#' @export
+vec_cast.integer.roman_date <- function(x, to, ...) {
+  as.integer(as.numeric(x))
+}

@@ -194,3 +194,15 @@ fixed_from_mjd <- function(mjd) {
 mjd_from_fixed <- function(date) {
   date - MJD_EPOCH
 }
+
+
+
+
+#' @export
+vec_cast.double.julian <- function(x, to, ...) {
+  vec_data(as_rd(x))
+}
+#' @export
+vec_cast.integer.julian <- function(x, to, ...) {
+  as.integer(as.numeric(x))
+}

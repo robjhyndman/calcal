@@ -158,11 +158,6 @@ last_day_of_gregorian_month <- function(g_year, g_month) {
   gregorian_date(y, m, 1) - gregorian_date(g_year, g_month, 1)
 }
 
-#' @export
-vec_cast.double.gregorian <- function(x, to, ...) {
-  year(x) + (day_of_year(x) - 1) / (365 + gregorian_leap_year(year(x)))
-}
-
 gregorian_new_year <- function(g_year) {
   as_rd(gregorian_date(g_year, JANUARY, 1))
 }
@@ -310,4 +305,14 @@ month_of_year <- function(date) {
 #' @export
 year <- function(date) {
   field(date, "year")
+}
+
+
+#' @export
+vec_cast.double.gregorian <- function(x, to, ...) {
+  vec_data(as_rd(x))
+}
+#' @export
+vec_cast.integer.gregorian <- function(x, to, ...) {
+  as.integer(as.numeric(x))
 }

@@ -433,3 +433,12 @@ sukkot <- function(year) {
 shavuot <- function(year) {
   as_gregorian(hebrew_in_gregorian(SIVAN, 6, year))
 }
+
+#' @export
+vec_cast.double.hebrew <- function(x, to, ...) {
+  vec_data(as_rd(x))
+}
+#' @export
+vec_cast.integer.hebrew <- function(x, to, ...) {
+  as.integer(as.numeric(x))
+}

@@ -59,9 +59,3 @@ test_that("parts_of_date", {
   )
   expect_true(all(day_of_year(yr2025) + days_remaining(yr2025) == 365))
 })
-
-
-test_that("conversion", {
-  expect_equal(as.numeric(gregorian_date(2025,1,1)+0:364), 2025+(0:364)/365)
-}
-)

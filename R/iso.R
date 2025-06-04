@@ -117,3 +117,15 @@ iso_long_year <- function(i_year) {
 day_of_year.iso <- function(date, ...) {
   date - iso_date(field(date, "year"), 1, 1) + 1
 }
+
+
+
+
+#' @export
+vec_cast.double.iso <- function(x, to, ...) {
+  vec_data(as_rd(x))
+}
+#' @export
+vec_cast.integer.iso <- function(x, to, ...) {
+  as.integer(as.numeric(x))
+}
