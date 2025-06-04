@@ -41,6 +41,11 @@ reference:
       - us_labor_day
       - rosh_hashanah
       - ramadan
+  - title: Granularities
+    contents:
+      - granularity
+      - granularities
+      - linear_cyclic
   - title: Time of day
     contents:
       - time_of_day
@@ -70,6 +75,3 @@ reference:
     contents:
       - as_rd
       - rd_fixed
-  - title: Granularities
-    contents:
-      - linear_cyclic

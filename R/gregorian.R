@@ -251,7 +251,7 @@ day_of_month <- function(date) {
   if (!("month" %in% attributes(date)$names)) {
     stop("Date must contain months")
   }
-  field(date, "day")
+  granularity(date, "day")
 }
 
 
@@ -298,13 +298,13 @@ week_of_year <- function(date, first_day = "Monday") {
 #' @rdname gregorian-parts
 #' @export
 month_of_year <- function(date) {
-  field(date, "month")
+  granularity(date, "month")
 }
 
 #' @rdname gregorian-parts
 #' @export
 year <- function(date) {
-  field(date, "year")
+  granularity(date, "year")
 }
 
 
