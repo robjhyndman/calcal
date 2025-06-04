@@ -1,6 +1,7 @@
-# Find and extract canonical granularities from a calendar object
-
-#' Canonical granularities for a calendar
+#' Find and extract canonical granularities from a calendar object
+#'
+#' `granularities()` will return a character vector of granularity names.
+#' `granularity()` will return a vector of numerical values for a given granularity.
 #'
 #' @param dates A vector of calendar dates
 #' @rdname granularities
@@ -13,9 +14,6 @@ granularities <- function(dates) {
   vctrs::fields(dates)
 }
 
-#' Extract a granularity from a calendar
-#'
-#' @param dates A vector of calendar dates
 #' @param granularity A character string indicating the granularity to extract
 #' @rdname granularities
 #' @examples

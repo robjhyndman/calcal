@@ -3,7 +3,7 @@
 \name{granularities}
 \alias{granularities}
 \alias{granularity}
-\title{Canonical granularities for a calendar}
+\title{Find and extract canonical granularities from a calendar object}
 \usage{
 granularities(dates)
 
@@ -15,9 +15,8 @@ granularity(dates, granularity)
 \item{granularity}{A character string indicating the granularity to extract}
 }
 \description{
-Canonical granularities for a calendar
-
-Extract a granularity from a calendar
+\code{granularities()} will return a character vector of granularity names.
+\code{granularity()} will return a vector of numerical values for a given granularity.
 }
 \examples{
 granularities(iso_date(2025, 23, 2:4))
