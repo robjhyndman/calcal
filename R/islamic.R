@@ -129,17 +129,7 @@ islamic_in_gregorian <- function(i_month, i_day, g_year) {
   date0 <- as_rd(islamic_date(y, i_month, i_day))
   date1 <- as_rd(islamic_date(y + 1, i_month, i_day))
   date2 <- as_rd(islamic_date(y + 2, i_month, i_day))
-  out <- mapply(
-    function(d0, d1, d2, year) {
-      list_range(c(d0, d1, d2), gregorian_year_range(year))
-    },
-    date0,
-    date1,
-    date2,
-    g_year,
-    SIMPLIFY = TRUE
-  )
-  as_rd(c(unlist(out)))
+  dates3_in_gregorian(g_year, date0, date1, date2)
 }
 
 #' Islamic holidays

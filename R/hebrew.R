@@ -399,15 +399,7 @@ hebrew_in_gregorian <- function(h_month, h_day, g_year) {
   date0 <- as_rd(hebrew_date(y, h_month, h_day))
   date1 <- as_rd(hebrew_date(y + 1, h_month, h_day))
   date2 <- as_rd(hebrew_date(y + 2, h_month, h_day))
-  mapply(
-    function(d0, d1, d2, year) {
-      list_range(c(d0, d1, d2), gregorian_year_range(year))
-    },
-    date0,
-    date1,
-    date2,
-    g_year
-  )
+  dates3_in_gregorian(g_year, date0, date1, date2)
 }
 
 #' @rdname jewish

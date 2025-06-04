@@ -197,3 +197,25 @@ format_date <- function(parts) {
     paste(sprintf("%.2d", x), collapse = "-")
   })
 }
+
+dates2_in_gregorian <- function(g_year, date0, date1) {
+ out <- mapply(
+    function(d0, d1, year) {
+      list_range(c(d0, d1), gregorian_year_range(year))
+    },
+    date0, date1, g_year,
+    SIMPLIFY = TRUE
+  )
+  as_rd(c(unlist(out)))
+}
+
+dates3_in_gregorian <- function(g_year, date0, date1, date2) {
+ out <- mapply(
+    function(d0, d1, d2, year) {
+      list_range(c(d0, d1, d2), gregorian_year_range(year))
+    },
+    date0, date1, date2, g_year,
+    SIMPLIFY = TRUE
+  )
+  as_rd(c(unlist(out)))
+}

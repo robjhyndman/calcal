@@ -38,7 +38,7 @@ christmas <- function(year) {
 #' @export
 orthodox_christmas <- function(year) {
   # List of zero or one fixed dates of Eastern Orthodox Christmas in Gregorian year
-  julian_in_gregorian(DECEMBER, 25, year)
+  as_gregorian(julian_in_gregorian(DECEMBER, 25, year))
 }
 
 #' @rdname christian
