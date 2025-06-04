@@ -23,8 +23,14 @@ reference:
   - title: "Package"
     contents:
       - calcal-package
-  - title: Gregorian dates
+  - title: Create new calendars and dates
     contents:
+      - cal_calendar
+      - new_date
+      - as_date
+  - title: Gregorian calendar
+    contents:
+      - cal_gregorian
       - gregorian_date
       - as_gregorian
       - day_of_week
@@ -35,6 +41,31 @@ reference:
       - week_of_year
       - month_of_year
       - year
+  - title: Hebrew calendar
+    contents:
+      - cal_hebrew
+      - hebrew_date
+      - as_hebrew
+  - title: Islamic calendar
+    contents:
+      - cal_islamic
+      - islamic_date
+      - as_islamic
+  - title: ISO calendar
+    contents:
+      - cal_iso
+      - iso_date
+      - as_iso
+  - title: Julian calendar
+    contents:
+      - cal_julian
+      - julian_date
+      - as_julian
+  - title: Roman calendar
+    contents:
+      - cal_roman
+      - roman_date
+      - as_roman
   - title: Holidays and special days
     contents:
       - easter
@@ -59,18 +90,6 @@ reference:
       - new_moons
       - sunrise
       - sunset
-  - title: Non-Gregorian calendars
-    contents:
-      - islamic_date
-      - as_islamic
-      - iso_date
-      - as_iso
-      - julian_date
-      - as_julian
-      - hebrew_date
-      - as_hebrew
-      - roman_date
-      - as_roman
   - title: Fixed RD dates
     contents:
       - as_rd
