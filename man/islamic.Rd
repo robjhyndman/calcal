@@ -25,16 +25,17 @@ eid_al_adha(year)
 A list of dates on the Gregorian calendar
 }
 \description{
-Functions to return Gregorian dates for various Islamic holidays
+Functions to return Gregorian dates for various Islamic holidays. Specific
+dates can vary slightly based on moon sightings in different regions.
 }
 \examples{
 tibble::tibble(
   year = 2025:2029,
-  islamic_new_year = islamic_new_year(year),
-  mawlid = mawlid(year),
-  ramadan = ramadan(year),
-  eid_al_fitr = eid_al_fitr(year),
-  eid_al_adha = eid_al_adha(year)
+  `New year` = islamic_new_year(year),
+  Mawlid = mawlid(year),
+  Ramadan = ramadan(year),
+  `Eid al-Fitr` = eid_al_fitr(year),
+  `Eid al-Adha` = eid_al_adha(year)
 )
 ramadan(2030)
 }
