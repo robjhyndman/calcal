@@ -1,8 +1,8 @@
-#' Find and extract canonical granularities from a calendar object
+#' Canonical granularities
 #'
-#' `granularities()` will return a character vector of granularity names for the
-#' relevant calendar.
-#' `granularity()` will return a vector of numerical values for a given granularity.
+#' `granularities()` will return a character vector of canonical granularity names for the
+#' relevant calendar. These are the granularities used to define dates on the calendar.
+#' `granularity()` will return a vector of numerical values for a given canonical granularity.
 #'
 #' @param dates A vector of calendar dates
 #' @rdname granularities
@@ -21,6 +21,7 @@ granularities <- function(dates) {
 #' granularity(iso_date(2025, 23, 2), "week")
 #' granularity(gregorian_date(2025, 4, 19), "month")
 #' granularity(as_roman(Sys.Date()), "count")
+#' @seealso \code{\link{week_of_year}} for some non-canonical granularities.
 #' @export
 granularity <- function(dates, granularity) {
   vctrs::field(dates, granularity)

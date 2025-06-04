@@ -3,7 +3,7 @@
 \name{granularities}
 \alias{granularities}
 \alias{granularity}
-\title{Find and extract canonical granularities from a calendar object}
+\title{Canonical granularities}
 \usage{
 granularities(dates)
 
@@ -15,14 +15,18 @@ granularity(dates, granularity)
 \item{granularity}{A character string indicating the granularity to extract}
 }
 \description{
-\code{granularities()} will return a character vector of granularity names.
-\code{granularity()} will return a vector of numerical values for a given granularity.
+\code{granularities()} will return a character vector of canonical granularity names for the
+relevant calendar. These are the granularities used to define dates on the calendar.
+\code{granularity()} will return a vector of numerical values for a given canonical granularity.
 }
 \examples{
-granularities(iso_date(2025, 23, 2:4))
-granularities(gregorian_date(2025, 4, 19:30))
+granularities(iso_date(2025, 23, 2))
+granularities(gregorian_date(2025, 4, 19))
 granularities(as_roman(Sys.Date()))
-granularity(iso_date(2025, 23, 2:4), "week")
-granularity(gregorian_date(2025, 4, 19:21), "month")
-granularity(as_roman(Sys.Date()), "event")
+granularity(iso_date(2025, 23, 2), "week")
+granularity(gregorian_date(2025, 4, 19), "month")
+granularity(as_roman(Sys.Date()), "count")
+}
+\seealso{
+\code{\link{week_of_year}} for some non-canonical granularities.
 }
