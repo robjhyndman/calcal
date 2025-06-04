@@ -4,25 +4,31 @@
 #' relevant calendar. These are the granularities used to define dates on the calendar.
 #' `granularity()` will return a vector of numerical values for a given canonical granularity.
 #'
-#' @param dates A vector of calendar dates
-#' @rdname granularities
-#' @examples
-#' granularities(iso_date(2025, 23, 2))
-#' granularities(gregorian_date(2025, 4, 19))
-#' granularities(as_roman(Sys.Date()))
-#' @export
-granularities <- function(dates) {
-  vctrs::fields(dates)
-}
-
+#' @param calendar A calcal object defining a calendar.
+#' @param date A date vector on some calendar
 #' @param granularity A character string indicating the granularity to extract
 #' @rdname granularities
 #' @examples
-#' granularity(iso_date(2025, 23, 2), "week")
-#' granularity(gregorian_date(2025, 4, 19), "month")
-#' granularity(as_roman(Sys.Date()), "count")
+#' granularities(cal_iso)
+#' granularities(cal_gregorian)
+#' date_iso <- new_date(year = 2025, week = 23, day = 2, calendar = cal_iso)
+#' granularity(date_iso, "week")
+#' date_gregorian <- new_date(year = 2025, month = 1, day = 1, calendar = cal_gregorian)
+#' granularity(date_gregorian, "month")
 #' @seealso \code{\link{week_of_year}} for some non-canonical granularities.
 #' @export
-granularity <- function(dates, granularity) {
-  vctrs::field(dates, granularity)
+granularities <- function(calendar) {
+  if(inherits(calendar, "calcalvec")) {
+    attributes(calendar)$granularities
+  } else if(inherits(calendar, "calcal")) {
+    calendar$granularities
+  } else {
+    stop("Invalid calendar")
+  }
+}
+
+#' @rdname granularities
+#' @export
+granularity <- function(date, granularity) {
+  vctrs::field(date, granularity)
 }

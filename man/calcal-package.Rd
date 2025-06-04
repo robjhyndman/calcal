@@ -17,7 +17,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Rob Hyndman \email{Rob.Hyndman@monash.edu} (\href{https://orcid.org/0000-0002-2140-5352}{ORCID}) (R port) [translator]
+\strong{Maintainer}: Rob Hyndman \email{Rob.Hyndman@monash.edu} (\href{https://orcid.org/0000-0002-2140-5352}{ORCID})
 
 Other contributors:
 \itemize{

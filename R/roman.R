@@ -24,63 +24,14 @@ roman_date <- function(
   count = integer(),
   leap = logical()
 ) {
-  lst <- vec_cast_common(
+  new_date(
     year = year,
     month = month,
     event = event,
     count = count,
-    .to = integer()
+    leap = leap,
+    calendar = cal_roman
   )
-  lst$leap <- vec_cast(leap, logical())
-
-  lst <- vec_recycle_common(
-    year = lst$year,
-    month = lst$month,
-    event = lst$event,
-    count = lst$count,
-    leap = lst$leap,
-    .size = max(unlist(lapply(lst, length)))
-  )
-  check_roman(lst)
-  new_rcrd(lst, class = c("roman_date", "calcalcal"))
-}
-
-check_roman <- function(args) {
-  year <- args$year
-  month <- args$month
-  event <- args$event
-  count <- args$count
-  leap <- args$leap
-  if (any(month < 1 | month > 12, na.rm = TRUE)) {
-    stop("`month` must be between 1 and 12")
-  }
-  if (any(event < 1 | event > 3, na.rm = TRUE)) {
-    stop("`event` must be between 1 and 3")
-  }
-  # if (any(count < 1 | count > 19, na.rm = TRUE)) {
-  #  stop("`count` must be between 1 and 19")
-  # }
-}
-
-#' @export
-format.roman_date <- function(x, ...) {
-  # format_date(x)
-  event <- c("Kalends", "Nones", "Ides")[roman_event(x)]
-  count <- roman_count(x)
-  prefix <- rep("ad", length(count))
-  prefix[count == 2] <- "pridie"
-  prefix[count == 1] <- ""
-  days <- tolower(utils::as.roman(count))
-  days[count <= 2] <- ""
-  output <- trimws(paste(prefix, days, event))
-  output <- gsub("  ", " ", output)
-  output <- gsub(" ", "_", output)
-  paste(roman_year(x), month.abb[roman_month(x)], output, sep = "-")
-}
-
-#' @export
-vec_ptype_abbr.roman_date <- function(x, ...) {
-  "Rom"
 }
 
 roman_year <- function(date) {
@@ -103,16 +54,39 @@ roman_leap <- function(date) {
   field(date, "leap")
 }
 
-ides_of_month <- function(month) {
-  13 + 2 * (month %in% c(MARCH, MAY, JULY, OCTOBER))
+check_roman <- function(args) {
+  year <- args$year
+  month <- args$month
+  event <- args$event
+  count <- args$count
+  leap <- args$leap
+  if (any(month < 1 | month > 12, na.rm = TRUE)) {
+    stop("`month` must be between 1 and 12")
+  }
+  if (any(event < 1 | event > 3, na.rm = TRUE)) {
+    stop("`event` must be between 1 and 3")
+  }
+  # if (any(count < 1 | count > 19, na.rm = TRUE)) {
+  #  stop("`count` must be between 1 and 19")
+  # }
 }
 
-nones_of_month <- function(month) {
-  ides_of_month(month) - 8
+format_roman <- function(x, ...) {
+  # format_date(x)
+  event <- c("Kalends", "Nones", "Ides")[roman_event(x)]
+  count <- roman_count(x)
+  prefix <- rep("ad", length(count))
+  prefix[count == 2] <- "pridie"
+  prefix[count == 1] <- ""
+  days <- tolower(utils::as.roman(count))
+  days[count <= 2] <- ""
+  output <- trimws(paste(prefix, days, event))
+  output <- gsub("  ", " ", output)
+  output <- gsub(" ", "_", output)
+  paste(roman_year(x), month.abb[roman_month(x)], output, sep = "-")
 }
 
-#' @export
-as_rd.roman_date <- function(date, ...) {
+fixed_from_roman <- function(date, ...) {
   leap <- roman_leap(date)
   count <- roman_count(date)
   event <- roman_event(date)
@@ -138,21 +112,7 @@ as_rd.roman_date <- function(date, ...) {
     as.numeric(leap)
 }
 
-#' @rdname roman_date
-#' @param date A date object
-#' @param ... Additional arguments not currently used
-#' @export
-as_roman <- function(date, ...) {
-  UseMethod("as_roman")
-}
-
-#' @export
-as_roman.default <- function(date, ...) {
-  as_roman(as_rd(date))
-}
-
-#' @export
-as_roman.rd_fixed <- function(date, ...) {
+roman_from_fixed <- function(date, ...) {
   j_date <- as_julian(date)
   month <- standard_month(j_date)
   day <- standard_day(j_date)
@@ -213,6 +173,47 @@ as_roman.rd_fixed <- function(date, ...) {
   output
 }
 
+#' Work with Roman calendar dates
+#'
+#' Create a Roman date object.
+#'
+#' roman_date(66, 4, 1, 1, FALSE)
+#' as_roman(Sys.Date())
+#' @export
+cal_roman <- cal_calendar(
+  name = "Roman",
+  short_name = "Rm",
+  epoch = 0, # TO REPLACE,
+  granularities = c("year", "month", "event", "count", "leap"),
+  check_granularities = check_roman,
+  format = format_roman,
+  from_rd = roman_from_fixed,
+  to_rd = fixed_from_roman
+)
+
+#' Convert to a Roman date
+#'
+#' @param date Vector of dates on some calendar
+#' @examples
+#' as_roman("2016-01-01")
+#' as_roman(Sys.Date())
+#' tibble::tibble(
+#'   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
+#'   y = as_roman(x)
+#' )
+#' @export
+as_roman <- function(date) {
+  as_date(date, calendar = cal_roman)
+}
+
+ides_of_month <- function(month) {
+  13 + 2 * (month %in% c(MARCH, MAY, JULY, OCTOBER))
+}
+
+nones_of_month <- function(month) {
+  ides_of_month(month) - 8
+}
+
 julian_year_from_auc <- function(year) {
   year + YEAR_ROME_FOUNDED - (1 <= year & year <= -YEAR_ROME_FOUNDED)
 }
@@ -242,16 +243,4 @@ julian_year_from_olympiad <- function(o_date) {
   cycle <- olympiad_cycle(o_date)
   year <- olympiad_year(o_date)
   OLYMPIAD_START + 4 * (cycle - 1) + year - 1 + year >= 0
-}
-
-
-
-
-#' @export
-vec_cast.double.roman_date <- function(x, to, ...) {
-  vec_data(as_rd(x))
-}
-#' @export
-vec_cast.integer.roman_date <- function(x, to, ...) {
-  as.integer(as.numeric(x))
 }

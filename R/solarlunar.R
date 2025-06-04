@@ -19,7 +19,6 @@ sidereal_from_moment <- function(tee) {
     360
 }
 
-
 ephemeris_correction <- function(tee) {
   year <- gregorian_year_from_fixed(floor(tee))
   u <- (gregorian_date(year, JULY, 1) - gregorian_date(1900, JANUARY, 1)) /
@@ -1072,7 +1071,6 @@ lunar_phase_at_or_after <- function(phi, tee) {
 
   invert_angular(lunar_phase, phi, c(a, b))
 }
-
 
 #' Full moons and new moons in Gregorian years
 #'

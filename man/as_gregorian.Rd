@@ -4,12 +4,10 @@
 \alias{as_gregorian}
 \title{Convert to a Gregorian date}
 \usage{
-as_gregorian(date, ...)
+as_gregorian(date)
 }
 \arguments{
-\item{date}{Vector of dates on some calendar}
-
-\item{...}{Additional arguments not currently used}
+\item{date}{A gregorian vector object}
 }
 \description{
 Convert to a Gregorian date

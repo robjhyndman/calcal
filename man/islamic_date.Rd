@@ -2,12 +2,9 @@
 % Please edit documentation in R/islamic.R
 \name{islamic_date}
 \alias{islamic_date}
-\alias{as_islamic}
 \title{Islamic calendar dates}
 \usage{
 islamic_date(year = integer(), month = integer(), day = integer())
-
-as_islamic(date, ...)
 }
 \arguments{
 \item{year}{A numeric vector of years}
@@ -15,10 +12,6 @@ as_islamic(date, ...)
 \item{month}{A numeric vector of months}
 
 \item{day}{A numeric vector of days}
-
-\item{date}{Vector of dates on some calendar}
-
-\item{...}{Additional arguments not currently used}
 }
 \value{
 An islamic vector object
@@ -28,10 +21,4 @@ Create an Islamic date object.
 }
 \examples{
 islamic_date(2025, 4, 19:30)
-as_islamic("2016-01-01")
-as_islamic(Sys.Date())
-tibble::tibble(
-  x = gregorian_date(2025, 5, 1:31),
-  y = as_islamic(x)
-)
 }

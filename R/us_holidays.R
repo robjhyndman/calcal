@@ -59,7 +59,6 @@ us_daylight_saving_end <- function(year) {
   as_gregorian(first_kday(SUNDAY, gregorian_date(year, NOVEMBER, 1)))
 }
 
-
 #' @rdname us_holidays
 #' @export
 unlucky_fridays <- function(year) {

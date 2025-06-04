@@ -119,7 +119,6 @@ time_from_moment <- function(tee) {
   tee %% 1
 }
 
-
 from_radix <- function(a, b, c = NULL) {
   if (is.null(c)) {
     if (is.null(b)) {
@@ -166,7 +165,6 @@ clock_from_moment <- function(tee) {
   return(result[-1]) # Skip the first element
 }
 
-
 moment_from_unix <- function(s) {
   UNIX_EPOCH + s / (24 * 60 * 60)
 }
@@ -185,36 +183,28 @@ list_range <- function(ell, range) {
   ell[in_range(ell, range)]
 }
 
-
-# Format date
-format_date <- function(parts) {
-  # Strip out non-numeric parts
-  # Currently this is only the logical indicator of a leap year in a Roman date
-  # May need to update for other calendars
-  parts <- unclass(parts)
-  numeric_col <- unlist(lapply(parts, is.numeric))
-  apply(as.data.frame(parts[numeric_col]), 1, function(x) {
-    paste(sprintf("%.2d", x), collapse = "-")
-  })
-}
-
 dates2_in_gregorian <- function(g_year, date0, date1) {
- out <- mapply(
+  out <- mapply(
     function(d0, d1, year) {
       list_range(c(d0, d1), gregorian_year_range(year))
     },
-    date0, date1, g_year,
+    date0,
+    date1,
+    g_year,
     SIMPLIFY = TRUE
   )
   as_rd(c(unlist(out)))
 }
 
 dates3_in_gregorian <- function(g_year, date0, date1, date2) {
- out <- mapply(
+  out <- mapply(
     function(d0, d1, d2, year) {
       list_range(c(d0, d1, d2), gregorian_year_range(year))
     },
-    date0, date1, date2, g_year,
+    date0,
+    date1,
+    date2,
+    g_year,
     SIMPLIFY = TRUE
   )
   as_rd(c(unlist(out)))

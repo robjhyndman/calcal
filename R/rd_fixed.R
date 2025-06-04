@@ -32,7 +32,6 @@ vec_cast.double.rd_fixed <- function(x, to, ...) vec_data(x)
 #' @export
 vec_cast.integer.rd_fixed <- function(x, to, ...) vec_data(x)
 
-
 #' Convert date to rd_fixed date
 #'
 #' @param date Vector of dates on some calendar
@@ -47,8 +46,16 @@ as_rd <- function(date, ...) {
 }
 
 #' @export
+as_rd.rd_fixed <- function(date, ...) date
+
+#' @export
 as_rd.default <- function(date, ...) {
   stop("cannot coerce class ", class(date), " to rd_fixed")
+}
+
+#' @export
+as_rd.calcalvec <- function(date, ...) {
+  attributes(date)$calendar$to_rd(date)
 }
 
 #' @export

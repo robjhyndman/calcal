@@ -19,15 +19,7 @@ islamic_date <- function(
   month = integer(),
   day = integer()
 ) {
-  lst <- vec_cast_common(year = year, month = month, day = day, .to = integer())
-  lst <- vec_recycle_common(
-    year = lst$year,
-    month = lst$month,
-    day = lst$day,
-    .size = max(unlist(lapply(lst, length)))
-  )
-  check_islamic(lst)
-  new_rcrd(lst, class = c("islamic", "calcalcal"))
+  new_date(year = year, month = month, day = day, calendar = cal_islamic)
 }
 
 check_islamic <- function(args) {
@@ -43,8 +35,7 @@ check_islamic <- function(args) {
 }
 
 # Register format method for islamic_date
-#' @export
-format.islamic <- function(x, ...) {
+format_islamic <- function(x, ...) {
   paste(
     sprintf("%.2d", year(x)),
     c(
@@ -66,17 +57,7 @@ format.islamic <- function(x, ...) {
   )
 }
 
-#' @export
-vec_ptype_abbr.islamic <- function(x, ...) {
-  "Hij"
-}
-
-islamic_leap_year <- function(i_year) {
-  (i_year * 11 + 14) %% 30 < 11
-}
-
-#' @export
-as_rd.islamic <- function(date, ...) {
+fixed_from_islamic <- function(date, ...) {
   month <- standard_month(date)
   day <- standard_day(date)
   year <- standard_year(date)
@@ -92,25 +73,7 @@ as_rd.islamic <- function(date, ...) {
   )
 }
 
-#' Convert to an Islamic date
-#'
-#' @param date Vector of dates on some calendar
-#' @param ... Additional arguments not currently used
-#' @rdname islamic_date
-#' @examples
-#' as_islamic("2016-01-01")
-#' as_islamic(Sys.Date())
-#' tibble::tibble(
-#'   x = gregorian_date(2025, 5, 1:31),
-#'   y = as_islamic(x)
-#' )
-#' @export
-as_islamic <- function(date, ...) {
-  UseMethod("as_islamic")
-}
-
-#' @export
-as_islamic.rd_fixed <- function(date, ...) {
+islamic_from_fixed <- function(date, ...) {
   year <- (30 * (vec_data(date) - ISLAMIC_EPOCH) + 10646) %/% 10631
   prior_days <- date - as_rd(islamic_date(year, 1, 1))
   month <- (11 * prior_days + 330) %/% 325
@@ -118,9 +81,45 @@ as_islamic.rd_fixed <- function(date, ...) {
   islamic_date(year, month, day)
 }
 
+#' Work with Islamic dates
+#'
+#' @examples
+#' as_date("2016-01-01", calendar = cal_islamic)
+#' as_date(Sys.Date(), calendar = cal_islamic)
+#' tibble::tibble(
+#'   x = new_date(year = 2025, month = 5, day = 1:31, calendar = cal_gregorian),
+#'   y = as_date(x, calendar = cal_islamic)
+#' )
+#' new_date(year = 2025, month = 4, day = 19:30, calendar = cal_islamic)
 #' @export
-as_islamic.default <- function(date, ...) {
-  as_islamic(as_rd(date))
+cal_islamic <- cal_calendar(
+  name = "Islamic",
+  short_name = "Hij",
+  epoch = 0, # TO REPLACE,
+  granularities = c("year", "month", "day"),
+  check_granularities = check_islamic,
+  format = format_islamic,
+  from_rd = islamic_from_fixed,
+  to_rd = fixed_from_islamic
+)
+
+#' Convert to an Islamic date
+#'
+#' @param date Vector of dates on some calendar
+#' @examples
+#' as_islamic("2016-01-01")
+#' as_islamic(Sys.Date())
+#' tibble::tibble(
+#'   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
+#'   y = as_islamic(x)
+#' )
+#' @export
+as_islamic <- function(date) {
+  as_date(date, calendar = cal_islamic)
+}
+
+islamic_leap_year <- function(i_year) {
+  (i_year * 11 + 14) %% 30 < 11
 }
 
 islamic_in_gregorian <- function(i_month, i_day, g_year) {
@@ -160,7 +159,7 @@ islamic_new_year <- function(year) {
 #' @rdname islamic
 #' @export
 mawlid <- function(year) {
-  as_gregorian(islamic_in_gregorian(2, 12,  year))
+  as_gregorian(islamic_in_gregorian(2, 12, year))
 }
 
 #' @rdname islamic
@@ -182,16 +181,4 @@ eid_al_fitr <- function(year) {
 # Eid al-Adha
 eid_al_adha <- function(year) {
   as_gregorian(islamic_in_gregorian(12, 10, year))
-}
-
-
-
-
-#' @export
-vec_cast.double.islamic <- function(x, to, ...) {
-  vec_data(as_rd(x))
-}
-#' @export
-vec_cast.integer.islamic <- function(x, to, ...) {
-  as.integer(as.numeric(x))
 }

@@ -26,15 +26,7 @@ iso_date <- function(
   week = integer(),
   day = integer()
 ) {
-  lst <- vec_cast_common(year = year, week = week, day = day, .to = integer())
-  lst <- vec_recycle_common(
-    year = lst$year,
-    week = lst$week,
-    day = lst$day,
-    .size = max(unlist(lapply(lst, length)))
-  )
-  check_iso(lst)
-  new_rcrd(lst, class = c("iso", "calcalcal"))
+  new_date(year = year, week = week, day = day, calendar = cal_iso)
 }
 
 check_iso <- function(args) {
@@ -49,52 +41,15 @@ check_iso <- function(args) {
   }
 }
 
-iso_week <- function(date) {
-  field(date, "week")
-}
-
-iso_day <- function(date) {
-  field(date, "day")
-}
-
-iso_year <- function(date) {
-  field(date, "year")
-}
-
-# Register format method for julian_date
-#' @export
-format.iso <- function(x, ...) {
-  format_date(x)
-}
-
-#' Convert to an ISO date
-#'
-#' @param date Vector of dates on some calendar
-#' @param ... Additional arguments not currently used
-#' @rdname iso_date
-#' @examples
-#' as_iso("2016-01-01")
-#' as_iso(Sys.Date())
-#' tibble::tibble(
-#'   date = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
-#'   iso = as_iso(date)
-#' )
-#' @export
-as_iso <- function(date, ...) {
-  UseMethod("as_iso")
-}
-
-#' @export
-as_rd.iso <- function(date, ...) {
-  week <- iso_week(date)
-  day <- iso_day(date)
-  year <- iso_year(date)
+fixed_from_iso <- function(date, ...) {
+  week <- field(date, "week")
+  day <- field(date, "day")
+  year <- field(date, "year")
 
   nth_kday(week, SUNDAY, gregorian_date(year - 1, DECEMBER, 28)) + day
 }
 
-#' @export
-as_iso.rd_fixed <- function(date, ...) {
+iso_from_fixed <- function(date, ...) {
   approx <- gregorian_year_from_fixed(date - 3)
   year <- approx + (date >= as_rd(iso_date(approx + 1, 1, 1)))
   week <- 1 + (date - as_rd(iso_date(year, 1, 1))) %/% 7
@@ -102,30 +57,51 @@ as_iso.rd_fixed <- function(date, ...) {
   iso_date(year, week, day)
 }
 
+#' Convert to a ISO date
+#'
+#' @param date Vector of dates on some calendar
+#' @examples
+#' as_iso("2016-01-01")
+#' as_iso(Sys.Date())
+#' tibble::tibble(
+#'   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
+#'   y = as_iso(x)
+#' )
 #' @export
-as_iso.default <- function(date, ...) {
-  as_iso(as_rd(date))
+as_iso <- function(date) {
+  as_date(date, calendar = cal_iso)
 }
+
+#' ISO calendar dates
+#'
+#' Work with ISO 8601 date objects. Weeks are defined as starting on Mondays. Week 1
+#' is the first week with at least 4 days in the year. Equivalently, it is the week
+#' containing 4 January. There is no week 0; instead week 1 of a year may begin in
+#' the previous calendar year.
+#'
+#' More flexible week numbering is possible using Gregorian dates with \code{\link{week_of_year}()}.
+#'
+#' @seealso \code{\link{week_of_year}()}
+#' @examples
+#' iso <- new_date(year = 2025, week = 23, day = 2:4, calendar = cal_iso)
+#' iso
+#' as_date(iso, calendar = cal_gregorian)
+#' greg <- new_date(year = 2025, month = 1, day = 1:4, calendar = cal_gregorian)
+#' as_date(greg, calendar = cal_iso)
+#' @export
+cal_iso <- cal_calendar(
+  name = "iso",
+  short_name = "ISO",
+  epoch = 0,
+  granularities = c("year", "week", "day"),
+  check_granularities = check_iso,
+  format = format_date,
+  from_rd = iso_from_fixed,
+  to_rd = fixed_from_iso
+)
 
 iso_long_year <- function(i_year) {
   jan1 <- day_of_week_from_fixed(gregorian_new_year(i_year))
   dec31 <- day_of_week_from_fixed(gregorian_year_end(i_year))
   jan1 == THURSDAY | dec31 == THURSDAY
-}
-
-#' @export
-day_of_year.iso <- function(date, ...) {
-  date - iso_date(field(date, "year"), 1, 1) + 1
-}
-
-
-
-
-#' @export
-vec_cast.double.iso <- function(x, to, ...) {
-  vec_data(as_rd(x))
-}
-#' @export
-vec_cast.integer.iso <- function(x, to, ...) {
-  as.integer(as.numeric(x))
 }

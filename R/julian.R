@@ -19,15 +19,7 @@ julian_date <- function(
   month = integer(),
   day = integer()
 ) {
-  lst <- vec_cast_common(year = year, month = month, day = day, .to = integer())
-  lst <- vec_recycle_common(
-    year = lst$year,
-    month = lst$month,
-    day = lst$day,
-    .size = max(unlist(lapply(lst, length)))
-  )
-  check_julian(lst)
-  new_rcrd(lst, class = c("julian", "calcalcal"))
+  new_date(year = year, month = month, day = day, calendar = cal_julian)
 }
 
 check_julian <- function(args) {
@@ -50,8 +42,7 @@ check_julian <- function(args) {
 }
 
 # Register format method for julian_date
-#' @export
-format.julian <- function(x, ...) {
+format_julian <- function(x, ...) {
   paste(
     sprintf("%.2d", year(x)),
     month.abb[field(x, "month")],
@@ -60,33 +51,8 @@ format.julian <- function(x, ...) {
   )
 }
 
-#' @export
-vec_ptype_abbr.julian <- function(x, ...) {
-  "Jul"
-}
-
-#' Convert to a Julian date
-#'
-#' @param date Vector of dates on some calendar
-#' @param ... Additional arguments not currently used
-#' @rdname julian_date
-#' @examples
-#' as_julian("2016-01-01")
-#' as_julian(Sys.Date())
-#' tibble::tibble(
-#'   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
-#'   y = as_gregorian(x),
-#'   z = as_julian(x)
-#' )
-#' @export
-as_julian <- function(date, ...) {
-  UseMethod("as_julian")
-}
-
-
-#' @export
 # Convert julian to rd_fixed
-as_rd.julian <- function(date, ...) {
+fixed_from_julian <- function(date, ...) {
   year <- field(date, "year")
   month <- field(date, "month")
   day <- field(date, "day")
@@ -102,9 +68,8 @@ as_rd.julian <- function(date, ...) {
   rd_fixed(result + adjustment + day)
 }
 
-#' @export
 # Convert rd_fixed to julian
-as_julian.rd_fixed <- function(date, ...) {
+julian_from_fixed <- function(date, ...) {
   approx <- (4 * (vec_data(date) - JULIAN_EPOCH) + 1464) %/% 1461 # Nominal year
   # Julian (year month day) corresponding to fixed date
   year <- approx - (approx <= 0)
@@ -120,11 +85,43 @@ as_julian.rd_fixed <- function(date, ...) {
   julian_date(year, month, day)
 }
 
+#' Work with Julian dates
+#'
+#' @examples
+#' as_date("2016-01-01", calendar = cal_julian)
+#' as_date(Sys.Date(), calendar = cal_julian)
+#' tibble::tibble(
+#'   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
+#'   y = as_date(x, calendar = cal_gregorian),
+#'   z = as_date(x, calendar = cal_julian)
+#' )
+#' new_date(year = 2025, month = 4, day = 19:30, calendar = cal_julian)
 #' @export
-as_julian.default <- function(date, ...) {
-  as_julian(as_rd(date))
-}
+cal_julian <- cal_calendar(
+  name = "julian",
+  short_name = "Jul",
+  epoch = 0, # TO REPLACE,
+  granularities = c("year", "month", "day"),
+  check_granularities = check_julian,
+  format = format_julian,
+  from_rd = julian_from_fixed,
+  to_rd = fixed_from_julian
+)
 
+#' Convert to a Julian date
+#'
+#' @param date Vector of dates on some calendar
+#' @examples
+#' as_julian("2016-01-01")
+#' as_julian(Sys.Date())
+#' tibble::tibble(
+#'   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
+#'   y = as_julian(x)
+#' )
+#' @export
+as_julian <- function(date) {
+  as_date(date, calendar = cal_julian)
+}
 
 bce <- function(n) {
   -n
@@ -140,7 +137,6 @@ julian_leap_year <- function(j_year) {
   (j_year > 0) * (j_year_mod_4 == 0) + (1 - (j_year > 0)) * (j_year_mod_4 == 3)
 }
 
-
 julian_in_gregorian <- function(j_month, j_day, g_year) {
   # List of the fixed dates of Julian month, day that occur in Gregorian year
   jan1 <- as_rd(gregorian_date(g_year, JANUARY, 1))
@@ -153,7 +149,6 @@ julian_in_gregorian <- function(j_month, j_day, g_year) {
 
   dates2_in_gregorian(g_year, date0, date1)
 }
-
 
 # Julian Day functions
 moment_from_jd <- function(jd) {
@@ -172,23 +167,10 @@ jd_from_fixed <- function(date) {
   jd_from_moment(date)
 }
 
-
 fixed_from_mjd <- function(mjd) {
   mjd + MJD_EPOCH
 }
 
 mjd_from_fixed <- function(date) {
   date - MJD_EPOCH
-}
-
-
-
-
-#' @export
-vec_cast.double.julian <- function(x, to, ...) {
-  vec_data(as_rd(x))
-}
-#' @export
-vec_cast.integer.julian <- function(x, to, ...) {
-  as.integer(as.numeric(x))
 }

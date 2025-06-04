@@ -15,7 +15,7 @@ day_of_week(date, numeric = FALSE, first_day = "Monday", abbreviate = FALSE)
 
 day_of_month(date)
 
-day_of_year(date, ...)
+day_of_year(date)
 
 days_remaining(date)
 
@@ -36,8 +36,6 @@ year(date)
 Default is \code{"Monday"}}
 
 \item{abbreviate}{Logical. Return abbreviated day names if \code{TRUE}. Ignored if \code{numeric} is \code{TRUE}.}
-
-\item{...}{Additional arguments not currently used}
 }
 \description{
 Extract days, weeks, or months from a vector of Gregorian dates.

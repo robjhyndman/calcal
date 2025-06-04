@@ -20,15 +20,7 @@ hebrew_date <- function(
   month = integer(),
   day = integer()
 ) {
-  lst <- vec_cast_common(year = year, month = month, day = day, .to = integer())
-  lst <- vec_recycle_common(
-    year = lst$year,
-    month = lst$month,
-    day = lst$day,
-    .size = max(unlist(lapply(lst, length)))
-  )
-  check_hebrew(lst)
-  new_rcrd(lst, class = c("hebrew", "calcalcal"))
+  new_date(year = year, month = month, day = day, calendar = cal_hebrew)
 }
 
 check_hebrew <- function(args) {
@@ -51,8 +43,7 @@ check_hebrew <- function(args) {
   stopifnot(month >= 1, day >= 1, day <= 30)
 }
 
-#' @export
-format.hebrew <- function(x, ...) {
+format_hebrew <- function(x, ...) {
   paste(
     sprintf("%.2d", year(x)),
     c(
@@ -73,6 +64,107 @@ format.hebrew <- function(x, ...) {
     sprintf("%.2d", field(x, "day")),
     sep = "-"
   )
+}
+
+fixed_from_hebrew <- function(date, ...) {
+  month <- standard_month(date)
+  day <- standard_day(date)
+  year <- standard_year(date)
+  days_in_prior_months <- mapply(
+    function(mth, yr) {
+      if (mth < TISHRI) {
+        # Before Tishri, add days in months from Tishri to last month of year
+        out <- sum(last_day_of_hebrew_month(
+          yr,
+          TISHRI:last_month_of_hebrew_year(yr)
+        ))
+        # Add days in months from Nisan to the month before current
+        if (mth > 1) {
+          out <- out + sum(last_day_of_hebrew_month(yr, NISAN:(mth - 1)))
+        }
+      } else if (mth > TISHRI) {
+        # Just sum days in prior months this year starting from Tishri
+        out <- sum(last_day_of_hebrew_month(yr, TISHRI:(mth - 1)))
+      } else {
+        out <- 0
+      }
+      out
+    },
+    month,
+    year,
+    SIMPLIFY = TRUE
+  )
+  as_rd(hebrew_new_year(year) + days_in_prior_months + day - 1)
+}
+
+hebrew_from_fixed <- function(date, ...) {
+  # Approximate year (may be off by 1)
+  approx <- 1 + (vec_data(date) - HEBREW_EPOCH) %/% (35975351 / 98496)
+
+  # Search forward for year
+  ny <- hebrew_new_year(approx)
+  ny_next <- hebrew_new_year(approx + 1)
+  year <- approx - 1 + (date >= ny) + (date >= ny_next)
+
+  start <- rep(NISAN, length(date))
+  start[date < as_rd(hebrew_date(year, NISAN, 1))] <- TISHRI
+  # Find the month
+  month <- mapply(
+    function(s, y, d) {
+      next_value(s, function(m) {
+        d <= as_rd(hebrew_date(y, m, last_day_of_hebrew_month(y, m)))
+      })
+    },
+    start,
+    year,
+    date,
+    SIMPLIFY = TRUE
+  )
+  # Calculate the day by subtraction
+  day <- date - as_rd(hebrew_date(year, month, 1)) + 1
+
+  hebrew_date(year, month, day)
+}
+
+#' Hebrew calendar dates
+#'
+#' Create a Hebrew date object.
+#'
+#' @examples
+#' heb <- new_date(year = 5785, month = 3, day = 2:4, calendar = cal_hebrew)
+#' heb
+#' as_date(heb, calendar = cal_gregorian)
+#' as_date(Sys.Date(), calendar = cal_hebrew)
+#' tibble::tibble(
+#'   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
+#'   y = as_date(x, calendar = cal_hebrew),
+#'   z = as_date(x, calendar = cal_gregorian)
+#' )
+#' @export
+cal_hebrew <- cal_calendar(
+  name = "hebrew",
+  short_name = "Heb",
+  epoch = 0, # TO REPLACE,
+  granularities = c("year", "month", "day"),
+  check_granularities = check_hebrew,
+  format = format_hebrew,
+  from_rd = hebrew_from_fixed,
+  to_rd = fixed_from_hebrew
+)
+
+#' Convert to a Hebrew date
+#'
+#' @param date Vector of dates on some calendar
+#' @examples
+#' as_hebrew("2016-01-01")
+#' as_hebrew(Sys.Date())
+#' tibble::tibble(
+#'   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
+#'   y = as_hebrew(x)
+#' )
+#' @export
+as_hebrew <- function(date) {
+  as_date(date, calendar = cal_hebrew)
 }
 
 hebrew_leap_year <- function(h_year) {
@@ -145,92 +237,6 @@ long_marheshvan <- function(h_year) {
 
 short_kislev <- function(h_year) {
   days_in_hebrew_year(h_year) %in% c(353, 383)
-}
-
-#' @export
-as_rd.hebrew <- function(date, ...) {
-  month <- standard_month(date)
-  day <- standard_day(date)
-  year <- standard_year(date)
-  days_in_prior_months <- mapply(
-    function(mth, yr) {
-      if (mth < TISHRI) {
-        # Before Tishri, add days in months from Tishri to last month of year
-        out <- sum(last_day_of_hebrew_month(
-          yr,
-          TISHRI:last_month_of_hebrew_year(yr)
-        ))
-        # Add days in months from Nisan to the month before current
-        if (mth > 1) {
-          out <- out + sum(last_day_of_hebrew_month(yr, NISAN:(mth - 1)))
-        }
-      } else if (mth > TISHRI) {
-        # Just sum days in prior months this year starting from Tishri
-        out <- sum(last_day_of_hebrew_month(yr, TISHRI:(mth - 1)))
-      } else {
-        out <- 0
-      }
-      out
-    },
-    month,
-    year,
-    SIMPLIFY = TRUE
-  )
-  hebrew_new_year(year) + days_in_prior_months + day - 1
-}
-
-#' Convert to a Hebrew date
-#'
-#' @param date Vector of dates on some calendar
-#' @param ... Additional arguments not currently used
-#' @rdname hebrew_date
-#' @examples
-#' as_hebrew("2016-01-01")
-#' as_hebrew(Sys.Date())
-#' tibble::tibble(
-#'   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
-#'   y = as_gregorian(x),
-#'   z = as_hebrew(x)
-#' )
-#' @export
-as_hebrew <- function(date, ...) {
-  UseMethod("as_hebrew", date)
-}
-
-#' @export
-as_hebrew.default <- function(date, ...) {
-  as_hebrew(as_rd(date))
-}
-
-#' @export
-as_hebrew.rd_fixed <- function(date, ...) {
-  # Approximate year (may be off by 1)
-  approx <- 1 + (vec_data(date) - HEBREW_EPOCH) %/% (35975351 / 98496)
-
-  # Search forward for year
-  ny <- hebrew_new_year(approx)
-  ny_next <- hebrew_new_year(approx + 1)
-  year <- approx - 1 + (date >= ny) + (date >= ny_next)
-
-  start <- rep(NISAN, length(date))
-  start[date < as_rd(hebrew_date(year, NISAN, 1))] <- TISHRI
-  # Find the month
-  month <- mapply(
-    function(s, y, d) {
-      next_value(s, function(m) {
-        d <= as_rd(hebrew_date(y, m, last_day_of_hebrew_month(y, m)))
-      })
-    },
-    start,
-    year,
-    date,
-    SIMPLIFY = TRUE
-  )
-
-  # Calculate the day by subtraction
-  day <- date - as_rd(hebrew_date(year, month, 1)) + 1
-
-  hebrew_date(year, month, day)
 }
 
 fixed_from_molad <- function(moon) {
@@ -424,13 +430,4 @@ sukkot <- function(year) {
 #' @export
 shavuot <- function(year) {
   as_gregorian(hebrew_in_gregorian(SIVAN, 6, year))
-}
-
-#' @export
-vec_cast.double.hebrew <- function(x, to, ...) {
-  vec_data(as_rd(x))
-}
-#' @export
-vec_cast.integer.hebrew <- function(x, to, ...) {
-  as.integer(as.numeric(x))
 }

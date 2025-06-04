@@ -18,15 +18,7 @@ gregorian_date <- function(
   month = integer(),
   day = integer()
 ) {
-  lst <- vec_cast_common(year = year, month = month, day = day, .to = integer())
-  lst <- vec_recycle_common(
-    year = lst$year,
-    month = lst$month,
-    day = lst$day,
-    .size = max(unlist(lapply(lst, length)))
-  )
-  check_gregorian(lst)
-  new_rcrd(lst, class = c("gregorian", "calcalcal"))
+  new_date(year = year, month = month, day = day, calendar = cal_gregorian)
 }
 
 check_gregorian <- function(args) {
@@ -51,8 +43,7 @@ check_gregorian <- function(args) {
 }
 
 # Register format method for gregorian date
-#' @export
-format.gregorian <- function(x, ...) {
+format_gregorian <- function(x, ...) {
   paste(
     sprintf("%.2d", year(x)),
     month.abb[field(x, "month")],
@@ -61,31 +52,8 @@ format.gregorian <- function(x, ...) {
   )
 }
 
-#' @export
-vec_ptype_abbr.gregorian <- function(x, ...) {
-  "Gre"
-}
-
-#' Convert to a Gregorian date
-#'
-#' @param date Vector of dates on some calendar
-#' @param ... Additional arguments not currently used
-#' @rdname gregorian
-#' @examples
-#' as_gregorian("2016-01-01")
-#' as_gregorian(Sys.Date())
-#' tibble::tibble(
-#'   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
-#'   y = as_gregorian(x)
-#' )
-#' @export
-as_gregorian <- function(date, ...) {
-  UseMethod("as_gregorian")
-}
-
-#' @export
 # Convert gregorian to rd_fixed
-as_rd.gregorian <- function(date, ...) {
+fixed_from_gregorian <- function(date, ...) {
   year <- field(date, "year")
   month <- field(date, "month")
   day <- field(date, "day")
@@ -101,9 +69,7 @@ as_rd.gregorian <- function(date, ...) {
   rd_fixed(result + adjustment + day)
 }
 
-#' @export
-# Convert rd_fixed to gregorian
-as_gregorian.rd_fixed <- function(date, ...) {
+gregorian_from_fixed <- function(date, ...) {
   if (length(date) == 0L) {
     return(gregorian_date())
   }
@@ -120,14 +86,42 @@ as_gregorian.rd_fixed <- function(date, ...) {
   gregorian_date(year, month, day)
 }
 
+#' Gregorian calendar dates
+#'
+#' @examples
+#' new_date(year = 2025, month = 3, day = 2:4, calendar = cal_gregorian)
+#' as_date(Sys.Date(), calendar = cal_gregorian)
+#' tibble::tibble(
+#'   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
+#'   z = as_date(x, calendar = cal_gregorian)
+#' )
+#' @rdname gregorian_date
 #' @export
-as_gregorian.default <- function(date, ...) {
-  as_gregorian(as_rd(date))
-}
+cal_gregorian <- cal_calendar(
+  name = "gregorian",
+  short_name = "Gre",
+  epoch = 0, # TO REPLACE,
+  granularities = c("year", "month", "day"),
+  check_granularities = check_gregorian,
+  format = format_gregorian,
+  from_rd = gregorian_from_fixed,
+  to_rd = fixed_from_gregorian
+)
 
+#' Convert to a Gregorian date
+#'
+#' @param date Vector of dates on some calendar
+#' @examples
+#' as_gregorian("2016-01-01")
+#' as_gregorian(Sys.Date())
+#' tibble::tibble(
+#'   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
+#'   y = as_gregorian(x)
+#' )
+#' @param date A gregorian vector object
 #' @export
-as.Date.gregorian <- function(x, ...) {
-  as.Date(paste0(year(x), "-", field(x, "month"), "-", field(x, "day")))
+as_gregorian <- function(date) {
+  as_date(date, calendar = cal_gregorian)
 }
 
 gregorian_year_from_fixed <- function(date) {
@@ -254,19 +248,21 @@ day_of_month <- function(date) {
   granularity(date, "day")
 }
 
-
 #' @rdname gregorian-parts
-#' @param ... Additional arguments not currently used
 #' @export
 # Day number in year of Gregorian date date
 # Called day_number in CC book and code
-day_of_year <- function(date, ...) {
-  UseMethod("day_of_year")
-}
-
-#' @export
-day_of_year.gregorian <- function(date, ...) {
-  date - gregorian_date(field(date, "year") - 1, DECEMBER, 31)
+# Rewritten to work for any calendar with year granularity
+day_of_year <- function(date) {
+  gran <- attributes(date)$calendar$granularities
+  if (!("year" %in% gran)) {
+    stop("Date must contain years")
+  }
+  date0 <- date
+  for (f in gran[gran != "year"]) {
+    field(date0, f) <- rep(1, length(date0))
+  }
+  date - date0 + 1
 }
 
 #' @rdname gregorian-parts
@@ -294,7 +290,6 @@ week_of_year <- function(date, first_day = "Monday") {
   (as_gregorian(date) - jan1) %/% 7 + 1
 }
 
-
 #' @rdname gregorian-parts
 #' @export
 month_of_year <- function(date) {
@@ -306,7 +301,6 @@ month_of_year <- function(date) {
 year <- function(date) {
   granularity(date, "year")
 }
-
 
 #' @export
 vec_cast.double.gregorian <- function(x, to, ...) {

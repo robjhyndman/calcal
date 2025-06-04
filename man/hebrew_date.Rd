@@ -2,12 +2,9 @@
 % Please edit documentation in R/hebrew.R
 \name{hebrew_date}
 \alias{hebrew_date}
-\alias{as_hebrew}
 \title{Hebrew calendar dates}
 \usage{
 hebrew_date(year = integer(), month = integer(), day = integer())
-
-as_hebrew(date, ...)
 }
 \arguments{
 \item{year}{A numeric vector of years}
@@ -15,10 +12,6 @@ as_hebrew(date, ...)
 \item{month}{A numeric vector of months}
 
 \item{day}{A numeric vector of days}
-
-\item{date}{Vector of dates on some calendar}
-
-\item{...}{Additional arguments not currently used}
 }
 \value{
 A hebrew vector object
@@ -30,11 +23,4 @@ Create a Hebrew date object.
 hebrew_date(5785, 3, 2:4)
 as_gregorian(hebrew_date(5785, 3, 2:4))
 as_hebrew(gregorian_date(2025, 1, 1:31))
-as_hebrew("2016-01-01")
-as_hebrew(Sys.Date())
-tibble::tibble(
-  x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
-  y = as_gregorian(x),
-  z = as_hebrew(x)
-)
 }

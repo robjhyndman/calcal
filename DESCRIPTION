@@ -3,8 +3,8 @@ Title: Calendrical Calculations
 Version: 0.0.0.9000
 Authors@R:
     c(
-    person("Rob", "Hyndman", , "Rob.Hyndman@monash.edu", role = c("aut", "cre", "trl"),
-           comment = c(ORCID = "0000-0002-2140-5352", "R port")),
+    person("Rob", "Hyndman", , "Rob.Hyndman@monash.edu", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-2140-5352")),
     person("Edward","Reingold", role = c("cph", "ctb"), comment = "Original Lisp code"),
     person("Nachum","Dershowitz", role = c("cph", "ctb"), comment = "Original Lisp code")
     )

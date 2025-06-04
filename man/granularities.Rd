@@ -5,12 +5,14 @@
 \alias{granularity}
 \title{Canonical granularities}
 \usage{
-granularities(dates)
+granularities(calendar)
 
-granularity(dates, granularity)
+granularity(date, granularity)
 }
 \arguments{
-\item{dates}{A vector of calendar dates}
+\item{calendar}{A calcal object defining a calendar.}
+
+\item{date}{A date vector on some calendar}
 
 \item{granularity}{A character string indicating the granularity to extract}
 }
@@ -20,12 +22,12 @@ relevant calendar. These are the granularities used to define dates on the calen
 \code{granularity()} will return a vector of numerical values for a given canonical granularity.
 }
 \examples{
-granularities(iso_date(2025, 23, 2))
-granularities(gregorian_date(2025, 4, 19))
-granularities(as_roman(Sys.Date()))
-granularity(iso_date(2025, 23, 2), "week")
-granularity(gregorian_date(2025, 4, 19), "month")
-granularity(as_roman(Sys.Date()), "count")
+granularities(cal_iso)
+granularities(cal_gregorian)
+date_iso <- new_date(year = 2025, week = 23, day = 2, calendar = cal_iso)
+granularity(date_iso, "week")
+date_gregorian <- new_date(year = 2025, month = 1, day = 1, calendar = cal_gregorian)
+granularity(date_gregorian, "month")
 }
 \seealso{
 \code{\link{week_of_year}} for some non-canonical granularities.

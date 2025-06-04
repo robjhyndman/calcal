@@ -2,7 +2,6 @@
 % Please edit documentation in R/roman.R
 \name{roman_date}
 \alias{roman_date}
-\alias{as_roman}
 \title{Roman calendar dates}
 \usage{
 roman_date(
@@ -12,8 +11,6 @@ roman_date(
   count = integer(),
   leap = logical()
 )
-
-as_roman(date, ...)
 }
 \arguments{
 \item{year}{A numeric vector of years}
@@ -25,10 +22,6 @@ as_roman(date, ...)
 \item{count}{A numeric vector of counts:}
 
 \item{leap}{A logical vector indicating if year is a leap year}
-
-\item{date}{A date object}
-
-\item{...}{Additional arguments not currently used}
 }
 \value{
 A roman vector object

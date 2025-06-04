@@ -17,7 +17,6 @@ sec <- function(x) {
   x / (24 * 60 * 60)
 }
 
-
 mt <- function(x) {
   x # For typesetting purposes
 }
@@ -73,7 +72,6 @@ arcsin_degrees <- function(x) {
 arccos_degrees <- function(x) {
   degrees_from_radians(acos(x))
 }
-
 
 julian_centuries <- function(tee) {
   # Julian centuries since 2000 at moment tee
@@ -147,7 +145,6 @@ moment_of_depression <- function(approx, loc, alpha, early) {
   tee[iter] <- approx_moment_of_depression(tee[iter], loc, alpha, early)
   return(tee)
 }
-
 
 dawn <- function(date, locale, alpha) {
   # Standard time in morning of date at locale when depression angle of sun is alpha
@@ -240,7 +237,6 @@ sunset.rd_fixed <- function(date, location, as_time = TRUE, ...) {
 sunset.default <- function(date, location, ...) {
   sunset(as_rd(date), location, ...)
 }
-
 
 jewish_dusk <- function(date, loc) {
   dusk(date, loc, angle(4, 40, 0))
