@@ -44,9 +44,7 @@
 <span>  event <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  count <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  leap <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/logical.html" class="external-link">logical</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">as_roman</span><span class="op">(</span><span class="va">date</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -72,14 +70,6 @@
 <dt id="arg-leap">leap<a class="anchor" aria-label="anchor" href="#arg-leap"></a></dt>
 <dd><p>A logical vector indicating if year is a leap year</p></dd>
 
-
-<dt id="arg-date">date<a class="anchor" aria-label="anchor" href="#arg-date"></a></dt>
-<dd><p>A date object</p></dd>
-
-
-<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Additional arguments not currently used</p></dd>
-
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -89,10 +79,10 @@
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">roman_date</span><span class="op">(</span><span class="fl">66</span>, <span class="fl">4</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;roman_date[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;Roman[1]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 66-Apr-Kalends</span>
-<span class="r-in"><span><span class="fu">as_roman</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;roman_date[1]&gt;</span>
+<span class="r-in"><span><span class="fu"><a href="as_roman.html">as_roman</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;Roman[1]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2025-Jun-ad_xi_Kalends</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
