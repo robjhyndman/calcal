@@ -176,7 +176,7 @@ refraction <- function(tee, loc) {
 #' Calculate the time of sunrise and sunset at a specific location and date. The
 #' time zone of the location is used as specified in the `location` object.
 #'
-#' @param date Date in rd_fixed format
+#' @param date Date in calcalvec format
 #' @param location Location of class "location", usually the output from the `location` function
 #' @param ... Additional arguments passed to specific methods
 #' @return Time of sunrise
@@ -197,7 +197,7 @@ sunset <- function(date, location, ...) {
 }
 
 #' @export
-sunrise.rd_fixed <- function(date, location, as_time = TRUE, ...) {
+sunrise.calcalvec <- function(date, location, as_time = TRUE, ...) {
   lst <- vec_recycle_common(
     date = date,
     location = location,
@@ -214,11 +214,11 @@ sunrise.rd_fixed <- function(date, location, as_time = TRUE, ...) {
 
 #' @export
 sunrise.default <- function(date, location, ...) {
-  sunrise(as_rd(date), location, ...)
+  sunrise(date, location, ...)
 }
 
 #' @export
-sunset.rd_fixed <- function(date, location, as_time = TRUE, ...) {
+sunset.calcalvec <- function(date, location, as_time = TRUE, ...) {
   lst <- vec_recycle_common(
     date = date,
     location = location,
@@ -235,7 +235,7 @@ sunset.rd_fixed <- function(date, location, as_time = TRUE, ...) {
 
 #' @export
 sunset.default <- function(date, location, ...) {
-  sunset(as_rd(date), location, ...)
+  sunset(date, location, ...)
 }
 
 jewish_dusk <- function(date, loc) {

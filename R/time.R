@@ -82,7 +82,7 @@ as_time_of_day.numeric <- function(x, ...) {
 }
 
 #' @export
-as_time_of_day.rd_fixed <- function(x, ...) {
+as_time_of_day.calcalvec <- function(x, ...) {
   as_time_of_day(vec_data(x))
 }
 

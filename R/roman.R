@@ -2,27 +2,6 @@
 # Roman Calendar
 # ==============================================================================
 
-
-roman_year <- function(date) {
-  field(date, "year")
-}
-
-roman_month <- function(date) {
-  field(date, "month")
-}
-
-roman_event <- function(date) {
-  field(date, "event")
-}
-
-roman_count <- function(date) {
-  field(date, "count")
-}
-
-roman_leap <- function(date) {
-  field(date, "leap")
-}
-
 check_roman <- function(args) {
   year <- args$year
   month <- args$month
@@ -41,55 +20,49 @@ check_roman <- function(args) {
 }
 
 format_roman <- function(x, ...) {
-  # format_date(x)
-  event <- c("Kalends", "Nones", "Ides")[roman_event(x)]
-  count <- roman_count(x)
+  lst <- attributes(x)$calendar$from_rd(x)
+  event <- c("Kalends", "Nones", "Ides")[lst$event]
+  count <- lst$count
   prefix <- rep("ad", length(count))
   prefix[count == 2] <- "pridie"
   prefix[count == 1] <- ""
   days <- tolower(utils::as.roman(count))
   days[count <= 2] <- ""
-  output <- trimws(paste(prefix, days, event))
+  output <- trimws(paste(prefix, days, lst$event))
   output <- gsub("  ", " ", output)
   output <- gsub(" ", "_", output)
-  paste(roman_year(x), month.abb[roman_month(x)], output, sep = "-")
+  paste(lst$year, month.abb[lst$month], output, sep = "-")
 }
 
 fixed_from_roman <- function(date, ...) {
-  leap <- roman_leap(date)
-  count <- roman_count(date)
-  event <- roman_event(date)
-  month <- roman_month(date)
-  year <- roman_year(date)
-
-  kalends <- as_rd(julian_date(year, month, 1)) # KALENDS
-  nones <- as_rd(julian_date(year, month, nones_of_month(month))) # NONES
-  ides <- as_rd(julian_date(year, month, ides_of_month(month))) # IDES
+  kalends <- julian_date(date$year, date$month, 1) # KALENDS
+  nones <- julian_date(date$year, date$month, nones_of_month(date$month)) # NONES
+  ides <- julian_date(date$year, date$month, ides_of_month(date$month)) # IDES
   base_date <- kalends
-  base_date[event == 2] <- nones[event == 2]
-  base_date[event == 3] <- ides[event == 3]
+  base_date[date$event == 2] <- nones[date$event == 2]
+  base_date[date$event == 3] <- ides[date$event == 3]
 
   base_date -
-    count +
+    date$count +
     as.numeric(
-      !(julian_leap_year(year) &
-        month == MARCH &
-        event == KALENDS &
-        count >= 6 &
-        count <= 16)
+      !(julian_leap_year(date$year) &
+          date$month == MARCH &
+          date$event == KALENDS &
+          date$count >= 6 &
+          date$count <= 16)
     ) +
-    as.numeric(leap)
+    as.numeric(date$leap)
 }
 
 roman_from_fixed <- function(date, ...) {
-  j_date <- as_julian(date)
-  month <- standard_month(j_date)
-  day <- standard_day(j_date)
-  year <- standard_year(j_date)
+  j_date <- cal_julian$from_rd(date)
+  month <- j_date$month
+  day <- j_date$day
+  year <- j_date$year
   month_prime <- amod(month + 1, 12)
   year_prime <- year + (month_prime == 1 & year != -1)
   year_prime[month_prime == 1 & year == -1] <- 1
-  kalends1 <- as_rd(roman_date(year_prime, month_prime, KALENDS, 1, FALSE))
+  kalends1 <- roman_date(year_prime, month_prime, KALENDS, 1, FALSE)
   case1 <- day == 1
   case2 <- !case1 & day <= nones_of_month(month)
   case3 <- !case1 & !case2 & day <= ides_of_month(month)

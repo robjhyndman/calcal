@@ -16,8 +16,9 @@ check_islamic <- function(args) {
 
 # Register format method for islamic_date
 format_islamic <- function(x, ...) {
+  lst <- attributes(x)$calendar$from_rd(x)
   paste(
-    sprintf("%.2d", year(x)),
+    sprintf("%.2d", lst$year),
     c(
       "Muh",
       "Saf",
@@ -31,34 +32,28 @@ format_islamic <- function(x, ...) {
       "Shaw",
       "Dhu'l_Q",
       "Dhu'l_H"
-    )[field(x, "month")],
-    sprintf("%.2d", field(x, "day")),
+    )[lst$month],
+    sprintf("%.2d", lst$day),
     sep = "-"
   )
 }
 
 fixed_from_islamic <- function(date, ...) {
-  month <- standard_month(date)
-  day <- standard_day(date)
-  year <- standard_year(date)
-
-  rd_fixed(
     ISLAMIC_EPOCH -
       1 +
-      354 * (year - 1) +
-      (3 + 11 * year) %/% 30 +
-      29 * (month - 1) +
-      month %/% 2 +
-      day
-  )
+      354 * (date$year - 1) +
+      (3 + 11 * date$year) %/% 30 +
+      29 * (date$month - 1) +
+      date$month %/% 2 +
+      date$day
 }
 
 islamic_from_fixed <- function(date, ...) {
   year <- (30 * (vec_data(date) - ISLAMIC_EPOCH) + 10646) %/% 10631
-  prior_days <- date - as_rd(islamic_date(year, 1, 1))
+  prior_days <- date - islamic_date(year, 1, 1)
   month <- (11 * prior_days + 330) %/% 325
-  day <- date - as_rd(islamic_date(year, month, 1)) + 1
-  islamic_date(year, month, day)
+  day <- date - islamic_date(year, month, 1) + 1
+  list(year=year, month=month, day=day)
 }
 
 #' Work with Islamic dates
@@ -117,9 +112,9 @@ islamic_leap_year <- function(i_year) {
 islamic_in_gregorian <- function(i_month, i_day, g_year) {
   jan1 <- gregorian_new_year(g_year)
   y <- standard_year(as_islamic(jan1))
-  date0 <- as_rd(islamic_date(y, i_month, i_day))
-  date1 <- as_rd(islamic_date(y + 1, i_month, i_day))
-  date2 <- as_rd(islamic_date(y + 2, i_month, i_day))
+  date0 <- islamic_date(y, i_month, i_day)
+  date1 <- islamic_date(y + 1, i_month, i_day)
+  date2 <- islamic_date(y + 2, i_month, i_day)
   dates3_in_gregorian(g_year, date0, date1, date2)
 }
 

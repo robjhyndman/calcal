@@ -30,5 +30,6 @@ granularities <- function(calendar) {
 #' @rdname granularities
 #' @export
 granularity <- function(date, granularity) {
-  vctrs::field(date, granularity)
+  lst <- attributes(date)$calendar$from_rd(date)
+  lst[[granularity]]
 }

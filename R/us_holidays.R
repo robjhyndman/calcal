@@ -72,10 +72,10 @@ unlucky_fridays_in_range <- function(range) {
   date <- as_gregorian(fri)
 
   if (in_range(fri, range)) {
-    result <- if (standard_day(date) == 13) fri else rd_fixed()
+    result <- if (standard_day(date) == 13) fri else integer()
     output <- c(result, unlucky_fridays_in_range(c(fri + 1, b)))
   } else {
-    output <- rd_fixed()
+    output <- integer()
   }
   output
 }

@@ -743,22 +743,15 @@ lunar_longitude <- function(tee) {
 #' @param date Date vector
 #' @param ... Additional arguments
 #' @examples
-#' april2025 <- seq(as.Date("2025-04-01"), as.Date("2025-04-30"), by = "1 day")
+#' april2025 <- gregorian_date(2025,4,1:30)
 #' lunar_phase(april2025)
 #'
 #' @export
-#'
 lunar_phase <- function(date, ...) {
-  UseMethod("lunar_phase")
+  lunar_phase_numeric(vec_data(date))
 }
 
-#' @export
-lunar_phase.default <- function(date, ...) {
-  lunar_phase(as_rd(date))
-}
-
-#' @export
-lunar_phase.rd_fixed <- function(date, ...) {
+lunar_phase_numeric <- function(date, ...) {
   # Lunar phase, as an angle in degrees, at moment tee
   # An angle of 0 means a new moon, 90 degrees means the first quarter,
   # 180 means a full moon, and 270 degrees means the last quarter
@@ -1028,7 +1021,7 @@ nth_new_moon <- function(n) {
 
 new_moon_before <- function(tee) {
   t0 <- nth_new_moon(0)
-  phi <- lunar_phase(tee)
+  phi <- lunar_phase_numeric(tee)
   n <- round((tee - t0) / MEAN_SYNODIC_MONTH - phi / 360)
   output <- mapply(
     function(n, t) {
@@ -1043,7 +1036,7 @@ new_moon_before <- function(tee) {
 
 new_moon_at_or_after <- function(tee) {
   t0 <- nth_new_moon(0)
-  phi <- lunar_phase(tee)
+  phi <- lunar_phase_numeric(tee)
   n <- round((tee - t0) / MEAN_SYNODIC_MONTH - phi / 360)
   output <- mapply(
     function(n, t) {
@@ -1057,19 +1050,19 @@ new_moon_at_or_after <- function(tee) {
 }
 
 lunar_phase_at_or_before <- function(phi, tee) {
-  tau <- tee - MEAN_SYNODIC_MONTH * ((lunar_phase(tee) - phi) %% 360) / 360
+  tau <- tee - MEAN_SYNODIC_MONTH * ((lunar_phase_numeric(tee) - phi) %% 360) / 360
   a <- tau - 2
   b <- pmin(tee, tau + 2)
 
-  invert_angular(lunar_phase, phi, c(a, b))
+  invert_angular(lunar_phase_numeric, phi, c(a, b))
 }
 
 lunar_phase_at_or_after <- function(phi, tee) {
-  tau <- tee + MEAN_SYNODIC_MONTH * ((phi - lunar_phase(tee)) %% 360) / 360
+  tau <- tee + MEAN_SYNODIC_MONTH * ((phi - lunar_phase_numeric(tee)) %% 360) / 360
   a <- pmax(tee, tau - 2)
   b <- tau + 2
 
-  invert_angular(lunar_phase, phi, c(a, b))
+  invert_angular(lunar_phase_numeric, phi, c(a, b))
 }
 
 #' Full moons and new moons in Gregorian years
@@ -1083,21 +1076,21 @@ lunar_phase_at_or_after <- function(phi, tee) {
 #' @return A vector of dates
 #' @export
 new_moons <- function(year) {
-  first <- new_moon_at_or_after(as_rd(gregorian_date(min(year), JANUARY, 1)))
-  last <- new_moon_before(as_rd(gregorian_date(max(year) + 1, JANUARY, 1)))
+  first <- new_moon_at_or_after(gregorian_date(min(year), JANUARY, 1))
+  last <- new_moon_before(gregorian_date(max(year) + 1, JANUARY, 1))
   nm <- nth_new_moon(first:last)
-  as_gregorian(as_rd(round(nm)))
+  as_gregorian(round(nm))
 }
 
 #' @rdname new_moons
 #' @export
 full_moons <- function(year) {
   first <- new_moon_at_or_after(
-    as_rd(gregorian_date(min(year), JANUARY, 1)) - 16
+    vec_data(gregorian_date(min(year), JANUARY, 1)) - 16
   )
-  last <- new_moon_before(as_rd(gregorian_date(max(year) + 1, JANUARY, 1)) + 16)
+  last <- new_moon_before(gregorian_date(max(year) + 1, JANUARY, 1) + 16)
   nm <- nth_new_moon(first:last)
-  fm <- as_gregorian(as_rd(round(nm + MEAN_SYNODIC_MONTH / 2)))
-  y <- field(fm, "year")
+  fm <- as_gregorian(round(nm + MEAN_SYNODIC_MONTH / 2))
+  y <- granularity(fm, "year")
   fm[y %in% year]
 }

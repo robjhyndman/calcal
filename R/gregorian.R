@@ -25,29 +25,27 @@ check_gregorian <- function(args) {
 
 # Register format method for gregorian date
 format_gregorian <- function(x, ...) {
+  lst <- attributes(x)$calendar$from_rd(x)
   paste(
-    sprintf("%.2d", year(x)),
-    month.abb[field(x, "month")],
-    sprintf("%.2d", field(x, "day")),
+    sprintf("%.2d", lst$year),
+    month.abb[lst$month],
+    sprintf("%.2d", lst$day),
     sep = "-"
   )
 }
 
-# Convert gregorian to rd_fixed
+# Convert gregorian to RD
 fixed_from_gregorian <- function(date, ...) {
-  year <- field(date, "year")
-  month <- field(date, "month")
-  day <- field(date, "day")
   result <- GREGORIAN_EPOCH -
     1 + # Days before start of calendar
-    365 * (year - 1) + # Ordinary days since epoch
-    (year - 1) %/% 4 - # Julian leap days since epoch...
-    (year - 1) %/% 100 + # ...minus century years since epoch...
-    (year - 1) %/% 400 + # ...plus years since epoch divisible by 400
-    (367 * month - 362) %/% 12 # Days in prior months this year...
+    365 * (date$year - 1) + # Ordinary days since epoch
+    (date$year - 1) %/% 4 - # Julian leap days since epoch...
+    (date$year - 1) %/% 100 + # ...minus century years since epoch...
+    (date$year - 1) %/% 400 + # ...plus years since epoch divisible by 400
+    (367 * date$month - 362) %/% 12 # Days in prior months this year...
   # Adjust for leap years
-  adjustment <- (month > 2) * (-2 + gregorian_leap_year(year))
-  rd_fixed(result + adjustment + day)
+  adjustment <- (date$month > 2) * (-2 + gregorian_leap_year(date$year))
+  result + adjustment + date$day
 }
 
 gregorian_from_fixed <- function(date, ...) {
@@ -58,13 +56,13 @@ gregorian_from_fixed <- function(date, ...) {
   year <- gregorian_year_from_fixed(date)
   prior_days <- date - gregorian_new_year(year)
   # Correction to simulate a 30-day Feb
-  correction <- (date >= as_rd(gregorian_date(year, MARCH, 1))) *
+  correction <- (date >= gregorian_date(year, MARCH, 1)) *
     (2 - gregorian_leap_year(year))
   # Assuming a 30-day Feb
   month <- (12 * (prior_days + correction) + 373) %/% 367
   # Calculate the day by subtraction
-  day <- 1 + date - as_rd(gregorian_date(year, month, 1))
-  gregorian_date(year, month, day)
+  day <- 1 + date - gregorian_date(year, month, 1)
+  list(year=year, month=month, day=day)
 }
 
 
@@ -146,11 +144,11 @@ last_day_of_gregorian_month <- function(g_year, g_month) {
 }
 
 gregorian_new_year <- function(g_year) {
-  as_rd(gregorian_date(g_year, JANUARY, 1))
+  gregorian_date(g_year, JANUARY, 1)
 }
 
 gregorian_year_end <- function(g_year) {
-  as_rd(gregorian_date(g_year, DECEMBER, 31))
+  gregorian_date(g_year, DECEMBER, 31)
 }
 
 gregorian_year_range <- function(g_year) {
@@ -196,7 +194,7 @@ day_of_week <- function(
     numeric = FALSE,
     first_day = "Monday",
     abbreviate = FALSE) {
-  dow <- day_of_week_from_fixed(as_rd(date)) + 1
+  dow <- day_of_week_from_fixed(date) + 1
   if (numeric) {
     first_day <- pmatch(
       first_day,
@@ -234,7 +232,7 @@ day_of_week <- function(
 #' @rdname gregorian-parts
 #' @export
 day_of_month <- function(date) {
-  if (!("month" %in% attributes(date)$names)) {
+  if (!("month" %in% granularities(date))) {
     stop("Date must contain months")
   }
   granularity(date, "day")
@@ -251,17 +249,29 @@ day_of_year <- function(date) {
     stop("Date must contain years")
   }
   date0 <- date
+  date0 <- attributes(date)$calendar$from_rd(date)
   for (f in gran[gran != "year"]) {
-    field(date0, f) <- rep(1, length(date0))
+    date0[[f]] <- rep(1, length(date))
   }
-  date - date0 + 1
+  date0 <- attributes(date)$calendar$to_rd(date0)
+  as.numeric(date - date0 + 1)
 }
 
 #' @rdname gregorian-parts
 #' @export
 days_remaining <- function(date) {
-  # Days remaining in year after Gregorian date
-  as_rd(gregorian_date(field(date, "year"), DECEMBER, 31)) - as_rd(date)
+  gran <- attributes(date)$calendar$granularities
+  if (!("year" %in% gran)) {
+    stop("Date must contain years")
+  }
+  date0 <- date
+  date0 <- attributes(date)$calendar$from_rd(date)
+  date0[["year"]] <- date0[["year"]] + 1
+  for (f in gran[gran != "year"]) {
+    date0[[f]] <- rep(1, length(date))
+  }
+  date0 <- attributes(date)$calendar$to_rd(date0)
+  as.numeric(date0 - date - 1)
 }
 
 #' @rdname gregorian-parts
@@ -269,7 +279,8 @@ days_remaining <- function(date) {
 week_of_month <- function(date, first_day = "Monday") {
   dow <- day_of_week(date, numeric = TRUE, first_day = first_day)
   date <- date + (4 - dow)
-  day1 <- gregorian_date(field(date, "year"), field(date, "month"), 1)
+  day1 <- gregorian_date(granularity(date, "year"),
+                         granularity(date, "month"), 1)
   (date - day1) %/% 7 + 1
 }
 
@@ -278,7 +289,7 @@ week_of_month <- function(date, first_day = "Monday") {
 week_of_year <- function(date, first_day = "Monday") {
   dow <- day_of_week(date, numeric = TRUE, first_day = first_day)
   date <- date + (4 - dow)
-  jan1 <- gregorian_date(field(date, "year"), JANUARY, 1)
+  jan1 <- gregorian_date(granularity(date, "year"), JANUARY, 1)
   (as_gregorian(date) - jan1) %/% 7 + 1
 }
 
@@ -294,11 +305,3 @@ year <- function(date) {
   granularity(date, "year")
 }
 
-#' @export
-vec_cast.double.gregorian <- function(x, to, ...) {
-  vec_data(as_rd(x))
-}
-#' @export
-vec_cast.integer.gregorian <- function(x, to, ...) {
-  as.integer(as.numeric(x))
-}

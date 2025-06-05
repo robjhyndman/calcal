@@ -15,19 +15,16 @@ check_iso <- function(args) {
 }
 
 fixed_from_iso <- function(date, ...) {
-  week <- field(date, "week")
-  day <- field(date, "day")
-  year <- field(date, "year")
-
-  nth_kday(week, SUNDAY, gregorian_date(year - 1, DECEMBER, 28)) + day
+  nth_kday(date$week, SUNDAY, 
+    gregorian_date(date$year - 1, DECEMBER, 28)) + date$day
 }
 
 iso_from_fixed <- function(date, ...) {
   approx <- gregorian_year_from_fixed(date - 3)
-  year <- approx + (date >= as_rd(iso_date(approx + 1, 1, 1)))
-  week <- 1 + (date - as_rd(iso_date(year, 1, 1))) %/% 7
+  year <- approx + (date >= iso_date(approx + 1, 1, 1))
+  week <- 1 + (date - iso_date(year, 1, 1)) %/% 7
   day <- amod(vec_data(date), 7L)
-  iso_date(year, week, day)
+  list(year = year, week = week, day = day)
 }
 
 
@@ -89,6 +86,7 @@ iso_date <- function(year=integer(), week=integer(), day=integer()) {
 as_iso <- function(date) {
   as_date(date, calendar = cal_iso)
 }
+
 iso_long_year <- function(i_year) {
   jan1 <- day_of_week_from_fixed(gregorian_new_year(i_year))
   dec31 <- day_of_week_from_fixed(gregorian_year_end(i_year))

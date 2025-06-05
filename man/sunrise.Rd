@@ -10,7 +10,7 @@ sunrise(date, location, ...)
 sunset(date, location, ...)
 }
 \arguments{
-\item{date}{Date in rd_fixed format}
+\item{date}{Date in calcalvec format}
 
 \item{location}{Location of class "location", usually the output from the \code{location} function}
 

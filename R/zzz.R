@@ -24,12 +24,12 @@ FRIDAY <- SUNDAY + 5L
 SATURDAY <- SUNDAY + 6L
 
 GREGORIAN_EPOCH <- 1L # Fixed date of start of the (proleptic) Gregorian calendar
-JULIAN_EPOCH <- vec_data(as_rd(gregorian_date(0, DECEMBER, 30)))
+JULIAN_EPOCH <- vec_data(gregorian_date(0, DECEMBER, 30))
 JD_EPOCH <- -1721424.5
 MJD_EPOCH <- 678576
 UNIX_EPOCH <- 719163
-HEBREW_EPOCH <- vec_data(as_rd(julian_date(bce(3761), OCTOBER, 7)))
-ISLAMIC_EPOCH <- vec_data(as_rd(julian_date(ce(622), JULY, 16)))
+HEBREW_EPOCH <- vec_data(julian_date(bce(3761), OCTOBER, 7))
+ISLAMIC_EPOCH <- vec_data(julian_date(ce(622), JULY, 16))
 
 YEAR_ROME_FOUNDED <- bce(753)
 OLYMPIAD_START <- bce(776)
@@ -44,7 +44,7 @@ TEHRAN <- location(angle(35.68, 0, 0), angle(51.42, 0, 0), mt(1100), 3.5)
 BABYLON <- location(angle(32.4794, 0, 0), angle(44.4328, 0, 0), mt(26), 3.5)
 UJJAIN <- location(angle(23, 9, 0), angle(75, 46, 6), mt(0), 5 + 461 / 9000)
 
-J2000 <- vec_data(as_rd("2000-01-01")) + hr(12) # Noon at start of Gregorian year 2000
+J2000 <- vec_data(gregorian_date(2000,1,1)) + hr(12) # Noon at start of Gregorian year 2000
 
 MEAN_TROPICAL_YEAR <- 365.242189
 MEAN_SIDEREAL_YEAR <- 365.25636

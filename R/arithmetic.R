@@ -8,27 +8,23 @@ vec_arith.calcalvec <- function(op, x, y, ...) {
 #' @export
 #' @method vec_arith.calcalvec calcalvec
 vec_arith.calcalvec.calcalvec <- function(op, x, y, ...) {
-  vec_arith(
-    op,
-    attributes(x)$calendar$to_rd(x),
-    attributes(y)$calendar$to_rd(y)
-  )
+  vec_arith(op, vec_data(x), vec_data(y))
 }
 #' @export
 #' @method vec_arith.numeric calcalvec
 vec_arith.numeric.calcalvec <- function(op, x, y, ...) {
-  as_date(
-    vec_arith(op, x, attributes(y)$calendar$to_rd(y)),
-    calendar = attributes(y)$calendar
+  new_calcalvec(
+    vec_arith(op, x, vec_data(y)),
+    attributes(y)$calendar
   )
 }
 
 #' @export
 #' @method vec_arith.calcalvec numeric
 vec_arith.calcalvec.numeric <- function(op, x, y, ...) {
-  as_date(
-    vec_arith(op, attributes(x)$calendar$to_rd(x), y),
-    calendar = attributes(x)$calendar
+  new_calcalvec(
+    vec_arith(op, vec_data(x), y),
+    attributes(x)$calendar
   )
 }
 

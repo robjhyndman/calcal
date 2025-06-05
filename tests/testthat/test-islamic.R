@@ -4,7 +4,8 @@ test_that("islamic", {
     as.Date(as_gregorian(islamic_date(1446, 7, 1))),
     as.Date("2025-01-01")
   )
-  expect_equal(as_rd(islamic_date(1446, 7, 1)), as_rd("2025-01-01"))
+  expect_equal(vec_data(islamic_date(1446, 7, 1)), 
+    vec_data(gregorian_date(2025,1,1)))
   expect_error(islamic_date(1446, 13, 1))
   expect_error(islamic_date(2025, 2, 31))
   # Holidays

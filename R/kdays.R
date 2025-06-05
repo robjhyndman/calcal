@@ -28,14 +28,12 @@ kday_before <- function(k, date) {
   kday_on_or_before(k, date - 1)
 }
 
-nth_kday <- function(n, k, g_date) {
+nth_kday <- function(n, k, date) {
   # Fixed date of n-th k-day after Gregorian date. If
   # n>0, return the n-th k-day on or after date.
   # If n<0, return the n-th k-day on or before date.
   # A k-day of 0 means Sunday, 1 means Monday, and so on.
-  date <- as_rd(g_date)
-
-  output <- rd_fixed(rep(NA_integer_, length(date)))
+  output <- rep(NA_integer_, length(date))
   output[n > 0] <- kday_before(k, date[n > 0]) + 7L * n[n > 0]
   output[n < 0] <- kday_after(k, date[n < 0]) + 7L * n[n < 0]
   output

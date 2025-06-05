@@ -100,15 +100,15 @@ day_of_week_from_fixed <- function(date) {
 
 # Standard date accessors
 standard_month <- function(date) {
-  field(date, "month")
+  attributes(date)$calendar$from_rd(date)$month
 }
 
 standard_day <- function(date) {
-  field(date, "day")
+  attributes(date)$calendar$from_rd(date)$day
 }
 
 standard_year <- function(date) {
-  field(date, "year")
+  attributes(date)$calendar$from_rd(date)$year
 }
 
 fixed_from_moment <- function(tee) {
@@ -193,7 +193,7 @@ dates2_in_gregorian <- function(g_year, date0, date1) {
     g_year,
     SIMPLIFY = TRUE
   )
-  as_rd(c(unlist(out)))
+  c(unlist(out))
 }
 
 dates3_in_gregorian <- function(g_year, date0, date1, date2) {
@@ -207,5 +207,5 @@ dates3_in_gregorian <- function(g_year, date0, date1, date2) {
     g_year,
     SIMPLIFY = TRUE
   )
-  as_rd(c(unlist(out)))
+  c(unlist(out))
 }

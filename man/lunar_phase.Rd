@@ -17,7 +17,7 @@ Lunar phase at date, as an angle in degrees. An angle of 0 means a new moon,
 means the last quarter.
 }
 \examples{
-april2025 <- seq(as.Date("2025-04-01"), as.Date("2025-04-30"), by = "1 day")
+april2025 <- gregorian_date(2025,4,1:30)
 lunar_phase(april2025)
 
 }

@@ -16,14 +16,15 @@
 #' @param to_rd Function to convert from calendar date to RD.
 #' @export
 cal_calendar <- function(
-    name,
-    short_name,
-    epoch,
-    granularities,
-    check_granularities,
-    format,
-    from_rd,
-    to_rd) {
+  name,
+  short_name,
+  epoch,
+  granularities,
+  check_granularities,
+  format,
+  from_rd,
+  to_rd
+) {
   structure(
     list(
       name = name,
@@ -63,7 +64,30 @@ print.calcal <- function(x, ...) {
 #' @rdname new_date
 #' @export
 as_date <- function(date, calendar) {
-  calendar$from_rd(as_rd(date))
+  UseMethod("as_date")
+}
+
+#' @export
+as_date.numeric <- function(date, calendar) {
+  new_calcalvec(date, calendar)
+}
+
+#' @export
+as_date.Date <- function(date, calendar) {
+  new_calcalvec(
+    as.numeric(date) + gregorian_date(1970,1,1),
+    calendar
+  )
+}
+
+#' @export
+as_date.calcalvec <- function(date, calendar) {
+  new_calcalvec(vec_data(date), calendar)
+}
+
+#' @export
+as_date.default <- function(date, calendar) {
+  as_date(as.Date(date), calendar)
 }
 
 #' @rdname new_date
@@ -86,8 +110,14 @@ new_date <- function(..., calendar) {
   lst <- lapply(lst, vec_recycle, size = max(unlist(lapply(lst, length))))
   # Check the granularities are valid
   calendar$check_granularities(lst)
+  # Convert to RD
+  rd <- calendar$to_rd(lst)
   # Create the new date object
-  out <- new_rcrd(lst, class = "calcalvec")
+  new_calcalvec(rd, calendar)
+}
+
+new_calcalvec <- function(rd=integer(), calendar=cal_gregorian) {
+  out <- new_vctr(vec_cast(rd, double()), class = "calcalvec")
   attr(out, "calendar") <- calendar
   out
 }
@@ -109,17 +139,38 @@ format_date <- function(parts) {
   })
 }
 
-#' @export
-as_rd.calcalvec <- function(date, ...) {
-  attributes(date)$calendar$to_rd(date)
-}
 
 #' @export
 vec_cast.calcalvec.calcalvec <- function(x, to, ...) x
 #' @export
-vec_cast.double.calcalvec <- function(x, to, ...) vec_data(as_rd(x))
+vec_cast.double.calcalvec <- function(x, to, ...) vec_data(x)
 #' @export
-vec_cast.integer.calcalvec <- function(x, to, ...) vec_data(as_rd(x))
+vec_cast.integer.calcalvec <- function(x, to, ...) vec_data(x)
+
+#' @export
+vec_cast.calcalvec.double <- function(x, to, ...) {
+  x
+}
+
+#' @export
+vec_ptype2.calcalvec.calcalvec <- function(x, y, ...) {
+  ## Check same calendar
+  #if (!identical(attributes(x)$calendar, attributes(y)$calendar)) {
+  #  stop("Not a common calendar")
+  #}
+  new_calcalvec()
+}
+
+#' @export
+vec_ptype2.calcalvec.double <- function(x, y, ...) {
+  new_calcalvec()
+}
+
+#' @export
+vec_ptype2.double.calcalvec <- function(x, y, ...) {
+  new_calcalvec()
+}
+
 
 #' @export
 vec_ptype_abbr.calcalvec <- function(x, ...) {
@@ -134,6 +185,6 @@ obj_print_header.calcalvec <- function(x, ...) {
 
 #' @export
 as.Date.calcalvec <- function(x, ...) {
-  gdate <- cal_gregorian$from_rd(as_rd(x))
-  as.Date(apply(as.data.frame(unclass(gdate)), 1, paste, collapse = "-"))
+  gdate <- cal_gregorian$from_rd(x)
+  as.Date(apply(as.data.frame(gdate), 1, paste, collapse = "-"))
 }

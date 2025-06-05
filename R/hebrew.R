@@ -23,8 +23,9 @@ check_hebrew <- function(args) {
 }
 
 format_hebrew <- function(x, ...) {
+  lst <- attributes(x)$calendar$from_rd(x)
   paste(
-    sprintf("%.2d", year(x)),
+    sprintf("%.2d", lst$year),
     c(
       "Nisan",
       "Iyar",
@@ -39,16 +40,13 @@ format_hebrew <- function(x, ...) {
       "Shevat",
       "Adar",
       "Adar II"
-    )[field(x, "month")],
-    sprintf("%.2d", field(x, "day")),
+    )[lst$month],
+    sprintf("%.2d", lst$day),
     sep = "-"
   )
 }
 
 fixed_from_hebrew <- function(date, ...) {
-  month <- standard_month(date)
-  day <- standard_day(date)
-  year <- standard_year(date)
   days_in_prior_months <- mapply(
     function(mth, yr) {
       if (mth < TISHRI) {
@@ -69,11 +67,11 @@ fixed_from_hebrew <- function(date, ...) {
       }
       out
     },
-    month,
-    year,
+    date$month,
+    date$year,
     SIMPLIFY = TRUE
   )
-  as_rd(hebrew_new_year(year) + days_in_prior_months + day - 1)
+  hebrew_new_year(date$year) + days_in_prior_months + date$day - 1
 }
 
 hebrew_from_fixed <- function(date, ...) {
@@ -86,12 +84,12 @@ hebrew_from_fixed <- function(date, ...) {
   year <- approx - 1 + (date >= ny) + (date >= ny_next)
 
   start <- rep(NISAN, length(date))
-  start[date < as_rd(hebrew_date(year, NISAN, 1))] <- TISHRI
+  start[date < hebrew_date(year, NISAN, 1)] <- TISHRI
   # Find the month
   month <- mapply(
     function(s, y, d) {
       next_value(s, function(m) {
-        d <= as_rd(hebrew_date(y, m, last_day_of_hebrew_month(y, m)))
+        d <= hebrew_date(y, m, last_day_of_hebrew_month(y, m))
       })
     },
     start,
@@ -100,9 +98,9 @@ hebrew_from_fixed <- function(date, ...) {
     SIMPLIFY = TRUE
   )
   # Calculate the day by subtraction
-  day <- date - as_rd(hebrew_date(year, month, 1)) + 1
+  day <- date - hebrew_date(year, month, 1) + 1
 
-  hebrew_date(year, month, day)
+  list(year=year, month=month, day=day)
 }
 
 #' Work with Hebrew calendar dates
@@ -266,7 +264,7 @@ passover <- function(year) {
 }
 
 omer <- function(date) {
-  u <- date - as_rd(passover(gregorian_year_from_fixed(date)))
+  u <- date - passover(gregorian_year_from_fixed(date))
   u[u < 1 | u > 49] <- NA
   c(u %/% 7, u %% 7)
 }
@@ -281,7 +279,7 @@ purim <- function(year) {
 }
 
 ta_anit_esther <- function(g_year) {
-  purim_date <- as_rd(purim(g_year))
+  purim_date <- purim(g_year)
 
   if (day_of_week_from_fixed(purim_date) == SUNDAY) {
     purim_date - 3 # Prior Thursday
@@ -292,7 +290,7 @@ ta_anit_esther <- function(g_year) {
 
 tishah_be_av <- function(g_year) {
   h_year <- g_year - gregorian_year_from_fixed(HEBREW_EPOCH)
-  av9 <- as_rd(hebrew_date(h_year, AV, 9))
+  av9 <- hebrew_date(h_year, AV, 9)
 
   if (day_of_week_from_fixed(av9) == SATURDAY) {
     av9 + 1 # The next day
@@ -307,12 +305,10 @@ hebrew_birthday <- function(birthdate, h_year) {
   birth_year <- standard_year(birthdate)
   if (birth_month == last_month_of_hebrew_year(birth_year)) {
     # Same day in last month of year
-    as_rd(
       hebrew_date(h_year, last_month_of_hebrew_year(h_year), birth_day)
-    )
   } else {
     # Normal anniversary
-    as_rd(hebrew_date(h_year, birth_month, 1)) + birth_day - 1
+    hebrew_date(h_year, birth_month, 1) + birth_day - 1
   }
 }
 
@@ -339,7 +335,7 @@ yahrzeit <- function(death_date, h_year) {
   death_month <- standard_month(death_date)
   death_year <- standard_year(death_date)
 
-  out <- as_rd(hebrew_date(h_year, death_month, 1)) + death_day - 1
+  out <- hebrew_date(h_year, death_month, 1) + death_day - 1
   case1 <- death_month == MARHESHVAN &
     death_day == 30 &
     !long_marheshvan(death_year + 1)
@@ -362,14 +358,14 @@ yahrzeit <- function(death_date, h_year) {
     !case4 &
     death_month == ADAR &
     hebrew_leap_year(h_year)
-  out[case1] <- as_rd(hebrew_date(h_year, KISLEV, 1)) - 1
-  out[case2] <- as_rd(hebrew_date(h_year, TEVET, 1)) - 1
-  out[case3] <- as_rd(hebrew_date(
+  out[case1] <- hebrew_date(h_year, KISLEV, 1) - 1
+  out[case2] <- hebrew_date(h_year, TEVET, 1) - 1
+  out[case3] <- hebrew_date(
     h_year,
     last_month_of_hebrew_year(h_year),
     death_day
-  ))
-  out[case4] <- as_rd(hebrew_date(h_year, SHEVAT, 30))
+  )
+  out[case4] <- hebrew_date(h_year, SHEVAT, 30)
   out
 }
 
@@ -393,9 +389,9 @@ yahrzeit_in_gregorian <- function(death_date, g_year) {
 hebrew_in_gregorian <- function(h_month, h_day, g_year) {
   jan1 <- gregorian_new_year(g_year)
   y <- standard_year(as_hebrew(jan1))
-  date0 <- as_rd(hebrew_date(y, h_month, h_day))
-  date1 <- as_rd(hebrew_date(y + 1, h_month, h_day))
-  date2 <- as_rd(hebrew_date(y + 2, h_month, h_day))
+  date0 <- hebrew_date(y, h_month, h_day)
+  date1 <- hebrew_date(y + 1, h_month, h_day)
+  date2 <- hebrew_date(y + 2, h_month, h_day)
   dates3_in_gregorian(g_year, date0, date1, date2)
 }
 

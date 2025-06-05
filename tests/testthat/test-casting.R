@@ -1,9 +1,5 @@
 test_that("casting", {
-  today <- as_rd(Sys.Date()) |> as.integer()
-  expect_equal(
-    today,
-    as_gregorian(Sys.Date()) |> as.integer()
-  )
+  today <- as_gregorian(Sys.Date()) |> as.integer()
   expect_equal(
     today,
     as_hebrew(Sys.Date()) |> as.integer()

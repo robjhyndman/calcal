@@ -1,12 +1,12 @@
 test_that("astronomical", {
   melbourne <- location(-37.8136, 144.9631, 31, 10)
   expect_equal(
-    sunrise(as_rd("2025-01-01"), melbourne),
+    sunrise(gregorian_date(2025,1,1), melbourne),
     time_of_day(hour = 5, minute = 0, second = 25.00),
     tolerance = 1e-3
   )
   expect_equal(
-    sunset(as_rd("2025-01-01"), melbourne),
+    sunset(gregorian_date(2025,1,1), melbourne),
     time_of_day(hour = 19, minute = 46, second = 39.75),
     tolerance = 1e-3
   )

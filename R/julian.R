@@ -23,46 +23,44 @@ check_julian <- function(args) {
 
 # Register format method for julian_date
 format_julian <- function(x, ...) {
+  lst <- attributes(x)$calendar$from_rd(x)
   paste(
-    sprintf("%.2d", year(x)),
-    month.abb[field(x, "month")],
-    sprintf("%.2d", field(x, "day")),
+    sprintf("%.2d", lst$year),
+    month.abb[lst$month],
+    sprintf("%.2d", lst$day),
     sep = "-"
   )
 }
 
-# Convert julian to rd_fixed
+# Convert julian to RD
 fixed_from_julian <- function(date, ...) {
-  year <- field(date, "year")
-  month <- field(date, "month")
-  day <- field(date, "day")
-  y <- year + (year < 0) # No year zero
+  y <- date$year + (date$year < 0) # No year zero
   result <- JULIAN_EPOCH -
     1 + # Days before start of calendar
     365 * (y - 1) + # Ordinary days since epoch
     (y - 1) %/% 4 + # Leap days since epoch
-    (367 * month - 362) %/% 12 # Days in prior months this year
+    (367 * date$month - 362) %/% 12 # Days in prior months this year
 
   # Adjust for leap years
-  adjustment <- (month > 2) * (-2 + julian_leap_year(year))
-  rd_fixed(result + adjustment + day)
+  adjustment <- (date$month > 2) * (-2 + julian_leap_year(date$year))
+  result + adjustment + date$day
 }
 
-# Convert rd_fixed to julian
+# Convert RD to julian
 julian_from_fixed <- function(date, ...) {
   approx <- (4 * (vec_data(date) - JULIAN_EPOCH) + 1464) %/% 1461 # Nominal year
   # Julian (year month day) corresponding to fixed date
   year <- approx - (approx <= 0)
 
-  prior_days <- date - as_rd(julian_date(year, JANUARY, 1))
+  prior_days <- date - julian_date(year, JANUARY, 1)
   # Correction to simulate a 30-day Feb
-  correction <- (date >= as_rd(julian_date(year, MARCH, 1))) *
+  correction <- (date >= julian_date(year, MARCH, 1)) *
     (2 - julian_leap_year(year))
   # Assuming a 30-day Feb
   month <- (12 * (prior_days + correction) + 373) %/% 367
   # Calculate the day by subtraction
-  day <- date - as_rd(julian_date(year, month, 1)) + 1
-  julian_date(year, month, day)
+  day <- date - julian_date(year, month, 1) + 1
+  list(year=year, month=month, day=day)
 }
 
 #' Work with Julian dates
@@ -131,14 +129,13 @@ julian_leap_year <- function(j_year) {
 
 julian_in_gregorian <- function(j_month, j_day, g_year) {
   # List of the fixed dates of Julian month, day that occur in Gregorian year
-  jan1 <- as_rd(gregorian_date(g_year, JANUARY, 1))
+  jan1 <- gregorian_date(g_year, JANUARY, 1)
   y <- standard_year(as_julian(jan1))
   y_prime <- 1 + (y != -1) * y
 
   # The possible occurrences in one year are
-  date0 <- as_rd(julian_date(y, j_month, j_day))
-  date1 <- as_rd(julian_date(y_prime, j_month, j_day))
-
+  date0 <- julian_date(y, j_month, j_day)
+  date1 <- julian_date(y_prime, j_month, j_day)
   dates2_in_gregorian(g_year, date0, date1)
 }
 
