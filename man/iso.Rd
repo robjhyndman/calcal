@@ -12,7 +12,7 @@ An object of class \code{calcal} of length 8.
 \usage{
 cal_iso
 
-iso_date(year, week, day)
+iso_date(year = integer(), week = integer(), day = integer())
 
 as_iso(date)
 }

@@ -140,7 +140,7 @@ cal_hebrew <- cal_calendar(
 #' as_hebrew(gregorian_date(2025, 1, 1:31))
 #' @rdname hebrew
 #' @export
-hebrew_date <- function(year, month, day) {
+hebrew_date <- function(year=integer(), month=integer(), day=integer()) {
   new_date(year = year, month = month, day = day, calendar = cal_hebrew)
 }
 

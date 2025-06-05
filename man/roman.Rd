@@ -12,7 +12,13 @@ An object of class \code{calcal} of length 8.
 \usage{
 cal_roman
 
-roman_date(year, month, event, count, leap)
+roman_date(
+  year = integer(),
+  month = integer(),
+  event = integer(),
+  count = integer(),
+  leap = logical()
+)
 
 as_roman(date)
 }

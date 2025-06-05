@@ -92,7 +92,7 @@ cal_islamic <- cal_calendar(
 #' @examples
 #' islamic_date(2025, 4, 19:30)
 #' @export
-islamic_date <- function(year, month, day) {
+islamic_date <- function(year=integer(), month=integer(), day=integer()) {
   new_date(year = year, month = month, day = day, calendar = cal_islamic)
 }
 

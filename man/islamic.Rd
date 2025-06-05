@@ -12,7 +12,7 @@ An object of class \code{calcal} of length 8.
 \usage{
 cal_islamic
 
-islamic_date(year, month, day)
+islamic_date(year = integer(), month = integer(), day = integer())
 
 as_islamic(date)
 }

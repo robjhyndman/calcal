@@ -12,7 +12,7 @@ An object of class \code{calcal} of length 8.
 \usage{
 cal_gregorian
 
-gregorian_date(year, month, day)
+gregorian_date(year = integer(), month = integer(), day = integer())
 
 as_gregorian(date)
 }

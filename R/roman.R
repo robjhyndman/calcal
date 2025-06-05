@@ -168,7 +168,7 @@ cal_roman <- cal_calendar(
 #' @param leap A logical vector indicating if year is a leap year
 #' @return A roman vector object
 #' @export
-roman_date <- function(year, month, event, count, leap) {
+roman_date <- function(year=integer(), month=integer(), event=integer(), count=integer(), leap=logical()) {
   new_date(
     year = year,
     month = month,

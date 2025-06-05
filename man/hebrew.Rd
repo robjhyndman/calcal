@@ -12,7 +12,7 @@ An object of class \code{calcal} of length 8.
 \usage{
 cal_hebrew
 
-hebrew_date(year, month, day)
+hebrew_date(year = integer(), month = integer(), day = integer())
 
 as_hebrew(date)
 }

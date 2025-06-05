@@ -12,7 +12,7 @@ An object of class \code{calcal} of length 8.
 \usage{
 cal_julian
 
-julian_date(year, month, day)
+julian_date(year = integer(), month = integer(), day = integer())
 
 as_julian(date)
 }

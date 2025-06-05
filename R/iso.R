@@ -72,7 +72,7 @@ cal_iso <- cal_calendar(
 #' as_gregorian(iso_date(2025, 23, 2:4))
 #' as_iso(gregorian_date(2025, 1, 1:31))
 #' @export
-iso_date <- function(year, week, day) {
+iso_date <- function(year=integer(), week=integer(), day=integer()) {
   new_date(year = year, week = week, day = day, calendar = cal_iso)
 }
 
