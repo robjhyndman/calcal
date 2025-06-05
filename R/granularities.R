@@ -18,9 +18,9 @@
 #' @seealso \code{\link{week_of_year}} for some non-canonical granularities.
 #' @export
 granularities <- function(calendar) {
-  if(inherits(calendar, "calcalvec")) {
-    attributes(calendar)$granularities
-  } else if(inherits(calendar, "calcal")) {
+  if (inherits(calendar, "calcalvec")) {
+    attributes(calendar)$calendar$granularities
+  } else if (inherits(calendar, "calcal")) {
     calendar$granularities
   } else {
     stop("Invalid calendar")
