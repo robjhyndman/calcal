@@ -2,37 +2,6 @@
 # Roman Calendar
 # ==============================================================================
 
-#' Roman calendar dates
-#'
-#' Create a Roman date object.
-#'
-#' @param year A numeric vector of years
-#' @param month A numeric vector of months
-#' @param event A numeric vector of events: 1 = KALENDS, 2 = NONES, 3 = IDES
-#' @param count A numeric vector of counts:
-#' @param leap A logical vector indicating if year is a leap year
-#' @return A roman vector object
-#' @examples
-#' roman_date(66, 4, 1, 1, FALSE)
-#' as_roman(Sys.Date())
-#'
-#' @export
-roman_date <- function(
-  year = integer(),
-  month = integer(),
-  event = integer(),
-  count = integer(),
-  leap = logical()
-) {
-  new_date(
-    year = year,
-    month = month,
-    event = event,
-    count = count,
-    leap = leap,
-    calendar = cal_roman
-  )
-}
 
 roman_year <- function(date) {
   field(date, "year")
@@ -175,10 +144,10 @@ roman_from_fixed <- function(date, ...) {
 
 #' Work with Roman calendar dates
 #'
-#' Create a Roman date object.
-#'
+#' @rdname roman
+#' @examples
 #' roman_date(66, 4, 1, 1, FALSE)
-#' as_roman(Sys.Date())
+#' new_date(year = 66, month = 4, event = 1, count = 1, leap = FALSE, calendar = cal_roman)
 #' @export
 cal_roman <- cal_calendar(
   name = "Roman",
@@ -191,12 +160,29 @@ cal_roman <- cal_calendar(
   to_rd = fixed_from_roman
 )
 
-#' Convert to a Roman date
-#'
+#' @rdname roman
+#' @param year A numeric vector of years
+#' @param month A numeric vector of months
+#' @param event A numeric vector of events: 1 = KALENDS, 2 = NONES, 3 = IDES
+#' @param count A numeric vector of counts:
+#' @param leap A logical vector indicating if year is a leap year
+#' @return A roman vector object
+#' @export
+roman_date <- function(year, month, event, count, leap) {
+  new_date(
+    year = year,
+    month = month,
+    event = event,
+    count = count,
+    leap = leap,
+    calendar = cal_roman
+  )
+}
+
+#' @rdname roman
 #' @param date Vector of dates on some calendar
 #' @examples
 #' as_roman("2016-01-01")
-#' as_roman(Sys.Date())
 #' tibble::tibble(
 #'   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
 #'   y = as_roman(x)

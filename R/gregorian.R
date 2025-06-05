@@ -2,25 +2,6 @@
 # Gregorian Calendar
 # ==============================================================================
 
-#' Gregorian calendar dates
-#'
-#' Create a Gregorian date object.
-#'
-#' @param year A numeric vector of years
-#' @param month A numeric vector of months
-#' @param day A numeric vector of days
-#' @return A gregorian vector object
-#' @examples
-#' gregorian_date(2025, 4, 19:30)
-#' @export
-gregorian_date <- function(
-  year = integer(),
-  month = integer(),
-  day = integer()
-) {
-  new_date(year = year, month = month, day = day, calendar = cal_gregorian)
-}
-
 check_gregorian <- function(args) {
   year <- args$year
   month <- args$month
@@ -86,8 +67,7 @@ gregorian_from_fixed <- function(date, ...) {
   gregorian_date(year, month, day)
 }
 
-#' Gregorian calendar dates
-#'
+
 #' @examples
 #' new_date(year = 2025, month = 3, day = 2:4, calendar = cal_gregorian)
 #' as_date(Sys.Date(), calendar = cal_gregorian)
@@ -95,7 +75,7 @@ gregorian_from_fixed <- function(date, ...) {
 #'   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
 #'   z = as_date(x, calendar = cal_gregorian)
 #' )
-#' @rdname gregorian_date
+#' @rdname gregorian
 #' @export
 cal_gregorian <- cal_calendar(
   name = "gregorian",
@@ -108,8 +88,20 @@ cal_gregorian <- cal_calendar(
   to_rd = fixed_from_gregorian
 )
 
-#' Convert to a Gregorian date
+#' Work with Gregorian calendar dates
 #'
+#' @param year A numeric vector of years
+#' @param month A numeric vector of months
+#' @param day A numeric vector of days
+#' @return A gregorian vector object
+#' @examples
+#' gregorian_date(2025, 4, 19:30)
+#' @rdname gregorian
+#' @export
+gregorian_date <- function(year, month, day) {
+  new_date(year = year, month = month, day = day, calendar = cal_gregorian)
+}
+
 #' @param date Vector of dates on some calendar
 #' @examples
 #' as_gregorian("2016-01-01")
@@ -119,6 +111,7 @@ cal_gregorian <- cal_calendar(
 #'   y = as_gregorian(x)
 #' )
 #' @param date A gregorian vector object
+#' @rdname gregorian
 #' @export
 as_gregorian <- function(date) {
   as_date(date, calendar = cal_gregorian)
@@ -199,11 +192,10 @@ gregorian_year_range <- function(g_year) {
 #' @rdname gregorian-parts
 #' @export
 day_of_week <- function(
-  date,
-  numeric = FALSE,
-  first_day = "Monday",
-  abbreviate = FALSE
-) {
+    date,
+    numeric = FALSE,
+    first_day = "Monday",
+    abbreviate = FALSE) {
   dow <- day_of_week_from_fixed(as_rd(date)) + 1
   if (numeric) {
     first_day <- pmatch(

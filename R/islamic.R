@@ -1,26 +1,6 @@
-#==============================================================================
+# ==============================================================================
 # Islamic Calendar
-#==============================================================================
-
-#' Islamic calendar dates
-#'
-#' Create an Islamic date object.
-#'
-#' @param year A numeric vector of years
-#' @param month A numeric vector of months
-#' @param day A numeric vector of days
-#' @return An islamic vector object
-#' @examples
-#' islamic_date(2025, 4, 19:30)
-#' @rdname islamic_date
-#' @export
-islamic_date <- function(
-  year = integer(),
-  month = integer(),
-  day = integer()
-) {
-  new_date(year = year, month = month, day = day, calendar = cal_islamic)
-}
+# ==============================================================================
 
 check_islamic <- function(args) {
   year <- args$year
@@ -91,6 +71,7 @@ islamic_from_fixed <- function(date, ...) {
 #'   y = as_date(x, calendar = cal_islamic)
 #' )
 #' new_date(year = 2025, month = 4, day = 19:30, calendar = cal_islamic)
+#' @rdname islamic
 #' @export
 cal_islamic <- cal_calendar(
   name = "Islamic",
@@ -103,8 +84,19 @@ cal_islamic <- cal_calendar(
   to_rd = fixed_from_islamic
 )
 
-#' Convert to an Islamic date
-#'
+#' @rdname islamic
+#' @param year A numeric vector of years
+#' @param month A numeric vector of months
+#' @param day A numeric vector of days
+#' @return An islamic vector object
+#' @examples
+#' islamic_date(2025, 4, 19:30)
+#' @export
+islamic_date <- function(year, month, day) {
+  new_date(year = year, month = month, day = day, calendar = cal_islamic)
+}
+
+#' @rdname islamic
 #' @param date Vector of dates on some calendar
 #' @examples
 #' as_islamic("2016-01-01")
@@ -149,34 +141,34 @@ islamic_in_gregorian <- function(i_month, i_day, g_year) {
 #'   `Eid al-Adha` = eid_al_adha(year)
 #' )
 #' ramadan(2030)
-#' @rdname islamic
+#' @rdname islamic_holidays
 #' @export
 # Islamic New Year
 islamic_new_year <- function(year) {
   as_gregorian(islamic_in_gregorian(1, 1, year))
 }
 
-#' @rdname islamic
+#' @rdname islamic_holidays
 #' @export
 mawlid <- function(year) {
   as_gregorian(islamic_in_gregorian(2, 12, year))
 }
 
-#' @rdname islamic
+#' @rdname islamic_holidays
 #' @export
 # Ramadan, the month of fasting
 ramadan <- function(year) {
   as_gregorian(islamic_in_gregorian(9, 1, year))
 }
 
-#' @rdname islamic
+#' @rdname islamic_holidays
 #' @export
 # Eid al-Fitr
 eid_al_fitr <- function(year) {
   as_gregorian(islamic_in_gregorian(10, 1, year))
 }
 
-#' @rdname islamic
+#' @rdname islamic_holidays
 #' @export
 # Eid al-Adha
 eid_al_adha <- function(year) {

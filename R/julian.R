@@ -2,26 +2,6 @@
 # Julian Calendar
 # ==============================================================================
 
-#' Julian calendar dates
-#'
-#' Create a Julian date object.
-#'
-#' @param year A numeric vector of years
-#' @param month A numeric vector of months
-#' @param day A numeric vector of days
-#' @return A julian vector object
-#' @examples
-#' julian_date(2025, 4, 19:30)
-#' @rdname julian_date
-#' @export
-julian_date <- function(
-  year = integer(),
-  month = integer(),
-  day = integer()
-) {
-  new_date(year = year, month = month, day = day, calendar = cal_julian)
-}
-
 check_julian <- function(args) {
   year <- args$year
   month <- args$month
@@ -87,6 +67,7 @@ julian_from_fixed <- function(date, ...) {
 
 #' Work with Julian dates
 #'
+#' @rdname julian
 #' @examples
 #' as_date("2016-01-01", calendar = cal_julian)
 #' as_date(Sys.Date(), calendar = cal_julian)
@@ -108,8 +89,19 @@ cal_julian <- cal_calendar(
   to_rd = fixed_from_julian
 )
 
-#' Convert to a Julian date
-#'
+#' @rdname julian
+#' @param year A numeric vector of years
+#' @param month A numeric vector of months
+#' @param day A numeric vector of days
+#' @return A julian vector object
+#' @examples
+#' julian_date(2025, 4, 19:30)
+#' @export
+julian_date <- function(year, month, day) {
+  new_date(year = year, month = month, day = day, calendar = cal_julian)
+}
+
+#' @rdname julian
 #' @param date Vector of dates on some calendar
 #' @examples
 #' as_julian("2016-01-01")

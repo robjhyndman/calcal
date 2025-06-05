@@ -3,12 +3,30 @@
 \docType{data}
 \name{cal_julian}
 \alias{cal_julian}
+\alias{julian_date}
+\alias{as_julian}
 \title{Work with Julian dates}
 \format{
 An object of class \code{calcal} of length 8.
 }
 \usage{
 cal_julian
+
+julian_date(year, month, day)
+
+as_julian(date)
+}
+\arguments{
+\item{year}{A numeric vector of years}
+
+\item{month}{A numeric vector of months}
+
+\item{day}{A numeric vector of days}
+
+\item{date}{Vector of dates on some calendar}
+}
+\value{
+A julian vector object
 }
 \description{
 Work with Julian dates
@@ -22,5 +40,12 @@ tibble::tibble(
   z = as_date(x, calendar = cal_julian)
 )
 new_date(year = 2025, month = 4, day = 19:30, calendar = cal_julian)
+julian_date(2025, 4, 19:30)
+as_julian("2016-01-01")
+as_julian(Sys.Date())
+tibble::tibble(
+  x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
+  y = as_julian(x)
+)
 }
 \keyword{datasets}

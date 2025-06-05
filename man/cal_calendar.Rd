@@ -22,16 +22,20 @@ cal_calendar(
 
 \item{epoch}{Epoch of calendar}
 
-\item{granularities}{Granularities of calendar}
+\item{granularities}{Granularities of calendar (e.g., for the Gregorian
+calendar, the granularities are \code{year}, \code{month}, and \code{day}).}
 
-\item{check_granularities}{Function to check granularities}
+\item{check_granularities}{Function to check granularities are valid (e.g.,
+Gregorian months should be between 1 and 12).}
 
-\item{format}{Functon to specify date format}
+\item{format}{Functon to specify date format as a character string.}
 
-\item{from_rd}{Function to convert from RD to calendar date}
+\item{from_rd}{Function to convert from RD to calendar date.}
 
-\item{to_rd}{Function to convert from calendar date to RD}
+\item{to_rd}{Function to convert from calendar date to RD.}
 }
 \description{
-Generate a calendar object of class "calcalcal"
+Generate a calendar object of class "calcal". Examples of calendars
+produced in this way include \link{cal_gregorian}, \link{cal_hebrew}, \link{cal_islamic},
+\link{cal_iso}, \link{cal_julian}, and \link{cal_roman}.
 }

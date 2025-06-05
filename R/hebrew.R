@@ -2,27 +2,6 @@
 # Hebrew Calendar
 # ==============================================================================
 
-#' Hebrew calendar dates
-#'
-#' Create a Hebrew date object.
-#'
-#' @param year A numeric vector of years
-#' @param month A numeric vector of months
-#' @param day A numeric vector of days
-#' @return A hebrew vector object
-#' @examples
-#' hebrew_date(5785, 3, 2:4)
-#' as_gregorian(hebrew_date(5785, 3, 2:4))
-#' as_hebrew(gregorian_date(2025, 1, 1:31))
-#' @export
-hebrew_date <- function(
-  year = integer(),
-  month = integer(),
-  day = integer()
-) {
-  new_date(year = year, month = month, day = day, calendar = cal_hebrew)
-}
-
 check_hebrew <- function(args) {
   year <- args$year
   month <- args$month
@@ -126,10 +105,9 @@ hebrew_from_fixed <- function(date, ...) {
   hebrew_date(year, month, day)
 }
 
-#' Hebrew calendar dates
+#' Work with Hebrew calendar dates
 #'
-#' Create a Hebrew date object.
-#'
+#' @rdname hebrew
 #' @examples
 #' heb <- new_date(year = 5785, month = 3, day = 2:4, calendar = cal_hebrew)
 #' heb
@@ -152,8 +130,20 @@ cal_hebrew <- cal_calendar(
   to_rd = fixed_from_hebrew
 )
 
-#' Convert to a Hebrew date
-#'
+#' @param year A numeric vector of years
+#' @param month A numeric vector of months
+#' @param day A numeric vector of days
+#' @return A hebrew vector object
+#' @examples
+#' hebrew_date(5785, 3, 2:4)
+#' as_gregorian(hebrew_date(5785, 3, 2:4))
+#' as_hebrew(gregorian_date(2025, 1, 1:31))
+#' @rdname hebrew
+#' @export
+hebrew_date <- function(year, month, day) {
+  new_date(year = year, month = month, day = day, calendar = cal_hebrew)
+}
+
 #' @param date Vector of dates on some calendar
 #' @examples
 #' as_hebrew("2016-01-01")
@@ -163,6 +153,7 @@ cal_hebrew <- cal_calendar(
 #'   y = as_hebrew(x)
 #' )
 #' @export
+#' @rdname hebrew
 as_hebrew <- function(date) {
   as_date(date, calendar = cal_hebrew)
 }

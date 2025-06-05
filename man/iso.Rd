@@ -3,12 +3,30 @@
 \docType{data}
 \name{cal_iso}
 \alias{cal_iso}
-\title{ISO calendar dates}
+\alias{iso_date}
+\alias{as_iso}
+\title{Work with ISO calendar dates}
 \format{
 An object of class \code{calcal} of length 8.
 }
 \usage{
 cal_iso
+
+iso_date(year, week, day)
+
+as_iso(date)
+}
+\arguments{
+\item{year}{A numeric vector of years}
+
+\item{week}{A numeric vector of weeks}
+
+\item{day}{A numeric vector of days}
+
+\item{date}{Vector of dates on some calendar}
+}
+\value{
+An iso vector object
 }
 \description{
 Work with ISO 8601 date objects. Weeks are defined as starting on Mondays. Week 1
@@ -25,8 +43,19 @@ iso
 as_date(iso, calendar = cal_gregorian)
 greg <- new_date(year = 2025, month = 1, day = 1:4, calendar = cal_gregorian)
 as_date(greg, calendar = cal_iso)
+iso_date(2025, 23, 2:4)
+as_gregorian(iso_date(2025, 23, 2:4))
+as_iso(gregorian_date(2025, 1, 1:31))
+as_iso("2016-01-01")
+as_iso(Sys.Date())
+tibble::tibble(
+  x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
+  y = as_iso(x)
+)
 }
 \seealso{
+\code{\link{week_of_year}()}
+
 \code{\link{week_of_year}()}
 }
 \keyword{datasets}
