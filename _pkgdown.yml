@@ -90,7 +90,3 @@ reference:
       - new_moons
       - sunrise
       - sunset
-  - title: Fixed RD dates
-    contents:
-      - as_rd
-      - rd_fixed
