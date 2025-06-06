@@ -171,6 +171,15 @@ vec_ptype2.double.calcalvec <- function(x, y, ...) {
   new_calcalvec()
 }
 
+#' @export
+vec_ptype2.calcalvec.integer <- function(x, y, ...) {
+  new_calcalvec()
+}
+
+#' @export
+vec_ptype2.integer.calcalvec <- function(x, y, ...) {
+  new_calcalvec()
+}
 
 #' @export
 vec_ptype_abbr.calcalvec <- function(x, ...) {
