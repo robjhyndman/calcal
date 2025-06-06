@@ -183,21 +183,13 @@ refraction <- function(tee, loc) {
 #' @examples
 #' melbourne <- location(-37.8136, 144.9631, 31, 10)
 #' sydney <- location(-33.8688, 151.2093, 3, 10)
-#' sunrise("2025-01-01", c(melbourne, sydney))
-#' sunset("2025-01-01", c(melbourne, sydney))
+#' sunrise(gregorian_date(2025,1,1), c(melbourne, sydney))
+#' sunset(gregorian_date(2025,1,1), c(melbourne, sydney))
 #' @export
 sunrise <- function(date, location, ...) {
-  UseMethod("sunrise")
-}
-
-#' @export
-#' @rdname sunrise
-sunset <- function(date, location, ...) {
-  UseMethod("sunset")
-}
-
-#' @export
-sunrise.calcalvec <- function(date, location, as_time = TRUE, ...) {
+  if (inherits(date, "calcalvec")) {
+    date <- vec_data(date)
+  }
   lst <- vec_recycle_common(
     date = date,
     location = location,
@@ -205,20 +197,15 @@ sunrise.calcalvec <- function(date, location, as_time = TRUE, ...) {
   )
   alpha <- refraction(lst$date + hr(6), lst$location) + mins(16)
   output <- dawn(lst$date, lst$location, alpha)
-  if (as_time) {
-    as_time_of_day(output)
-  } else {
-    output
+  as_time_of_day(output)
+}
+
+#' @rdname sunrise
+#' @export
+sunset <- function(date, location, ...) {
+  if (inherits(date, "calcalvec")) {
+    date <- vec_data(date)
   }
-}
-
-#' @export
-sunrise.default <- function(date, location, ...) {
-  sunrise(date, location, ...)
-}
-
-#' @export
-sunset.calcalvec <- function(date, location, as_time = TRUE, ...) {
   lst <- vec_recycle_common(
     date = date,
     location = location,
@@ -226,16 +213,7 @@ sunset.calcalvec <- function(date, location, as_time = TRUE, ...) {
   )
   alpha <- refraction(lst$date + hr(18), lst$location) + mins(16)
   output <- dusk(lst$date, lst$location, alpha)
-  if (as_time) {
-    as_time_of_day(output)
-  } else {
-    output
-  }
-}
-
-#' @export
-sunset.default <- function(date, location, ...) {
-  sunset(date, location, ...)
+  as_time_of_day(output)
 }
 
 jewish_dusk <- function(date, loc) {

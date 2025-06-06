@@ -26,6 +26,6 @@ time zone of the location is used as specified in the \code{location} object.
 \examples{
 melbourne <- location(-37.8136, 144.9631, 31, 10)
 sydney <- location(-33.8688, 151.2093, 3, 10)
-sunrise("2025-01-01", c(melbourne, sydney))
-sunset("2025-01-01", c(melbourne, sydney))
+sunrise(gregorian_date(2025,1,1), c(melbourne, sydney))
+sunset(gregorian_date(2025,1,1), c(melbourne, sydney))
 }

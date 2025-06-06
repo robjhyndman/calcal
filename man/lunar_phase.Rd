@@ -4,12 +4,10 @@
 \alias{lunar_phase}
 \title{Lunar phase at date}
 \usage{
-lunar_phase(date, ...)
+lunar_phase(date)
 }
 \arguments{
 \item{date}{Date vector}
-
-\item{...}{Additional arguments}
 }
 \description{
 Lunar phase at date, as an angle in degrees. An angle of 0 means a new moon,

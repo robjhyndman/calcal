@@ -42,9 +42,9 @@ Dates in multiple calendars:
 library(calcal)
 tibble::tibble(
   Gregorian = gregorian_date(1990, 2, 20) + 1:10,
-  Date = as.Date(Gregorian),
-  RD = as_rd(Gregorian),
+  Islamic = as_islamic(Gregorian),
   ISO = as_iso(Gregorian),
+  Hebrew = as_hebrew(Gregorian),
   Julian = as_julian(Gregorian),
   Roman = as_roman(Gregorian)
 )
@@ -75,5 +75,13 @@ c(
   christmas(2025),
   epiphany(2026),
   orthodox_christmas(2026)
+)
+```
+
+Some Jewish holidays
+
+```{r jewish-holidays}
+c(
+  jewish_new_year(2025),
 )
 ```

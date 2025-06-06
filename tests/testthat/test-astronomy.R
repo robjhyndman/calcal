@@ -13,12 +13,12 @@ test_that("astronomical", {
 })
 
 test_that("lunar", {
-  april2025 <- seq(as.Date("2025-04-01"), as.Date("2025-04-30"), by = "1 day")
+  april2025 <- gregorian_date(2025, 4, 1:30)
   expect_true(all(diff(lunar_phase(april2025)) < 15))
   # New moon
-  expect_true(abs(lunar_phase("2025-04-28")) < 3)
-  expect_true(as_gregorian("2025-04-28") %in% new_moons(2025))
+  expect_true(abs(lunar_phase(as_gregorian("2025-04-28"))) < 3)
+  expect_true(as_gregorian(as_gregorian("2025-04-28")) %in% new_moons(2025))
   # Full moon
-  expect_true(abs(lunar_phase("2025-04-13") - 180) < 1)
-  expect_true(as_gregorian("2025-04-13") %in% full_moons(2025))
+  expect_true(abs(lunar_phase(as_gregorian("2025-04-13")) - 180) < 1)
+  expect_true(as_gregorian(as_gregorian("2025-04-13")) %in% full_moons(2025))
 })
