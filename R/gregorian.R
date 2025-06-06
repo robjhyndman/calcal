@@ -152,7 +152,7 @@ gregorian_year_end <- function(g_year) {
 }
 
 gregorian_year_range <- function(g_year) {
-  c(gregorian_new_year(g_year), gregorian_new_year(g_year + 1))
+  c(gregorian_new_year(g_year), gregorian_new_year(g_year + 1)-1)
 }
 
 #' Extract parts of a Gregorian date
