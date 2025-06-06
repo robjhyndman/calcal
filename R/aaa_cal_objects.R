@@ -128,7 +128,8 @@ format.calcalvec <- function(x, ...) {
 }
 
 # Generic date format function
-format_date <- function(parts) {
+format_date <- function(date) {
+  parts <- attributes(date)$calendar$from_rd(date)
   # Strip out non-numeric parts
   # Currently this is only the logical indicator of a leap year in a Roman date
   # May need to update for other calendars

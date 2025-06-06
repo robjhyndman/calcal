@@ -28,7 +28,7 @@ format_roman <- function(x, ...) {
   prefix[count == 1] <- ""
   days <- tolower(utils::as.roman(count))
   days[count <= 2] <- ""
-  output <- trimws(paste(prefix, days, lst$event))
+  output <- trimws(paste(prefix, days, event))
   output <- gsub("  ", " ", output)
   output <- gsub(" ", "_", output)
   paste(lst$year, month.abb[lst$month], output, sep = "-")
@@ -69,23 +69,28 @@ roman_from_fixed <- function(date, ...) {
   case4 <- !case1 & !case2 & !case3 & (month != 2 | !julian_leap_year(year))
   case5 <- !case1 & !case2 & !case3 & !case4 & day < 25
   case6 <- !case1 & !case2 & !case3 & !case4 & !case5 & day == 25
-  month <- 3
-  event <- KALENDS
+  mmonth <- rep(3, length(date))
+  event <- rep(KALENDS, length(date))
   count <- 31 - day
   leap <- day == 25
   leap[case1 | case2 | case3 | case4 | case5] <- FALSE
   if (any(case1)) {
     count[case1] <- 1
+    mmonth[case1] <- month[case1]
   }
   if (any(case2)) {
+    mmonth[case2] <- month[case2]
     event[case2] <- NONES
     count[case2] <- nones_of_month(month[case2]) - day[case2] + 1
   }
   if (any(case3)) {
+    mmonth[case3] <- month[case3]
     event[case3] <- IDES
     count[case3] <- ides_of_month(month[case3]) - day[case3] + 1
   }
   if (any(case4)) {
+    year[case4] <- year_prime[case4]
+    mmonth[case4] <- month_prime[case4]
     count[case4] <- kalends1[case4] - date[case4] + 1
   }
   if (any(case5)) {
@@ -94,7 +99,7 @@ roman_from_fixed <- function(date, ...) {
   if (any(case6)) {
     count[case6] <- 31 - day[case6]
   }
-  list(year = year, month = month, event = event, count = count, leap = leap)
+  list(year = year, month = mmonth, event = event, count = count, leap = leap)
 }
 
 #' Work with Roman calendar dates
