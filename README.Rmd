@@ -11,6 +11,7 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
+options(width=90)
 ```
 
 # calcal <img src="man/figures/calcal-hex.png" align="right" width = 150 />
@@ -82,6 +83,24 @@ Some Jewish holidays
 
 ```{r jewish-holidays}
 c(
-  jewish_new_year(2025),
+  rosh_hashanah = rosh_hashanah(2025),
+  passover = passover(2025),
+  shavuot = shavuot(2025),
+  yom_kippur = yom_kippur(2025),
+  sukkot = sukkot(2025),
+  hanukkah = hanukkah(2025),
+  purim = purim(2025)
+)
+```
+
+Some Islamic holidays
+
+```{r islamic-holidays}
+c(
+  islamic_new_year(2025),
+  mawlid(2025),
+  ramadan(2025),
+  eid_al_fitr(2025),
+  eid_al_adha(2025)
 )
 ```
