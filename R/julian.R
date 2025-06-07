@@ -2,6 +2,10 @@
 # Julian Calendar
 # ==============================================================================
 
+JULIAN_EPOCH <- -1 # vec_data(gregorian_date(0, DECEMBER, 30))
+JD_EPOCH <- -1721424.5
+MJD_EPOCH <- 678576
+
 check_julian <- function(args) {
   year <- args$year
   month <- args$month
@@ -69,7 +73,6 @@ julian_from_fixed <- function(date, ...) {
 cal_julian <- cal_calendar(
   name = "julian",
   short_name = "Jul",
-  epoch = 0, # TO REPLACE,
   granularities = c("year", "month", "day"),
   check_granularities = check_julian,
   format = format_julian,

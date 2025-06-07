@@ -2,6 +2,31 @@
 # Gregorian Calendar
 # ==============================================================================
 
+# Month constants for Julian/Gregorian calendar
+JANUARY <- 1L
+FEBRUARY <- JANUARY + 1L
+MARCH <- JANUARY + 2L
+APRIL <- JANUARY + 3L
+MAY <- JANUARY + 4L
+JUNE <- JANUARY + 5L
+JULY <- JANUARY + 6L
+AUGUST <- JANUARY + 7L
+SEPTEMBER <- JANUARY + 8L
+OCTOBER <- JANUARY + 9L
+NOVEMBER <- JANUARY + 10L
+DECEMBER <- JANUARY + 11L
+
+# Day of week constants
+SUNDAY <- 0L
+MONDAY <- SUNDAY + 1L
+TUESDAY <- SUNDAY + 2L
+WEDNESDAY <- SUNDAY + 3L
+THURSDAY <- SUNDAY + 4L
+FRIDAY <- SUNDAY + 5L
+SATURDAY <- SUNDAY + 6L
+
+GREGORIAN_EPOCH <- 1L # Fixed date of start of the (proleptic) Gregorian calendar
+
 check_gregorian <- function(args) {
   year <- args$year
   month <- args$month
@@ -66,7 +91,6 @@ gregorian_from_fixed <- function(date, ...) {
 cal_gregorian <- cal_calendar(
   name = "gregorian",
   short_name = "Gre",
-  epoch = 0, # TO REPLACE,
   granularities = c("year", "month", "day"),
   check_granularities = check_gregorian,
   format = format_gregorian,

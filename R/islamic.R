@@ -2,6 +2,8 @@
 # Islamic Calendar
 # ==============================================================================
 
+ISLAMIC_EPOCH <- 227015 #vec_data(julian_date(ce(622), JULY, 16))
+
 check_islamic <- function(args) {
   year <- args$year
   month <- args$month
@@ -16,7 +18,9 @@ check_islamic <- function(args) {
 
 # Register format method for islamic_date
 format_islamic <- function(x, ...) {
-  format_date(x, month_name = c(
+  format_date(
+    x,
+    month_name = c(
       "Muh",
       "Saf",
       "Rab1",
@@ -29,7 +33,8 @@ format_islamic <- function(x, ...) {
       "Shaw",
       "Dhu'l_Q",
       "Dhu'l_H"
-    ))
+    )
+  )
 }
 
 fixed_from_islamic <- function(date, ...) {
@@ -56,7 +61,6 @@ islamic_from_fixed <- function(date, ...) {
 cal_islamic <- cal_calendar(
   name = "Islamic",
   short_name = "Hij",
-  epoch = 0, # TO REPLACE,
   granularities = c("year", "month", "day"),
   check_granularities = check_islamic,
   format = format_islamic,

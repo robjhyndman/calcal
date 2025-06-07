@@ -1,3 +1,8 @@
+# Time of day
+MORNING <- TRUE
+EVENING <- FALSE
+
+
 #' Time of day
 #'
 #' Create a time object

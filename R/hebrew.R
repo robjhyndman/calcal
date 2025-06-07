@@ -2,6 +2,24 @@
 # Hebrew Calendar
 # ==============================================================================
 
+# Hebrew month constants
+NISAN <- 1
+IYYAR <- 2
+SIVAN <- 3
+TAMMUZ <- 4
+AV <- 5
+ELUL <- 6
+TISHRI <- 7
+MARHESHVAN <- 8
+KISLEV <- 9
+TEVET <- 10
+SHEVAT <- 11
+ADAR <- 12
+ADARII <- 13
+
+HEBREW_EPOCH <- -1373427 #vec_data(julian_date(bce(3761), OCTOBER, 7))
+
+
 check_hebrew <- function(args) {
   year <- args$year
   month <- args$month
@@ -23,7 +41,9 @@ check_hebrew <- function(args) {
 }
 
 format_hebrew <- function(x, ...) {
-  format_date(x, month_name = c(
+  format_date(
+    x,
+    month_name = c(
       "Nisan",
       "Iyar",
       "Sivan",
@@ -37,7 +57,8 @@ format_hebrew <- function(x, ...) {
       "Shevat",
       "Adar",
       "Adar II"
-    ))
+    )
+  )
 }
 
 fixed_from_hebrew <- function(date, ...) {
@@ -103,7 +124,6 @@ hebrew_from_fixed <- function(date, ...) {
 cal_hebrew <- cal_calendar(
   name = "hebrew",
   short_name = "Heb",
-  epoch = 0, # TO REPLACE,
   granularities = c("year", "month", "day"),
   check_granularities = check_hebrew,
   format = format_hebrew,

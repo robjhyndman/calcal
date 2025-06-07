@@ -6,9 +6,8 @@
 #'
 #' @param name Name of calendar
 #' @param short_name Short name of calendar
-#' @param epoch Epoch of calendar
-#' @param granularities Granularities of calendar (e.g., for the Gregorian
-#' calendar, the granularities are `year`, `month`, and `day`).
+#' @param granularities Character vector with names of granularities of calendar
+#' (e.g., for the Gregorian calendar, the granularities are `year`, `month`, and `day`).
 #' @param check_granularities Function to check granularities are valid (e.g.,
 #' Gregorian months should be between 1 and 12).
 #' @param format Functon to specify date format as a character string.
@@ -28,7 +27,6 @@
 cal_calendar <- function(
   name,
   short_name,
-  epoch,
   granularities,
   check_granularities,
   format,
@@ -39,7 +37,6 @@ cal_calendar <- function(
     list(
       name = name,
       short_name = short_name,
-      epoch = epoch,
       granularities = granularities,
       check_granularities = check_granularities,
       format = format,

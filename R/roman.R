@@ -2,6 +2,12 @@
 # Roman Calendar
 # ==============================================================================
 
+YEAR_ROME_FOUNDED <- bce(753)
+OLYMPIAD_START <- bce(776)
+KALENDS <- 1
+NONES <- 2
+IDES <- 3
+
 check_roman <- function(args) {
   year <- args$year
   month <- args$month
@@ -108,7 +114,6 @@ roman_from_fixed <- function(date, ...) {
 cal_roman <- cal_calendar(
   name = "Roman",
   short_name = "Rom",
-  epoch = 0, # TO REPLACE,
   granularities = c("year", "month", "event", "count", "leap"),
   check_granularities = check_roman,
   format = format_roman,

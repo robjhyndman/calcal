@@ -165,14 +165,6 @@ clock_from_moment <- function(tee) {
   return(result[-1]) # Skip the first element
 }
 
-moment_from_unix <- function(s) {
-  UNIX_EPOCH + s / (24 * 60 * 60)
-}
-
-unix_from_moment <- function(tee) {
-  24 * 60 * 60 * (tee - UNIX_EPOCH)
-}
-
 # Basic interval functions
 
 in_range <- function(tee, range) {

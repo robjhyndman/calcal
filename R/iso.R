@@ -34,7 +34,6 @@ iso_from_fixed <- function(date, ...) {
 cal_iso <- cal_calendar(
   name = "iso",
   short_name = "ISO",
-  epoch = 0,
   granularities = c("year", "week", "day"),
   check_granularities = check_iso,
   format = format_date,

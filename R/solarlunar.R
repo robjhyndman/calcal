@@ -2,6 +2,17 @@
 # Solar and Lunar Functions
 # ==============================================================================
 
+# Moon phases
+NEW <- deg(0) # New moon
+FIRST_QUARTER <- deg(90) # First quarter moon
+FULL <- deg(180) # Full moon
+LAST_QUARTER <- deg(270) # Last quarter moon
+
+MEAN_TROPICAL_YEAR <- 365.242189
+MEAN_SIDEREAL_YEAR <- 365.25636
+MEAN_SYNODIC_MONTH <- 29.530588861
+
+
 universal_from_dynamical <- function(tee) {
   tee - ephemeris_correction(tee)
 }
