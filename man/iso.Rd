@@ -3,7 +3,7 @@
 \name{iso_date}
 \alias{iso_date}
 \alias{as_iso}
-\title{Work with ISO calendar dates}
+\title{ISO calendar dates}
 \usage{
 iso_date(year = integer(), week = integer(), day = integer())
 
@@ -22,7 +22,7 @@ as_iso(date)
 An iso vector object
 }
 \description{
-Work with ISO 8601 date objects. Weeks are defined as starting on Mondays. Week 1
+In ISO 8601 date objects, weeks are defined as starting on Mondays. Week 1
 is the first week with at least 4 days in the year. Equivalently, it is the week
 containing 4 January. There is no week 0; instead week 1 of a year may begin in
 the previous calendar year.
@@ -44,7 +44,5 @@ tibble::tibble(
 )
 }
 \seealso{
-\code{\link{week_of_year}()}
-
-\code{\link{week_of_year}()}
+\link{cal_iso}, \link{week_of_year}
 }

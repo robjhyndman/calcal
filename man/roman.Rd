@@ -3,7 +3,7 @@
 \name{roman_date}
 \alias{roman_date}
 \alias{as_roman}
-\title{Work with Roman calendar dates}
+\title{Roman calendar dates}
 \usage{
 roman_date(
   year = integer(),
@@ -32,7 +32,7 @@ as_roman(date)
 A roman vector object
 }
 \description{
-Work with Roman calendar dates
+Roman calendar dates
 }
 \examples{
 roman_date(66, 4, 1, 1, FALSE)
@@ -42,4 +42,7 @@ tibble::tibble(
   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
   y = as_roman(x)
 )
+}
+\seealso{
+\link{cal_roman}
 }

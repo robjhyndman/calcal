@@ -3,7 +3,7 @@
 \name{islamic_date}
 \alias{islamic_date}
 \alias{as_islamic}
-\title{Work with Islamic dates}
+\title{Islamic dates}
 \usage{
 islamic_date(year = integer(), month = integer(), day = integer())
 
@@ -22,7 +22,7 @@ as_islamic(date)
 An islamic vector object
 }
 \description{
-Work with Islamic dates
+Islamic dates
 }
 \examples{
 islamic_date(2025, 5, 1:30)
@@ -33,4 +33,7 @@ tibble::tibble(
   y = as_islamic(x)
 )
 islamic_date(2025, 4, 19:30)
+}
+\seealso{
+\link{cal_islamic}
 }

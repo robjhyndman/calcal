@@ -121,7 +121,7 @@ cal_roman <- cal_calendar(
   to_rd = fixed_from_roman
 )
 
-#' Work with Roman calendar dates
+#' Roman calendar dates
 #'
 #' @rdname roman
 #' @param year A numeric vector of years
@@ -130,6 +130,7 @@ cal_roman <- cal_calendar(
 #' @param count A numeric vector of counts:
 #' @param leap A logical vector indicating if year is a leap year
 #' @return A roman vector object
+#' @seealso [cal_roman]
 #' @examples
 #' roman_date(66, 4, 1, 1, FALSE)
 #' new_date(year = 66, month = 4, event = 1, count = 1, leap = FALSE, calendar = cal_roman)

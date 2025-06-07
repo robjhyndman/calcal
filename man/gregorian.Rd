@@ -3,7 +3,7 @@
 \name{gregorian_date}
 \alias{gregorian_date}
 \alias{as_gregorian}
-\title{Work with Gregorian calendar dates}
+\title{Gregorian calendar dates}
 \usage{
 gregorian_date(year = integer(), month = integer(), day = integer())
 
@@ -22,7 +22,7 @@ as_gregorian(date)
 A gregorian vector object
 }
 \description{
-Work with Gregorian calendar dates
+Gregorian calendar dates
 }
 \examples{
 new_date(year = 2025, month = 3, day = 2:4, calendar = cal_gregorian)
@@ -35,4 +35,7 @@ tibble::tibble(
   y = as_gregorian(x),
   z = as_date(x, calendar = cal_gregorian)
 )
+}
+\seealso{
+\link{cal_gregorian}
 }

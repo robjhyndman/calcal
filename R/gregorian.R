@@ -98,11 +98,12 @@ cal_gregorian <- cal_calendar(
   to_rd = fixed_from_gregorian
 )
 
-#' Work with Gregorian calendar dates
+#' Gregorian calendar dates
 #'
 #' @param year A numeric vector of years
 #' @param month A numeric vector of months
 #' @param day A numeric vector of days
+#' @seealso [cal_gregorian]
 #' @return A gregorian vector object
 #' @examples
 #' new_date(year = 2025, month = 3, day = 2:4, calendar = cal_gregorian)

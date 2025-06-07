@@ -68,7 +68,7 @@ cal_islamic <- cal_calendar(
   to_rd = fixed_from_islamic
 )
 
-#' Work with Islamic dates
+#' Islamic dates
 #'
 #' @examples
 #' islamic_date(2025, 5, 1:30)
@@ -80,6 +80,7 @@ cal_islamic <- cal_calendar(
 #' )
 #' @examples
 #' islamic_date(2025, 4, 19:30)
+#' @seealso [cal_islamic]
 #' @rdname islamic
 #' @param year A numeric vector of years
 #' @param month A numeric vector of months

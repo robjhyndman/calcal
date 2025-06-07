@@ -80,12 +80,13 @@ cal_julian <- cal_calendar(
   to_rd = fixed_from_julian
 )
 
-#' Work with Julian dates
+#' Julian dates
 #'
 #' @rdname julian
 #' @param year A numeric vector of years
 #' @param month A numeric vector of months
 #' @param day A numeric vector of days
+#' @seealso [cal_julian]
 #' @return A julian vector object
 #' @examples
 #' as_date("2016-01-01", calendar = cal_julian)

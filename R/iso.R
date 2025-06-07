@@ -41,22 +41,21 @@ cal_iso <- cal_calendar(
   to_rd = fixed_from_iso
 )
 
-#' Work with ISO calendar dates
+#' ISO calendar dates
 #'
-#' Work with ISO 8601 date objects. Weeks are defined as starting on Mondays. Week 1
+#' In ISO 8601 date objects, weeks are defined as starting on Mondays. Week 1
 #' is the first week with at least 4 days in the year. Equivalently, it is the week
 #' containing 4 January. There is no week 0; instead week 1 of a year may begin in
 #' the previous calendar year.
 #'
 #' More flexible week numbering is possible using Gregorian dates with \code{\link{week_of_year}()}.
 #'
-#' @seealso \code{\link{week_of_year}()}
 #' @rdname iso
 #' @param year A numeric vector of years
 #' @param week A numeric vector of weeks
 #' @param day A numeric vector of days
 #' @return An iso vector object
-#' @seealso \code{\link{week_of_year}()}
+#' @seealso [cal_iso], [week_of_year]
 #' @examples
 #' iso <- new_date(year = 2025, week = 23, day = 2:4, calendar = cal_iso)
 #' iso

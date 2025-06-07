@@ -3,7 +3,7 @@
 \name{hebrew_date}
 \alias{hebrew_date}
 \alias{as_hebrew}
-\title{Work with Hebrew calendar dates}
+\title{Hebrew calendar dates}
 \usage{
 hebrew_date(year = integer(), month = integer(), day = integer())
 
@@ -22,7 +22,7 @@ as_hebrew(date)
 A hebrew vector object
 }
 \description{
-Work with Hebrew calendar dates
+Hebrew calendar dates
 }
 \examples{
 heb <- new_date(year = 5785, month = 3, day = 2:4, calendar = cal_hebrew)
@@ -38,4 +38,7 @@ as_gregorian(hebrew_date(5785, 3, 2:4))
 as_hebrew(gregorian_date(2025, 1, 1:31))
 as_hebrew("2016-01-01")
 as_hebrew(Sys.Date())
+}
+\seealso{
+\link{cal_hebrew}
 }

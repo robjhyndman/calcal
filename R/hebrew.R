@@ -131,12 +131,13 @@ cal_hebrew <- cal_calendar(
   to_rd = fixed_from_hebrew
 )
 
-#' Work with Hebrew calendar dates
+#' Hebrew calendar dates
 #'
 #' @param year A numeric vector of years
 #' @param month A numeric vector of months
 #' @param day A numeric vector of days
 #' @return A hebrew vector object
+#' @seealso [cal_hebrew]
 #' @examples
 #' heb <- new_date(year = 5785, month = 3, day = 2:4, calendar = cal_hebrew)
 #' heb
