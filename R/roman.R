@@ -107,7 +107,7 @@ roman_from_fixed <- function(date, ...) {
 #' @export
 cal_roman <- cal_calendar(
   name = "Roman",
-  short_name = "Rm",
+  short_name = "Rom",
   epoch = 0, # TO REPLACE,
   granularities = c("year", "month", "event", "count", "leap"),
   check_granularities = check_roman,
