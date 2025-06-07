@@ -131,16 +131,12 @@ cal_hebrew <- cal_calendar(
 #' as_date(Sys.Date(), calendar = cal_hebrew)
 #' tibble::tibble(
 #'   gregorian = gregorian_date(2025, 1, 1) + 0:364,
-#'   hebrew = as_date(x, calendar = cal_hebrew),
+#'   hebrew = as_date(gregorian, calendar = cal_hebrew),
 #' )
 #' as_gregorian(hebrew_date(5785, 3, 2:4))
 #' as_hebrew(gregorian_date(2025, 1, 1:31))
 #' as_hebrew("2016-01-01")
 #' as_hebrew(Sys.Date())
-#' tibble::tibble(
-#'   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
-#'   y = as_hebrew(x)
-#' )
 #' @rdname hebrew
 #' @export
 hebrew_date <- function(year = integer(), month = integer(), day = integer()) {
