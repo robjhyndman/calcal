@@ -15,6 +15,15 @@
 #' @param from_rd Function to convert from RD to calendar date.
 #' @param to_rd Function to convert from calendar date to RD.
 #' @format An object of class `calcal`
+#' @examples
+#' new_date(year = 2025, month = 4, day = 19:30, calendar = cal_gregorian)
+#' as_date("2016-01-01", calendar = cal_islamic)
+#' as_date(Sys.Date(), calendar = cal_islamic)
+#' tibble::tibble(
+#'   x = new_date(year = 2025, month = 5, day = 1:31, calendar = cal_gregorian),
+#'   y = as_date(x, calendar = cal_islamic)
+#' )
+#'
 #' @export
 cal_calendar <- function(
   name,
@@ -128,16 +137,22 @@ format.calcalvec <- function(x, ...) {
   attributes(x)$calendar$format(x)
 }
 
-# Generic date format function
-format_date <- function(date) {
+# Generic date format function. Months can take names
+# Everything else is shown as an integer
+format_date <- function(date, month_name = NULL) {
   parts <- attributes(date)$calendar$from_rd(date)
-  # Strip out non-numeric parts
-  # Currently this is only the logical indicator of a leap year in a Roman date
-  # May need to update for other calendars
-  parts <- unclass(parts)
-  numeric_col <- unlist(lapply(parts, is.numeric))
-  apply(as.data.frame(parts[numeric_col]), 1, function(x) {
-    paste(sprintf("%.2d", x), collapse = "-")
+  # Drop leap year
+  parts <- parts[names(parts) != "leap_year"]
+  for (i in seq_along(parts)) {
+    # Replace months with names
+    if (!is.null(month_name) & names(parts)[i] == "month") {
+      parts[[i]] <- month_name[parts[[i]]]
+    } else {
+      parts[[i]] <- sprintf("%.2d", parts[[i]])
+    }
+  }
+  apply(as.data.frame(parts), 1, function(x) {
+    paste(x, collapse = "-")
   })
 }
 

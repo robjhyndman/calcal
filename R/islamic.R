@@ -56,17 +56,8 @@ islamic_from_fixed <- function(date, ...) {
   list(year = year, month = month, day = day)
 }
 
-#' Work with Islamic dates
-#'
-#' @examples
-#' as_date("2016-01-01", calendar = cal_islamic)
-#' as_date(Sys.Date(), calendar = cal_islamic)
-#' tibble::tibble(
-#'   x = new_date(year = 2025, month = 5, day = 1:31, calendar = cal_gregorian),
-#'   y = as_date(x, calendar = cal_islamic)
-#' )
-#' new_date(year = 2025, month = 4, day = 19:30, calendar = cal_islamic)
-#' @rdname islamic
+#' @rdname cal_calendar
+#' @format NULL
 #' @export
 cal_islamic <- cal_calendar(
   name = "Islamic",
@@ -79,13 +70,23 @@ cal_islamic <- cal_calendar(
   to_rd = fixed_from_islamic
 )
 
+#' Work with Islamic dates
+#'
+#' @examples
+#' islamic_date(2025, 5, 1:30)
+#' as_islamic("2016-01-01")
+#' as_islamic(Sys.Date())
+#' tibble::tibble(
+#'   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
+#'   y = as_islamic(x)
+#' )
+#' @examples
+#' islamic_date(2025, 4, 19:30)
 #' @rdname islamic
 #' @param year A numeric vector of years
 #' @param month A numeric vector of months
 #' @param day A numeric vector of days
 #' @return An islamic vector object
-#' @examples
-#' islamic_date(2025, 4, 19:30)
 #' @export
 islamic_date <- function(year = integer(), month = integer(), day = integer()) {
   new_date(year = year, month = month, day = day, calendar = cal_islamic)
@@ -93,13 +94,6 @@ islamic_date <- function(year = integer(), month = integer(), day = integer()) {
 
 #' @rdname islamic
 #' @param date Vector of dates on some calendar
-#' @examples
-#' as_islamic("2016-01-01")
-#' as_islamic(Sys.Date())
-#' tibble::tibble(
-#'   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
-#'   y = as_islamic(x)
-#' )
 #' @export
 as_islamic <- function(date) {
   as_date(date, calendar = cal_islamic)

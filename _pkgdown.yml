@@ -26,11 +26,16 @@ reference:
   - title: Create new calendars and dates
     contents:
       - cal_calendar
+      - cal_gregorian
+      - cal_hebrew
+      - cal_islamic
+      - cal_iso
+      - cal_julian
+      - cal_roman
       - new_date
       - as_date
   - title: Gregorian calendar
     contents:
-      - cal_gregorian
       - gregorian_date
       - as_gregorian
       - day_of_week
@@ -43,27 +48,22 @@ reference:
       - year
   - title: Hebrew calendar
     contents:
-      - cal_hebrew
       - hebrew_date
       - as_hebrew
   - title: Islamic calendar
     contents:
-      - cal_islamic
       - islamic_date
       - as_islamic
   - title: ISO calendar
     contents:
-      - cal_iso
       - iso_date
       - as_iso
   - title: Julian calendar
     contents:
-      - cal_julian
       - julian_date
       - as_julian
   - title: Roman calendar
     contents:
-      - cal_roman
       - roman_date
       - as_roman
   - title: Holidays and special days
