@@ -176,6 +176,8 @@ list_range <- function(ell, range) {
 }
 
 dates2_in_gregorian <- function(g_year, date0, date1) {
+  date0 <- as_gregorian(date0)
+  date1 <- as_gregorian(date1)
   out <- mapply(
     function(d0, d1, year) {
       list_range(c(d0, d1), gregorian_year_range(year))
@@ -189,6 +191,9 @@ dates2_in_gregorian <- function(g_year, date0, date1) {
 }
 
 dates3_in_gregorian <- function(g_year, date0, date1, date2) {
+  date0 <- as_gregorian(date0)
+  date1 <- as_gregorian(date1)
+  date2 <- as_gregorian(date2)
   out <- mapply(
     function(d0, d1, d2, year) {
       list_range(c(d0, d1, d2), gregorian_year_range(year))

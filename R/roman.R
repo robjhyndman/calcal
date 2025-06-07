@@ -61,7 +61,7 @@ fixed_from_roman <- function(date, ...) {
 }
 
 roman_from_fixed <- function(date, ...) {
-  j_date <- cal_julian$from_rd(date)
+  j_date <- cal_julian$from_rd(as_julian(date))
   month <- j_date$month
   day <- j_date$day
   year <- j_date$year

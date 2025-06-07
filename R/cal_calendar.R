@@ -174,9 +174,9 @@ vec_cast.calcalvec.double <- function(x, to, ...) {
 #' @export
 vec_ptype2.calcalvec.calcalvec <- function(x, y, ...) {
   ## Check same calendar
-  #if (!identical(attributes(x)$calendar, attributes(y)$calendar)) {
-  #  stop("Not a common calendar")
-  #}
+  if (!identical(attributes(x)$calendar, attributes(y)$calendar)) {
+    stop("Not a common calendar")
+  }
   new_calcalvec()
 }
 
