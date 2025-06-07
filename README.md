@@ -4,7 +4,6 @@
 # calcal <img src="man/figures/calcal-hex.png" align="right" width = 150 />
 
 <!-- badges: start -->
-
 <!-- badges: end -->
 
 The goal of calcal is to do calendrical calculations, based on the
@@ -41,7 +40,7 @@ tibble::tibble(
 )
 #> # A tibble: 10 × 6
 #>      Gregorian     Islamic        ISO         Hebrew      Julian                    Roman
-#>          <Gre>       <Hij>      <ISO>          <Heb>       <Jul>                     <Rm>
+#>          <Gre>       <Hij>      <ISO>          <Heb>       <Jul>                    <Rom>
 #>  1 1990-Feb-21 1410-Raj-25 1990-08-03 5750-Shevat-26 1990-Feb-08      1990-Feb-ad_vi_Ides
 #>  2 1990-Feb-22 1410-Raj-26 1990-08-04 5750-Shevat-27 1990-Feb-09       1990-Feb-ad_v_Ides
 #>  3 1990-Feb-23 1410-Raj-27 1990-08-05 5750-Shevat-28 1990-Feb-10      1990-Feb-ad_iv_Ides
