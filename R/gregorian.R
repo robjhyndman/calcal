@@ -25,13 +25,7 @@ check_gregorian <- function(args) {
 
 # Register format method for gregorian date
 format_gregorian <- function(x, ...) {
-  lst <- attributes(x)$calendar$from_rd(x)
-  paste(
-    sprintf("%.2d", lst$year),
-    month.abb[lst$month],
-    sprintf("%.2d", lst$day),
-    sep = "-"
-  )
+  format_date(x, month_name = month.abb)
 }
 
 # Convert gregorian to RD

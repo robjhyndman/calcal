@@ -23,10 +23,7 @@ check_hebrew <- function(args) {
 }
 
 format_hebrew <- function(x, ...) {
-  lst <- attributes(x)$calendar$from_rd(x)
-  paste(
-    sprintf("%.2d", lst$year),
-    c(
+  format_date(x, month_name = c(
       "Nisan",
       "Iyar",
       "Sivan",
@@ -40,10 +37,7 @@ format_hebrew <- function(x, ...) {
       "Shevat",
       "Adar",
       "Adar II"
-    )[lst$month],
-    sprintf("%.2d", lst$day),
-    sep = "-"
-  )
+    ))
 }
 
 fixed_from_hebrew <- function(date, ...) {

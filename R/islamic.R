@@ -16,10 +16,7 @@ check_islamic <- function(args) {
 
 # Register format method for islamic_date
 format_islamic <- function(x, ...) {
-  lst <- attributes(x)$calendar$from_rd(x)
-  paste(
-    sprintf("%.2d", lst$year),
-    c(
+  format_date(x, month_name = c(
       "Muh",
       "Saf",
       "Rab1",
@@ -32,10 +29,7 @@ format_islamic <- function(x, ...) {
       "Shaw",
       "Dhu'l_Q",
       "Dhu'l_H"
-    )[lst$month],
-    sprintf("%.2d", lst$day),
-    sep = "-"
-  )
+    ))
 }
 
 fixed_from_islamic <- function(date, ...) {
