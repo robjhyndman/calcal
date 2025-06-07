@@ -103,19 +103,8 @@ hebrew_from_fixed <- function(date, ...) {
   list(year = year, month = month, day = day)
 }
 
-#' Work with Hebrew calendar dates
-#'
-#' @rdname hebrew
-#' @examples
-#' heb <- new_date(year = 5785, month = 3, day = 2:4, calendar = cal_hebrew)
-#' heb
-#' as_date(heb, calendar = cal_gregorian)
-#' as_date(Sys.Date(), calendar = cal_hebrew)
-#' tibble::tibble(
-#'   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
-#'   y = as_date(x, calendar = cal_hebrew),
-#'   z = as_date(x, calendar = cal_gregorian)
-#' )
+#' @rdname cal_calendar
+#' @format NULL
 #' @export
 cal_hebrew <- cal_calendar(
   name = "hebrew",
@@ -128,14 +117,30 @@ cal_hebrew <- cal_calendar(
   to_rd = fixed_from_hebrew
 )
 
+#' Work with Hebrew calendar dates
+#'
 #' @param year A numeric vector of years
 #' @param month A numeric vector of months
 #' @param day A numeric vector of days
 #' @return A hebrew vector object
 #' @examples
+#' heb <- new_date(year = 5785, month = 3, day = 2:4, calendar = cal_hebrew)
+#' heb
 #' hebrew_date(5785, 3, 2:4)
+#' as_date(heb, calendar = cal_gregorian)
+#' as_date(Sys.Date(), calendar = cal_hebrew)
+#' tibble::tibble(
+#'   gregorian = gregorian_date(2025, 1, 1) + 0:364,
+#'   hebrew = as_date(x, calendar = cal_hebrew),
+#' )
 #' as_gregorian(hebrew_date(5785, 3, 2:4))
 #' as_hebrew(gregorian_date(2025, 1, 1:31))
+#' as_hebrew("2016-01-01")
+#' as_hebrew(Sys.Date())
+#' tibble::tibble(
+#'   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
+#'   y = as_hebrew(x)
+#' )
 #' @rdname hebrew
 #' @export
 hebrew_date <- function(year = integer(), month = integer(), day = integer()) {
@@ -143,13 +148,6 @@ hebrew_date <- function(year = integer(), month = integer(), day = integer()) {
 }
 
 #' @param date Vector of dates on some calendar
-#' @examples
-#' as_hebrew("2016-01-01")
-#' as_hebrew(Sys.Date())
-#' tibble::tibble(
-#'   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
-#'   y = as_hebrew(x)
-#' )
 #' @export
 #' @rdname hebrew
 as_hebrew <- function(date) {

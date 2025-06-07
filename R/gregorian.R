@@ -66,14 +66,8 @@ gregorian_from_fixed <- function(date, ...) {
 }
 
 
-#' @examples
-#' new_date(year = 2025, month = 3, day = 2:4, calendar = cal_gregorian)
-#' as_date(Sys.Date(), calendar = cal_gregorian)
-#' tibble::tibble(
-#'   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
-#'   z = as_date(x, calendar = cal_gregorian)
-#' )
-#' @rdname gregorian
+#' @rdname cal_calendar
+#' @format NULL
 #' @export
 cal_gregorian <- cal_calendar(
   name = "gregorian",
@@ -93,7 +87,16 @@ cal_gregorian <- cal_calendar(
 #' @param day A numeric vector of days
 #' @return A gregorian vector object
 #' @examples
+#' new_date(year = 2025, month = 3, day = 2:4, calendar = cal_gregorian)
 #' gregorian_date(2025, 4, 19:30)
+#' as_date(Sys.Date(), calendar = cal_gregorian)
+#' as_gregorian(Sys.Date())
+#' as_gregorian("2016-01-01")
+#' tibble::tibble(
+#'   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
+#'   y = as_gregorian(x),
+#'   z = as_date(x, calendar = cal_gregorian)
+#' )
 #' @rdname gregorian
 #' @export
 gregorian_date <- function(
@@ -105,14 +108,6 @@ gregorian_date <- function(
 }
 
 #' @param date Vector of dates on some calendar
-#' @examples
-#' as_gregorian("2016-01-01")
-#' as_gregorian(Sys.Date())
-#' tibble::tibble(
-#'   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
-#'   y = as_gregorian(x)
-#' )
-#' @param date A gregorian vector object
 #' @rdname gregorian
 #' @export
 as_gregorian <- function(date) {

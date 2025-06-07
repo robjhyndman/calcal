@@ -1,8 +1,8 @@
 #' Define calendar objects
 #'
 #' Generate a calendar object of class "calcal". Examples of calendars
-#' produced in this way include [cal_gregorian], [cal_hebrew], [cal_islamic],
-#' [cal_iso], [cal_julian], and [cal_roman].
+#' produced in this way include `cal_gregorian`, `cal_hebrew`, `cal_islamic`,
+#' `cal_iso`, `cal_julian`, and `cal_roman`.
 #'
 #' @param name Name of calendar
 #' @param short_name Short name of calendar
@@ -14,6 +14,7 @@
 #' @param format Functon to specify date format as a character string.
 #' @param from_rd Function to convert from RD to calendar date.
 #' @param to_rd Function to convert from calendar date to RD.
+#' @format An object of class `calcal`
 #' @export
 cal_calendar <- function(
   name,

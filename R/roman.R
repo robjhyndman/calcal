@@ -102,12 +102,8 @@ roman_from_fixed <- function(date, ...) {
   list(year = year, month = mmonth, event = event, count = count, leap = leap)
 }
 
-#' Work with Roman calendar dates
-#'
-#' @rdname roman
-#' @examples
-#' roman_date(66, 4, 1, 1, FALSE)
-#' new_date(year = 66, month = 4, event = 1, count = 1, leap = FALSE, calendar = cal_roman)
+#' @rdname cal_calendar
+#' @format NULL
 #' @export
 cal_roman <- cal_calendar(
   name = "Roman",
@@ -120,6 +116,8 @@ cal_roman <- cal_calendar(
   to_rd = fixed_from_roman
 )
 
+#' Work with Roman calendar dates
+#'
 #' @rdname roman
 #' @param year A numeric vector of years
 #' @param month A numeric vector of months
@@ -127,6 +125,14 @@ cal_roman <- cal_calendar(
 #' @param count A numeric vector of counts:
 #' @param leap A logical vector indicating if year is a leap year
 #' @return A roman vector object
+#' @examples
+#' roman_date(66, 4, 1, 1, FALSE)
+#' new_date(year = 66, month = 4, event = 1, count = 1, leap = FALSE, calendar = cal_roman)
+#' as_roman("2016-01-01")
+#' tibble::tibble(
+#'   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
+#'   y = as_roman(x)
+#' )
 #' @export
 roman_date <- function(
   year = integer(),
@@ -147,12 +153,6 @@ roman_date <- function(
 
 #' @rdname roman
 #' @param date Vector of dates on some calendar
-#' @examples
-#' as_roman("2016-01-01")
-#' tibble::tibble(
-#'   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
-#'   y = as_roman(x)
-#' )
 #' @export
 as_roman <- function(date) {
   as_date(date, calendar = cal_roman)

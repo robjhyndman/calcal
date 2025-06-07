@@ -63,18 +63,8 @@ julian_from_fixed <- function(date, ...) {
   list(year = year, month = month, day = day)
 }
 
-#' Work with Julian dates
-#'
-#' @rdname julian
-#' @examples
-#' as_date("2016-01-01", calendar = cal_julian)
-#' as_date(Sys.Date(), calendar = cal_julian)
-#' tibble::tibble(
-#'   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
-#'   y = as_date(x, calendar = cal_gregorian),
-#'   z = as_date(x, calendar = cal_julian)
-#' )
-#' new_date(year = 2025, month = 4, day = 19:30, calendar = cal_julian)
+#' @rdname cal_calendar
+#' @format NULL
 #' @export
 cal_julian <- cal_calendar(
   name = "julian",
@@ -87,12 +77,22 @@ cal_julian <- cal_calendar(
   to_rd = fixed_from_julian
 )
 
+#' Work with Julian dates
+#'
 #' @rdname julian
 #' @param year A numeric vector of years
 #' @param month A numeric vector of months
 #' @param day A numeric vector of days
 #' @return A julian vector object
 #' @examples
+#' as_date("2016-01-01", calendar = cal_julian)
+#' as_date(Sys.Date(), calendar = cal_julian)
+#' tibble::tibble(
+#'   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
+#'   y = as_date(x, calendar = cal_gregorian),
+#'   z = as_date(x, calendar = cal_julian)
+#' )
+#' new_date(year = 2025, month = 4, day = 19:30, calendar = cal_julian)
 #' julian_date(2025, 4, 19:30)
 #' @export
 julian_date <- function(year = integer(), month = integer(), day = integer()) {
