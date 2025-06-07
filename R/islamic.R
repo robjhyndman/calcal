@@ -39,13 +39,13 @@ format_islamic <- function(x, ...) {
 }
 
 fixed_from_islamic <- function(date, ...) {
-    ISLAMIC_EPOCH -
-      1 +
-      354 * (date$year - 1) +
-      (3 + 11 * date$year) %/% 30 +
-      29 * (date$month - 1) +
-      date$month %/% 2 +
-      date$day
+  ISLAMIC_EPOCH -
+    1 +
+    354 * (date$year - 1) +
+    (3 + 11 * date$year) %/% 30 +
+    29 * (date$month - 1) +
+    date$month %/% 2 +
+    date$day
 }
 
 islamic_from_fixed <- function(date, ...) {
@@ -53,7 +53,7 @@ islamic_from_fixed <- function(date, ...) {
   prior_days <- date - islamic_date(year, 1, 1)
   month <- (11 * prior_days + 330) %/% 325
   day <- date - islamic_date(year, month, 1) + 1
-  list(year=year, month=month, day=day)
+  list(year = year, month = month, day = day)
 }
 
 #' Work with Islamic dates
@@ -87,7 +87,7 @@ cal_islamic <- cal_calendar(
 #' @examples
 #' islamic_date(2025, 4, 19:30)
 #' @export
-islamic_date <- function(year=integer(), month=integer(), day=integer()) {
+islamic_date <- function(year = integer(), month = integer(), day = integer()) {
   new_date(year = year, month = month, day = day, calendar = cal_islamic)
 }
 

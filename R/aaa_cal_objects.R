@@ -75,7 +75,7 @@ as_date.numeric <- function(date, calendar) {
 #' @export
 as_date.Date <- function(date, calendar) {
   new_calcalvec(
-    as.numeric(date) + gregorian_date(1970,1,1),
+    as.numeric(date) + gregorian_date(1970, 1, 1),
     calendar
   )
 }
@@ -116,7 +116,7 @@ new_date <- function(..., calendar) {
   new_calcalvec(rd, calendar)
 }
 
-new_calcalvec <- function(rd=integer(), calendar=cal_gregorian) {
+new_calcalvec <- function(rd = integer(), calendar = cal_gregorian) {
   out <- new_vctr(vec_cast(rd, double()), class = "calcalvec")
   attr(out, "calendar") <- calendar
   out

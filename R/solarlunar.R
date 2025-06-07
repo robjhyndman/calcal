@@ -747,9 +747,9 @@ lunar_longitude <- function(tee) {
 #'
 #' @export
 lunar_phase <- function(date) {
-  if(inherits(date, "calcalvec")) {
+  if (inherits(date, "calcalvec")) {
     tee <- vec_data(date)
-  } else if(is.numeric(date)) {
+  } else if (is.numeric(date)) {
     tee <- date
   } else {
     stop("Incorrect date format")

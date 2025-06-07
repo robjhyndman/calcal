@@ -44,7 +44,7 @@ TEHRAN <- location(angle(35.68, 0, 0), angle(51.42, 0, 0), mt(1100), 3.5)
 BABYLON <- location(angle(32.4794, 0, 0), angle(44.4328, 0, 0), mt(26), 3.5)
 UJJAIN <- location(angle(23, 9, 0), angle(75, 46, 6), mt(0), 5 + 461 / 9000)
 
-J2000 <- vec_data(gregorian_date(2000,1,1)) + hr(12) # Noon at start of Gregorian year 2000
+J2000 <- vec_data(gregorian_date(2000, 1, 1)) + hr(12) # Noon at start of Gregorian year 2000
 
 MEAN_TROPICAL_YEAR <- 365.242189
 MEAN_SIDEREAL_YEAR <- 365.25636

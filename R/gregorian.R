@@ -62,7 +62,7 @@ gregorian_from_fixed <- function(date, ...) {
   month <- (12 * (prior_days + correction) + 373) %/% 367
   # Calculate the day by subtraction
   day <- 1 + date - gregorian_date(year, month, 1)
-  list(year=year, month=month, day=day)
+  list(year = year, month = month, day = day)
 }
 
 
@@ -96,7 +96,11 @@ cal_gregorian <- cal_calendar(
 #' gregorian_date(2025, 4, 19:30)
 #' @rdname gregorian
 #' @export
-gregorian_date <- function(year=integer(), month=integer(), day=integer()) {
+gregorian_date <- function(
+  year = integer(),
+  month = integer(),
+  day = integer()
+) {
   new_date(year = year, month = month, day = day, calendar = cal_gregorian)
 }
 
@@ -152,7 +156,7 @@ gregorian_year_end <- function(g_year) {
 }
 
 gregorian_year_range <- function(g_year) {
-  c(gregorian_new_year(g_year), gregorian_new_year(g_year + 1)-1)
+  c(gregorian_new_year(g_year), gregorian_new_year(g_year + 1) - 1)
 }
 
 #' Extract parts of a Gregorian date
@@ -190,10 +194,11 @@ gregorian_year_range <- function(g_year) {
 #' @rdname gregorian-parts
 #' @export
 day_of_week <- function(
-    date,
-    numeric = FALSE,
-    first_day = "Monday",
-    abbreviate = FALSE) {
+  date,
+  numeric = FALSE,
+  first_day = "Monday",
+  abbreviate = FALSE
+) {
   dow <- day_of_week_from_fixed(date) + 1
   if (numeric) {
     first_day <- pmatch(
@@ -279,8 +284,11 @@ days_remaining <- function(date) {
 week_of_month <- function(date, first_day = "Monday") {
   dow <- day_of_week(date, numeric = TRUE, first_day = first_day)
   date <- date + (4 - dow)
-  day1 <- gregorian_date(granularity(date, "year"),
-                         granularity(date, "month"), 1)
+  day1 <- gregorian_date(
+    granularity(date, "year"),
+    granularity(date, "month"),
+    1
+  )
   (date - day1) %/% 7 + 1
 }
 
@@ -304,4 +312,3 @@ month_of_year <- function(date) {
 year <- function(date) {
   granularity(date, "year")
 }
-

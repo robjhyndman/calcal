@@ -60,7 +60,7 @@ julian_from_fixed <- function(date, ...) {
   month <- (12 * (prior_days + correction) + 373) %/% 367
   # Calculate the day by subtraction
   day <- date - julian_date(year, month, 1) + 1
-  list(year=year, month=month, day=day)
+  list(year = year, month = month, day = day)
 }
 
 #' Work with Julian dates
@@ -95,7 +95,7 @@ cal_julian <- cal_calendar(
 #' @examples
 #' julian_date(2025, 4, 19:30)
 #' @export
-julian_date <- function(year=integer(), month=integer(), day=integer()) {
+julian_date <- function(year = integer(), month = integer(), day = integer()) {
   new_date(year = year, month = month, day = day, calendar = cal_julian)
 }
 

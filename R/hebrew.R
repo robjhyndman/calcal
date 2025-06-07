@@ -100,7 +100,7 @@ hebrew_from_fixed <- function(date, ...) {
   # Calculate the day by subtraction
   day <- date - hebrew_date(year, month, 1) + 1
 
-  list(year=year, month=month, day=day)
+  list(year = year, month = month, day = day)
 }
 
 #' Work with Hebrew calendar dates
@@ -138,7 +138,7 @@ cal_hebrew <- cal_calendar(
 #' as_hebrew(gregorian_date(2025, 1, 1:31))
 #' @rdname hebrew
 #' @export
-hebrew_date <- function(year=integer(), month=integer(), day=integer()) {
+hebrew_date <- function(year = integer(), month = integer(), day = integer()) {
   new_date(year = year, month = month, day = day, calendar = cal_hebrew)
 }
 
@@ -305,7 +305,7 @@ hebrew_birthday <- function(birthdate, h_year) {
   birth_year <- standard_year(birthdate)
   if (birth_month == last_month_of_hebrew_year(birth_year)) {
     # Same day in last month of year
-      hebrew_date(h_year, last_month_of_hebrew_year(h_year), birth_day)
+    hebrew_date(h_year, last_month_of_hebrew_year(h_year), birth_day)
   } else {
     # Normal anniversary
     hebrew_date(h_year, birth_month, 1) + birth_day - 1
