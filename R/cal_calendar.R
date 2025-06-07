@@ -93,8 +93,13 @@ as_date.calcalvec <- function(date, calendar) {
 }
 
 #' @export
-as_date.default <- function(date, calendar) {
+as_date.character <- function(date, calendar) {
   as_date(as.Date(date), calendar)
+}
+
+#' @export
+as_date.default <- function(date, calendar) {
+  stop("Cannot convert to date")
 }
 
 #' @rdname new_date
