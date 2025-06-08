@@ -8,10 +8,6 @@ FIRST_QUARTER <- deg(90) # First quarter moon
 FULL <- deg(180) # Full moon
 LAST_QUARTER <- deg(270) # Last quarter moon
 
-MEAN_TROPICAL_YEAR <- 365.242189
-MEAN_SIDEREAL_YEAR <- 365.25636
-MEAN_SYNODIC_MONTH <- 29.530588861
-
 
 universal_from_dynamical <- function(tee) {
   tee - ephemeris_correction(tee)
@@ -363,6 +359,24 @@ solar_longitude_after <- function(lambda, tee) {
 season_in_gregorian <- function(season, g_year) {
   jan1 <- gregorian_new_year(g_year)
   solar_longitude_after(season, jan1)
+}
+
+estimate_prior_solar_longitude <- function(lambda, tee) {
+  # TYPE (season moment) -> moment
+  # Approximate moment at or before tee
+  # when solar longitude just exceeded lambda degrees.
+  
+  # Mean change of one degree
+  rate <- MEAN_TROPICAL_YEAR / deg(360)
+  
+  # First approximation
+  tau <- tee - (rate * ((solar_longitude(tee) - lambda) %% 360))
+  
+  # Difference in longitude
+  cap_Delta <- mod3(solar_longitude(tau) - lambda, -180, 180)
+  
+  # Return minimum of tee and adjusted tau
+  min(tee, tau - (rate * cap_Delta))
 }
 
 # Lunar functions

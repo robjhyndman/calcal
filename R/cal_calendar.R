@@ -143,8 +143,8 @@ format.calcalvec <- function(x, ...) {
 # Everything else is shown as an integer
 format_date <- function(date, month_name = NULL) {
   parts <- attributes(date)$calendar$from_rd(date)
-  # Drop leap year
-  parts <- parts[names(parts) != "leap_year"]
+  # Drop leap year and leap Month
+  parts <- parts[!(names(parts) %in% c("leap_year", "leap_month"))]
   for (i in seq_along(parts)) {
     # Replace months with names
     if (!is.null(month_name) & names(parts)[i] == "month") {
