@@ -62,20 +62,8 @@ us_daylight_saving_end <- function(year) {
 #' @rdname us_holidays
 #' @export
 unlucky_fridays <- function(year) {
-  as_gregorian(unlucky_fridays_in_range(gregorian_year_range(year)))
+  ab <- vec_data(gregorian_year_range(year))
+  out <- as_gregorian(ab[1]:ab[2])
+  out[day_of_week(out, numeric = TRUE) == FRIDAY & granularity(out, "day") == 13]
 }
 
-unlucky_fridays_in_range <- function(range) {
-  a <- range[1]
-  b <- range[2]
-  fri <- kday_on_or_after(FRIDAY, a)
-  date <- as_gregorian(fri)
-
-  if (in_range(fri, range)) {
-    result <- if (granularity(date, "day") == 13) fri else integer()
-    output <- c(result, unlucky_fridays_in_range(c(fri + 1, b)))
-  } else {
-    output <- integer()
-  }
-  output
-}
