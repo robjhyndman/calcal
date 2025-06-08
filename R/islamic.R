@@ -104,7 +104,7 @@ islamic_leap_year <- function(i_year) {
 
 islamic_in_gregorian <- function(i_month, i_day, g_year) {
   jan1 <- gregorian_new_year(g_year)
-  y <- standard_year(as_islamic(jan1))
+  y <- granularity(as_islamic(jan1), "year")
   date0 <- islamic_date(y, i_month, i_day)
   date1 <- islamic_date(y + 1, i_month, i_day)
   date2 <- islamic_date(y + 2, i_month, i_day)

@@ -305,7 +305,19 @@ tishah_be_av <- function(year) {
   as_gregorian(av9 + as.numeric(day_of_week_from_fixed(av9) == SATURDAY))
 }
 
+# Hebrew birthdays
+# 
+# @rdname hebrew_birthday
+# @param birthdate A gregorian date
+# @param h_year A numeric vector of Hebrew years
+# @export
 hebrew_birthday <- function(birthdate, h_year) {
+  if(length(birthdate) > 1) {
+    stop("birthdate must be a single date")
+  } else {
+    birthdate <- as_gregorian(birthdate)
+  }
+    
   lst <- attributes(birthdate)$calendar$from_rd(birthdate)
   birth_day <- lst$day
   birth_month <- lst$month
@@ -325,16 +337,7 @@ hebrew_birthday_in_gregorian <- function(birthdate, g_year) {
   date0 <- hebrew_birthday(birthdate, y)
   date1 <- hebrew_birthday(birthdate, y + 1)
   date2 <- hebrew_birthday(birthdate, y + 2)
-
-  mapply(
-    function(d0, d1, d2, year) {
-      list_range(c(d0, d1, d2), gregorian_year_range(year))
-    },
-    date0,
-    date1,
-    date2,
-    g_year
-  )
+  dates3_in_gregorian(g_year, date0, date1, date2)
 }
 
 yahrzeit <- function(death_date, h_year) {
@@ -383,15 +386,7 @@ yahrzeit_in_gregorian <- function(death_date, g_year) {
   date0 <- yahrzeit(death_date, y)
   date1 <- yahrzeit(death_date, y + 1)
   date2 <- yahrzeit(death_date, y + 2)
-  mapply(
-    function(d0, d1, d2, year) {
-      list_range(c(d0, d1, d2), gregorian_year_range(year))
-    },
-    date0,
-    date1,
-    date2,
-    g_year
-  )
+  dates3_in_gregorian(g_year, date0, date1, date2)
 }
 
 hebrew_in_gregorian <- function(h_month, h_day, g_year) {
