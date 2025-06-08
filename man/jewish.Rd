@@ -4,6 +4,8 @@
 \alias{yom_kippur}
 \alias{passover}
 \alias{purim}
+\alias{ta_anit_esther}
+\alias{tishah_be_av}
 \alias{hanukkah}
 \alias{rosh_hashanah}
 \alias{sukkot}
@@ -15,6 +17,10 @@ yom_kippur(year)
 passover(year)
 
 purim(year)
+
+ta_anit_esther(year)
+
+tishah_be_av(year)
 
 hanukkah(year)
 
@@ -33,12 +39,14 @@ Functions to return Gregorian dates for various Jewish holidays
 \examples{
 tibble::tibble(
   year = 2025:2030,
-  rosh_hashanah = rosh_hashanah(year),
+  ta_anit_esther = ta_anit_esther(year),
+  purim = purim(year),
   passover = passover(year),
   shavuot = shavuot(year),
+  tishah_be_av = tishah_be_av(year),
+  rosh_hashanah = rosh_hashanah(year),
   yom_kippur = yom_kippur(year),
   sukkot = sukkot(year),
-  hanukkah = hanukkah(year),
-  purim = purim(year),
+  hanukkah = hanukkah(year)
 )
 }

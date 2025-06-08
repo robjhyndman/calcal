@@ -83,13 +83,15 @@ Some Jewish holidays
 
 ```{r jewish-holidays}
 c(
-  rosh_hashanah = rosh_hashanah(2025),
+  ta_anit_esther = ta_anit_esther(2025),
+  purim = purim(2025),
   passover = passover(2025),
   shavuot = shavuot(2025),
+  tishah_be_av = tishah_be_av(2025),
+  rosh_hashanah = rosh_hashanah(2025),
   yom_kippur = yom_kippur(2025),
   sukkot = sukkot(2025),
-  hanukkah = hanukkah(2025),
-  purim = purim(2025)
+  hanukkah = hanukkah(2025)
 )
 ```
 

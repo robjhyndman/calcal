@@ -90,19 +90,21 @@ Some Jewish holidays
 
 ``` r
 c(
-  rosh_hashanah = rosh_hashanah(2025),
+  ta_anit_esther = ta_anit_esther(2025),
+  purim = purim(2025),
   passover = passover(2025),
   shavuot = shavuot(2025),
+  tishah_be_av = tishah_be_av(2025),
+  rosh_hashanah = rosh_hashanah(2025),
   yom_kippur = yom_kippur(2025),
   sukkot = sukkot(2025),
-  hanukkah = hanukkah(2025),
-  purim = purim(2025)
+  hanukkah = hanukkah(2025)
 )
-#> <gregorian[7]>
-#> rosh_hashanah      passover       shavuot    yom_kippur        sukkot      hanukkah 
-#>   2025-Sep-23   2025-Apr-13   2025-Jun-02   2025-Oct-02   2025-Oct-07   2025-Dec-15 
-#>         purim 
-#>   2025-Mar-14
+#> <gregorian[9]>
+#> ta_anit_esther          purim       passover        shavuot   tishah_be_av  rosh_hashanah 
+#>    2025-Mar-13    2025-Mar-14    2025-Apr-13    2025-Jun-02    2025-Aug-03    2025-Sep-23 
+#>     yom_kippur         sukkot       hanukkah 
+#>    2025-Oct-02    2025-Oct-07    2025-Dec-15
 ```
 
 Some Islamic holidays
