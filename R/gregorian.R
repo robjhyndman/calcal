@@ -170,7 +170,8 @@ gregorian_year_end <- function(g_year) {
 }
 
 gregorian_year_range <- function(g_year) {
-  c(gregorian_new_year(g_year), gregorian_new_year(g_year + 1) - 1)
+  # Range of days in a vector of Gregorian years (from first to last)  
+  c(gregorian_new_year(min(g_year)), gregorian_new_year(max(g_year) + 1) - 1)
 }
 
 #' Extract parts of a Gregorian date
