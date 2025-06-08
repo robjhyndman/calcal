@@ -72,7 +72,7 @@ unlucky_fridays_in_range <- function(range) {
   date <- as_gregorian(fri)
 
   if (in_range(fri, range)) {
-    result <- if (standard_day(date) == 13) fri else integer()
+    result <- if (granularity(date, "day") == 13) fri else integer()
     output <- c(result, unlucky_fridays_in_range(c(fri + 1, b)))
   } else {
     output <- integer()

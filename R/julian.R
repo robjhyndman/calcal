@@ -134,7 +134,7 @@ julian_leap_year <- function(j_year) {
 julian_in_gregorian <- function(j_month, j_day, g_year) {
   # List of the fixed dates of Julian month, day that occur in Gregorian year
   jan1 <- gregorian_date(g_year, JANUARY, 1)
-  y <- standard_year(as_julian(jan1))
+  y <- granularity(as_julian(jan1), "year")
   y_prime <- 1 + (y != -1) * y
 
   # The possible occurrences in one year are

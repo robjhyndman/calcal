@@ -86,29 +86,9 @@ poly <- function(x, a) {
   a[1] + x * poly(x, a[-1])
 }
 
-# Calendar basics
-rd <- function(tee) {
-  # Identity function for fixed dates/moments
-  epoch <- 0
-  return(tee - epoch)
-}
-
 day_of_week_from_fixed <- function(date) {
   # The residue class of the day of the week of date
   vec_cast(date, double()) %% 7
-}
-
-# Standard date accessors
-standard_month <- function(date) {
-  attributes(date)$calendar$from_rd(date)$month
-}
-
-standard_day <- function(date) {
-  attributes(date)$calendar$from_rd(date)$day
-}
-
-standard_year <- function(date) {
-  attributes(date)$calendar$from_rd(date)$year
 }
 
 fixed_from_moment <- function(tee) {
