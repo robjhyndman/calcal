@@ -76,7 +76,7 @@ as_date <- function(date, calendar) {
 
 #' @export
 as_date.numeric <- function(date, calendar) {
-  new_calcalvec(date, calendar)
+  new_calcalvec(trunc(date), calendar)
 }
 
 #' @export
@@ -89,7 +89,7 @@ as_date.Date <- function(date, calendar) {
 
 #' @export
 as_date.calcalvec <- function(date, calendar) {
-  new_calcalvec(vec_data(date), calendar)
+  new_calcalvec(trunc(vec_data(date)), calendar)
 }
 
 #' @export
