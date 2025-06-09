@@ -188,12 +188,14 @@ minor_solar_term_on_or_after <- function(date) {
 }
 
 chinese_new_moon_before <- function(date) {
-  tee <- new_moon_before(midnight_in_china(date)) * MEAN_SYNODIC_MONTH
+  nm <- new_moon_before(midnight_in_china(date))
+  tee <- nth_new_moon(nm)
   floor(standard_from_universal(tee, chinese_location(tee)))
 }
 
 chinese_new_moon_on_or_after <- function(date) {
-  tee <- new_moon_at_or_after(midnight_in_china(date)) * MEAN_SYNODIC_MONTH
+  nm <- new_moon_at_or_after(midnight_in_china(date))
+  tee <- nth_new_moon(nm)
   floor(standard_from_universal(tee, chinese_location(tee)))
 }
 
@@ -242,9 +244,15 @@ chinese_new_year_on_or_before <- function(date) {
   new_year
 }
 
-chinese_new_year <- function(g_year) {
+#' Chinese holidays
+#'
+#' Dates are returned as Gregorian dates
+#'
+#' @param year The year on the Gregorian calendar
+#' @export
+chinese_new_year <- function(year) {
   chinese_new_year_on_or_before(
-    vec_data(gregorian_date(g_year, JULY, 1))
+    vec_data(gregorian_date(year, JULY, 1))
   ) |>
     as_gregorian()
 }
@@ -314,10 +322,13 @@ dragon_festival <- function(g_year) {
   chinese_date(cycle, year, 5, FALSE, 5)
 }
 
-qing_ming <- function(g_year) {
+#' @rdname chinese_new_year
+#' @export
+qing_ming <- function(year) {
   floor(minor_solar_term_on_or_after(
-    vec_data(gregorian_date(g_year, MARCH, 30))
-  ))
+    vec_data(gregorian_date(year, MARCH, 30))
+  )) |>
+    as_gregorian()
 }
 
 # birthdate and date are dates on some calendar
