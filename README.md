@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# calcal <img src="man/figures/calcal-hex.png" align="right" width = 150 />
+# calcal <img src="man/figures/logo.png" align="right" width = 150 />
 
 <!-- badges: start -->
 <!-- badges: end -->
