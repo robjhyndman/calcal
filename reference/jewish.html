@@ -44,6 +44,10 @@
 <span></span>
 <span><span class="fu">purim</span><span class="op">(</span><span class="va">year</span><span class="op">)</span></span>
 <span></span>
+<span><span class="fu">ta_anit_esther</span><span class="op">(</span><span class="va">year</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tishah_be_av</span><span class="op">(</span><span class="va">year</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">hanukkah</span><span class="op">(</span><span class="va">year</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">rosh_hashanah</span><span class="op">(</span><span class="va">year</span><span class="op">)</span></span>
@@ -66,24 +70,27 @@
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  year <span class="op">=</span> <span class="fl">2025</span><span class="op">:</span><span class="fl">2030</span>,</span></span>
-<span class="r-in"><span>  rosh_hashanah <span class="op">=</span> <span class="fu">rosh_hashanah</span><span class="op">(</span><span class="va">year</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  ta_anit_esther <span class="op">=</span> <span class="fu">ta_anit_esther</span><span class="op">(</span><span class="va">year</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  purim <span class="op">=</span> <span class="fu">purim</span><span class="op">(</span><span class="va">year</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  passover <span class="op">=</span> <span class="fu">passover</span><span class="op">(</span><span class="va">year</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  shavuot <span class="op">=</span> <span class="fu">shavuot</span><span class="op">(</span><span class="va">year</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  tishah_be_av <span class="op">=</span> <span class="fu">tishah_be_av</span><span class="op">(</span><span class="va">year</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  rosh_hashanah <span class="op">=</span> <span class="fu">rosh_hashanah</span><span class="op">(</span><span class="va">year</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  yom_kippur <span class="op">=</span> <span class="fu">yom_kippur</span><span class="op">(</span><span class="va">year</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  sukkot <span class="op">=</span> <span class="fu">sukkot</span><span class="op">(</span><span class="va">year</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  hanukkah <span class="op">=</span> <span class="fu">hanukkah</span><span class="op">(</span><span class="va">year</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  purim <span class="op">=</span> <span class="fu">purim</span><span class="op">(</span><span class="va">year</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  hanukkah <span class="op">=</span> <span class="fu">hanukkah</span><span class="op">(</span><span class="va">year</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 8</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    year rosh_hashanah    passover     shavuot  yom_kippur      sukkot</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;Gre&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;Gre&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;Gre&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;Gre&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;Gre&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>  <span style="text-decoration: underline;">2</span>025   2025-Sep-23 2025-Apr-13 2025-Jun-02 2025-Oct-02 2025-Oct-07</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>  <span style="text-decoration: underline;">2</span>026   2026-Sep-12 2026-Apr-02 2026-May-22 2026-Sep-21 2026-Sep-26</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">2</span>027   2027-Oct-02 2027-Apr-22 2027-Jun-11 2027-Oct-11 2027-Oct-16</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>  <span style="text-decoration: underline;">2</span>028   2028-Sep-21 2028-Apr-11 2028-May-31 2028-Sep-30 2028-Oct-05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>  <span style="text-decoration: underline;">2</span>029   2029-Sep-10 2029-Mar-31 2029-May-20 2029-Sep-19 2029-Sep-24</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>  <span style="text-decoration: underline;">2</span>030   2030-Sep-28 2030-Apr-18 2030-Jun-07 2030-Oct-07 2030-Oct-12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 2 more variables: hanukkah &lt;Gre&gt;, purim &lt;Gre&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 10</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    year ta_anit_esther       purim    passover     shavuot tishah_be_av</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;Gre&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;Gre&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;Gre&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;Gre&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;Gre&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>  <span style="text-decoration: underline;">2</span>025    2025-Mar-13 2025-Mar-14 2025-Apr-13 2025-Jun-02  2025-Aug-03</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>  <span style="text-decoration: underline;">2</span>026    2026-Mar-02 2026-Mar-03 2026-Apr-02 2026-May-22  2026-Jul-23</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">2</span>027    2027-Mar-22 2027-Mar-23 2027-Apr-22 2027-Jun-11  2027-Aug-12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>  <span style="text-decoration: underline;">2</span>028    2028-Mar-09 2028-Mar-12 2028-Apr-11 2028-May-31  2028-Aug-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>  <span style="text-decoration: underline;">2</span>029    2029-Feb-28 2029-Mar-01 2029-Mar-31 2029-May-20  2029-Jul-22</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>  <span style="text-decoration: underline;">2</span>030    2030-Mar-18 2030-Mar-19 2030-Apr-18 2030-Jun-07  2030-Aug-08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 4 more variables: rosh_hashanah &lt;Gre&gt;, yom_kippur &lt;Gre&gt;, sukkot &lt;Gre&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   hanukkah &lt;Gre&gt;</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
