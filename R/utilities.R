@@ -34,7 +34,7 @@ binary_search_single <- function(lo, hi, p, e) {
   # Bisection search for x in [lo, hi] such that condition 'e' holds.
   # p determines when to go left
   x <- (lo + hi) / 2
-  if (p(lo, hi)) {
+  if (p(x)) {
     return(x)
   } else if (e(x)) {
     return(binary_search(lo, x, p, e))
