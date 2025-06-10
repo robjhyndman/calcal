@@ -86,6 +86,9 @@ fixed_from_chinese <- function(c_date) {
   prior_new_moon + day - 1
 }
 
+#' @rdname cal_calendar
+#' @format NULL
+#' @export
 cal_chinese <- cal_calendar(
   name = "chinese",
   short_name = "Chi",
