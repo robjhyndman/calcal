@@ -64,9 +64,10 @@ fixed_from_chinese <- function(c_date) {
 
   # Middle of the Chinese year
   mid_year <- floor(
-    CHINESE_EPOCH + (cycle - 1) * 60 + (year - 1) + 0.5
-  ) *
-    MEAN_TROPICAL_YEAR
+    CHINESE_EPOCH +
+      ((cycle - 1) * 60 + year - 0.5) *
+        MEAN_TROPICAL_YEAR
+  )
 
   new_year <- chinese_new_year_on_or_before(mid_year)
 
@@ -210,12 +211,19 @@ midnight_in_china <- function(date) {
 }
 
 chinese_winter_solstice_on_or_before <- function(date) {
-  approx <- estimate_prior_solar_longitude(WINTER, midnight_in_china(date + 1))
+  mapply(
+    function(d) {
+      approx <- estimate_prior_solar_longitude(WINTER, midnight_in_china(d + 1))
 
-  next_value(floor(approx) - 1, function(day) {
-    WINTER < solar_longitude(midnight_in_china(day + 1))
-  })
+      next_value(floor(approx) - 1, function(day) {
+        WINTER < solar_longitude(midnight_in_china(day + 1))
+      })
+    },
+    date,
+    SIMPLIFY = TRUE
+  )
 }
+
 
 chinese_new_year_in_sui <- function(date) {
   s1 <- chinese_winter_solstice_on_or_before(date) # Prior solstice

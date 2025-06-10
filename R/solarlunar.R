@@ -353,7 +353,7 @@ solar_longitude_after <- function(lambda, tee) {
   a <- pmax(tee, tau - 5) # At or after tee
   b <- tau + 5
 
-  invert_angular(solar_longitude, lambda, c(a, b))
+  invert_angular(solar_longitude, lambda, a, b)
 }
 
 season_in_gregorian <- function(season, g_year) {
@@ -365,16 +365,16 @@ estimate_prior_solar_longitude <- function(lambda, tee) {
   # TYPE (season moment) -> moment
   # Approximate moment at or before tee
   # when solar longitude just exceeded lambda degrees.
-  
+
   # Mean change of one degree
   rate <- MEAN_TROPICAL_YEAR / deg(360)
-  
+
   # First approximation
   tau <- tee - (rate * ((solar_longitude(tee) - lambda) %% 360))
-  
+
   # Difference in longitude
   cap_Delta <- mod3(solar_longitude(tau) - lambda, -180, 180)
-  
+
   # Return minimum of tee and adjusted tau
   min(tee, tau - (rate * cap_Delta))
 }
@@ -1077,7 +1077,7 @@ lunar_phase_at_or_before <- function(phi, tee) {
   a <- tau - 2
   b <- pmin(tee, tau + 2)
 
-  invert_angular(lunar_phase, phi, c(a, b))
+  invert_angular(lunar_phase, phi, a, b)
 }
 
 lunar_phase_at_or_after <- function(phi, tee) {
@@ -1085,7 +1085,7 @@ lunar_phase_at_or_after <- function(phi, tee) {
   a <- pmax(tee, tau - 2)
   b <- tau + 2
 
-  invert_angular(lunar_phase, phi, c(a, b))
+  invert_angular(lunar_phase, phi, a, b)
 }
 
 #' Full moons and new moons in Gregorian years

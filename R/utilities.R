@@ -55,11 +55,11 @@ binary_search <- function(lo, hi, test_fn, end_fn) {
   )
 }
 
-invert_angular <- function(f, y, r) {
+invert_angular <- function(f, y, a, b) {
   # Find inverse of angular function 'f' at 'y' within interval [a,b].
   # Default precision is 0.00001
   # Bisection search
-  lst <- vctrs::vec_cast_common(y = y, a = r[1], b = r[2])
+  lst <- vctrs::vec_cast_common(y = y, a = a, b = b)
   output <- rep(0, length(lst$y))
   epsilon <- 1 / 100000
   for (i in seq_along(output)) {
