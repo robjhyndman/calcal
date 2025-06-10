@@ -257,6 +257,14 @@ chinese_new_year_on_or_before <- function(date) {
 #' Dates are returned as Gregorian dates
 #'
 #' @param year The year on the Gregorian calendar
+#' @return A vector of dates on the Gregorian calendar
+#' @examples
+#' tibble::tibble(
+#'   year = 2025:2030,
+#'   chinese_new_year(year),
+#'   qing_ming(year),
+#'   dragon_festival(year)
+#' )
 #' @export
 chinese_new_year <- function(year) {
   chinese_new_year_on_or_before(
@@ -322,12 +330,14 @@ chinese_day_name_on_or_before <- function(name, date) {
   mod3(chinese_name_difference(chinese_day_name(0), name), date, date - 60)
 }
 
-dragon_festival <- function(g_year) {
-  elapsed_years <- 1 + (g_year - gregorian_year_from_fixed(CHINESE_EPOCH))
+#' @rdname chinese_new_year
+#' @export
+dragon_festival <- function(year) {
+  elapsed_years <- 1 + (year - gregorian_year_from_fixed(CHINESE_EPOCH))
   cycle <- 1 + (elapsed_years - 1) %/% 60
   year <- amod(elapsed_years, 60)
 
-  chinese_date(cycle, year, 5, FALSE, 5)
+  chinese_date(cycle, year, 5, FALSE, 5) |> as_gregorian()
 }
 
 #' @rdname chinese_new_year
