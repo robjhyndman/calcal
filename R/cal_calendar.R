@@ -141,15 +141,22 @@ format.calcalvec <- function(x, ...) {
 
 # Generic date format function. Months can take names
 # Everything else is shown as an integer
+# Leap years/months shown via asterisks
 format_date <- function(date, month_name = NULL) {
   parts <- attributes(date)$calendar$from_rd(date)
+  if("leap_year" %in% names(parts)) {
+    parts[["year"]] <- paste0(parts[["year"]], rep("*",parts[["leap_year"]]))
+  }
+  if("leap_month" %in% names(parts)) {
+    parts[["month"]] <- paste0(parts[["month"]], rep("*",parts[["leap_month"]]))
+  }
   # Drop leap year and leap Month
   parts <- parts[!(names(parts) %in% c("leap_year", "leap_month"))]
   for (i in seq_along(parts)) {
     # Replace months with names
     if (!is.null(month_name) & names(parts)[i] == "month") {
       parts[[i]] <- month_name[parts[[i]]]
-    } else {
+    } else if (is.numeric(parts[[i]])) {
       parts[[i]] <- sprintf("%.2d", parts[[i]])
     }
   }
