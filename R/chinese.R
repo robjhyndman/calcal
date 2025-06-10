@@ -287,7 +287,26 @@ chinese_prior_leap_month <- function(m_prime, m) {
 }
 
 chinese_name <- function(stem, branch) {
-  c(stem, branch)
+  paste(
+    c("Jia", "Yi", "Bing", "Ding", "Wu", "Ji", "Geng", "Xun", "Ren", "Gui")[
+      stem
+    ],
+    c(
+      "Zi",
+      "Chou",
+      "Yin",
+      "Mao",
+      "Chen",
+      "Si",
+      "Wu",
+      "Wei",
+      "Shen",
+      "You",
+      "Xu",
+      "Hai"
+    )[branch],
+    sep = "-"
+  )
 }
 
 chinese_stem <- function(name) {
@@ -359,8 +378,7 @@ chinese_age <- function(birthdate, date) {
   birthdate <- vec_data(birthdate)
   today <- chinese_from_fixed(date)
   birthdate_ch <- chinese_from_fixed(birthdate)
-  60 * (today$cycle - birthdate_ch$cycle) +
-    (today$year - birthdate_ch$year) + 1
+  60 * (today$cycle - birthdate_ch$cycle) + (today$year - birthdate_ch$year) + 1
 }
 
 
