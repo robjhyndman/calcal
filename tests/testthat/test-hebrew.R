@@ -4,8 +4,10 @@ test_that("hebrew", {
     as.Date(as_gregorian(hebrew_date(5785, 4, 19))),
     as.Date("2025-07-15")
   )
-  expect_equal(hebrew_date(5785, 4, 19) |> vec_data(), 
-              gregorian_date(2025,7,15) |> vec_data())
+  expect_equal(
+    hebrew_date(5785, 4, 19) |> vec_data(),
+    gregorian_date(2025, 7, 15) |> vec_data()
+  )
   expect_error(hebrew_date(5785, 13, 1))
   expect_error(hebrew_date(2025, 2, 30))
   expect_error(hebrew_date(2024.4, 2, 12))
@@ -15,6 +17,14 @@ test_that("hebrew", {
   expect_error(hebrew_date(NA, 2, 30))
   expect_error(hebrew_date(NA, NA, 31))
   expect_error(hebrew_date(NA, NA, 32))
+  expect_equal(
+    gregorian_date(1967, 5, 2) |>
+      as_hebrew() |>
+      cal_hebrew$from_rd() |>
+      cal_hebrew$to_rd(),
+    gregorian_date(1967, 5, 2) |> as.numeric()
+  )
+
   # Holidays
   expect_equal(
     rosh_hashanah(2025:2030),

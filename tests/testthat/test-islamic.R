@@ -4,10 +4,20 @@ test_that("islamic", {
     as.Date(as_gregorian(islamic_date(1446, 7, 1))),
     as.Date("2025-01-01")
   )
-  expect_equal(vec_data(islamic_date(1446, 7, 1)), 
-    vec_data(gregorian_date(2025,1,1)))
+  expect_equal(
+    vec_data(islamic_date(1446, 7, 1)),
+    vec_data(gregorian_date(2025, 1, 1))
+  )
   expect_error(islamic_date(1446, 13, 1))
   expect_error(islamic_date(2025, 2, 31))
+  expect_equal(
+    gregorian_date(1967, 5, 2) |>
+      as_islamic() |>
+      cal_islamic$from_rd() |>
+      cal_islamic$to_rd(),
+    gregorian_date(1967, 5, 2) |> as.numeric()
+  )
+
   # Holidays
   expect_equal(
     islamic_new_year(2025:2026),
