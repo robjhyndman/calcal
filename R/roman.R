@@ -48,7 +48,7 @@ fixed_from_roman <- function(date, ...) {
   base_date[date$event == 2] <- nones[date$event == 2]
   base_date[date$event == 3] <- ides[date$event == 3]
 
-  base_date -
+  rd <- base_date -
     date$count +
     as.numeric(
       !(julian_leap_year(date$year) &
@@ -58,6 +58,7 @@ fixed_from_roman <- function(date, ...) {
         date$count <= 16)
     ) +
     as.numeric(date$leap)
+    vec_data(rd)
 }
 
 roman_from_fixed <- function(date, ...) {

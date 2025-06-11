@@ -85,7 +85,7 @@ vec_ptype_abbr.location <- function(x, ...) {
 #' @export
 format.location <- function(x, ...) {
   sprintf(
-    "(%.2f,%.2f)^%d[%.3f]",
+    "(%.2f,%.2f)^%.0f[%.3f]",
     latitude(x),
     longitude(x),
     elevation(x),
