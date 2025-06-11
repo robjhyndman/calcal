@@ -101,17 +101,17 @@ hebrew_from_fixed <- function(date, ...) {
   start <- rep(NISAN, length(date))
   start[date < hebrew_date(year, NISAN, 1)] <- TISHRI
   # Find the month
-  month <- mapply(
-    function(s, y, d) {
-      next_value(s, function(m) {
-        d <= hebrew_date(y, m, last_day_of_hebrew_month(y, m))
-      })
-    },
-    start,
-    year,
-    date,
-    SIMPLIFY = TRUE
-  )
+  month <- start
+  lower <- hebrew_date(year, month, last_day_of_hebrew_month(year, month))
+  while (any(date > lower)) {
+    j <- which(date > lower)
+    month[j] <- month[j] + 1
+    lower[j] <- hebrew_date(
+      year[j],
+      month[j],
+      last_day_of_hebrew_month(year[j], month[j])
+    )
+  }
   # Calculate the day by subtraction
   day <- date - hebrew_date(year, month, 1) + 1
 
