@@ -158,7 +158,10 @@ chinese_location <- function(date) {
     tee <- date
   }
   year <- gregorian_year_from_fixed(floor(tee))
-  out <- location(angle(39, 55, 0), angle(116, 25, 0), mt(43.5), hr(8))
+  out <- rep(
+    location(angle(39, 55, 0), angle(116, 25, 0), mt(43.5), hr(8)),
+    length(tee)
+  )
   if (any(year < 1929)) {
     out[year < 1929] <- location(
       angle(39, 55, 0),
@@ -232,19 +235,16 @@ midnight_in_china <- function(date) {
 }
 
 chinese_winter_solstice_on_or_before <- function(date) {
-  mapply(
-    function(d) {
-      approx <- estimate_prior_solar_longitude(WINTER, midnight_in_china(d + 1))
-
-      next_value(floor(approx) - 1, function(day) {
-        WINTER < solar_longitude(midnight_in_china(day + 1))
-      })
-    },
-    date,
-    SIMPLIFY = TRUE
-  )
+  approx <- estimate_prior_solar_longitude(WINTER, midnight_in_china(date + 1))
+  d <- floor(approx) - 1
+  upper <- solar_longitude(midnight_in_china(d + 1))
+  while (any(WINTER >= upper)) {
+    idx <- WINTER >= upper
+    d[idx] <- d[idx] + 1
+    upper[idx] <- solar_longitude(midnight_in_china(d[idx] + 1))
+  }
+  return(d)
 }
-
 
 chinese_new_year_in_sui <- function(date) {
   s1 <- chinese_winter_solstice_on_or_before(date) # Prior solstice
