@@ -4,6 +4,7 @@
 # calcal <img src="man/figures/logo.png" align="right" width = 150 />
 
 <!-- badges: start -->
+
 <!-- badges: end -->
 
 The goal of calcal is to do calendrical calculations, based on the

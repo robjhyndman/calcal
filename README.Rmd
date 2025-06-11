@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
-options(width=90)
+options(width = 90)
 ```
 
 # calcal <img src="man/figures/logo.png" align="right" width = 150 />

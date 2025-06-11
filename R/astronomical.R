@@ -3,7 +3,7 @@
 # ==============================================================================
 
 J2000 <- 730120.5
-#J2000 <- vec_data(gregorian_date(2000, 1, 1)) + hr(12) # Noon at start of Gregorian year 2000
+# J2000 <- vec_data(gregorian_date(2000, 1, 1)) + hr(12) # Noon at start of Gregorian year 2000
 
 # Some of original code moved into timezones.R and locale.R
 
@@ -186,8 +186,8 @@ refraction <- function(tee, loc) {
 #' @examples
 #' melbourne <- location(-37.8136, 144.9631, 31, 10)
 #' sydney <- location(-33.8688, 151.2093, 3, 10)
-#' sunrise(gregorian_date(2025,1,1), c(melbourne, sydney))
-#' sunset(gregorian_date(2025,1,1), c(melbourne, sydney))
+#' sunrise(gregorian_date(2025, 1, 1), c(melbourne, sydney))
+#' sunset(gregorian_date(2025, 1, 1), c(melbourne, sydney))
 #' @export
 sunrise <- function(date, location, ...) {
   if (inherits(date, "calcalvec")) {

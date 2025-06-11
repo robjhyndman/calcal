@@ -17,7 +17,7 @@ SHEVAT <- 11
 ADAR <- 12
 ADARII <- 13
 
-HEBREW_EPOCH <- -1373427 #vec_data(julian_date(bce(3761), OCTOBER, 7))
+HEBREW_EPOCH <- -1373427 # vec_data(julian_date(bce(3761), OCTOBER, 7))
 
 
 check_hebrew <- function(args) {
@@ -306,18 +306,18 @@ tishah_be_av <- function(year) {
 }
 
 # Hebrew birthdays
-# 
+#
 # @rdname hebrew_birthday
 # @param birthdate A gregorian date
 # @param h_year A numeric vector of Hebrew years
 # @export
 hebrew_birthday <- function(birthdate, h_year) {
-  if(length(birthdate) > 1) {
+  if (length(birthdate) > 1) {
     stop("birthdate must be a single date")
   } else {
     birthdate <- as_gregorian(birthdate)
   }
-    
+
   lst <- attributes(birthdate)$calendar$from_rd(birthdate)
   birth_day <- lst$day
   birth_month <- lst$month

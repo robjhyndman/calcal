@@ -2,7 +2,7 @@
 # Islamic Calendar
 # ==============================================================================
 
-ISLAMIC_EPOCH <- 227015 #vec_data(julian_date(ce(622), JULY, 16))
+ISLAMIC_EPOCH <- 227015 # vec_data(julian_date(ce(622), JULY, 16))
 
 check_islamic <- function(args) {
   year <- args$year

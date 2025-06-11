@@ -767,7 +767,7 @@ lunar_longitude <- function(tee) {
 #'
 #' @param date Date vector
 #' @examples
-#' april2025 <- gregorian_date(2025,4,1:30)
+#' april2025 <- gregorian_date(2025, 4, 1:30)
 #' lunar_phase(april2025)
 #'
 #' @export
@@ -1047,7 +1047,7 @@ new_moon_before <- function(tee) {
   phi <- lunar_phase(tee)
   n <- round((tee - t0) / MEAN_SYNODIC_MONTH - phi / 360)
   nnm <- nth_new_moon(n)
-  while(any(nnm >= tee)) {
+  while (any(nnm >= tee)) {
     j <- which(nnm >= tee)
     n[j] <- n[j] + 1
     nnm[j] <- nth_new_moon(n[j])
@@ -1060,7 +1060,7 @@ new_moon_at_or_after <- function(tee) {
   phi <- lunar_phase(tee)
   n <- round((tee - t0) / MEAN_SYNODIC_MONTH - phi / 360)
   nnm <- nth_new_moon(n)
-  while(any(nnm < tee)) {
+  while (any(nnm < tee)) {
     j <- which(nnm < tee)
     n[j] <- n[j] + 1
     nnm[j] <- nth_new_moon(n[j])

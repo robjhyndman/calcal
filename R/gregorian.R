@@ -119,10 +119,9 @@ cal_gregorian <- cal_calendar(
 #' @rdname gregorian
 #' @export
 gregorian_date <- function(
-  year = integer(),
-  month = integer(),
-  day = integer()
-) {
+    year = integer(),
+    month = integer(),
+    day = integer()) {
   new_date(year = year, month = month, day = day, calendar = cal_gregorian)
 }
 
@@ -170,7 +169,7 @@ gregorian_year_end <- function(g_year) {
 }
 
 gregorian_year_range <- function(g_year) {
-  # Range of days in a vector of Gregorian years (from first to last)  
+  # Range of days in a vector of Gregorian years (from first to last)
   c(gregorian_new_year(min(g_year)), gregorian_new_year(max(g_year) + 1) - 1)
 }
 
@@ -209,11 +208,10 @@ gregorian_year_range <- function(g_year) {
 #' @rdname gregorian-parts
 #' @export
 day_of_week <- function(
-  date,
-  numeric = FALSE,
-  first_day = "Monday",
-  abbreviate = FALSE
-) {
+    date,
+    numeric = FALSE,
+    first_day = "Monday",
+    abbreviate = FALSE) {
   dow <- day_of_week_from_fixed(date) + 1
   if (numeric) {
     first_day <- pmatch(
