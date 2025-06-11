@@ -34,3 +34,24 @@ A chinese vector object
 \description{
 Chinese dates
 }
+\examples{
+chinese <- new_date(
+  cycle = 78, year = 42, month = 5, leap_month = FALSE, day = 16:18,
+  calendar = cal_chinese
+)
+chinese
+chinese_date(78, 42, 5, FALSE, 16:18)
+as_date(chinese, calendar = cal_gregorian)
+as_date(Sys.Date(), calendar = cal_chinese)
+tibble::tibble(
+  gregorian = gregorian_date(2025, 1, 1) + 0:364,
+  chinese = as_chinese(gregorian)
+)
+as_gregorian(chinese_date(78, 41, 12, FALSE, 3:30))
+as_chinese(gregorian_date(2025, 1, 1:28))
+as_chinese("2016-01-01")
+as_chinese(Sys.Date())
+}
+\seealso{
+\link{cal_chinese}
+}

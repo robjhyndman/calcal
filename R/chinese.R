@@ -1,6 +1,6 @@
-#==============================================================================
+# ==============================================================================
 # Chinese Calendar
-#==============================================================================
+# ==============================================================================
 
 CHINESE_EPOCH <- -963099 # vec_data(gregorian_date(-2636, FEBRUARY, 15))
 CHINESE_MONTH_NAME_EPOCH <- 57
@@ -109,14 +109,31 @@ cal_chinese <- cal_calendar(
 #' @param leap_month A logical vector indicating leap months
 #' @param day A numeric vector of days
 #' @return A chinese vector object
+#' @seealso [cal_chinese]
+#' @examples
+#' chinese <- new_date(
+#'   cycle = 78, year = 42, month = 5, leap_month = FALSE, day = 16:18,
+#'   calendar = cal_chinese
+#' )
+#' chinese
+#' chinese_date(78, 42, 5, FALSE, 16:18)
+#' as_date(chinese, calendar = cal_gregorian)
+#' as_date(Sys.Date(), calendar = cal_chinese)
+#' tibble::tibble(
+#'   gregorian = gregorian_date(2025, 1, 1) + 0:364,
+#'   chinese = as_chinese(gregorian)
+#' )
+#' as_gregorian(chinese_date(78, 41, 12, FALSE, 3:30))
+#' as_chinese(gregorian_date(2025, 1, 1:28))
+#' as_chinese("2016-01-01")
+#' as_chinese(Sys.Date())
 #' @export
 chinese_date <- function(
-  cycle = integer(),
-  year = integer(),
-  month = integer(),
-  leap_month = logical(),
-  day = integer()
-) {
+    cycle = integer(),
+    year = integer(),
+    month = integer(),
+    leap_month = logical(),
+    day = integer()) {
   new_date(
     cycle = cycle,
     year = year,
