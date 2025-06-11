@@ -8,7 +8,7 @@
 #' @param short_name Short name of calendar
 #' @param granularities Character vector with names of granularities of calendar
 #' (e.g., for the Gregorian calendar, the granularities are `year`, `month`, and `day`).
-#' @param check_granularities Function to check granularities are valid (e.g.,
+#' @param validate_granularities Function to check granularities are valid (e.g.,
 #' Gregorian months should be between 1 and 12).
 #' @param format Functon to specify date format as a character string.
 #' @param from_rd Function to convert from RD to calendar date.
@@ -28,7 +28,7 @@ cal_calendar <- function(
     name,
     short_name,
     granularities,
-    check_granularities,
+    validate_granularities,
     format,
     from_rd,
     to_rd) {
@@ -37,7 +37,7 @@ cal_calendar <- function(
       name = name,
       short_name = short_name,
       granularities = granularities,
-      check_granularities = check_granularities,
+      validate_granularities = validate_granularities,
       format = format,
       from_rd = from_rd,
       to_rd = to_rd
@@ -120,7 +120,7 @@ new_date <- function(..., calendar) {
   # Common length recycling
   lst <- lapply(lst, vec_recycle, size = max(unlist(lapply(lst, length))))
   # Check the granularities are valid
-  calendar$check_granularities(lst)
+  calendar$validate_granularities(lst)
   # Convert to RD
   rd <- calendar$to_rd(lst)
   # Create the new date object

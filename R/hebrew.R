@@ -20,7 +20,7 @@ ADARII <- 13
 HEBREW_EPOCH <- -1373427 # vec_data(julian_date(bce(3761), OCTOBER, 7))
 
 
-check_hebrew <- function(args) {
+validate_hebrew <- function(args) {
   year <- args$year
   month <- args$month
   day <- args$day
@@ -125,7 +125,7 @@ cal_hebrew <- cal_calendar(
   name = "hebrew",
   short_name = "Heb",
   granularities = c("year", "month", "day"),
-  check_granularities = check_hebrew,
+  validate_granularities = validate_hebrew,
   format = format_hebrew,
   from_rd = hebrew_from_fixed,
   to_rd = fixed_from_hebrew

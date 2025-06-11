@@ -28,11 +28,11 @@ time_of_day <- function(
     second = lst$second,
     .size = max(unlist(lapply(lst, length)))
   )
-  check_time(lst)
+  validate_time(lst)
   new_rcrd(lst, class = "time_of_day")
 }
 
-check_time <- function(args) {
+validate_time <- function(args) {
   hour <- args$hour
   minute <- args$minute
   second <- args$second

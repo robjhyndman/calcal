@@ -2,7 +2,7 @@
 # ISO Calendar
 # ==============================================================================
 
-check_iso <- function(args) {
+validate_iso <- function(args) {
   year <- args$year
   week <- args$week
   day <- args$day
@@ -35,7 +35,7 @@ cal_iso <- cal_calendar(
   name = "iso",
   short_name = "ISO",
   granularities = c("year", "week", "day"),
-  check_granularities = check_iso,
+  validate_granularities = validate_iso,
   format = format_date,
   from_rd = iso_from_fixed,
   to_rd = fixed_from_iso

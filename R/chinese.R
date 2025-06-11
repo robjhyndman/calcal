@@ -11,7 +11,7 @@ BLIND <- 1 # Lichun occurs once at the end
 BRIGHT <- 2 # Lichun occurs once at the start
 DOUBLE_BRIGHT <- 3 # Lichun occurs twice (double-happiness)
 
-check_chinese <- function(date) {}
+validate_chinese <- function(date) {}
 
 chinese_from_fixed <- function(date) {
   date <- vec_data(date)
@@ -94,7 +94,7 @@ cal_chinese <- cal_calendar(
   name = "chinese",
   short_name = "Chi",
   granularities = c("cycle", "year", "month", "leap_month", "day"),
-  check_granularities = check_chinese,
+  validate_granularities = validate_chinese,
   format = format_date,
   from_rd = chinese_from_fixed,
   to_rd = fixed_from_chinese

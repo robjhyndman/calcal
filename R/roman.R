@@ -8,7 +8,7 @@ KALENDS <- 1
 NONES <- 2
 IDES <- 3
 
-check_roman <- function(args) {
+validate_roman <- function(args) {
   year <- args$year
   month <- args$month
   event <- args$event
@@ -125,7 +125,7 @@ cal_roman <- cal_calendar(
   name = "Roman",
   short_name = "Rom",
   granularities = c("year", "month", "event", "count", "leap"),
-  check_granularities = check_roman,
+  validate_granularities = validate_roman,
   format = format_roman,
   from_rd = roman_from_fixed,
   to_rd = fixed_from_roman

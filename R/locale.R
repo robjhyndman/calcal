@@ -30,11 +30,11 @@ location <- function(
     zone = hr(lst$zone),
     .size = max(unlist(lapply(lst, length)))
   )
-  check_locale(lst)
+  validate_locale(lst)
   new_rcrd(lst, class = "location")
 }
 
-check_locale <- function(args) {
+validate_locale <- function(args) {
   latitude <- args$latitude
   longitude <- args$longitude
   elevation <- args$elevation

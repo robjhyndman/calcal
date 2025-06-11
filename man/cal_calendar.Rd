@@ -20,7 +20,7 @@ cal_calendar(
   name,
   short_name,
   granularities,
-  check_granularities,
+  validate_granularities,
   format,
   from_rd,
   to_rd
@@ -48,7 +48,7 @@ cal_roman
 \item{granularities}{Character vector with names of granularities of calendar
 (e.g., for the Gregorian calendar, the granularities are \code{year}, \code{month}, and \code{day}).}
 
-\item{check_granularities}{Function to check granularities are valid (e.g.,
+\item{validate_granularities}{Function to check granularities are valid (e.g.,
 Gregorian months should be between 1 and 12).}
 
 \item{format}{Functon to specify date format as a character string.}

@@ -4,7 +4,7 @@
 
 ISLAMIC_EPOCH <- 227015 # vec_data(julian_date(ce(622), JULY, 16))
 
-check_islamic <- function(args) {
+validate_islamic <- function(args) {
   year <- args$year
   month <- args$month
   day <- args$day
@@ -62,7 +62,7 @@ cal_islamic <- cal_calendar(
   name = "Islamic",
   short_name = "Hij",
   granularities = c("year", "month", "day"),
-  check_granularities = check_islamic,
+  validate_granularities = validate_islamic,
   format = format_islamic,
   from_rd = islamic_from_fixed,
   to_rd = fixed_from_islamic

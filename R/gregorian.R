@@ -27,7 +27,7 @@ SATURDAY <- SUNDAY + 6L
 
 GREGORIAN_EPOCH <- 1L # Fixed date of start of the (proleptic) Gregorian calendar
 
-check_gregorian <- function(args) {
+validate_gregorian <- function(args) {
   year <- args$year
   month <- args$month
   day <- args$day
@@ -92,7 +92,7 @@ cal_gregorian <- cal_calendar(
   name = "gregorian",
   short_name = "Gre",
   granularities = c("year", "month", "day"),
-  check_granularities = check_gregorian,
+  validate_granularities = validate_gregorian,
   format = format_gregorian,
   from_rd = gregorian_from_fixed,
   to_rd = fixed_from_gregorian

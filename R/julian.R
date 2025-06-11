@@ -6,7 +6,7 @@ JULIAN_EPOCH <- -1 # vec_data(gregorian_date(0, DECEMBER, 30))
 JD_EPOCH <- -1721424.5
 MJD_EPOCH <- 678576
 
-check_julian <- function(args) {
+validate_julian <- function(args) {
   year <- args$year
   month <- args$month
   day <- args$day
@@ -74,7 +74,7 @@ cal_julian <- cal_calendar(
   name = "julian",
   short_name = "Jul",
   granularities = c("year", "month", "day"),
-  check_granularities = check_julian,
+  validate_granularities = validate_julian,
   format = format_julian,
   from_rd = julian_from_fixed,
   to_rd = fixed_from_julian
