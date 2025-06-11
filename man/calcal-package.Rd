@@ -6,6 +6,8 @@
 \alias{calcal-package}
 \title{calcal: Calendrical Calculations}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 An R implementation of the algorithms described in Reingold and Dershowitz (4th ed., Cambridge University Press, 2018) \doi{10.1017/9781107415058}.
 }
 \seealso{

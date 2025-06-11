@@ -26,6 +26,7 @@ reference:
   - title: Create new calendars and dates
     contents:
       - cal_calendar
+      - cal_chinese
       - cal_gregorian
       - cal_hebrew
       - cal_islamic
@@ -46,6 +47,10 @@ reference:
       - week_of_year
       - month_of_year
       - year
+  - title: Chinese calendar
+    contents:
+      - chinese_date
+      - as_chinese
   - title: Hebrew calendar
     contents:
       - hebrew_date
@@ -72,6 +77,7 @@ reference:
       - us_labor_day
       - rosh_hashanah
       - ramadan
+      - chinese_new_year
   - title: Granularities
     contents:
       - granularity

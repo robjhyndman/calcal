@@ -59,7 +59,7 @@ Gregorian months should be between 1 and 12).}
 }
 \description{
 Generate a calendar object of class "calcal". Examples of calendars
-produced in this way include \code{cal_gregorian}, \code{cal_hebrew}, \code{cal_islamic},
+produced in this way include \code{cal_chinese}, \code{cal_gregorian}, \code{cal_hebrew}, \code{cal_islamic},
 \code{cal_iso}, \code{cal_julian}, and \code{cal_roman}.
 }
 \examples{
