@@ -82,7 +82,6 @@ reference:
     contents:
       - granularity
       - granularities
-      - linear_cyclic
   - title: Time of day
     contents:
       - time_of_day
