@@ -13,23 +13,6 @@ mod3 <- function(x, a, b) {
   return(result)
 }
 
-# Search and iteration utilities
-next_value <- function(initial, condition_fn) {
-  index <- initial
-  while (!condition_fn(index)) {
-    index <- index + 1
-  }
-  return(index)
-}
-
-final_value <- function(initial, condition_fn) {
-  index <- initial
-  while (condition_fn(index)) {
-    index <- index + 1
-  }
-  return(index - 1)
-}
-
 binary_search_single <- function(lo, hi, p, e) {
   # Bisection search for x in [lo, hi] such that condition 'e' holds.
   # p determines when to go left
