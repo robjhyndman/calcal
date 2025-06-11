@@ -87,6 +87,30 @@ as_date.Date <- function(date, calendar) {
 }
 
 #' @export
+as_date.list <- function(date, calendar) {
+  # Set up empty granularities with correct names
+  if (length(date) == 0L) {
+    date <- lapply(granularities(calendar), function(x) vector("integer"))
+    names(date) <- granularities(calendar)
+  }
+  # Check arguments are valid granularities
+  if (any(!(names(date) %in% granularities(calendar)))) {
+    invalid_grans <- names(date)[!(names(date) %in% granularities(calendar))]
+    stop(paste("Invalid granularities:", paste(invalid_grans, collapse = ", ")))
+  }
+  # Convert to integers
+  lst <- lapply(date, vec_cast, to = integer())
+  # Common length recycling
+  lst <- lapply(lst, vec_recycle, size = max(unlist(lapply(lst, length))))
+  # Check the granularities are valid
+  calendar$validate_granularities(lst)
+  # Convert to RD
+  rd <- calendar$to_rd(lst)
+  # Create the new date object
+  new_calcalvec(rd, calendar)
+}
+
+#' @export
 as_date.calcalvec <- function(date, calendar) {
   new_calcalvec(trunc(vec_data(date)), calendar)
 }
@@ -101,30 +125,15 @@ as_date.default <- function(date, calendar) {
   stop("Cannot convert to date")
 }
 
+#' @export
+as.list.calcalvec <- function(x, ...) {
+  attributes(x)$calendar$from_rd(x)
+}
+
 #' @rdname new_date
 #' @export
 new_date <- function(..., calendar) {
-  grans <- list(...)
-  # Set up empty granularities with correct names
-  if (length(grans) == 0L) {
-    grans <- lapply(granularities(calendar), function(x) vector("integer"))
-    names(grans) <- granularities(calendar)
-  }
-  # Check arguments are valid granularities
-  if (any(!(names(grans) %in% granularities(calendar)))) {
-    invalid_grans <- names(grans)[!(names(grans) %in% granularities(calendar))]
-    stop(paste("Invalid granularities:", paste(invalid_grans, collapse = ", ")))
-  }
-  # Convert to integers
-  lst <- lapply(grans, vec_cast, to = integer())
-  # Common length recycling
-  lst <- lapply(lst, vec_recycle, size = max(unlist(lapply(lst, length))))
-  # Check the granularities are valid
-  calendar$validate_granularities(lst)
-  # Convert to RD
-  rd <- calendar$to_rd(lst)
-  # Create the new date object
-  new_calcalvec(rd, calendar)
+  as_date(list(...), calendar)
 }
 
 new_calcalvec <- function(rd = integer(), calendar = cal_gregorian) {
