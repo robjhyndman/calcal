@@ -14,6 +14,7 @@ DOUBLE_BRIGHT <- 3 # Lichun occurs twice (double-happiness)
 check_chinese <- function(date) {}
 
 chinese_from_fixed <- function(date) {
+  date <- vec_data(date)
   s1 <- chinese_winter_solstice_on_or_before(date) # Prior solstice
   s2 <- chinese_winter_solstice_on_or_before(s1 + 370) # Following solstice
   m12 <- chinese_new_moon_on_or_after(s1 + 1) # Month after last 11th month
@@ -39,12 +40,12 @@ chinese_from_fixed <- function(date) {
 
   # Approximate since the epoch
   elapsed_years <- floor(
-    1.5 + month / 12 + (vec_data(date) - CHINESE_EPOCH) / MEAN_TROPICAL_YEAR
+    1.5 - month / 12 + (date - CHINESE_EPOCH) / MEAN_TROPICAL_YEAR
   )
 
   cycle <- 1 + (elapsed_years - 1) %/% 60
   year <- amod(elapsed_years, 60)
-  day <- trunc(1 + vec_data(date) - m)
+  day <- trunc(1 + date - m)
 
   list(
     cycle = cycle,
