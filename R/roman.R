@@ -20,6 +20,12 @@ check_roman <- function(args) {
   if (any(event < 1 | event > 3, na.rm = TRUE)) {
     stop("`event` must be between 1 and 3")
   }
+  if (any(leap)) {
+    # Check the date is really a leap day
+    if (any(month[leap] != 3 | event[leap] != KALENDS | count[leap] != 6)) {
+      stop("`leap` must be a leap day (6 Kalends March)")
+    }
+  }
   # if (any(count < 1 | count > 19, na.rm = TRUE)) {
   #  stop("`count` must be between 1 and 19")
   # }
@@ -37,7 +43,10 @@ format_roman <- function(x, ...) {
   output <- trimws(paste(prefix, days, event))
   output <- gsub("  ", " ", output)
   output <- gsub(" ", "_", output)
-  paste(lst$year, month.abb[lst$month], output, sep = "-")
+  out <- paste(lst$year, month.abb[lst$month], output, sep = "-")
+  leap_days <- lst$leap
+  out[leap_days] <- paste0(out[leap_days], "*")
+  out
 }
 
 fixed_from_roman <- function(date, ...) {
@@ -58,7 +67,7 @@ fixed_from_roman <- function(date, ...) {
         date$count <= 16)
     ) +
     as.numeric(date$leap)
-    vec_data(rd)
+  vec_data(rd)
 }
 
 roman_from_fixed <- function(date, ...) {
@@ -142,12 +151,11 @@ cal_roman <- cal_calendar(
 #' )
 #' @export
 roman_date <- function(
-  year = integer(),
-  month = integer(),
-  event = integer(),
-  count = integer(),
-  leap = logical()
-) {
+    year = integer(),
+    month = integer(),
+    event = integer(),
+    count = integer(),
+    leap = logical()) {
   new_date(
     year = year,
     month = month,

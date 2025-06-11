@@ -25,14 +25,13 @@
 #'
 #' @export
 cal_calendar <- function(
-  name,
-  short_name,
-  granularities,
-  check_granularities,
-  format,
-  from_rd,
-  to_rd
-) {
+    name,
+    short_name,
+    granularities,
+    check_granularities,
+    format,
+    from_rd,
+    to_rd) {
   structure(
     list(
       name = name,
@@ -144,11 +143,23 @@ format.calcalvec <- function(x, ...) {
 # Leap years/months shown via asterisks
 format_date <- function(date, month_name = NULL) {
   parts <- attributes(date)$calendar$from_rd(date)
-  if("leap_year" %in% names(parts)) {
-    parts[["year"]] <- paste0(parts[["year"]], rep("*",parts[["leap_year"]]))
+  if ("leap" %in% names(parts)) {
+    parts[["year"]] <- as.character(parts[["leap"]])
+    parts[["year"]][parts[["leap"]]] <- paste0(
+      parts[["year"]][parts[["leap"]]], "*"
+    )
   }
-  if("leap_month" %in% names(parts)) {
-    parts[["month"]] <- paste0(parts[["month"]], rep("*",parts[["leap_month"]]))
+  if ("leap_year" %in% names(parts)) {
+    parts[["year"]] <- as.character(parts[["leap_year"]])
+    parts[["year"]][parts[["leap_year"]]] <- paste0(
+      parts[["year"]][parts[["leap_year"]]], "*"
+    )
+  }
+  if ("leap_month" %in% names(parts)) {
+    parts[["month"]] <- as.character(parts[["month"]])
+    parts[["month"]][parts[["leap_month"]]] <- paste0(
+      parts[["month"]][parts[["leap_month"]]], "*"
+    )
   }
   # Drop leap year and leap Month
   parts <- parts[!(names(parts) %in% c("leap_year", "leap_month"))]
