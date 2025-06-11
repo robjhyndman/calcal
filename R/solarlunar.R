@@ -376,7 +376,7 @@ estimate_prior_solar_longitude <- function(lambda, tee) {
   cap_Delta <- mod3(solar_longitude(tau) - lambda, -180, 180)
 
   # Return minimum of tee and adjusted tau
-  min(tee, tau - (rate * cap_Delta))
+  pmin(tee, tau - (rate * cap_Delta))
 }
 
 # Lunar functions
@@ -1046,30 +1046,26 @@ new_moon_before <- function(tee) {
   t0 <- nth_new_moon(0)
   phi <- lunar_phase(tee)
   n <- round((tee - t0) / MEAN_SYNODIC_MONTH - phi / 360)
-  output <- mapply(
-    function(n, t) {
-      final_value(n - 1, function(k) nth_new_moon(k) < t)
-    },
-    n = n,
-    t = tee,
-    SIMPLIFY = TRUE
-  )
-  output
+  nnm <- nth_new_moon(n)
+  while(any(nnm >= tee)) {
+    j <- which(nnm >= tee)
+    n[j] <- n[j] + 1
+    nnm[j] <- nth_new_moon(n[j])
+  }
+  n
 }
 
 new_moon_at_or_after <- function(tee) {
   t0 <- nth_new_moon(0)
   phi <- lunar_phase(tee)
   n <- round((tee - t0) / MEAN_SYNODIC_MONTH - phi / 360)
-  output <- mapply(
-    function(n, t) {
-      next_value(n, function(k) nth_new_moon(k) >= t)
-    },
-    n = n,
-    t = tee,
-    SIMPLIFY = TRUE
-  )
-  output
+  nnm <- nth_new_moon(n)
+  while(any(nnm < tee)) {
+    j <- which(nnm < tee)
+    n[j] <- n[j] + 1
+    nnm[j] <- nth_new_moon(n[j])
+  }
+  n
 }
 
 lunar_phase_at_or_before <- function(phi, tee) {
