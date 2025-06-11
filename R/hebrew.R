@@ -19,7 +19,6 @@ ADARII <- 13
 
 HEBREW_EPOCH <- -1373427 # vec_data(julian_date(bce(3761), OCTOBER, 7))
 
-
 validate_hebrew <- function(args) {
   year <- args$year
   month <- args$month

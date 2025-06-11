@@ -6,11 +6,6 @@ CHINESE_EPOCH <- -963099 # vec_data(gregorian_date(-2636, FEBRUARY, 15))
 CHINESE_MONTH_NAME_EPOCH <- 57
 CHINESE_DAY_NAME_EPOCH <- 45
 
-WIDOW <- 0 # Lichun does not occur (double-blind year)
-BLIND <- 1 # Lichun occurs once at the end
-BRIGHT <- 2 # Lichun occurs once at the start
-DOUBLE_BRIGHT <- 3 # Lichun occurs twice (double-happiness)
-
 validate_chinese <- function(date) {}
 
 chinese_from_fixed <- function(date) {
@@ -129,11 +124,12 @@ cal_chinese <- cal_calendar(
 #' as_chinese(Sys.Date())
 #' @export
 chinese_date <- function(
-    cycle = integer(),
-    year = integer(),
-    month = integer(),
-    leap_month = logical(),
-    day = integer()) {
+  cycle = integer(),
+  year = integer(),
+  month = integer(),
+  leap_month = logical(),
+  day = integer()
+) {
   new_date(
     cycle = cycle,
     year = year,
@@ -223,7 +219,6 @@ chinese_new_moon_on_or_after <- function(date) {
   tee <- nth_new_moon(nm)
   floor(standard_from_universal(tee, chinese_location(tee)))
 }
-
 
 chinese_no_major_solar_term <- function(date) {
   current_major_solar_term(date) ==
@@ -354,13 +349,11 @@ chinese_year_name <- function(year) {
   chinese_sexagesimal_name(year)
 }
 
-
 chinese_month_name <- function(month, year) {
   elapsed_months <- 12 * (year - 1) + (month - 1)
 
   chinese_sexagesimal_name(elapsed_months - CHINESE_MONTH_NAME_EPOCH)
 }
-
 
 chinese_day_name <- function(date) {
   chinese_sexagesimal_name(date - CHINESE_DAY_NAME_EPOCH)
@@ -399,6 +392,10 @@ chinese_age <- function(birthdate, date) {
   60 * (today$cycle - birthdate_ch$cycle) + (today$year - birthdate_ch$year) + 1
 }
 
+WIDOW <- 0 # Lichun does not occur (double-blind year)
+BLIND <- 1 # Lichun occurs once at the end
+BRIGHT <- 2 # Lichun occurs once at the start
+DOUBLE_BRIGHT <- 3 # Lichun occurs twice (double-happiness)
 
 chinese_year_marriage_augury <- function(cycle, year) {
   new_year <- fixed_from_chinese(chinese_date(cycle, year, 1, FALSE, 1))

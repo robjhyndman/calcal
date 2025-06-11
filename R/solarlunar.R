@@ -8,7 +8,6 @@ FIRST_QUARTER <- deg(90) # First quarter moon
 FULL <- deg(180) # Full moon
 LAST_QUARTER <- deg(270) # Last quarter moon
 
-
 universal_from_dynamical <- function(tee) {
   tee - ephemeris_correction(tee)
 }

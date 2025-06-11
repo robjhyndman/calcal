@@ -151,11 +151,12 @@ cal_roman <- cal_calendar(
 #' )
 #' @export
 roman_date <- function(
-    year = integer(),
-    month = integer(),
-    event = integer(),
-    count = integer(),
-    leap = logical()) {
+  year = integer(),
+  month = integer(),
+  event = integer(),
+  count = integer(),
+  leap = logical()
+) {
   new_date(
     year = year,
     month = month,

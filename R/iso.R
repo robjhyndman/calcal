@@ -27,7 +27,6 @@ iso_from_fixed <- function(date, ...) {
   list(year = year, week = week, day = day)
 }
 
-
 #' @rdname cal_calendar
 #' @format NULL
 #' @export

@@ -12,10 +12,11 @@
 #' @export
 # Differs from original code as zone is in hours, not days
 location <- function(
-    latitude = numeric(),
-    longitude = numeric(),
-    elevation = numeric(),
-    zone = numeric()) {
+  latitude = numeric(),
+  longitude = numeric(),
+  elevation = numeric(),
+  zone = numeric()
+) {
   lst <- vec_cast_common(
     latitude = latitude,
     longitude = longitude,

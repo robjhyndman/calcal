@@ -25,13 +25,14 @@
 #'
 #' @export
 cal_calendar <- function(
-    name,
-    short_name,
-    granularities,
-    validate_granularities,
-    format,
-    from_rd,
-    to_rd) {
+  name,
+  short_name,
+  granularities,
+  validate_granularities,
+  format,
+  from_rd,
+  to_rd
+) {
   structure(
     list(
       name = name,
@@ -130,6 +131,12 @@ as.list.calcalvec <- function(x, ...) {
   attributes(x)$calendar$from_rd(x)
 }
 
+#' @export
+as.Date.calcalvec <- function(x, ...) {
+  gdate <- cal_gregorian$from_rd(x)
+  as.Date(apply(as.data.frame(gdate), 1, paste, collapse = "-"))
+}
+
 #' @rdname new_date
 #' @export
 new_date <- function(..., calendar) {
@@ -155,19 +162,22 @@ format_date <- function(date, month_name = NULL) {
   if ("leap" %in% names(parts)) {
     parts[["year"]] <- as.character(parts[["leap"]])
     parts[["year"]][parts[["leap"]]] <- paste0(
-      parts[["year"]][parts[["leap"]]], "*"
+      parts[["year"]][parts[["leap"]]],
+      "*"
     )
   }
   if ("leap_year" %in% names(parts)) {
     parts[["year"]] <- as.character(parts[["leap_year"]])
     parts[["year"]][parts[["leap_year"]]] <- paste0(
-      parts[["year"]][parts[["leap_year"]]], "*"
+      parts[["year"]][parts[["leap_year"]]],
+      "*"
     )
   }
   if ("leap_month" %in% names(parts)) {
     parts[["month"]] <- as.character(parts[["month"]])
     parts[["month"]][parts[["leap_month"]]] <- paste0(
-      parts[["month"]][parts[["leap_month"]]], "*"
+      parts[["month"]][parts[["leap_month"]]],
+      "*"
     )
   }
   # Drop leap year and leap Month
@@ -184,7 +194,6 @@ format_date <- function(date, month_name = NULL) {
     paste(x, collapse = "-")
   })
 }
-
 
 #' @export
 vec_cast.calcalvec.calcalvec <- function(x, to, ...) x
@@ -236,10 +245,4 @@ vec_ptype_abbr.calcalvec <- function(x, ...) {
 obj_print_header.calcalvec <- function(x, ...) {
   class(x) <- c(attributes(x)$calendar$name, class(x))
   NextMethod()
-}
-
-#' @export
-as.Date.calcalvec <- function(x, ...) {
-  gdate <- cal_gregorian$from_rd(x)
-  as.Date(apply(as.data.frame(gdate), 1, paste, collapse = "-"))
 }

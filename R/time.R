@@ -2,7 +2,6 @@
 MORNING <- TRUE
 EVENING <- FALSE
 
-
 #' Time of day
 #'
 #' Create a time object
@@ -13,9 +12,10 @@ EVENING <- FALSE
 #' @return A time vector object
 #' @export
 time_of_day <- function(
-    hour = integer(),
-    minute = integer(),
-    second = numeric()) {
+  hour = integer(),
+  minute = integer(),
+  second = numeric()
+) {
   lst <- vec_cast_common(
     hour = hour,
     minute = minute,

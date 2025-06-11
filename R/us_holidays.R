@@ -64,5 +64,7 @@ us_daylight_saving_end <- function(year) {
 unlucky_fridays <- function(year) {
   ab <- vec_data(gregorian_year_range(year))
   out <- as_gregorian(ab[1]:ab[2])
-  out[day_of_week(out, numeric = TRUE) == FRIDAY & granularity(out, "day") == 13]
+  out[
+    day_of_week(out, numeric = TRUE) == FRIDAY & granularity(out, "day") == 13
+  ]
 }

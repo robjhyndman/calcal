@@ -84,7 +84,6 @@ gregorian_from_fixed <- function(date, ...) {
   list(year = year, month = month, day = day)
 }
 
-
 #' @rdname cal_calendar
 #' @format NULL
 #' @export
@@ -119,9 +118,10 @@ cal_gregorian <- cal_calendar(
 #' @rdname gregorian
 #' @export
 gregorian_date <- function(
-    year = integer(),
-    month = integer(),
-    day = integer()) {
+  year = integer(),
+  month = integer(),
+  day = integer()
+) {
   new_date(year = year, month = month, day = day, calendar = cal_gregorian)
 }
 
@@ -208,10 +208,11 @@ gregorian_year_range <- function(g_year) {
 #' @rdname gregorian-parts
 #' @export
 day_of_week <- function(
-    date,
-    numeric = FALSE,
-    first_day = "Monday",
-    abbreviate = FALSE) {
+  date,
+  numeric = FALSE,
+  first_day = "Monday",
+  abbreviate = FALSE
+) {
   dow <- day_of_week_from_fixed(date) + 1
   if (numeric) {
     first_day <- pmatch(
