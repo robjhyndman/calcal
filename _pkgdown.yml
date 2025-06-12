@@ -47,6 +47,10 @@ reference:
       - week_of_year
       - month_of_year
       - year
+  - title: Bahai calendar
+    contents:
+      - bahai_date
+      - as_bahai
   - title: Chinese calendar
     contents:
       - chinese_date
@@ -84,6 +88,7 @@ reference:
       - rosh_hashanah
       - ramadan
       - chinese_new_year
+      - bahai_new_year
   - title: Granularities
     contents:
       - granularity

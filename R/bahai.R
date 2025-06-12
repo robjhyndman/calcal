@@ -5,7 +5,17 @@
 BAHAI_EPOCH <- 673222 # as.numeric(gregorian_date(1844, MARCH, 21))
 AYYAM_I_HA <- 0 # Signifies intercalary period of 4 or 5 days
 
-validate_bahai <- function(date) {}
+validate_bahai <- function(date) {
+  if (any(date$year < 1 | date$year > 19)) {
+    stop("Year must be between 1 and 19")
+  }
+  if (any(date$month < 0 | date$month > 19)) {
+    stop("Month must be between 0 and 19")
+  }
+  if (any(date$day < 1 | date$day > 24)) {
+    stop("Day must be between 1 and 24")
+  }
+}
 
 fixed_from_bahai <- function(date) {
   g_year <- 361 *
@@ -24,8 +34,8 @@ fixed_from_bahai <- function(date) {
   # 18 months have elapsed
   out[case1] <- out[case1] + 342
   # Last month of year. Either a long ayyam-i-ha or an ordinary ayyam-i-ha
-  out[case2] <- out[case2] + 346 + gregorian_leap_year(g_year + 1)
-  out[case3] <- out[case3] + (date$month - 1) * 19
+  out[case2] <- out[case2] + 346 + gregorian_leap_year(g_year[case2] + 1)
+  out[case3] <- out[case3] + (date$month[case3] - 1) * 19
   # Add days
   out + date$day
 }
@@ -68,9 +78,9 @@ cal_bahai <- cal_calendar(
   fixed_from_bahai
 )
 
-#' Bahai dates
+#' Baháʼí dates
 #'
-#' The Bahai calendar is a solar calendar comprising 18 months, with four or five
+#' The Baháʼí calendar is a solar calendar used in the Baháʼí faith comprising 18 months, with four or five
 #' intercalary days each year. The New Year is at the northern Spring equinox,
 #' corresponding to 21 March on the Gregorian calendar.
 #'
@@ -81,7 +91,15 @@ cal_bahai <- cal_calendar(
 #' @param month A numeric vector of months
 #' @param day A numeric vector of days
 #' @return A bahai vector object
-
+#' @seealso [bahai_new_year]
+#' @examples
+#' tibble::tibble(
+#'  gregorian = gregorian_date(2025, 1, 1:31),
+#'  bahai = as_bahai(gregorian)
+#' )
+#' bahai_date(1, 10, 11, 20, 5)
+#' as_bahai("2016-01-01")
+#' as_bahai(Sys.Date())
 #' @export
 bahai_date <- function(major, cycle, year, month, day) {
   new_date(
@@ -108,6 +126,7 @@ as_bahai <- function(date) {
 #'
 #' @param year The year on the Gregorian calendar
 #' @return A vector of dates on the Gregorian calendar
+#' @seealso [bahai_date]
 #' @examples
 #' tibble::tibble(
 #'   year = 2025:2030,

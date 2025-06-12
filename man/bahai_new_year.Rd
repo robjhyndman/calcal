@@ -33,3 +33,6 @@ tibble::tibble(
   birth_bab = birth_of_the_bab(year)
 )
 }
+\seealso{
+\link{bahai_date}
+}

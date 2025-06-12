@@ -3,7 +3,7 @@
 \name{bahai_date}
 \alias{bahai_date}
 \alias{as_bahai}
-\title{Bahai dates}
+\title{Baháʼí dates}
 \usage{
 bahai_date(major, cycle, year, month, day)
 
@@ -26,7 +26,19 @@ as_bahai(date)
 A bahai vector object
 }
 \description{
-The Bahai calendar is a solar calendar comprising 18 months, with four or five
+The Baháʼí calendar is a solar calendar used in the Baháʼí faith comprising 18 months, with four or five
 intercalary days each year. The New Year is at the northern Spring equinox,
 corresponding to 21 March on the Gregorian calendar.
+}
+\examples{
+tibble::tibble(
+ gregorian = gregorian_date(2025, 1, 1:31),
+ bahai = as_bahai(gregorian)
+)
+bahai_date(1, 10, 11, 20, 5)
+as_bahai("2016-01-01")
+as_bahai(Sys.Date())
+}
+\seealso{
+\link{bahai_new_year}
 }
