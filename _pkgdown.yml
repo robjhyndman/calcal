@@ -51,6 +51,12 @@ reference:
     contents:
       - chinese_date
       - as_chinese
+  - title: Coptic and Ethiopic calendars
+    contents:
+      - coptic_date
+      - ethiopic_date
+      - as_coptic
+      - as_ethiopic
   - title: Hebrew calendar
     contents:
       - hebrew_date
