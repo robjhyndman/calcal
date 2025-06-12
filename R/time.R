@@ -85,6 +85,7 @@ as_time_of_day.numeric <- function(x, ...) {
   time_of_day(h, m, s)
 }
 
+
 #' @export
 as_time_of_day.calcalvec <- function(x, ...) {
   as_time_of_day(vec_data(x))
@@ -103,14 +104,11 @@ as_time_of_day.POSIXlt <- function(x, ...) {
 #' @export
 vec_ptype2.time_of_day.time_of_day <- function(x, y, ...) time_of_day()
 
-hour <- function(clock) {
-  field(clock, "hour")
-}
 
-minute <- function(clock) {
-  field(clock, "minute")
-}
-
-seconds <- function(clock) {
-  field(clock, "second")
+#' @export
+vec_cast.double.time_of_day <- function(x, ...) {
+  hour <- field(x, "hour")
+  minute <- field(x, "minute")
+  second <- field(x, "second")
+  hour + minute / 60 + second / 3600
 }
