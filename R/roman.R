@@ -32,7 +32,7 @@ validate_roman <- function(args) {
 }
 
 format_roman <- function(x, ...) {
-  lst <- attributes(x)$calendar$from_rd(x)
+  lst <- base_granularities(x)
   event <- c("Kalends", "Nones", "Ides")[lst$event]
   count <- lst$count
   prefix <- rep("ad", length(count))

@@ -27,7 +27,7 @@ validate_julian <- function(args) {
 
 # Register format method for julian_date
 format_julian <- function(x, ...) {
-  lst <- attributes(x)$calendar$from_rd(x)
+  lst <- base_granularities(x)
   paste(
     sprintf("%.2d", lst$year),
     month.abb[lst$month],

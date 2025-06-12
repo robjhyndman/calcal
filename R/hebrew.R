@@ -317,7 +317,7 @@ hebrew_birthday <- function(birthdate, h_year) {
     birthdate <- as_gregorian(birthdate)
   }
 
-  lst <- attributes(birthdate)$calendar$from_rd(birthdate)
+  lst <- base_granularities(birthdate)
   birth_day <- lst$day
   birth_month <- lst$month
   birth_year <- lst$year
@@ -340,7 +340,7 @@ hebrew_birthday_in_gregorian <- function(birthdate, g_year) {
 }
 
 yahrzeit <- function(death_date, h_year) {
-  lst <- attributes(death_date)$calendar$from_rd(death_date)
+  lst <- base_granularities(death_date)
   death_day <- lst$day
   death_month <- lst$month
   death_year <- lst$year

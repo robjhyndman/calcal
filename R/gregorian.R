@@ -251,7 +251,7 @@ day_of_week <- function(
 #' @rdname gregorian-parts
 #' @export
 day_of_month <- function(date) {
-  if (!("month" %in% granularities(date))) {
+  if (!("month" %in% granularity_names(date))) {
     stop("Date must contain months")
   }
   granularity(date, "day")
@@ -263,12 +263,11 @@ day_of_month <- function(date) {
 # Called day_number in CC book and code
 # Rewritten to work for any calendar with year granularity
 day_of_year <- function(date) {
-  gran <- attributes(date)$calendar$granularities
+  gran <- granularity_names(date)
   if (!("year" %in% gran)) {
     stop("Date must contain years")
   }
-  date0 <- date
-  date0 <- attributes(date)$calendar$from_rd(date)
+  date0 <- base_granularities(date)
   for (f in gran[gran != "year"]) {
     date0[[f]] <- rep(1, length(date))
   }
@@ -279,12 +278,11 @@ day_of_year <- function(date) {
 #' @rdname gregorian-parts
 #' @export
 days_remaining <- function(date) {
-  gran <- attributes(date)$calendar$granularities
+  gran <- granularity_names(date)
   if (!("year" %in% gran)) {
     stop("Date must contain years")
   }
-  date0 <- date
-  date0 <- attributes(date)$calendar$from_rd(date)
+  date0 <- base_granularities(date)
   date0[["year"]] <- date0[["year"]] + 1
   for (f in gran[gran != "year"]) {
     date0[[f]] <- rep(1, length(date))

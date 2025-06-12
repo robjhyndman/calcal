@@ -9,15 +9,15 @@
 #' @param granularity A character string indicating the granularity to extract
 #' @rdname granularities
 #' @examples
-#' granularities(cal_iso)
-#' granularities(cal_gregorian)
+#' granularity_names(cal_iso)
+#' granularity_names(cal_gregorian)
 #' date_iso <- new_date(year = 2025, week = 23, day = 2, calendar = cal_iso)
 #' granularity(date_iso, "week")
 #' date_gregorian <- new_date(year = 2025, month = 1, day = 1, calendar = cal_gregorian)
 #' granularity(date_gregorian, "month")
 #' @seealso \code{\link{week_of_year}} for some non-canonical granularities.
 #' @export
-granularities <- function(calendar) {
+granularity_names <- function(calendar) {
   if (inherits(calendar, "calcalvec")) {
     attributes(calendar)$calendar$granularities
   } else if (inherits(calendar, "calcal")) {
@@ -30,6 +30,5 @@ granularities <- function(calendar) {
 #' @rdname granularities
 #' @export
 granularity <- function(date, granularity) {
-  lst <- attributes(date)$calendar$from_rd(date)
-  lst[[granularity]]
+  base_granularities(date)[[granularity]]
 }

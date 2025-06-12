@@ -81,7 +81,7 @@ reference:
   - title: Granularities
     contents:
       - granularity
-      - granularities
+      - granularity_names
   - title: Time of day
     contents:
       - time_of_day

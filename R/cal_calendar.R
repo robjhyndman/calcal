@@ -54,7 +54,7 @@ print.calcal <- function(x, ...) {
     x$name,
     "\n",
     "Granularities: ",
-    paste(x$granularities, collapse = ", "),
+    paste(granularity_names(x), collapse = ", "),
     "\n",
     sep = ""
   )
@@ -89,14 +89,15 @@ as_date.Date <- function(date, calendar) {
 
 #' @export
 as_date.list <- function(date, calendar) {
+  gnames <- granularity_names(calendar)
   # Set up empty granularities with correct names
   if (length(date) == 0L) {
-    date <- lapply(granularities(calendar), function(x) vector("integer"))
-    names(date) <- granularities(calendar)
+    date <- lapply(gnames, function(x) vector("integer"))
+    names(date) <- gnames
   }
   # Check arguments are valid granularities
-  if (any(!(names(date) %in% granularities(calendar)))) {
-    invalid_grans <- names(date)[!(names(date) %in% granularities(calendar))]
+  if (any(!(names(date) %in% gnames))) {
+    invalid_grans <- names(date)[!(names(date) %in% gnames)]
     stop(paste("Invalid granularities:", paste(invalid_grans, collapse = ", ")))
   }
   # Convert to integers
@@ -126,15 +127,24 @@ as_date.default <- function(date, calendar) {
   stop("Cannot convert to date")
 }
 
+base_granularities <- function(date) {
+  attributes(date)$calendar$from_rd(date)
+}
+
 #' @export
 as.list.calcalvec <- function(x, ...) {
-  attributes(x)$calendar$from_rd(x)
+  base_granularities(x)
+}
+
+#' @export
+as.data.frame.calcalvec <- function(x, ...) {
+  as.data.frame(base_granularities(x))
 }
 
 #' @export
 as.Date.calcalvec <- function(x, ...) {
-  gdate <- cal_gregorian$from_rd(x)
-  as.Date(apply(as.data.frame(gdate), 1, paste, collapse = "-"))
+  gdate <- as.data.frame(cal_gregorian$from_rd(x))
+  as.Date(apply(gdate, 1, paste, collapse = "-"))
 }
 
 #' @rdname new_date
@@ -158,7 +168,7 @@ format.calcalvec <- function(x, ...) {
 # Everything else is shown as an integer
 # Leap years/months shown via asterisks
 format_date <- function(date, month_name = NULL) {
-  parts <- attributes(date)$calendar$from_rd(date)
+  parts <- base_granularities(date)
   if ("leap" %in% names(parts)) {
     parts[["year"]] <- as.character(parts[["leap"]])
     parts[["year"]][parts[["leap"]]] <- paste0(

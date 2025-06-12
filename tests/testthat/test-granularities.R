@@ -1,9 +1,9 @@
 test_that("granularities", {
   date <- as.Date("2025-04-26") + 1:7
-  expect_equal(granularities(as_iso(date)), c("year", "week", "day"))
-  expect_equal(granularities(as_gregorian(date)), c("year", "month", "day"))
+  expect_equal(granularity_names(as_iso(date)), c("year", "week", "day"))
+  expect_equal(granularity_names(as_gregorian(date)), c("year", "month", "day"))
   expect_equal(
-    granularities(as_roman(date)),
+    granularity_names(as_roman(date)),
     c("year", "month", "event", "count", "leap")
   )
   expect_equal(granularity(as_iso(date), "week"), c(17, rep(18, 6)))
