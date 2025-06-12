@@ -22,7 +22,9 @@ as_gregorian(date)
 A gregorian vector object
 }
 \description{
-Gregorian calendar dates
+The Gregorian calendar is the standard calendar used by most of the world. It
+was named for Pope Gregory XIII who introduced it in 1582. It is a modification
+of the Julian calendar which was in use at the time.
 }
 \examples{
 new_date(year = 2025, month = 3, day = 2:4, calendar = cal_gregorian)

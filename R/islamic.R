@@ -67,6 +67,11 @@ cal_islamic <- cal_calendar(
 
 #' Islamic dates
 #'
+#' The Islamic (or Hijri) calendar is a lunar calendar comprising 12
+#' lunar months in a year of 354 or 355 days. It is widely used in
+#' for Islamic holidays, and in countries where the predominant
+#' religion is Islam.
+#'
 #' @examples
 #' islamic_date(2025, 5, 1:30)
 #' as_islamic("2016-01-01")

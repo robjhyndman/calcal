@@ -22,7 +22,11 @@ as_hebrew(date)
 A hebrew vector object
 }
 \description{
-Hebrew calendar dates
+The Hebrew (or Jewish) calendar is an official calendar of Israel, and is used
+for Jewish religious holidays. It is a lunisolar calendar comprising months of
+29 or 30 days, which begin and end at approximately the time of the new moon.
+An extra lunar month is added every 2 or 3 years, so the calendar has either 12
+or 13 months per year.
 }
 \examples{
 heb <- new_date(year = 5785, month = 3, day = 2:4, calendar = cal_hebrew)

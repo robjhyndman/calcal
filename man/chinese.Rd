@@ -18,7 +18,7 @@ as_chinese(date)
 \arguments{
 \item{cycle}{A numeric vector of cycles}
 
-\item{year}{A numeric vector of years}
+\item{year}{A numeric vector of years within the cycles}
 
 \item{month}{A numeric vector of months}
 
@@ -32,7 +32,7 @@ as_chinese(date)
 A chinese vector object
 }
 \description{
-Chinese dates
+The traditional Chinese lunisolar calendar uses a 60-year cycle with 12 months per year.
 }
 \examples{
 chinese <- new_date(

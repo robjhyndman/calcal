@@ -72,10 +72,13 @@ cal_ethiopic <- cal_calendar(
 #' Coptic and Ethoiopic dates
 #'
 #' These two calendars are identical apart from the starting point or epoch.
-#' The Coptic calendar starts on 29 August 284 CE in the Julian calendar,
-#' while the Ethiopian calendar starts on 29 August 8 CE in the Julian calendar.
-#' The Coptic calendar is used by the Coptic Orthodox Church and the Ethiopian
-#' calendar is used by the Ethiopian Orthodox Church. Both calendars have 13
+#' The Coptic calendar (also called the Alexandrian calendar) starts on
+#' 29 August 284 CE in the Julian calendar, while the Ethiopic (or Ethiopian)
+#' calendar starts on 29 August 8 CE in the Julian calendar.
+#' The Coptic calendar is used by the Coptic Orthodox and Coptic Catholic Churches,
+#' while the Ethiopic calendar is the official state calendar of Ethiopia, and
+#' unofficial calendar of Eritrea, and is
+#' used by the Ethiopian and Eritrean Orthodox Churches. Both calendars have 13
 #' months, with 12 months of 30 days and a 13th month of 5 or 6 days depending
 #' on whether it is a leap year. Leap years occur every 4 years.
 #'

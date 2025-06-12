@@ -20,9 +20,9 @@ as_roman(date)
 
 \item{month}{A numeric vector of months}
 
-\item{event}{A numeric vector of events: 1 = KALENDS, 2 = NONES, 3 = IDES}
+\item{event}{A numeric vector of events: 1 = Kalends, 2 = Nones, 3 = Ides}
 
-\item{count}{A numeric vector of counts:}
+\item{count}{A numeric vector of counts}
 
 \item{leap}{A logical vector indicating if year is a leap year}
 
@@ -32,7 +32,9 @@ as_roman(date)
 A roman vector object
 }
 \description{
-Roman calendar dates
+The Roman calendar (as defined here) is the same as the Julian calendar but with different
+nomenclature. Rather than use a (year, month, day) triple for each date, it
+specifies dates using year, month, event, count.
 }
 \examples{
 roman_date(66, 4, 1, 1, FALSE)

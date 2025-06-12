@@ -22,7 +22,10 @@ as_islamic(date)
 An islamic vector object
 }
 \description{
-Islamic dates
+The Islamic (or Hijri) calendar is a lunar calendar comprising 12
+lunar months in a year of 354 or 355 days. It is widely used in
+for Islamic holidays, and in countries where the predominant
+religion is Islam.
 }
 \examples{
 islamic_date(2025, 5, 1:30)

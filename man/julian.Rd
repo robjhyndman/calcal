@@ -22,7 +22,10 @@ as_julian(date)
 A julian vector object
 }
 \description{
-Julian dates
+The Julian calendar is the calendar used by the Roman Empire, and
+takes its name from Julius Caesar, who introduced it in 46 BC. It
+is still used as a religious calendar in parts of the Eastern
+Orthodox Church.
 }
 \examples{
 as_date("2016-01-01", calendar = cal_julian)

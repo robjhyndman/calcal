@@ -134,11 +134,15 @@ cal_roman <- cal_calendar(
 
 #' Roman calendar dates
 #'
+#' The Roman calendar (as defined here) is the same as the Julian calendar but with different
+#' nomenclature. Rather than use a (year, month, day) triple for each date, it
+#' specifies dates using year, month, event, count.
+#'
 #' @rdname roman
 #' @param year A numeric vector of years
 #' @param month A numeric vector of months
-#' @param event A numeric vector of events: 1 = KALENDS, 2 = NONES, 3 = IDES
-#' @param count A numeric vector of counts:
+#' @param event A numeric vector of events: 1 = Kalends, 2 = Nones, 3 = Ides
+#' @param count A numeric vector of counts
 #' @param leap A logical vector indicating if year is a leap year
 #' @return A roman vector object
 #' @seealso [cal_roman]

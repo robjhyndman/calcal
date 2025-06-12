@@ -22,7 +22,10 @@ HEBREW_EPOCH <- -1373427 # vec_data(julian_date(bce(3761), OCTOBER, 7))
 validate_hebrew <- function(date) {
   max_month <- last_month_of_hebrew_year(date$year)
   if (any(date$month > max_month)) {
-    stop(paste("Too many months in the year", date$year[date$month <= max_month]))
+    stop(paste(
+      "Too many months in the year",
+      date$year[date$month <= max_month]
+    ))
   }
   days_month <- last_day_of_hebrew_month(date$year, date$month)
   if (any(date$day > days_month)) {
@@ -128,6 +131,12 @@ cal_hebrew <- cal_calendar(
 )
 
 #' Hebrew calendar dates
+#'
+#' The Hebrew (or Jewish) calendar is an official calendar of Israel, and is used
+#' for Jewish religious holidays. It is a lunisolar calendar comprising months of
+#' 29 or 30 days, which begin and end at approximately the time of the new moon.
+#' An extra lunar month is added every 2 or 3 years, so the calendar has either 12
+#' or 13 months per year.
 #'
 #' @param year A numeric vector of years
 #' @param month A numeric vector of months

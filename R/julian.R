@@ -9,12 +9,17 @@ MJD_EPOCH <- 678576
 validate_julian <- function(date) {
   if (any(date$month < 1 | date$month > 12, na.rm = TRUE)) {
     stop("month must be between 1 and 12")
-  } else if (any(date$day > 30 & date$month %in% c(4, 6, 9, 11), na.rm = TRUE)) {
+  } else if (
+    any(date$day > 30 & date$month %in% c(4, 6, 9, 11), na.rm = TRUE)
+  ) {
     stop("day must be between 1 and 30")
   } else if (any(date$day > 29 & date$month == 2, na.rm = TRUE)) {
     stop("day must be between 1 and 29")
   } else if (
-    any(date$day > 28 & date$month == 2 & !julian_leap_year(date$year), na.rm = TRUE)
+    any(
+      date$day > 28 & date$month == 2 & !julian_leap_year(date$year),
+      na.rm = TRUE
+    )
   ) {
     stop("day must be between 1 and 28")
   } else if (any(date$day < 1 | date$day > 31, na.rm = TRUE)) {
@@ -78,6 +83,11 @@ cal_julian <- cal_calendar(
 )
 
 #' Julian dates
+#'
+#' The Julian calendar is the calendar used by the Roman Empire, and
+#' takes its name from Julius Caesar, who introduced it in 46 BC. It
+#' is still used as a religious calendar in parts of the Eastern
+#' Orthodox Church.
 #'
 #' @rdname julian
 #' @param year A numeric vector of years

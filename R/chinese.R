@@ -8,7 +8,9 @@ CHINESE_DAY_NAME_EPOCH <- 45
 
 validate_chinese <- function(date) {
   if (any(date$year < 1 | date$year > 60)) {
-    stop("year must be between 1 and 60 in the Chinese sexagenary cycle calendar")
+    stop(
+      "year must be between 1 and 60 in the Chinese sexagenary cycle calendar"
+    )
   }
   if (any(date$month < 1 | date$month > 12)) {
     stop("month must be between 1 and 12")
@@ -106,10 +108,12 @@ cal_chinese <- cal_calendar(
 )
 
 #' Chinese dates
-
+#'
+#' The traditional Chinese lunisolar calendar uses a 60-year cycle with 12 months per year.
+#'
 #' @rdname chinese
 #' @param cycle A numeric vector of cycles
-#' @param year A numeric vector of years
+#' @param year A numeric vector of years within the cycles
 #' @param month A numeric vector of months
 #' @param leap_month A logical vector indicating leap months
 #' @param day A numeric vector of days
@@ -134,11 +138,12 @@ cal_chinese <- cal_calendar(
 #' as_chinese(Sys.Date())
 #' @export
 chinese_date <- function(
-    cycle = integer(),
-    year = integer(),
-    month = integer(),
-    leap_month = logical(),
-    day = integer()) {
+  cycle = integer(),
+  year = integer(),
+  month = integer(),
+  leap_month = logical(),
+  day = integer()
+) {
   new_date(
     cycle = cycle,
     year = year,

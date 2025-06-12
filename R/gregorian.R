@@ -102,6 +102,10 @@ cal_gregorian <- cal_calendar(
 
 #' Gregorian calendar dates
 #'
+#' The Gregorian calendar is the standard calendar used by most of the world. It
+#' was named for Pope Gregory XIII who introduced it in 1582. It is a modification
+#' of the Julian calendar which was in use at the time.
+#'
 #' @param year A numeric vector of years
 #' @param month A numeric vector of months
 #' @param day A numeric vector of days
