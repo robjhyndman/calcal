@@ -2,7 +2,7 @@
 #'
 #' Generate a calendar object of class "calcal". Examples of calendars
 #' produced in this way include `cal_chinese`, `cal_gregorian`, `cal_hebrew`, `cal_islamic`,
-#' `cal_iso`, `cal_julian`, and `cal_roman`.
+#' and `cal_iso`.
 #'
 #' @param name Name of calendar
 #' @param short_name Short name of calendar

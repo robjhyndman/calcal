@@ -12,8 +12,9 @@ algorithms described in [Reingold and Dershowitz (2018) *Calendrical
 Calculations*, 4th edition, Cambridge University
 Press](https://doi.org/10.1017/9781107415058).
 
-It is a translation of the Lisp code produced by Reingold and Dershowitz
-for [Calendrica 4.0](https://github.com/EdReingold/calendar-code2).
+It is largely a translation of the Lisp code produced by Reingold and
+Dershowitz for [Calendrica
+4.0](https://github.com/EdReingold/calendar-code2).
 
 ## Installation
 
@@ -31,93 +32,93 @@ Dates in multiple calendars:
 
 ``` r
 library(calcal)
-tibble::tibble(
+library(tibble)
+library(tidyr)
+library(dplyr)
+#> 
+#> Attaching package: 'dplyr'
+#> The following object is masked from 'package:calcal':
+#> 
+#>     location
+#> The following objects are masked from 'package:stats':
+#> 
+#>     filter, lag
+#> The following objects are masked from 'package:base':
+#> 
+#>     intersect, setdiff, setequal, union
+tibble(
   Gregorian = gregorian_date(1990, 2, 20) + 1:10,
-  Islamic = as_islamic(Gregorian),
   ISO = as_iso(Gregorian),
-  Hebrew = as_hebrew(Gregorian),
-  Julian = as_julian(Gregorian),
-  Roman = as_roman(Gregorian)
+  Chinese = as_chinese(Gregorian),
+  Islamic = as_islamic(Gregorian),
+  Hebrew = as_hebrew(Gregorian)
 )
-#> # A tibble: 10 × 6
-#>      Gregorian     Islamic        ISO         Hebrew      Julian                    Roman
-#>          <Gre>       <Hij>      <ISO>          <Heb>       <Jul>                    <Rom>
-#>  1 1990-Feb-21 1410-Raj-25 1990-08-03 5750-Shevat-26 1990-Feb-08      1990-Feb-ad_vi_Ides
-#>  2 1990-Feb-22 1410-Raj-26 1990-08-04 5750-Shevat-27 1990-Feb-09       1990-Feb-ad_v_Ides
-#>  3 1990-Feb-23 1410-Raj-27 1990-08-05 5750-Shevat-28 1990-Feb-10      1990-Feb-ad_iv_Ides
-#>  4 1990-Feb-24 1410-Raj-28 1990-08-06 5750-Shevat-29 1990-Feb-11     1990-Feb-ad_iii_Ides
-#>  5 1990-Feb-25 1410-Raj-29 1990-08-07 5750-Shevat-30 1990-Feb-12     1990-Feb-pridie_Ides
-#>  6 1990-Feb-26 1410-Raj-30 1990-09-01   5750-Adar-01 1990-Feb-13            1990-Feb-Ides
-#>  7 1990-Feb-27 1410-Sha-01 1990-09-02   5750-Adar-02 1990-Feb-14  1990-Mar-ad_xvi_Kalends
-#>  8 1990-Feb-28 1410-Sha-02 1990-09-03   5750-Adar-03 1990-Feb-15   1990-Mar-ad_xv_Kalends
-#>  9 1990-Mar-01 1410-Sha-03 1990-09-04   5750-Adar-04 1990-Feb-16  1990-Mar-ad_xiv_Kalends
-#> 10 1990-Mar-02 1410-Sha-04 1990-09-05   5750-Adar-05 1990-Feb-17 1990-Mar-ad_xiii_Kalends
+#> # A tibble: 10 × 5
+#>      Gregorian        ISO    Chinese     Islamic         Hebrew
+#>          <Gre>      <ISO>      <Chi>       <Hij>          <Heb>
+#>  1 1990-Feb-21 1990-08-03 78-07-1-27 1410-Raj-25 5750-Shevat-26
+#>  2 1990-Feb-22 1990-08-04 78-07-1-28 1410-Raj-26 5750-Shevat-27
+#>  3 1990-Feb-23 1990-08-05 78-07-1-29 1410-Raj-27 5750-Shevat-28
+#>  4 1990-Feb-24 1990-08-06 78-07-1-30 1410-Raj-28 5750-Shevat-29
+#>  5 1990-Feb-25 1990-08-07 78-07-2-01 1410-Raj-29 5750-Shevat-30
+#>  6 1990-Feb-26 1990-09-01 78-07-2-02 1410-Raj-30   5750-Adar-01
+#>  7 1990-Feb-27 1990-09-02 78-07-2-03 1410-Sha-01   5750-Adar-02
+#>  8 1990-Feb-28 1990-09-03 78-07-2-04 1410-Sha-02   5750-Adar-03
+#>  9 1990-Mar-01 1990-09-04 78-07-2-05 1410-Sha-03   5750-Adar-04
+#> 10 1990-Mar-02 1990-09-05 78-07-2-06 1410-Sha-04   5750-Adar-05
 ```
 
-Some US holidays
+Some religious and cultural holidays
 
 ``` r
-c(
-  us_memorial_day(2025),
-  us_independence_day(2025),
-  us_labor_day(2025),
-  us_election_day(2025),
-  us_daylight_saving_start(2025),
-  us_daylight_saving_end(2025)
-)
-#> <gregorian[6]>
-#> [1] 2025-May-26 2025-Jul-04 2025-Sep-01 2025-Nov-04 2025-Mar-09 2025-Nov-02
-```
-
-Some Christian holidays
-
-``` r
-c(
-  easter(2025),
-  orthodox_easter(2025),
-  alt_orthodox_easter(2025),
-  pentecost(2025),
-  advent(2025),
-  christmas(2025),
-  epiphany(2026),
-  orthodox_christmas(2026)
-)
-#> <gregorian[8]>
-#> [1] 2025-Apr-20 2025-Apr-20 2025-Apr-20 2025-Jun-08 2025-Nov-30 2025-Dec-25 2026-Jan-04
-#> [8] 2026-Jan-07
-```
-
-Some Jewish holidays
-
-``` r
-c(
-  ta_anit_esther = ta_anit_esther(2025),
-  purim = purim(2025),
-  passover = passover(2025),
-  shavuot = shavuot(2025),
-  tishah_be_av = tishah_be_av(2025),
-  rosh_hashanah = rosh_hashanah(2025),
-  yom_kippur = yom_kippur(2025),
-  sukkot = sukkot(2025),
-  hanukkah = hanukkah(2025)
-)
-#> <gregorian[9]>
-#> ta_anit_esther          purim       passover        shavuot   tishah_be_av  rosh_hashanah 
-#>    2025-Mar-13    2025-Mar-14    2025-Apr-13    2025-Jun-02    2025-Aug-03    2025-Sep-23 
-#>     yom_kippur         sukkot       hanukkah 
-#>    2025-Oct-02    2025-Oct-07    2025-Dec-15
-```
-
-Some Islamic holidays
-
-``` r
-c(
-  islamic_new_year(2025),
-  mawlid(2025),
-  ramadan(2025),
-  eid_al_fitr(2025),
-  eid_al_adha(2025)
-)
-#> <gregorian[5]>
-#> [1] 2025-Jun-27 2025-Aug-07 2025-Mar-01 2025-Mar-31 2025-Jun-07
+tibble(
+  year = 2025:2029,
+  # Christian holidays
+  Easter = easter(year),
+  `Orthodox Easter` = orthodox_easter(year),
+  Christmas = christmas(year),
+  `Orthodox Christmas` = orthodox_christmas(year),
+  # Jewish holidays
+  `Rosh Hashanah` = rosh_hashanah(year),
+  Passover = passover(year),
+  `Yom Kippur` = yom_kippur(year),
+  Sukkot = sukkot(year),
+  Hanukkah = hanukkah(year),
+  # Islamic holidays
+  Ramadan = ramadan(year),
+  `Eid al-Fitr` = eid_al_fitr(year),
+  `Eid al-Adha` = eid_al_adha(year),
+  # Baháʼí holidays
+  `Birth of the Bab` = birth_of_the_bab(year),
+  `Naw Ruz` = naw_ruz(year),
+  `Feast of Ridvan` = feast_of_ridvan(year),
+  # Chinese Holidays
+  `Chinese New Year` = chinese_new_year(year),
+  `Dragon Festival` = dragon_festival(year),
+  `Qing Ming` = qing_ming(year)
+) |>
+  pivot_longer(-year) |>
+  pivot_wider(names_from = year, values_from = value) |>
+  arrange(`2025`)
+#> # A tibble: 18 × 6
+#>    name                    `2025`      `2026`      `2027`      `2028`      `2029`
+#>    <chr>                    <Gre>       <Gre>       <Gre>       <Gre>       <Gre>
+#>  1 Orthodox Christmas 2025-Jan-07 2026-Jan-07 2027-Jan-07 2028-Jan-07 2029-Jan-07
+#>  2 Chinese New Year   2025-Jan-29 2026-Feb-17 2027-Feb-06 2028-Jan-26 2029-Feb-13
+#>  3 Ramadan            2025-Mar-01 2026-Feb-18 2027-Feb-08 2028-Jan-28 2029-Jan-16
+#>  4 Naw Ruz            2025-Mar-20 2026-Mar-20 2027-Mar-21 2028-Mar-20 2029-Mar-20
+#>  5 Eid al-Fitr        2025-Mar-31 2026-Mar-20 2027-Mar-10 2028-Feb-27 2029-Feb-15
+#>  6 Qing Ming          2025-Apr-04 2026-Apr-04 2027-Apr-05 2028-Apr-04 2029-Apr-04
+#>  7 Passover           2025-Apr-13 2026-Apr-02 2027-Apr-22 2028-Apr-11 2029-Mar-31
+#>  8 Easter             2025-Apr-20 2026-Apr-05 2027-Mar-28 2028-Apr-16 2029-Apr-01
+#>  9 Orthodox Easter    2025-Apr-20 2026-Apr-12 2027-May-02 2028-Apr-16 2029-Apr-08
+#> 10 Feast of Ridvan    2025-Apr-20 2026-Apr-20 2027-Apr-21 2028-Apr-20 2029-Apr-20
+#> 11 Dragon Festival    2025-May-31 2026-Jun-19 2027-Jun-08 2028-May-28 2029-Jun-16
+#> 12 Eid al-Adha        2025-Jun-07 2026-May-27 2027-May-17 2028-May-05 2029-Apr-24
+#> 13 Rosh Hashanah      2025-Sep-23 2026-Sep-12 2027-Oct-02 2028-Sep-21 2029-Sep-10
+#> 14 Yom Kippur         2025-Oct-02 2026-Sep-21 2027-Oct-11 2028-Sep-30 2029-Sep-19
+#> 15 Sukkot             2025-Oct-07 2026-Sep-26 2027-Oct-16 2028-Oct-05 2029-Sep-24
+#> 16 Birth of the Bab   2025-Oct-22 2026-Nov-10 2027-Oct-30 2028-Oct-19 2029-Nov-07
+#> 17 Hanukkah           2025-Dec-15 2026-Dec-05 2027-Dec-25 2028-Dec-13 2029-Dec-02
+#> 18 Christmas          2025-Dec-25 2026-Dec-25 2027-Dec-25 2028-Dec-25 2029-Dec-25
 ```

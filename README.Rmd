@@ -23,7 +23,7 @@ options(width = 90)
 The goal of calcal is to do calendrical calculations, based on the algorithms described in [Reingold and
     Dershowitz (2018) *Calendrical Calculations*, 4th edition, Cambridge University Press](https://doi.org/10.1017/9781107415058).
 
-It is a translation of the Lisp code produced by Reingold and Dershowitz for [Calendrica 4.0](https://github.com/EdReingold/calendar-code2).
+It is largely a translation of the Lisp code produced by Reingold and Dershowitz for [Calendrica 4.0](https://github.com/EdReingold/calendar-code2).
 
 ## Installation
 
@@ -38,71 +38,50 @@ pak::pak("robjhyndman/calcal")
 
 Dates in multiple calendars:
 
-
 ```{r example}
 library(calcal)
-tibble::tibble(
+library(tibble)
+library(tidyr)
+library(dplyr)
+tibble(
   Gregorian = gregorian_date(1990, 2, 20) + 1:10,
-  Islamic = as_islamic(Gregorian),
   ISO = as_iso(Gregorian),
-  Hebrew = as_hebrew(Gregorian),
-  Julian = as_julian(Gregorian),
-  Roman = as_roman(Gregorian)
+  Chinese = as_chinese(Gregorian),
+  Islamic = as_islamic(Gregorian),
+  Hebrew = as_hebrew(Gregorian)
 )
 ```
 
-Some US holidays
+Some religious and cultural holidays
 
 ```{r holidays}
-c(
-  us_memorial_day(2025),
-  us_independence_day(2025),
-  us_labor_day(2025),
-  us_election_day(2025),
-  us_daylight_saving_start(2025),
-  us_daylight_saving_end(2025)
-)
-```
-
-Some Christian holidays
-
-```{r christian-holidays}
-c(
-  easter(2025),
-  orthodox_easter(2025),
-  alt_orthodox_easter(2025),
-  pentecost(2025),
-  advent(2025),
-  christmas(2025),
-  epiphany(2026),
-  orthodox_christmas(2026)
-)
-```
-
-Some Jewish holidays
-
-```{r jewish-holidays}
-c(
-  ta_anit_esther = ta_anit_esther(2025),
-  purim = purim(2025),
-  passover = passover(2025),
-  shavuot = shavuot(2025),
-  tishah_be_av = tishah_be_av(2025),
-  rosh_hashanah = rosh_hashanah(2025),
-  yom_kippur = yom_kippur(2025),
-  sukkot = sukkot(2025),
-  hanukkah = hanukkah(2025)
-)
-```
-
-Some Islamic holidays
-
-```{r islamic-holidays}
-c(
-  islamic_new_year(2025),
-  mawlid(2025),
-  ramadan(2025),
-  eid_al_fitr(2025),
-  eid_al_adha(2025)
-)
+tibble(
+  year = 2025:2029,
+  # Christian holidays
+  Easter = easter(year),
+  `Orthodox Easter` = orthodox_easter(year),
+  Christmas = christmas(year),
+  `Orthodox Christmas` = orthodox_christmas(year),
+  # Jewish holidays
+  `Rosh Hashanah` = rosh_hashanah(year),
+  Passover = passover(year),
+  `Yom Kippur` = yom_kippur(year),
+  Sukkot = sukkot(year),
+  Hanukkah = hanukkah(year),
+  # Islamic holidays
+  Ramadan = ramadan(year),
+  `Eid al-Fitr` = eid_al_fitr(year),
+  `Eid al-Adha` = eid_al_adha(year),
+  # Baháʼí holidays
+  `Birth of the Bab` = birth_of_the_bab(year),
+  `Naw Ruz` = naw_ruz(year),
+  `Feast of Ridvan` = feast_of_ridvan(year),
+  # Chinese Holidays
+  `Chinese New Year` = chinese_new_year(year),
+  `Dragon Festival` = dragon_festival(year),
+  `Qing Ming` = qing_ming(year)
+) |>
+  pivot_longer(-year) |>
+  pivot_wider(names_from = year, values_from = value) |>
+  arrange(`2025`)
 ```
