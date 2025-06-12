@@ -38,5 +38,5 @@ tibble::tibble(
 islamic_date(2025, 4, 19:30)
 }
 \seealso{
-\link{cal_islamic}
+\link{cal_islamic}, \link{ramadan}
 }

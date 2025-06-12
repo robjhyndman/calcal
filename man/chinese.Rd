@@ -53,5 +53,5 @@ as_chinese("2016-01-01")
 as_chinese(Sys.Date())
 }
 \seealso{
-\link{cal_chinese}
+\link{cal_chinese}, \link{chinese_new_year}
 }

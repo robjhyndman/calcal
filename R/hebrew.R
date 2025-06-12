@@ -142,7 +142,7 @@ cal_hebrew <- cal_calendar(
 #' @param month A numeric vector of months
 #' @param day A numeric vector of days
 #' @return A hebrew vector object
-#' @seealso [cal_hebrew]
+#' @seealso [cal_hebrew], [rosh_hashanah]
 #' @examples
 #' heb <- new_date(year = 5785, month = 3, day = 2:4, calendar = cal_hebrew)
 #' heb
@@ -252,6 +252,8 @@ fixed_from_molad <- function(moon) {
 #' Functions to return Gregorian dates for various Jewish holidays
 #'
 #' @param year A numeric vector of Gregorian years
+#' @seealso [hebrew_date]
+#' @return A vector of dates on the Gregorian calendar
 #' @examples
 #' tibble::tibble(
 #'   year = 2025:2030,

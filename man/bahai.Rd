@@ -35,10 +35,10 @@ tibble::tibble(
  gregorian = gregorian_date(2025, 1, 1:31),
  bahai = as_bahai(gregorian)
 )
-bahai_date(1, 10, 11, 20, 5)
+bahai_date(1, 10, 11, 3, 5)
 as_bahai("2016-01-01")
 as_bahai(Sys.Date())
 }
 \seealso{
-\link{bahai_new_year}
+\link{cal_bahai}, \link{bahai_new_year}
 }

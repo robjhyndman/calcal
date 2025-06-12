@@ -39,3 +39,6 @@ tibble::tibble(
 )
 ramadan(2030)
 }
+\seealso{
+\link{islamic_date}
+}

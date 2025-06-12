@@ -29,3 +29,6 @@ tibble::tibble(
   dragon_festival(year)
 )
 }
+\seealso{
+\link{chinese_date}
+}

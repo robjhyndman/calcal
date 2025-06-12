@@ -5,7 +5,7 @@
 \alias{naw_ruz}
 \alias{feast_of_ridvan}
 \alias{birth_of_the_bab}
-\title{Bahai holidays}
+\title{Baháʼí holidays}
 \usage{
 bahai_new_year(year)
 

@@ -15,7 +15,7 @@
 #' granularity(date_iso, "week")
 #' date_gregorian <- new_date(year = 2025, month = 1, day = 1, calendar = cal_gregorian)
 #' granularity(date_gregorian, "month")
-#' @seealso \code{\link{week_of_year}} for some non-canonical granularities.
+#' @seealso [week_of_year] for some non-canonical granularities.
 #' @export
 granularity_names <- function(calendar) {
   if (inherits(calendar, "calcalvec")) {

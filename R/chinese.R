@@ -118,7 +118,7 @@ cal_chinese <- cal_calendar(
 #' @param leap_month A logical vector indicating leap months
 #' @param day A numeric vector of days
 #' @return A chinese vector object
-#' @seealso [cal_chinese]
+#' @seealso [cal_chinese], [chinese_new_year]
 #' @examples
 #' chinese <- new_date(
 #'   cycle = 78, year = 42, month = 5, leap_month = FALSE, day = 16:18,
@@ -136,7 +136,6 @@ cal_chinese <- cal_calendar(
 #' as_chinese(gregorian_date(2025, 1, 1:28))
 #' as_chinese("2016-01-01")
 #' as_chinese(Sys.Date())
-#' @seealso chinese_new_year
 #' @export
 chinese_date <- function(
   cycle = integer(),

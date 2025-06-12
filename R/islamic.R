@@ -82,7 +82,7 @@ cal_islamic <- cal_calendar(
 #' )
 #' @examples
 #' islamic_date(2025, 4, 19:30)
-#' @seealso [cal_islamic]
+#' @seealso [cal_islamic], [ramadan]
 #' @rdname islamic
 #' @param year A numeric vector of years
 #' @param month A numeric vector of months
@@ -120,6 +120,7 @@ islamic_in_gregorian <- function(i_month, i_day, g_year) {
 #'
 #' @param year A numeric vector of Gregorian years
 #' @return A list of dates on the Gregorian calendar
+#' @seealso [islamic_date]
 #'
 #' @examples
 #' tibble::tibble(

@@ -91,13 +91,13 @@ cal_bahai <- cal_calendar(
 #' @param month A numeric vector of months
 #' @param day A numeric vector of days
 #' @return A bahai vector object
-#' @seealso [bahai_new_year]
+#' @seealso [cal_bahai], [bahai_new_year]
 #' @examples
 #' tibble::tibble(
 #'  gregorian = gregorian_date(2025, 1, 1:31),
 #'  bahai = as_bahai(gregorian)
 #' )
-#' bahai_date(1, 10, 11, 20, 5)
+#' bahai_date(1, 10, 11, 3, 5)
 #' as_bahai("2016-01-01")
 #' as_bahai(Sys.Date())
 #' @export
@@ -120,7 +120,7 @@ as_bahai <- function(date) {
   as_date(date, calendar = cal_bahai)
 }
 
-#' Bahai holidays
+#' Baháʼí holidays
 #'
 #' Dates are returned as Gregorian dates
 #'

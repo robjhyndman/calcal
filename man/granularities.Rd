@@ -30,5 +30,5 @@ date_gregorian <- new_date(year = 2025, month = 1, day = 1, calendar = cal_grego
 granularity(date_gregorian, "month")
 }
 \seealso{
-\code{\link{week_of_year}} for some non-canonical granularities.
+\link{week_of_year} for some non-canonical granularities.
 }

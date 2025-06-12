@@ -33,6 +33,9 @@ shavuot(year)
 \arguments{
 \item{year}{A numeric vector of Gregorian years}
 }
+\value{
+A vector of dates on the Gregorian calendar
+}
 \description{
 Functions to return Gregorian dates for various Jewish holidays
 }
@@ -49,4 +52,7 @@ tibble::tibble(
   sukkot = sukkot(year),
   hanukkah = hanukkah(year)
 )
+}
+\seealso{
+\link{hebrew_date}
 }

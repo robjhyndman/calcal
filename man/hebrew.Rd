@@ -44,5 +44,5 @@ as_hebrew("2016-01-01")
 as_hebrew(Sys.Date())
 }
 \seealso{
-\link{cal_hebrew}
+\link{cal_hebrew}, \link{rosh_hashanah}
 }
