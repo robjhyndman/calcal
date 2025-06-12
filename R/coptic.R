@@ -87,7 +87,7 @@ cal_ethiopic <- cal_calendar(
 #' @param month A numeric vector of months
 #' @param day A numeric vector of days
 #' @return A coptic vector object
-#' @seealso [cal_coptic], [cal_ethiopic]
+#' @seealso [cal_coptic], [cal_ethiopic], [coptic_christmas]
 #' @examples
 #' tibble::tibble(
 #'  gregorian = gregorian_date(2025, 1, 1:31),

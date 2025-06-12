@@ -136,6 +136,7 @@ cal_chinese <- cal_calendar(
 #' as_chinese(gregorian_date(2025, 1, 1:28))
 #' as_chinese("2016-01-01")
 #' as_chinese(Sys.Date())
+#' @seealso chinese_new_year
 #' @export
 chinese_date <- function(
   cycle = integer(),
@@ -295,6 +296,7 @@ chinese_new_year_on_or_before <- function(date) {
 #'   qing_ming(year),
 #'   dragon_festival(year)
 #' )
+#' @seealso [chinese_date]
 #' @export
 chinese_new_year <- function(year) {
   chinese_new_year_on_or_before(

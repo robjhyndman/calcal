@@ -51,5 +51,5 @@ as_coptic("2016-01-01")
 as_ethiopic(Sys.Date())
 }
 \seealso{
-\link{cal_coptic}, \link{cal_ethiopic}
+\link{cal_coptic}, \link{cal_ethiopic}, \link{coptic_christmas}
 }
