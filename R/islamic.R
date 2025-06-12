@@ -4,14 +4,11 @@
 
 ISLAMIC_EPOCH <- 227015 # vec_data(julian_date(ce(622), JULY, 16))
 
-validate_islamic <- function(args) {
-  year <- args$year
-  month <- args$month
-  day <- args$day
-  if (any(month < 1 | month > 12)) {
+validate_islamic <- function(date) {
+  if (any(date$month < 1 | date$month > 12)) {
     stop("month must be between 1 and 12")
   }
-  if (any(day < 1 | day > 30)) {
+  if (any(date$day < 1 | date$day > 30)) {
     stop("day must be between 1 and 30")
   }
 }

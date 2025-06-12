@@ -2,14 +2,11 @@
 # ISO Calendar
 # ==============================================================================
 
-validate_iso <- function(args) {
-  year <- args$year
-  week <- args$week
-  day <- args$day
-  if (any(week < 1 | week > 53, na.rm = TRUE)) {
+validate_iso <- function(date) {
+  if (any(date$week < 1 | date$week > 53, na.rm = TRUE)) {
     stop("week must be between 1 and 53")
   }
-  if (any(day < 1 | day > 7, na.rm = TRUE)) {
+  if (any(date$day < 1 | date$day > 7, na.rm = TRUE)) {
     stop("day must be between 1 and 7")
   }
 }

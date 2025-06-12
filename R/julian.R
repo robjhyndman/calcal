@@ -6,21 +6,18 @@ JULIAN_EPOCH <- -1 # vec_data(gregorian_date(0, DECEMBER, 30))
 JD_EPOCH <- -1721424.5
 MJD_EPOCH <- 678576
 
-validate_julian <- function(args) {
-  year <- args$year
-  month <- args$month
-  day <- args$day
-  if (any(month < 1 | month > 12, na.rm = TRUE)) {
+validate_julian <- function(date) {
+  if (any(date$month < 1 | date$month > 12, na.rm = TRUE)) {
     stop("month must be between 1 and 12")
-  } else if (any(day > 30 & month %in% c(4, 6, 9, 11), na.rm = TRUE)) {
+  } else if (any(date$day > 30 & date$month %in% c(4, 6, 9, 11), na.rm = TRUE)) {
     stop("day must be between 1 and 30")
-  } else if (any(day > 29 & month == 2, na.rm = TRUE)) {
+  } else if (any(date$day > 29 & date$month == 2, na.rm = TRUE)) {
     stop("day must be between 1 and 29")
   } else if (
-    any(day > 28 & month == 2 & !julian_leap_year(year), na.rm = TRUE)
+    any(date$day > 28 & date$month == 2 & !julian_leap_year(date$year), na.rm = TRUE)
   ) {
     stop("day must be between 1 and 28")
-  } else if (any(day < 1 | day > 31, na.rm = TRUE)) {
+  } else if (any(date$day < 1 | date$day > 31, na.rm = TRUE)) {
     stop("day must be between 1 and 31")
   }
 }

@@ -19,24 +19,21 @@ ADARII <- 13
 
 HEBREW_EPOCH <- -1373427 # vec_data(julian_date(bce(3761), OCTOBER, 7))
 
-validate_hebrew <- function(args) {
-  year <- args$year
-  month <- args$month
-  day <- args$day
-  max_month <- last_month_of_hebrew_year(year)
-  if (any(month > max_month)) {
-    stop(paste("Too many months in the year", year[month <= max_month]))
+validate_hebrew <- function(date) {
+  max_month <- last_month_of_hebrew_year(date$year)
+  if (any(date$month > max_month)) {
+    stop(paste("Too many months in the year", date$year[date$month <= max_month]))
   }
-  days_month <- last_day_of_hebrew_month(year, month)
-  if (any(day > days_month)) {
+  days_month <- last_day_of_hebrew_month(date$year, date$month)
+  if (any(date$day > days_month)) {
     stop(paste(
       "Too many days in month",
-      year[day > days_month],
+      date$year[date$day > days_month],
       "-",
-      month[day > days_month]
+      date$month[date$day > days_month]
     ))
   }
-  stopifnot(month >= 1, day >= 1, day <= 30)
+  stopifnot(date$month >= 1, date$day >= 1, date$day <= 30)
 }
 
 format_hebrew <- function(x, ...) {

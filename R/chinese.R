@@ -6,7 +6,17 @@ CHINESE_EPOCH <- -963099 # vec_data(gregorian_date(-2636, FEBRUARY, 15))
 CHINESE_MONTH_NAME_EPOCH <- 57
 CHINESE_DAY_NAME_EPOCH <- 45
 
-validate_chinese <- function(date) {}
+validate_chinese <- function(date) {
+  if (any(date$year < 1 | date$year > 60)) {
+    stop("year must be between 1 and 60 in the Chinese sexagenary cycle calendar")
+  }
+  if (any(date$month < 1 | date$month > 12)) {
+    stop("month must be between 1 and 12")
+  }
+  if (any(date$day < 1 | date$day > 30)) {
+    stop("day must be between 1 and 30")
+  }
+}
 
 chinese_from_fixed <- function(date) {
   date <- vec_data(date)
@@ -124,12 +134,11 @@ cal_chinese <- cal_calendar(
 #' as_chinese(Sys.Date())
 #' @export
 chinese_date <- function(
-  cycle = integer(),
-  year = integer(),
-  month = integer(),
-  leap_month = logical(),
-  day = integer()
-) {
+    cycle = integer(),
+    year = integer(),
+    month = integer(),
+    leap_month = logical(),
+    day = integer()) {
   new_date(
     cycle = cycle,
     year = year,

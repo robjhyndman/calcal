@@ -8,21 +8,22 @@ KALENDS <- 1
 NONES <- 2
 IDES <- 3
 
-validate_roman <- function(args) {
-  year <- args$year
-  month <- args$month
-  event <- args$event
-  count <- args$count
-  leap <- args$leap
-  if (any(month < 1 | month > 12, na.rm = TRUE)) {
+validate_roman <- function(date) {
+  if (any(date$month < 1 | date$month > 12, na.rm = TRUE)) {
     stop("`month` must be between 1 and 12")
   }
-  if (any(event < 1 | event > 3, na.rm = TRUE)) {
+  if (any(date$event < 1 | date$event > 3, na.rm = TRUE)) {
     stop("`event` must be between 1 and 3")
   }
-  if (any(leap)) {
+  if (any(date$leap)) {
     # Check the date is really a leap day
-    if (any(month[leap] != 3 | event[leap] != KALENDS | count[leap] != 6)) {
+    if (
+      any(
+        date$month[date$leap] != 3 |
+          date$event[date$leap] != KALENDS |
+          date$count[date$leap] != 6
+      )
+    ) {
       stop("`leap` must be a leap day (6 Kalends March)")
     }
   }
