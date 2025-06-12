@@ -62,7 +62,7 @@
 <!-- badges: start -->
 <!-- badges: end -->
 <p>The goal of calcal is to do calendrical calculations, based on the algorithms described in <a href="https://doi.org/10.1017/9781107415058" class="external-link">Reingold and Dershowitz (2018) <em>Calendrical Calculations</em>, 4th edition, Cambridge University Press</a>.</p>
-<p>It is a translation of the Lisp code produced by Reingold and Dershowitz for <a href="https://github.com/EdReingold/calendar-code2" class="external-link">Calendrica 4.0</a>.</p>
+<p>It is largely a translation of the Lisp code produced by Reingold and Dershowitz for <a href="https://github.com/EdReingold/calendar-code2" class="external-link">Calendrica 4.0</a>.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -77,83 +77,92 @@
 <p>Dates in multiple calendars:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pkg.robjhyndman.com/calcal/">calcal</a></span><span class="op">)</span></span>
-<span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
+<span><span class="co">#&gt; The following object is masked from 'package:calcal':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     location</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     filter, lag</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
+<span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
 <span>  Gregorian <span class="op">=</span> <span class="fu"><a href="reference/gregorian.html">gregorian_date</a></span><span class="op">(</span><span class="fl">1990</span>, <span class="fl">2</span>, <span class="fl">20</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>,</span>
-<span>  Islamic <span class="op">=</span> <span class="fu"><a href="reference/islamic.html">as_islamic</a></span><span class="op">(</span><span class="va">Gregorian</span><span class="op">)</span>,</span>
 <span>  ISO <span class="op">=</span> <span class="fu"><a href="reference/iso.html">as_iso</a></span><span class="op">(</span><span class="va">Gregorian</span><span class="op">)</span>,</span>
-<span>  Hebrew <span class="op">=</span> <span class="fu"><a href="reference/hebrew.html">as_hebrew</a></span><span class="op">(</span><span class="va">Gregorian</span><span class="op">)</span>,</span>
-<span>  Julian <span class="op">=</span> <span class="fu"><a href="reference/julian.html">as_julian</a></span><span class="op">(</span><span class="va">Gregorian</span><span class="op">)</span>,</span>
-<span>  Roman <span class="op">=</span> <span class="fu"><a href="reference/roman.html">as_roman</a></span><span class="op">(</span><span class="va">Gregorian</span><span class="op">)</span></span>
+<span>  Chinese <span class="op">=</span> <span class="fu"><a href="reference/chinese.html">as_chinese</a></span><span class="op">(</span><span class="va">Gregorian</span><span class="op">)</span>,</span>
+<span>  Islamic <span class="op">=</span> <span class="fu"><a href="reference/islamic.html">as_islamic</a></span><span class="op">(</span><span class="va">Gregorian</span><span class="op">)</span>,</span>
+<span>  Hebrew <span class="op">=</span> <span class="fu"><a href="reference/hebrew.html">as_hebrew</a></span><span class="op">(</span><span class="va">Gregorian</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 10 × 6</span></span>
-<span><span class="co">#&gt;      Gregorian     Islamic        ISO         Hebrew      Julian                    Roman</span></span>
-<span><span class="co">#&gt;          &lt;Gre&gt;       &lt;Hij&gt;      &lt;ISO&gt;          &lt;Heb&gt;       &lt;Jul&gt;                    &lt;Rom&gt;</span></span>
-<span><span class="co">#&gt;  1 1990-Feb-21 1410-Raj-25 1990-08-03 5750-Shevat-26 1990-Feb-08      1990-Feb-ad_vi_Ides</span></span>
-<span><span class="co">#&gt;  2 1990-Feb-22 1410-Raj-26 1990-08-04 5750-Shevat-27 1990-Feb-09       1990-Feb-ad_v_Ides</span></span>
-<span><span class="co">#&gt;  3 1990-Feb-23 1410-Raj-27 1990-08-05 5750-Shevat-28 1990-Feb-10      1990-Feb-ad_iv_Ides</span></span>
-<span><span class="co">#&gt;  4 1990-Feb-24 1410-Raj-28 1990-08-06 5750-Shevat-29 1990-Feb-11     1990-Feb-ad_iii_Ides</span></span>
-<span><span class="co">#&gt;  5 1990-Feb-25 1410-Raj-29 1990-08-07 5750-Shevat-30 1990-Feb-12     1990-Feb-pridie_Ides</span></span>
-<span><span class="co">#&gt;  6 1990-Feb-26 1410-Raj-30 1990-09-01   5750-Adar-01 1990-Feb-13            1990-Feb-Ides</span></span>
-<span><span class="co">#&gt;  7 1990-Feb-27 1410-Sha-01 1990-09-02   5750-Adar-02 1990-Feb-14  1990-Mar-ad_xvi_Kalends</span></span>
-<span><span class="co">#&gt;  8 1990-Feb-28 1410-Sha-02 1990-09-03   5750-Adar-03 1990-Feb-15   1990-Mar-ad_xv_Kalends</span></span>
-<span><span class="co">#&gt;  9 1990-Mar-01 1410-Sha-03 1990-09-04   5750-Adar-04 1990-Feb-16  1990-Mar-ad_xiv_Kalends</span></span>
-<span><span class="co">#&gt; 10 1990-Mar-02 1410-Sha-04 1990-09-05   5750-Adar-05 1990-Feb-17 1990-Mar-ad_xiii_Kalends</span></span></code></pre></div>
-<p>Some US holidays</p>
+<span><span class="co">#&gt; # A tibble: 10 × 5</span></span>
+<span><span class="co">#&gt;      Gregorian        ISO    Chinese     Islamic         Hebrew</span></span>
+<span><span class="co">#&gt;          &lt;Gre&gt;      &lt;ISO&gt;      &lt;Chi&gt;       &lt;Hij&gt;          &lt;Heb&gt;</span></span>
+<span><span class="co">#&gt;  1 1990-Feb-21 1990-08-03 78-07-1-27 1410-Raj-25 5750-Shevat-26</span></span>
+<span><span class="co">#&gt;  2 1990-Feb-22 1990-08-04 78-07-1-28 1410-Raj-26 5750-Shevat-27</span></span>
+<span><span class="co">#&gt;  3 1990-Feb-23 1990-08-05 78-07-1-29 1410-Raj-27 5750-Shevat-28</span></span>
+<span><span class="co">#&gt;  4 1990-Feb-24 1990-08-06 78-07-1-30 1410-Raj-28 5750-Shevat-29</span></span>
+<span><span class="co">#&gt;  5 1990-Feb-25 1990-08-07 78-07-2-01 1410-Raj-29 5750-Shevat-30</span></span>
+<span><span class="co">#&gt;  6 1990-Feb-26 1990-09-01 78-07-2-02 1410-Raj-30   5750-Adar-01</span></span>
+<span><span class="co">#&gt;  7 1990-Feb-27 1990-09-02 78-07-2-03 1410-Sha-01   5750-Adar-02</span></span>
+<span><span class="co">#&gt;  8 1990-Feb-28 1990-09-03 78-07-2-04 1410-Sha-02   5750-Adar-03</span></span>
+<span><span class="co">#&gt;  9 1990-Mar-01 1990-09-04 78-07-2-05 1410-Sha-03   5750-Adar-04</span></span>
+<span><span class="co">#&gt; 10 1990-Mar-02 1990-09-05 78-07-2-06 1410-Sha-04   5750-Adar-05</span></span></code></pre></div>
+<p>Some religious and cultural holidays</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="reference/us_holidays.html">us_memorial_day</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="reference/us_holidays.html">us_independence_day</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="reference/us_holidays.html">us_labor_day</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="reference/us_holidays.html">us_election_day</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="reference/us_holidays.html">us_daylight_saving_start</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="reference/us_holidays.html">us_daylight_saving_end</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co">#&gt; &lt;gregorian[6]&gt;</span></span>
-<span><span class="co">#&gt; [1] 2025-May-26 2025-Jul-04 2025-Sep-01 2025-Nov-04 2025-Mar-09 2025-Nov-02</span></span></code></pre></div>
-<p>Some Christian holidays</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="reference/christian.html">easter</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="reference/christian.html">orthodox_easter</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="reference/christian.html">alt_orthodox_easter</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="reference/christian.html">pentecost</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="reference/christian.html">advent</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="reference/christian.html">christmas</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="reference/christian.html">epiphany</a></span><span class="op">(</span><span class="fl">2026</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="reference/christian.html">orthodox_christmas</a></span><span class="op">(</span><span class="fl">2026</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co">#&gt; &lt;gregorian[8]&gt;</span></span>
-<span><span class="co">#&gt; [1] 2025-Apr-20 2025-Apr-20 2025-Apr-20 2025-Jun-08 2025-Nov-30 2025-Dec-25 2026-Jan-04</span></span>
-<span><span class="co">#&gt; [8] 2026-Jan-07</span></span></code></pre></div>
-<p>Some Jewish holidays</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>  ta_anit_esther <span class="op">=</span> <span class="fu"><a href="reference/jewish.html">ta_anit_esther</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  purim <span class="op">=</span> <span class="fu"><a href="reference/jewish.html">purim</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  passover <span class="op">=</span> <span class="fu"><a href="reference/jewish.html">passover</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  shavuot <span class="op">=</span> <span class="fu"><a href="reference/jewish.html">shavuot</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  tishah_be_av <span class="op">=</span> <span class="fu"><a href="reference/jewish.html">tishah_be_av</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  rosh_hashanah <span class="op">=</span> <span class="fu"><a href="reference/jewish.html">rosh_hashanah</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  yom_kippur <span class="op">=</span> <span class="fu"><a href="reference/jewish.html">yom_kippur</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  sukkot <span class="op">=</span> <span class="fu"><a href="reference/jewish.html">sukkot</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  hanukkah <span class="op">=</span> <span class="fu"><a href="reference/jewish.html">hanukkah</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co">#&gt; &lt;gregorian[9]&gt;</span></span>
-<span><span class="co">#&gt; ta_anit_esther          purim       passover        shavuot   tishah_be_av  rosh_hashanah </span></span>
-<span><span class="co">#&gt;    2025-Mar-13    2025-Mar-14    2025-Apr-13    2025-Jun-02    2025-Aug-03    2025-Sep-23 </span></span>
-<span><span class="co">#&gt;     yom_kippur         sukkot       hanukkah </span></span>
-<span><span class="co">#&gt;    2025-Oct-02    2025-Oct-07    2025-Dec-15</span></span></code></pre></div>
-<p>Some Islamic holidays</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="reference/islamic_holidays.html">islamic_new_year</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="reference/islamic_holidays.html">mawlid</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="reference/islamic_holidays.html">ramadan</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="reference/islamic_holidays.html">eid_al_fitr</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="reference/islamic_holidays.html">eid_al_adha</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co">#&gt; &lt;gregorian[5]&gt;</span></span>
-<span><span class="co">#&gt; [1] 2025-Jun-27 2025-Aug-07 2025-Mar-01 2025-Mar-31 2025-Jun-07</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
+<span>  year <span class="op">=</span> <span class="fl">2025</span><span class="op">:</span><span class="fl">2029</span>,</span>
+<span>  <span class="co"># Christian holidays</span></span>
+<span>  Easter <span class="op">=</span> <span class="fu"><a href="reference/christian.html">easter</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span>,</span>
+<span>  `Orthodox Easter` <span class="op">=</span> <span class="fu"><a href="reference/christian.html">orthodox_easter</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span>,</span>
+<span>  Christmas <span class="op">=</span> <span class="fu"><a href="reference/christian.html">christmas</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span>,</span>
+<span>  `Orthodox Christmas` <span class="op">=</span> <span class="fu"><a href="reference/christian.html">orthodox_christmas</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span>,</span>
+<span>  <span class="co"># Jewish holidays</span></span>
+<span>  `Rosh Hashanah` <span class="op">=</span> <span class="fu"><a href="reference/jewish.html">rosh_hashanah</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span>,</span>
+<span>  Passover <span class="op">=</span> <span class="fu"><a href="reference/jewish.html">passover</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span>,</span>
+<span>  `Yom Kippur` <span class="op">=</span> <span class="fu"><a href="reference/jewish.html">yom_kippur</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span>,</span>
+<span>  Sukkot <span class="op">=</span> <span class="fu"><a href="reference/jewish.html">sukkot</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span>,</span>
+<span>  Hanukkah <span class="op">=</span> <span class="fu"><a href="reference/jewish.html">hanukkah</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span>,</span>
+<span>  <span class="co"># Islamic holidays</span></span>
+<span>  Ramadan <span class="op">=</span> <span class="fu"><a href="reference/islamic_holidays.html">ramadan</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span>,</span>
+<span>  `Eid al-Fitr` <span class="op">=</span> <span class="fu"><a href="reference/islamic_holidays.html">eid_al_fitr</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span>,</span>
+<span>  `Eid al-Adha` <span class="op">=</span> <span class="fu"><a href="reference/islamic_holidays.html">eid_al_adha</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span>,</span>
+<span>  <span class="co"># Baháʼí holidays</span></span>
+<span>  `Birth of the Bab` <span class="op">=</span> <span class="fu"><a href="reference/bahai_new_year.html">birth_of_the_bab</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span>,</span>
+<span>  `Naw Ruz` <span class="op">=</span> <span class="fu"><a href="reference/bahai_new_year.html">naw_ruz</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span>,</span>
+<span>  `Feast of Ridvan` <span class="op">=</span> <span class="fu"><a href="reference/bahai_new_year.html">feast_of_ridvan</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span>,</span>
+<span>  <span class="co"># Chinese Holidays</span></span>
+<span>  `Chinese New Year` <span class="op">=</span> <span class="fu"><a href="reference/chinese_new_year.html">chinese_new_year</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span>,</span>
+<span>  `Dragon Festival` <span class="op">=</span> <span class="fu"><a href="reference/chinese_new_year.html">dragon_festival</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span>,</span>
+<span>  `Qing Ming` <span class="op">=</span> <span class="fu"><a href="reference/chinese_new_year.html">qing_ming</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">pivot_longer</span><span class="op">(</span><span class="op">-</span><span class="va">year</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">pivot_wider</span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">year</span>, values_from <span class="op">=</span> <span class="va">value</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">`2025`</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 18 × 6</span></span>
+<span><span class="co">#&gt;    name                    `2025`      `2026`      `2027`      `2028`      `2029`</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;                    &lt;Gre&gt;       &lt;Gre&gt;       &lt;Gre&gt;       &lt;Gre&gt;       &lt;Gre&gt;</span></span>
+<span><span class="co">#&gt;  1 Orthodox Christmas 2025-Jan-07 2026-Jan-07 2027-Jan-07 2028-Jan-07 2029-Jan-07</span></span>
+<span><span class="co">#&gt;  2 Chinese New Year   2025-Jan-29 2026-Feb-17 2027-Feb-06 2028-Jan-26 2029-Feb-13</span></span>
+<span><span class="co">#&gt;  3 Ramadan            2025-Mar-01 2026-Feb-18 2027-Feb-08 2028-Jan-28 2029-Jan-16</span></span>
+<span><span class="co">#&gt;  4 Naw Ruz            2025-Mar-20 2026-Mar-20 2027-Mar-21 2028-Mar-20 2029-Mar-20</span></span>
+<span><span class="co">#&gt;  5 Eid al-Fitr        2025-Mar-31 2026-Mar-20 2027-Mar-10 2028-Feb-27 2029-Feb-15</span></span>
+<span><span class="co">#&gt;  6 Qing Ming          2025-Apr-04 2026-Apr-04 2027-Apr-05 2028-Apr-04 2029-Apr-04</span></span>
+<span><span class="co">#&gt;  7 Passover           2025-Apr-13 2026-Apr-02 2027-Apr-22 2028-Apr-11 2029-Mar-31</span></span>
+<span><span class="co">#&gt;  8 Easter             2025-Apr-20 2026-Apr-05 2027-Mar-28 2028-Apr-16 2029-Apr-01</span></span>
+<span><span class="co">#&gt;  9 Orthodox Easter    2025-Apr-20 2026-Apr-12 2027-May-02 2028-Apr-16 2029-Apr-08</span></span>
+<span><span class="co">#&gt; 10 Feast of Ridvan    2025-Apr-20 2026-Apr-20 2027-Apr-21 2028-Apr-20 2029-Apr-20</span></span>
+<span><span class="co">#&gt; 11 Dragon Festival    2025-May-31 2026-Jun-19 2027-Jun-08 2028-May-28 2029-Jun-16</span></span>
+<span><span class="co">#&gt; 12 Eid al-Adha        2025-Jun-07 2026-May-27 2027-May-17 2028-May-05 2029-Apr-24</span></span>
+<span><span class="co">#&gt; 13 Rosh Hashanah      2025-Sep-23 2026-Sep-12 2027-Oct-02 2028-Sep-21 2029-Sep-10</span></span>
+<span><span class="co">#&gt; 14 Yom Kippur         2025-Oct-02 2026-Sep-21 2027-Oct-11 2028-Sep-30 2029-Sep-19</span></span>
+<span><span class="co">#&gt; 15 Sukkot             2025-Oct-07 2026-Sep-26 2027-Oct-16 2028-Oct-05 2029-Sep-24</span></span>
+<span><span class="co">#&gt; 16 Birth of the Bab   2025-Oct-22 2026-Nov-10 2027-Oct-30 2028-Oct-19 2029-Nov-07</span></span>
+<span><span class="co">#&gt; 17 Hanukkah           2025-Dec-15 2026-Dec-05 2027-Dec-25 2028-Dec-13 2029-Dec-02</span></span>
+<span><span class="co">#&gt; 18 Christmas          2025-Dec-25 2026-Dec-25 2027-Dec-25 2028-Dec-25 2029-Dec-25</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
