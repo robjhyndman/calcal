@@ -56,30 +56,30 @@ Some religious and cultural holidays
 
 ```{r holidays}
 tibble(
-  year = 2025:2029,
+  year = 2025:2028,
   # Christian holidays
-  Easter = easter(year),
-  `Orthodox Easter` = orthodox_easter(year),
-  Christmas = christmas(year),
-  `Orthodox Christmas` = orthodox_christmas(year),
+   `Easter` = easter(year),
+   `Orthodox Easter` = orthodox_easter(year),
+   `Christmas` = christmas(year),
+   `Orthodox Christmas` = orthodox_christmas(year),
   # Jewish holidays
-  `Rosh Hashanah` = rosh_hashanah(year),
-  Passover = passover(year),
-  `Yom Kippur` = yom_kippur(year),
-  Sukkot = sukkot(year),
-  Hanukkah = hanukkah(year),
+   `Rosh Hashanah` = rosh_hashanah(year),
+   `Passover` = passover(year),
+   `Yom Kippur` = yom_kippur(year),
+   `Sukkot` = sukkot(year),
+   `Hanukkah` = hanukkah(year),
   # Islamic holidays
-  Ramadan = ramadan(year),
-  `Eid al-Fitr` = eid_al_fitr(year),
-  `Eid al-Adha` = eid_al_adha(year),
+   `Ramadan` = ramadan(year),
+   `Eid al-Fitr` = eid_al_fitr(year),
+   `Eid al-Adha` = eid_al_adha(year),
   # Baháʼí holidays
-  `Birth of the Bab` = birth_of_the_bab(year),
-  `Naw Ruz` = naw_ruz(year),
-  `Feast of Ridvan` = feast_of_ridvan(year),
+   `Birth of the Bab` = birth_of_the_bab(year),
+   `Naw Ruz` = naw_ruz(year),
+   `Feast of Ridvan` = feast_of_ridvan(year),
   # Chinese Holidays
-  `Chinese New Year` = chinese_new_year(year),
-  `Dragon Festival` = dragon_festival(year),
-  `Qing Ming` = qing_ming(year)
+   `Chinese New Year` = chinese_new_year(year),
+   `Dragon Festival` = dragon_festival(year),
+   `Qing Ming` = qing_ming(year)
 ) |>
   pivot_longer(-year) |>
   pivot_wider(names_from = year, values_from = value) |>
