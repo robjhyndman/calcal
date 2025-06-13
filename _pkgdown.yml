@@ -26,9 +26,12 @@ reference:
   - title: Create new calendars and dates
     contents:
       - cal_calendar
+      - cal_bahai
+      - cal_balinese
       - cal_chinese
       - cal_gregorian
       - cal_hebrew
+      - cal_icelandic
       - cal_islamic
       - cal_iso
       - cal_julian
@@ -51,6 +54,10 @@ reference:
     contents:
       - bahai_date
       - as_bahai
+  - title: Balinese calendar
+    contents:
+      - balinese_date
+      - as_balinese
   - title: Chinese calendar
     contents:
       - chinese_date
@@ -65,6 +72,10 @@ reference:
     contents:
       - hebrew_date
       - as_hebrew
+  - title: Icelandic calendar
+    contents:
+      - icelandic_date
+      - as_icelandic
   - title: Islamic calendar
     contents:
       - islamic_date

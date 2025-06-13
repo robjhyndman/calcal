@@ -2,6 +2,7 @@
 % Please edit documentation in R/bali.R
 \name{balinese_date}
 \alias{balinese_date}
+\alias{as_balinese}
 \title{Balinese Pawukon dates}
 \usage{
 balinese_date(
@@ -16,6 +17,8 @@ balinese_date(
   sangawara,
   daswara
 )
+
+as_balinese(date)
 }
 \arguments{
 \item{luang}{A numeric vector}
@@ -37,6 +40,8 @@ balinese_date(
 \item{sangawara}{A numeric vector}
 
 \item{daswara}{A numeric vector}
+
+\item{date}{A vector of dates on some calendar.}
 }
 \description{
 Balinese Pawukon dates

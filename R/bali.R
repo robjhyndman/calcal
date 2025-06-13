@@ -92,6 +92,12 @@ balinese_date <- function(
   )
 }
 
+#' @rdname balinese_date
+#' @param date A vector of dates on some calendar.
+#' @export
+as_balinese <- function(date) {
+  as_date(date, calendar = cal_balinese)
+}
 
 bali_day_from_fixed <- function(date) {
   (date - BALI_EPOCH) %% 210
