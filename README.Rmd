@@ -39,6 +39,8 @@ pak::pak("robjhyndman/calcal")
 Dates in multiple calendars:
 
 ```{r example}
+#| warning: false
+#| message: false
 library(calcal)
 library(tibble)
 library(tidyr)

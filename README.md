@@ -35,17 +35,6 @@ library(calcal)
 library(tibble)
 library(tidyr)
 library(dplyr)
-#> 
-#> Attaching package: 'dplyr'
-#> The following object is masked from 'package:calcal':
-#> 
-#>     location
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
 tibble(
   Gregorian = gregorian_date(1990, 2, 20) + 1:10,
   ISO = as_iso(Gregorian),
