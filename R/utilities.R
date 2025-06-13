@@ -186,3 +186,23 @@ dates3_in_gregorian <- function(g_year, date0, date1, date2) {
   )
   c(unlist(out))
 }
+
+
+# Julian Day functions
+JD_EPOCH <- -1721424.5
+
+moment_from_jd <- function(jd) {
+  jd + JD_EPOCH
+}
+
+jd_from_moment <- function(tee) {
+  tee - JD_EPOCH
+}
+
+fixed_from_jd <- function(jd) {
+  floor(moment_from_jd(jd))
+}
+
+jd_from_fixed <- function(date) {
+  jd_from_moment(date)
+}
