@@ -23,10 +23,10 @@ test_that("multiplication works", {
     gregorian_date(1967, 5, 2) |> as.numeric()
   )
   expect_equal(
-    gregorian_date(2025, 6, 10) |>
+    gregorian_date(2025, 6, 1:10) |>
       as_chinese() |>
       cal_chinese$from_rd() |>
       cal_chinese$to_rd(),
-    gregorian_date(2025, 6, 10) |> vctrs::vec_data()
+    gregorian_date(2025, 6, 1:10) |> vctrs::vec_data()
   )
 })

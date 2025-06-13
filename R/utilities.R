@@ -138,6 +138,13 @@ list_range <- function(ell, range) {
   ell[in_range(ell, range)]
 }
 
+positions_in_range <- function(p, c, cap_delta, a, b) {
+  date <- mod3(p - cap_delta, a, a + c)
+  date[date >= b] <- NULL
+  date[date < b] <- c(date[date<b], positions_in_range(p, c, cap_delta, a + c, b))
+  return(date)
+}
+
 dates2_in_gregorian <- function(g_year, date0, date1) {
   date0 <- as_gregorian(date0)
   date1 <- as_gregorian(date1)
@@ -168,4 +175,24 @@ dates3_in_gregorian <- function(g_year, date0, date1, date2) {
     SIMPLIFY = TRUE
   )
   c(unlist(out))
+}
+
+
+# Julian Day functions
+JD_EPOCH <- -1721424.5
+
+moment_from_jd <- function(jd) {
+  jd + JD_EPOCH
+}
+
+jd_from_moment <- function(tee) {
+  tee - JD_EPOCH
+}
+
+fixed_from_jd <- function(jd) {
+  floor(moment_from_jd(jd))
+}
+
+jd_from_fixed <- function(date) {
+  jd_from_moment(date)
 }
