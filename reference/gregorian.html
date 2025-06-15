@@ -81,38 +81,38 @@ of the Julian calendar which was in use at the time.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="new_date.html">new_date</a></span><span class="op">(</span>year <span class="op">=</span> <span class="fl">2025</span>, month <span class="op">=</span> <span class="fl">3</span>, day <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">4</span>, calendar <span class="op">=</span> <span class="va">cal_gregorian</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;gregorian[3]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2025-NA-02 2025-NA-03 2025-NA-04</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2025-Mar-02 2025-Mar-03 2025-Mar-04</span>
 <span class="r-in"><span><span class="fu">gregorian_date</span><span class="op">(</span><span class="fl">2025</span>, <span class="fl">4</span>, <span class="fl">19</span><span class="op">:</span><span class="fl">30</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;gregorian[12]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 2025-NA-19 2025-NA-20 2025-NA-21 2025-NA-22 2025-NA-23 2025-NA-24</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] 2025-NA-25 2025-NA-26 2025-NA-27 2025-NA-28 2025-NA-29 2025-NA-30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 2025-Apr-19 2025-Apr-20 2025-Apr-21 2025-Apr-22 2025-Apr-23 2025-Apr-24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] 2025-Apr-25 2025-Apr-26 2025-Apr-27 2025-Apr-28 2025-Apr-29 2025-Apr-30</span>
 <span class="r-in"><span><span class="fu"><a href="new_date.html">as_date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>, calendar <span class="op">=</span> <span class="va">cal_gregorian</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;gregorian[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2025-NA-15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2025-Jun-15</span>
 <span class="r-in"><span><span class="fu">as_gregorian</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;gregorian[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2025-NA-15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2025-Jun-15</span>
 <span class="r-in"><span><span class="fu">as_gregorian</span><span class="op">(</span><span class="st">"2016-01-01"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;gregorian[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2016-NA-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2016-Jan-01</span>
 <span class="r-in"><span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2025-01-01"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2025-12-31"</span><span class="op">)</span>, by <span class="op">=</span> <span class="st">"day"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  y <span class="op">=</span> <span class="fu">as_gregorian</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  z <span class="op">=</span> <span class="fu"><a href="new_date.html">as_date</a></span><span class="op">(</span><span class="va">x</span>, calendar <span class="op">=</span> <span class="va">cal_gregorian</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 365 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    x                   y          z</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;Gre&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;Gre&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 2025-01-01 2025-NA-01 2025-NA-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 2025-01-02 2025-NA-02 2025-NA-02</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 2025-01-03 2025-NA-03 2025-NA-03</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 2025-01-04 2025-NA-04 2025-NA-04</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 2025-01-05 2025-NA-05 2025-NA-05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 2025-01-06 2025-NA-06 2025-NA-06</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 2025-01-07 2025-NA-07 2025-NA-07</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 2025-01-08 2025-NA-08 2025-NA-08</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 2025-01-09 2025-NA-09 2025-NA-09</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2025-01-10 2025-NA-10 2025-NA-10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    x                    y           z</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;Gre&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;Gre&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 2025-01-01 2025-Jan-01 2025-Jan-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 2025-01-02 2025-Jan-02 2025-Jan-02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 2025-01-03 2025-Jan-03 2025-Jan-03</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 2025-01-04 2025-Jan-04 2025-Jan-04</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 2025-01-05 2025-Jan-05 2025-Jan-05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 2025-01-06 2025-Jan-06 2025-Jan-06</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 2025-01-07 2025-Jan-07 2025-Jan-07</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 2025-01-08 2025-Jan-08 2025-Jan-08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 2025-01-09 2025-Jan-09 2025-Jan-09</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2025-01-10 2025-Jan-10 2025-Jan-10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 355 more rows</span></span>
 </code></pre></div>
     </div>

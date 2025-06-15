@@ -110,31 +110,31 @@ on whether it is a leap year. Leap years occur every 4 years.</p>
 <span class="r-in"><span> ethiopic <span class="op">=</span> <span class="fu">as_ethiopic</span><span class="op">(</span><span class="va">gregorian</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 31 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     gregorian    coptic  ethiopic</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;Gre&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;Cop&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;Cop&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 2025-NA-01 1741-4-23 1741-4-23</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 2025-NA-02 1741-4-24 1741-4-24</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 2025-NA-03 1741-4-25 1741-4-25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 2025-NA-04 1741-4-26 1741-4-26</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 2025-NA-05 1741-4-27 1741-4-27</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 2025-NA-06 1741-4-28 1741-4-28</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 2025-NA-07 1741-4-29 1741-4-29</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 2025-NA-08 1741-4-30 1741-4-30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 2025-NA-09 1741-5-01 1741-5-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2025-NA-10 1741-5-02 1741-5-02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      gregorian      coptic     ethiopic</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;Gre&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;Cop&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;Eth&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 2025-Jan-01 1741-Koi-23 2017-Takh-23</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 2025-Jan-02 1741-Koi-24 2017-Takh-24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 2025-Jan-03 1741-Koi-25 2017-Takh-25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 2025-Jan-04 1741-Koi-26 2017-Takh-26</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 2025-Jan-05 1741-Koi-27 2017-Takh-27</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 2025-Jan-06 1741-Koi-28 2017-Takh-28</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 2025-Jan-07 1741-Koi-29 2017-Takh-29</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 2025-Jan-08 1741-Koi-30 2017-Takh-30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 2025-Jan-09 1741-Tob-01  2017-Ter-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2025-Jan-10 1741-Tob-02  2017-Ter-02</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 21 more rows</span></span>
 <span class="r-in"><span><span class="fu">coptic_date</span><span class="op">(</span><span class="fl">1741</span>, <span class="fl">5</span>, <span class="fl">16</span><span class="op">:</span><span class="fl">18</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;coptic[3]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1741-5-16 1741-5-17 1741-5-18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1741-Tob-16 1741-Tob-17 1741-Tob-18</span>
 <span class="r-in"><span><span class="fu"><a href="new_date.html">as_date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>, calendar <span class="op">=</span> <span class="va">cal_ethiopic</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ethiopic[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2017-10-08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2017-Sane-08</span>
 <span class="r-in"><span><span class="fu">as_coptic</span><span class="op">(</span><span class="st">"2016-01-01"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;coptic[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1732-4-22</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1732-Koi-22</span>
 <span class="r-in"><span><span class="fu">as_ethiopic</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;coptic[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1741-10-08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ethiopic[1]&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2017-Sane-08</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
