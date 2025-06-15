@@ -21,8 +21,8 @@ icelandic_from_fixed <- function(date) {
   year <- approx - (date < icelandic_summer(approx)) 
   season <- iWINTER - (date < icelandic_winter(year)) 
   start <- rep(0, length(date[[1]]))
-  start[season == iSUMMER] <- icelandic_summer(year)
-  start[season == iWINTER] <- icelandic_winter(year)
+  start[season == iSUMMER] <- icelandic_summer(year[season == iSUMMER])
+  start[season == iWINTER] <- icelandic_winter(year[season == iWINTER])
   week <- 1 + (date - start) %/% 7
   weekday <- day_of_week_from_fixed(date)
 
