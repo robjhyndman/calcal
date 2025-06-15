@@ -150,11 +150,11 @@ as_balinese <- function(date) {
 }
 
 bali_day_from_fixed <- function(date) {
-  (vec_data(date) - BALI_EPOCH) %% 210 + 1
+  (vec_data(date) - BALI_EPOCH) %% 210 
 }
 
 bali_luang_from_fixed <- function(date) {
-  as.numeric((bali_dasawara_from_fixed(date) %% 2) == 0)
+  (bali_dasawara_from_fixed(date) %% 2) == 0
 }
 
 bali_dwiwara_from_fixed <- function(date) {
@@ -223,17 +223,25 @@ bali_on_or_before <- function(b_date, date) {
   date - ((date + cap_Delta - days) %% 210)
 }
 
-
-kajeng_keliwon <- function(g_year) {
-  year <- gregorian_year_range(g_year)
+#' Balinese special days
+#' 
+#' Find all occurrences in a Gregorian year.
+#' 
+#' @param year A numeric vector of Gregorian years
+#' @export
+kajeng_keliwon <- function(year) {
+  year <- vec_data(gregorian_year_range(year))
   cap_Delta <- bali_day_from_fixed(0)
-
-  positions_in_range(8, 15, cap_Delta, year)
+  positions_in_range(8, 15, cap_Delta, year[1], year[2]) |>
+    as_gregorian()
 }
 
-tumpek <- function(g_year) {
-  year <- gregorian_year_range(g_year)
+#' @rdname kajeng_keliwon
+#' @export
+tumpek <- function(year) {
+  year <- vec_data(gregorian_year_range(year))
   cap_Delta <- bali_day_from_fixed(0)
 
-  positions_in_range(13, 35, cap_Delta, year)
+  positions_in_range(13, 35, cap_Delta, year[1], year[2]) |>
+    as_gregorian()
 }

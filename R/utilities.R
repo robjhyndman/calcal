@@ -138,11 +138,16 @@ list_range <- function(ell, range) {
   ell[in_range(ell, range)]
 }
 
-positions_in_range <- function(p, c, cap_delta, a, b) {
-  date <- mod3(p - cap_delta, a, a + c)
-  date[date >= b] <- NULL
-  date[date < b] <- c(date[date<b], positions_in_range(p, c, cap_delta, a + c, b))
-  return(date)
+positions_in_range <- function(p, cc, cap_delta, a, b) {
+  date <- mod3(p - cap_delta, a, a + cc)
+  if (any(date > b)) {
+    return(date[date <= b])
+  } else {
+    c(
+      date,
+      positions_in_range(p, cc, cap_delta, a + cc, b)
+    )
+  }
 }
 
 dates2_in_gregorian <- function(g_year, date0, date1) {
