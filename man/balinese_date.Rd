@@ -52,5 +52,7 @@ another calendar.
 \examples{
 gregorian_date(2025,6,1:10) |>
   as_balinese()
-[kajeng_keliwon]
+}
+\seealso{
+\link{kajeng_keliwon}
 }

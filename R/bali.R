@@ -114,7 +114,7 @@ cal_balinese <- cal_calendar(
 #' @examples
 #' gregorian_date(2025,6,1:10) |>
 #'   as_balinese()
-#' [kajeng_keliwon]
+#' @seealso [kajeng_keliwon]
 #' @export
 balinese_date <- function(
   luang,
