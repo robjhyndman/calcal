@@ -50,6 +50,10 @@ cal_icelandic <- cal_calendar(
 #' @param season A numeric vector of seasons (1 = Summer, 2 = Winter)
 #' @param week A numeric vector of weeks within the season
 #' @param weekday A number vector containing day of week
+#' @examples
+#' gregorian_date(2025, 4, 20:30) |>
+#'   as_icelandic()
+#' @export
 icelandic_date <- function(year, season, week, weekday) {
   new_date(year = year, season = season, week=week, weekday= weekday,
   calendar = cal_icelandic)
