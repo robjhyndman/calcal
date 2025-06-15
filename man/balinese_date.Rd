@@ -15,7 +15,7 @@ balinese_date(
   saptawara,
   asatawara,
   sangawara,
-  daswara
+  dasawara
 )
 
 as_balinese(date)
@@ -39,10 +39,17 @@ as_balinese(date)
 
 \item{sangawara}{A numeric vector}
 
-\item{daswara}{A numeric vector}
+\item{dasawara}{A numeric vector}
 
 \item{date}{A vector of dates on some calendar.}
 }
 \description{
-Balinese Pawukon dates
+The Balinese calendar repeats every 210 days. It has 10 concurrent
+weeks, of lengths 1, 2, ..., 10 days. The 210 day cycles are unnumbered,
+so there is no way to convert a Balinese date into a unique date on
+another calendar.
+}
+\examples{
+gregorian_date(2025,6,1:10) |>
+  as_balinese()
 }

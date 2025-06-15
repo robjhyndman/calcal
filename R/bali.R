@@ -5,7 +5,7 @@
 BALI_EPOCH <- -1721279 # fixed_from_jd(146)
 
 bali_pawukon_from_fixed <- function(date) {
-  list(
+  out <- list(
     luang = bali_luang_from_fixed(date),
     dwiwara = bali_dwiwara_from_fixed(date),
     triwara = bali_triwara_from_fixed(date),
@@ -17,14 +17,57 @@ bali_pawukon_from_fixed <- function(date) {
     sangawara = bali_sangawara_from_fixed(date),
     dasawara = bali_dasawara_from_fixed(date)
   )
+  # Keep original fixed data so we can invert
+  attr(out, "fixed") <- vec_data(date)
+  out
 }
 
 fixed_from_bali <- function(date) {
-  
+  if (!is.null(attributes(date)$fixed)) {
+    return(attributes(date)$fixed)
+  } else {
+    # Without a fixed date, we can't invert
+    # So we will assume the last date of the current Gregorian year
+    warning("Returning the last occurrence in the current Gregorian year")
+    today <- as_gregorian(Sys.Date())
+    end_of_year <- gregorian_date(as.list(today)$year, 12, 31)
+    return(bali_on_or_before(date, vec_data(end_of_year)))
+  }
+
+  #bali_on_or_before(date, BALI_EPOCH)
 }
 
 check_balinese <- function(date) {
-
+  if (any(date$luang < 0 | date$luang > 1)) {
+    stop("luang must be either 0 or 1")
+  }
+  if (any(date$dwiwara < 1 | date$dwiwara > 2)) {
+    stop("dwiwara must be either 1 and 2")
+  }
+  if (any(date$triwara < 1 | date$triwara > 3)) {
+    stop("triwara must be between 1 and 3")
+  }
+  if (any(date$caturwara < 1 | date$caturwara > 4)) {
+    stop("caturwara must be between 1 and 4")
+  }
+  if (any(date$pancawara < 1 | date$pancawara > 5)) {
+    stop("pancawara must be between 1 and 5")
+  }
+  if (any(date$sadwara < 1 | date$sadwara > 6)) {
+    stop("sadwara must be between 1 and 6")
+  }
+  if (any(date$saptawara < 1 | date$saptawara > 7)) {
+    stop("saptawara must be between 1 and 7")
+  }
+  if (any(date$asatawara < 1 | date$asatawara > 8)) {
+    stop("asatawara must be between 1 and 8")
+  }
+  if (any(date$sangawara < 1 | date$sangawara > 9)) {
+    stop("sangawara must be between 1 and 9")
+  }
+  if (any(date$dasawara < 1 | date$dasawara > 10)) {
+    stop("dasawara must be between 1 and 10")
+  }
 }
 
 #' @rdname cal_calendar
@@ -52,6 +95,11 @@ cal_balinese <- cal_calendar(
 )
 
 #' Balinese Pawukon dates
+#' 
+#' The Balinese calendar repeats every 210 days. It has 10 concurrent 
+#' weeks, of lengths 1, 2, ..., 10 days. The 210 day cycles are unnumbered,
+#' so there is no way to convert a Balinese date into a unique date on
+#' another calendar. 
 #'
 #' @param luang A numeric vector
 #' @param dwiwara A numeric vector
@@ -62,8 +110,10 @@ cal_balinese <- cal_calendar(
 #' @param saptawara A numeric vector
 #' @param asatawara A numeric vector
 #' @param sangawara A numeric vector
-#' @param daswara A numeric vector
-#'
+#' @param dasawara A numeric vector
+#' @examples
+#' gregorian_date(2025,6,1:10) |>
+#'   as_balinese()
 #' @export
 balinese_date <- function(
   luang,
@@ -75,19 +125,19 @@ balinese_date <- function(
   saptawara,
   asatawara,
   sangawara,
-  daswara
+  dasawara
 ) {
   new_date(
-    luang,
-    dwiwara,
-    triwara,
-    caturwara,
-    pancawara,
-    sadwara,
-    saptawara,
-    asatawara,
-    sangawara,
-    daswara,
+    luang = luang,
+    dwiwara = dwiwara,
+    triwara = triwara,
+    caturwara = caturwara,
+    pancawara = pancawara,
+    sadwara = sadwara,
+    saptawara = saptawara,
+    asatawara = asatawara,
+    sangawara = sangawara,
+    dasawara = dasawara,
     calendar = cal_balinese
   )
 }
@@ -100,11 +150,11 @@ as_balinese <- function(date) {
 }
 
 bali_day_from_fixed <- function(date) {
-  (date - BALI_EPOCH) %% 210
+  (vec_data(date) - BALI_EPOCH) %% 210 + 1
 }
 
 bali_luang_from_fixed <- function(date) {
-  (bali_dasawara_from_fixed(date) %% 2) == 0
+  as.numeric((bali_dasawara_from_fixed(date) %% 2) == 0)
 }
 
 bali_dwiwara_from_fixed <- function(date) {
@@ -133,11 +183,11 @@ bali_saptawara_from_fixed <- function(date) {
 
 bali_asatawara_from_fixed <- function(date) {
   day <- bali_day_from_fixed(date)
-  1 + (max(6, 4 + (day - 70) %% 210) %% 8)
+  1 + (pmax(6, 4 + (day - 70) %% 210) %% 8)
 }
 
 bali_sangawara_from_fixed <- function(date) {
-  1 + (max(0, (bali_day_from_fixed(date) - 3)) %% 9)
+  1 + (pmax(0, (bali_day_from_fixed(date) - 3)) %% 9)
 }
 
 bali_dasawara_from_fixed <- function(date) {
@@ -154,6 +204,25 @@ bali_dasawara_from_fixed <- function(date) {
 bali_week_from_fixed <- function(date) {
   1 + bali_day_from_fixed(date) %/% 7
 }
+
+# Last fixed date on or before date with Pawukon b_date.
+bali_on_or_before <- function(b_date, date) {
+  # Position in 5-day subcycle
+  a5 <- b_date$pancawara - 1
+  # Position in 6-day subcycle
+  a6 <- b_date$sadwara - 1
+  # Position in 7-day subcycle
+  b7 <- b_date$saptawara - 1
+  # Position in 35-day subcycle
+  b35 <- (a5 + 14 + (15 * (b7 - a5))) %% 35
+  # Position in full cycle
+  days <- a6 + (36 * (b35 - a6))
+  # Reference point
+  cap_Delta <- bali_day_from_fixed(0)
+  # Return the calculated date
+  date - ((date + cap_Delta - days) %% 210)
+}
+
 
 kajeng_keliwon <- function(g_year) {
   year <- gregorian_year_range(g_year)
