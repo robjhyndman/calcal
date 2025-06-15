@@ -226,24 +226,32 @@ bali_on_or_before <- function(b_date, date) {
 
 #' Balinese special days
 #' 
-#' Find all occurrences in a Gregorian year.
+#' Find all occurrences of Kajeng Keliwon and Tumpek in a vector of 
+#' Gregorian years.
 #' 
 #' @param year A numeric vector of Gregorian years
+#' @examples
+#' kajeng_keliwon(2025)
+#' tumpek(2025)
+#' 
 #' @seealso [balinese_date]
 #' @export
 kajeng_keliwon <- function(year) {
-  year <- vec_data(gregorian_year_range(year))
+  yr_range <- vec_data(gregorian_year_range(year))
   cap_Delta <- bali_day_from_fixed(0)
-  positions_in_range(8, 15, cap_Delta, year[1], year[2]) |>
+  out <- positions_in_range(8, 15, cap_Delta, yr_range[1], yr_range[2]) |>
     as_gregorian()
+  yr <- granularity(out, "year")
+  out[yr %in% year]
 }
 
 #' @rdname kajeng_keliwon
 #' @export
 tumpek <- function(year) {
-  year <- vec_data(gregorian_year_range(year))
+  yr_range <- vec_data(gregorian_year_range(year))
   cap_Delta <- bali_day_from_fixed(0)
-
-  positions_in_range(13, 35, cap_Delta, year[1], year[2]) |>
+  out <- positions_in_range(13, 35, cap_Delta, yr_range[1], yr_range[2]) |>
     as_gregorian()
+  yr <- granularity(out, "year")
+  out[yr %in% year]
 }

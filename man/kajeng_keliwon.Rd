@@ -13,7 +13,13 @@ tumpek(year)
 \item{year}{A numeric vector of Gregorian years}
 }
 \description{
-Find all occurrences in a Gregorian year.
+Find all occurrences of Kajeng Keliwon and Tumpek in a vector of
+Gregorian years.
+}
+\examples{
+kajeng_keliwon(2025)
+tumpek(2025)
+
 }
 \seealso{
 \link{balinese_date}
