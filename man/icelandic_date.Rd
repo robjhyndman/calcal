@@ -23,3 +23,7 @@ as_icelandic(date)
 \description{
 Icelandic dates
 }
+\examples{
+gregorian_date(2025, 4, 20:30) |>
+  as_icelandic()
+}
