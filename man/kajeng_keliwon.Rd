@@ -15,3 +15,6 @@ tumpek(year)
 \description{
 Find all occurrences in a Gregorian year.
 }
+\seealso{
+\link{balinese_date}
+}

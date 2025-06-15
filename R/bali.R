@@ -114,6 +114,7 @@ cal_balinese <- cal_calendar(
 #' @examples
 #' gregorian_date(2025,6,1:10) |>
 #'   as_balinese()
+#' [kajeng_keliwon]
 #' @export
 balinese_date <- function(
   luang,
@@ -228,6 +229,7 @@ bali_on_or_before <- function(b_date, date) {
 #' Find all occurrences in a Gregorian year.
 #' 
 #' @param year A numeric vector of Gregorian years
+#' @seealso [balinese_date]
 #' @export
 kajeng_keliwon <- function(year) {
   year <- vec_data(gregorian_year_range(year))
