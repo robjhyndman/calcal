@@ -84,41 +84,39 @@ religion is Islam.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">islamic_date</span><span class="op">(</span><span class="fl">2025</span>, <span class="fl">5</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">30</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;Islamic[30]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 2025-Jum1-01 2025-Jum1-02 2025-Jum1-03 2025-Jum1-04 2025-Jum1-05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6] 2025-Jum1-06 2025-Jum1-07 2025-Jum1-08 2025-Jum1-09 2025-Jum1-10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11] 2025-Jum1-11 2025-Jum1-12 2025-Jum1-13 2025-Jum1-14 2025-Jum1-15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16] 2025-Jum1-16 2025-Jum1-17 2025-Jum1-18 2025-Jum1-19 2025-Jum1-20</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [21] 2025-Jum1-21 2025-Jum1-22 2025-Jum1-23 2025-Jum1-24 2025-Jum1-25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [26] 2025-Jum1-26 2025-Jum1-27 2025-Jum1-28 2025-Jum1-29 2025-Jum1-30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 2025-NA-01 2025-NA-02 2025-NA-03 2025-NA-04 2025-NA-05 2025-NA-06</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] 2025-NA-07 2025-NA-08 2025-NA-09 2025-NA-10 2025-NA-11 2025-NA-12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13] 2025-NA-13 2025-NA-14 2025-NA-15 2025-NA-16 2025-NA-17 2025-NA-18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19] 2025-NA-19 2025-NA-20 2025-NA-21 2025-NA-22 2025-NA-23 2025-NA-24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [25] 2025-NA-25 2025-NA-26 2025-NA-27 2025-NA-28 2025-NA-29 2025-NA-30</span>
 <span class="r-in"><span><span class="fu">as_islamic</span><span class="op">(</span><span class="st">"2016-01-01"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;Islamic[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1437-Rab1-20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1437-NA-20</span>
 <span class="r-in"><span><span class="fu">as_islamic</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;Islamic[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1446-Dhu'l_H-18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1446-NA-18</span>
 <span class="r-in"><span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2025-01-01"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2025-12-31"</span><span class="op">)</span>, by <span class="op">=</span> <span class="st">"day"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  y <span class="op">=</span> <span class="fu">as_islamic</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 365 × 2</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    x                    y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;Hij&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 2025-01-01 1446-Raj-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 2025-01-02 1446-Raj-02</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 2025-01-03 1446-Raj-03</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 2025-01-04 1446-Raj-04</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 2025-01-05 1446-Raj-05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 2025-01-06 1446-Raj-06</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 2025-01-07 1446-Raj-07</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 2025-01-08 1446-Raj-08</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 2025-01-09 1446-Raj-09</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2025-01-10 1446-Raj-10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    x                   y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;Hij&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 2025-01-01 1446-NA-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 2025-01-02 1446-NA-02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 2025-01-03 1446-NA-03</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 2025-01-04 1446-NA-04</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 2025-01-05 1446-NA-05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 2025-01-06 1446-NA-06</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 2025-01-07 1446-NA-07</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 2025-01-08 1446-NA-08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 2025-01-09 1446-NA-09</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2025-01-10 1446-NA-10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 355 more rows</span></span>
 <span class="r-in"><span><span class="fu">islamic_date</span><span class="op">(</span><span class="fl">2025</span>, <span class="fl">4</span>, <span class="fl">19</span><span class="op">:</span><span class="fl">30</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;Islamic[12]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 2025-Rab2-19 2025-Rab2-20 2025-Rab2-21 2025-Rab2-22 2025-Rab2-23</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6] 2025-Rab2-24 2025-Rab2-25 2025-Rab2-26 2025-Rab2-27 2025-Rab2-28</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11] 2025-Rab2-29 2025-Jum1-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 2025-NA-19 2025-NA-20 2025-NA-21 2025-NA-22 2025-NA-23 2025-NA-24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] 2025-NA-25 2025-NA-26 2025-NA-27 2025-NA-28 2025-NA-29 2025-NA-01</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

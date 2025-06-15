@@ -88,52 +88,51 @@ or 13 months per year.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">heb</span> <span class="op">&lt;-</span> <span class="fu"><a href="new_date.html">new_date</a></span><span class="op">(</span>year <span class="op">=</span> <span class="fl">5785</span>, month <span class="op">=</span> <span class="fl">3</span>, day <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">4</span>, calendar <span class="op">=</span> <span class="va">cal_hebrew</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">heb</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;hebrew[3]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5785-Sivan-02 5785-Sivan-03 5785-Sivan-04</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5785-NA-02 5785-NA-03 5785-NA-04</span>
 <span class="r-in"><span><span class="fu">hebrew_date</span><span class="op">(</span><span class="fl">5785</span>, <span class="fl">3</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;hebrew[3]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5785-Sivan-02 5785-Sivan-03 5785-Sivan-04</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5785-NA-02 5785-NA-03 5785-NA-04</span>
 <span class="r-in"><span><span class="fu"><a href="new_date.html">as_date</a></span><span class="op">(</span><span class="va">heb</span>, calendar <span class="op">=</span> <span class="va">cal_gregorian</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;gregorian[3]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2025-May-29 2025-May-30 2025-May-31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2025-NA-29 2025-NA-30 2025-NA-31</span>
 <span class="r-in"><span><span class="fu"><a href="new_date.html">as_date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>, calendar <span class="op">=</span> <span class="va">cal_hebrew</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;hebrew[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5785-Sivan-19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5785-NA-19</span>
 <span class="r-in"><span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  gregorian <span class="op">=</span> <span class="fu"><a href="gregorian.html">gregorian_date</a></span><span class="op">(</span><span class="fl">2025</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> <span class="fl">0</span><span class="op">:</span><span class="fl">364</span>,</span></span>
 <span class="r-in"><span>  hebrew <span class="op">=</span> <span class="fu"><a href="new_date.html">as_date</a></span><span class="op">(</span><span class="va">gregorian</span>, calendar <span class="op">=</span> <span class="va">cal_hebrew</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 365 × 2</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      gregorian        hebrew</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;Gre&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;Heb&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 2025-Jan-01 5785-Tevet-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 2025-Jan-02 5785-Tevet-02</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 2025-Jan-03 5785-Tevet-03</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 2025-Jan-04 5785-Tevet-04</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 2025-Jan-05 5785-Tevet-05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 2025-Jan-06 5785-Tevet-06</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 2025-Jan-07 5785-Tevet-07</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 2025-Jan-08 5785-Tevet-08</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 2025-Jan-09 5785-Tevet-09</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2025-Jan-10 5785-Tevet-10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     gregorian     hebrew</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;Gre&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;Heb&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 2025-NA-01 5785-NA-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 2025-NA-02 5785-NA-02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 2025-NA-03 5785-NA-03</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 2025-NA-04 5785-NA-04</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 2025-NA-05 5785-NA-05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 2025-NA-06 5785-NA-06</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 2025-NA-07 5785-NA-07</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 2025-NA-08 5785-NA-08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 2025-NA-09 5785-NA-09</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2025-NA-10 5785-NA-10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 355 more rows</span></span>
 <span class="r-in"><span><span class="fu"><a href="gregorian.html">as_gregorian</a></span><span class="op">(</span><span class="fu">hebrew_date</span><span class="op">(</span><span class="fl">5785</span>, <span class="fl">3</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;gregorian[3]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2025-May-29 2025-May-30 2025-May-31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2025-NA-29 2025-NA-30 2025-NA-31</span>
 <span class="r-in"><span><span class="fu">as_hebrew</span><span class="op">(</span><span class="fu"><a href="gregorian.html">gregorian_date</a></span><span class="op">(</span><span class="fl">2025</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">31</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;hebrew[31]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 5785-Tevet-01  5785-Tevet-02  5785-Tevet-03  5785-Tevet-04  5785-Tevet-05 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6] 5785-Tevet-06  5785-Tevet-07  5785-Tevet-08  5785-Tevet-09  5785-Tevet-10 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11] 5785-Tevet-11  5785-Tevet-12  5785-Tevet-13  5785-Tevet-14  5785-Tevet-15 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16] 5785-Tevet-16  5785-Tevet-17  5785-Tevet-18  5785-Tevet-19  5785-Tevet-20 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [21] 5785-Tevet-21  5785-Tevet-22  5785-Tevet-23  5785-Tevet-24  5785-Tevet-25 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [26] 5785-Tevet-26  5785-Tevet-27  5785-Tevet-28  5785-Tevet-29  5785-Shevat-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [31] 5785-Shevat-02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 5785-NA-01 5785-NA-02 5785-NA-03 5785-NA-04 5785-NA-05 5785-NA-06</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] 5785-NA-07 5785-NA-08 5785-NA-09 5785-NA-10 5785-NA-11 5785-NA-12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13] 5785-NA-13 5785-NA-14 5785-NA-15 5785-NA-16 5785-NA-17 5785-NA-18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19] 5785-NA-19 5785-NA-20 5785-NA-21 5785-NA-22 5785-NA-23 5785-NA-24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [25] 5785-NA-25 5785-NA-26 5785-NA-27 5785-NA-28 5785-NA-29 5785-NA-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [31] 5785-NA-02</span>
 <span class="r-in"><span><span class="fu">as_hebrew</span><span class="op">(</span><span class="st">"2016-01-01"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;hebrew[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5776-Tevet-20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5776-NA-20</span>
 <span class="r-in"><span><span class="fu">as_hebrew</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;hebrew[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5785-Sivan-19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5785-NA-19</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
