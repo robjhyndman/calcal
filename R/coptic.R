@@ -33,6 +33,28 @@ coptic_from_fixed <- function(date) {
   list(year = year, month = month, day = day)
 }
 
+format_coptic <- function(date) {
+  format_date(
+    date,
+    month_name = c(
+      "Tho",
+      "Pao",
+      "Ath",
+      "Koi",
+      "Tob",
+      "Mesh",
+      "Parem",
+      "Parm",
+      "Pash",
+      "Pao",
+      "Epep",
+      "Mes",
+      "Epa"
+    )
+  )
+}
+
+
 #' @rdname cal_calendar
 #' @format NULL
 #' @export
@@ -41,7 +63,7 @@ cal_coptic <- cal_calendar(
   short_name = "Cop",
   granularities = c("year", "month", "day"),
   validate_granularities = validate_coptic,
-  format = format_date,
+  format = format_coptic,
   from_rd = coptic_from_fixed,
   to_rd = fixed_from_coptic
 )
@@ -56,6 +78,27 @@ ethiopic_from_fixed <- function(date) {
   coptic_from_fixed(date + (COPTIC_EPOCH - ETHIOPIC_EPOCH))
 }
 
+format_ethiopic <- function(date) {
+  format_date(
+    date,
+    month_name = c(
+      "Mas",
+      "Teq",
+      "Hed",
+      "Takh",
+      "Ter",
+      "Yak",
+      "Mag",
+      "Miy",
+      "Gen",
+      "Sane",
+      "Ham",
+      "Nah",
+      "Pag"
+    )
+  )
+}
+
 #' @rdname cal_calendar
 #' @format NULL
 #' @export
@@ -64,7 +107,7 @@ cal_ethiopic <- cal_calendar(
   short_name = "Eth",
   granularities = c("year", "month", "day"),
   validate_granularities = validate_coptic,
-  format = format_date,
+  format = format_ethiopic,
   from_rd = ethiopic_from_fixed,
   to_rd = fixed_from_ethiopic
 )
@@ -137,7 +180,7 @@ as_coptic <- function(date) {
 #' @param date A numeric vector of dates
 #' @export
 as_ethiopic <- function(date) {
-  as_date(date, calendar = cal_coptic)
+  as_date(date, calendar = cal_ethiopic)
 }
 
 coptic_leap_year <- function(c_year) {

@@ -184,10 +184,9 @@ format_date <- function(date, month_name = NULL) {
     parts[["season"]][!summer] <- "Win"
   }
   if ("month" %in% names(parts)) {
-    parts[["month"]] <- as.character(parts[["month"]])
     if (!is.null(month_name)) {
       parts[["month"]] <- month_name[parts[["month"]]]
-    }
+    } 
   }
   if ("leap" %in% names(parts)) {
     parts[["year"]] <- as.character(parts[["leap"]])
@@ -213,10 +212,7 @@ format_date <- function(date, month_name = NULL) {
   # Drop leap year and leap Month
   parts <- parts[!(names(parts) %in% c("leap_year", "leap_month"))]
   for (i in seq_along(parts)) {
-    # Replace months with names
-    if (!is.null(month_name) & names(parts)[i] == "month") {
-      parts[[i]] <- month_name[parts[[i]]]
-    } else if (is.numeric(parts[[i]])) {
+    if (is.numeric(parts[[i]])) {
       parts[[i]] <- sprintf("%.2d", parts[[i]])
     }
   }
