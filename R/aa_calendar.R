@@ -178,11 +178,6 @@ format.calcalvec <- function(x, ...) {
 # Leap years/months shown via asterisks
 format_date <- function(date, month_name = NULL) {
   parts <- base_granularities(date)
-  if("season" %in% names(parts)) {
-    summer <- parts[["season"]] == iSUMMER
-    parts[["season"]] <- rep("Sum", length(parts[["season"]]))
-    parts[["season"]][!summer] <- "Win"
-  }
   if ("month" %in% names(parts)) {
     if (!is.null(month_name)) {
       parts[["month"]] <- month_name[parts[["month"]]]

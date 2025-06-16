@@ -7,26 +7,44 @@ iSUMMER <- 1
 iWINTER <- 2
 
 fixed_from_icelandic <- function(i_date) {
-  start <- rep(0,length(date))
+  start <- rep(0, length(date))
   start[i_date$season == iSUMMER] <- icelandic_summer(i_date$year)
   start[i_date$season != iSUMMER] <- icelandic_winter(i_date$year)
-  
-  shift <- rep(SATURDAY, length(date)) - 2* (i_date$season == iSUMMER)
+
+  shift <- rep(SATURDAY, length(date)) - 2 * (i_date$season == iSUMMER)
   start + 7 * (i_date$week - 1) + (i_date$weekday - shift) %% 7
 }
 
 icelandic_from_fixed <- function(date) {
   date <- vec_data(date)
   approx <- (date - ICELANDIC_EPOCH + 369) %/% (146097 / 400)
-  year <- approx - (date < icelandic_summer(approx)) 
-  season <- iWINTER - (date < icelandic_winter(year)) 
+  year <- approx - (date < icelandic_summer(approx))
+  season <- iWINTER - (date < icelandic_winter(year))
   start <- rep(0, length(date[[1]]))
   start[season == iSUMMER] <- icelandic_summer(year[season == iSUMMER])
   start[season == iWINTER] <- icelandic_winter(year[season == iWINTER])
   week <- 1 + (date - start) %/% 7
   weekday <- day_of_week_from_fixed(date)
 
-  list(year = year, season=season, week=week, weekday=weekday)
+  list(year = year, season = season, week = week, weekday = weekday)
+}
+
+format_icelandic <- function(date) {
+  parts <- base_granularities(date)
+  summer <- parts[["season"]] == iSUMMER
+  parts[["season"]] <- rep("Sum", length(parts[["season"]]))
+  parts[["season"]][!summer] <- "Win"
+  parts[["weekday"]] <- c("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")[
+    parts[["weekday"]] + 1
+  ]
+  for (i in seq_along(parts)) {
+    if (is.numeric(parts[[i]])) {
+      parts[[i]] <- sprintf("%.2d", parts[[i]])
+    }
+  }
+  apply(as.data.frame(parts), 1, function(x) {
+    paste(x, collapse = "-")
+  })
 }
 
 check_icelandic <- function(date) {}
@@ -37,15 +55,15 @@ check_icelandic <- function(date) {}
 cal_icelandic <- cal_calendar(
   "icelandic",
   "Ice",
-  c("year", "season", "week","weekday"),
+  c("year", "season", "week", "weekday"),
   check_icelandic,
-  format_date,
+  format_icelandic,
   icelandic_from_fixed,
   fixed_from_icelandic
 )
 
 #' Icelandic dates
-#' 
+#'
 #' @param year A numeric vector of years
 #' @param season A numeric vector of seasons (1 = Summer, 2 = Winter)
 #' @param week A numeric vector of weeks within the season
@@ -55,8 +73,13 @@ cal_icelandic <- cal_calendar(
 #'   as_icelandic()
 #' @export
 icelandic_date <- function(year, season, week, weekday) {
-  new_date(year = year, season = season, week=week, weekday= weekday,
-  calendar = cal_icelandic)
+  new_date(
+    year = year,
+    season = season,
+    week = week,
+    weekday = weekday,
+    calendar = cal_icelandic
+  )
 }
 
 #' @rdname icelandic_date
