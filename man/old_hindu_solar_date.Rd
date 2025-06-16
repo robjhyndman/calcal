@@ -10,6 +10,12 @@ old_hindu_solar_date(year, month, day)
 as_old_hindu_solar(date)
 }
 \arguments{
+\item{year}{A numeric vector of years}
+
+\item{month}{A numeric vector of months}
+
+\item{day}{A numeric vector of days}
+
 \item{date}{A date vector on some calendar}
 }
 \description{

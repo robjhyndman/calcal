@@ -88,6 +88,9 @@ reference:
     contents:
       - julian_date
       - as_julian
+  - title: Old Hindu calendars
+      - old_hindu_solar_date
+      - as_old_hindu_solar
   - title: Roman calendar
     contents:
       - roman_date

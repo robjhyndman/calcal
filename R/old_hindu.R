@@ -53,6 +53,9 @@ cal_old_hindu_solar <- cal_calendar(
 
 #' Old Hindu Solar dates
 #' 
+#' @param year A numeric vector of years
+#' @param month A numeric vector of months
+#' @param day A numeric vector of days
 #' @export
 old_hindu_solar_date <- function(year, month, day) {
   new_date(year=year, month=month, day=day, calendar = cal_old_hindu_solar)
