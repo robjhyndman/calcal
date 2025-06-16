@@ -47,7 +47,20 @@ format_icelandic <- function(date) {
   })
 }
 
-check_icelandic <- function(date) {}
+validate_icelandic <- function(date) {
+  if (any(date$season != iSUMMER & date$season != iWINTER)) {
+    stop("Two seasons are allowed (1 = Summer and 2 = Winter)")
+  }
+  if (any(date$weekday < 0 | date$weekday > 6)) {
+    stop("Weekdays must be between 0 (Sunday) and 6 (Saturday)")
+  }
+  if (any(date$week < 1 | date$week > 28)) {
+    stop("Weeks must be between 1 and 28")
+  }
+  if (any(date$season == iWINTER & date$week > 26)) {
+    stop("Winter weeks must be between 1 and 26")
+  }
+}
 
 #' @rdname cal_calendar
 #' @format NULL
@@ -56,7 +69,7 @@ cal_icelandic <- cal_calendar(
   "icelandic",
   "Ice",
   c("year", "season", "week", "weekday"),
-  check_icelandic,
+  validate_icelandic,
   format_icelandic,
   icelandic_from_fixed,
   fixed_from_icelandic
@@ -66,8 +79,9 @@ cal_icelandic <- cal_calendar(
 #'
 #' @param year A numeric vector of years
 #' @param season A numeric vector of seasons (1 = Summer, 2 = Winter)
-#' @param week A numeric vector of weeks within the season
-#' @param weekday A number vector containing day of week
+#' @param week A numeric vector of weeks within the season (1 to 28)
+#' @param weekday A number vector containing day of week (0 = Sunday, 1 = Monday,
+#' ..., 6 = Saturday))
 #' @examples
 #' gregorian_date(2025, 4, 20:30) |>
 #'   as_icelandic()

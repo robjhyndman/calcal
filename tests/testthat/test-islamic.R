@@ -17,6 +17,7 @@ test_that("islamic", {
       cal_islamic$to_rd(),
     gregorian_date(1967, 5, 2) |> as.numeric()
   )
+  expect_no_error(as_islamic(1:1e6) |> as.list() |> validate_islamic())
 
   # Holidays
   expect_equal(

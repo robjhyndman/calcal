@@ -37,7 +37,7 @@ fixed_from_bali <- function(date) {
   #bali_on_or_before(date, BALI_EPOCH)
 }
 
-check_balinese <- function(date) {
+validate_balinese <- function(date) {
   if (any(date$luang < 0 | date$luang > 1)) {
     stop("luang must be either 0 or 1")
   }
@@ -65,8 +65,8 @@ check_balinese <- function(date) {
   if (any(date$sangawara < 1 | date$sangawara > 9)) {
     stop("sangawara must be between 1 and 9")
   }
-  if (any(date$dasawara < 1 | date$dasawara > 10)) {
-    stop("dasawara must be between 1 and 10")
+  if (any(date$dasawara < 0 | date$dasawara > 9)) {
+    stop("dasawara must be between 0 and 9")
   }
 }
 
@@ -88,18 +88,18 @@ cal_balinese <- cal_calendar(
     "sangawara",
     "dasawara"
   ),
-  check_balinese,
+  validate_balinese,
   format_date,
   bali_pawukon_from_fixed,
   fixed_from_bali
 )
 
 #' Balinese Pawukon dates
-#' 
-#' The Balinese calendar repeats every 210 days. It has 10 concurrent 
+#'
+#' The Balinese calendar repeats every 210 days. It has 10 concurrent
 #' weeks, of lengths 1, 2, ..., 10 days. The 210 day cycles are unnumbered,
 #' so there is no way to convert a Balinese date into a unique date on
-#' another calendar. 
+#' another calendar.
 #'
 #' @param luang A numeric vector
 #' @param dwiwara A numeric vector
@@ -151,7 +151,7 @@ as_balinese <- function(date) {
 }
 
 bali_day_from_fixed <- function(date) {
-  (vec_data(date) - BALI_EPOCH) %% 210 
+  (vec_data(date) - BALI_EPOCH) %% 210
 }
 
 bali_luang_from_fixed <- function(date) {
@@ -225,15 +225,15 @@ bali_on_or_before <- function(b_date, date) {
 }
 
 #' Balinese special days
-#' 
-#' Find all occurrences of Kajeng Keliwon and Tumpek in a vector of 
+#'
+#' Find all occurrences of Kajeng Keliwon and Tumpek in a vector of
 #' Gregorian years.
-#' 
+#'
 #' @param year A numeric vector of Gregorian years
 #' @examples
 #' kajeng_keliwon(2025)
 #' tumpek(2025)
-#' 
+#'
 #' @seealso [balinese_date]
 #' @export
 kajeng_keliwon <- function(year) {

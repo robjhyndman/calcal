@@ -29,4 +29,5 @@ test_that("multiplication works", {
       cal_chinese$to_rd(),
     gregorian_date(2025, 6, 1:10) |> vctrs::vec_data()
   )
+  expect_no_error(as_chinese(1:1e4) |> as.list() |> validate_chinese())
 })

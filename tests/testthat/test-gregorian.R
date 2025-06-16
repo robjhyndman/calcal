@@ -56,4 +56,5 @@ test_that("parts_of_date", {
     c(rep(1, 5), rep(2:52, rep(7, 51)), rep(1, 3))
   )
   expect_true(all(day_of_year(yr2025) + days_remaining(yr2025) == 365))
+  expect_no_error(as_gregorian(1:1e6) |> as.list() |> validate_gregorian())
 })

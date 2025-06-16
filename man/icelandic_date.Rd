@@ -14,9 +14,10 @@ as_icelandic(date)
 
 \item{season}{A numeric vector of seasons (1 = Summer, 2 = Winter)}
 
-\item{week}{A numeric vector of weeks within the season}
+\item{week}{A numeric vector of weeks within the season (1 to 28)}
 
-\item{weekday}{A number vector containing day of week}
+\item{weekday}{A number vector containing day of week (0 = Sunday, 1 = Monday,
+..., 6 = Saturday))}
 
 \item{date}{A numeric vector of dates}
 }

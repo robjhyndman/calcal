@@ -7,6 +7,7 @@ test_that("iso", {
       cal_iso$to_rd(),
     gregorian_date(1967, 5, 2) |> as.numeric()
   )
+  expect_no_error(as_iso(1:1e6) |> as.list() |> validate_iso())
 
   expect_equal(week_of_year(dec25), granularity(dec25, "week"))
   expect_equal(

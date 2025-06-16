@@ -181,7 +181,7 @@ format_date <- function(date, month_name = NULL) {
   if ("month" %in% names(parts)) {
     if (!is.null(month_name)) {
       parts[["month"]] <- month_name[parts[["month"]]]
-    } 
+    }
   }
   if ("leap" %in% names(parts)) {
     parts[["year"]] <- as.character(parts[["leap"]])

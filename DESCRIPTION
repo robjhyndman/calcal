@@ -13,14 +13,13 @@ Description: An R implementation of the algorithms described in Reingold and
 License: Apache License (>= 2)
 ByteCompile: TRUE
 Encoding: UTF-8
-LazyData: yes
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
+Depends: R (>= 4.1.0)
 Imports:
     vctrs
 Suggests:
     testthat (>= 3.0.0),
-    tibble,
-    tsibble
+    tibble
 Config/testthat/edition: 3
 URL: https://pkg.robjhyndman.com/calcal/, https://github.com/robjhyndman/calcal

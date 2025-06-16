@@ -15,6 +15,7 @@ test_that("julian", {
       cal_julian$to_rd(),
     gregorian_date(1967, 5, 2) |> as.numeric()
   )
+  expect_no_error(as_julian(1:1e6) |> as.list() |> validate_julian())
 
   expect_error(julian_date(2025, 13, 1))
   expect_error(julian_date(2025, 2, 30))

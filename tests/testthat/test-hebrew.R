@@ -24,6 +24,7 @@ test_that("hebrew", {
       cal_hebrew$to_rd(),
     gregorian_date(1967, 5, 2) |> as.numeric()
   )
+  expect_no_error(as_hebrew(1:1e4) |> as.list() |> validate_hebrew())
 
   # Holidays
   expect_equal(
