@@ -10,7 +10,7 @@ roman_date(
   month = integer(),
   event = integer(),
   count = integer(),
-  leap = logical()
+  leap_day = logical()
 )
 
 as_roman(date)
@@ -24,7 +24,7 @@ as_roman(date)
 
 \item{count}{A numeric vector of counts}
 
-\item{leap}{A logical vector indicating if year is a leap year}
+\item{leap_day}{A logical vector indicating if day is a leap day}
 
 \item{date}{Vector of dates on some calendar}
 }
@@ -38,7 +38,7 @@ specifies dates using year, month, event, count.
 }
 \examples{
 roman_date(66, 4, 1, 1, FALSE)
-new_date(year = 66, month = 4, event = 1, count = 1, leap = FALSE, calendar = cal_roman)
+new_date(year = 66, month = 4, event = 1, count = 1, leap_day = FALSE, calendar = cal_roman)
 as_roman("2016-01-01")
 tibble::tibble(
   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),

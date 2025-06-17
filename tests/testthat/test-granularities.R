@@ -4,7 +4,7 @@ test_that("granularities", {
   expect_equal(granularity_names(as_gregorian(date)), c("year", "month", "day"))
   expect_equal(
     granularity_names(as_roman(date)),
-    c("year", "month", "event", "count", "leap")
+    c("year", "month", "event", "count", "leap_day")
   )
   expect_equal(granularity(as_iso(date), "week"), c(17, rep(18, 6)))
   expect_equal(

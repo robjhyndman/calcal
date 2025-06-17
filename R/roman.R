@@ -15,16 +15,16 @@ validate_roman <- function(date) {
   if (any(date$event < 1 | date$event > 3, na.rm = TRUE)) {
     stop("`event` must be between 1 and 3")
   }
-  if (any(date$leap)) {
+  if (any(date$leap_day)) {
     # Check the date is really a leap day
     if (
       any(
-        date$month[date$leap] != 3 |
-          date$event[date$leap] != KALENDS |
-          date$count[date$leap] != 6
+        date$month[date$leap_day] != 3 |
+          date$event[date$leap_day] != KALENDS |
+          date$count[date$leap_day] != 6
       )
     ) {
-      stop("`leap` must be a leap day (6 Kalends March)")
+      stop("`leap_day` must be a leap day (6 Kalends March)")
     }
   }
   # if (any(count < 1 | count > 19, na.rm = TRUE)) {
@@ -45,7 +45,7 @@ format_roman <- function(x, ...) {
   output <- gsub("  ", " ", output)
   output <- gsub(" ", "_", output)
   out <- paste(lst$year, month.abb[lst$month], output, sep = "-")
-  leap_days <- lst$leap
+  leap_days <- lst$leap_day
   out[leap_days] <- paste0(out[leap_days], "*")
   out
 }
@@ -67,7 +67,7 @@ fixed_from_roman <- function(date, ...) {
         date$count >= 6 &
         date$count <= 16)
     ) +
-    as.numeric(date$leap)
+    as.numeric(date$leap_day)
   vec_data(rd)
 }
 
@@ -116,7 +116,7 @@ roman_from_fixed <- function(date, ...) {
   if (any(case6)) {
     count[case6] <- 31 - day[case6]
   }
-  list(year = year, month = mmonth, event = event, count = count, leap = leap)
+  list(year = year, month = mmonth, event = event, count = count, leap_day = leap)
 }
 
 #' @rdname cal_calendar
@@ -125,7 +125,7 @@ roman_from_fixed <- function(date, ...) {
 cal_roman <- cal_calendar(
   name = "Roman",
   short_name = "Rom",
-  granularities = c("year", "month", "event", "count", "leap"),
+  granularities = c("year", "month", "event", "count", "leap_day"),
   validate_granularities = validate_roman,
   format = format_roman,
   from_rd = roman_from_fixed,
@@ -143,12 +143,12 @@ cal_roman <- cal_calendar(
 #' @param month A numeric vector of months
 #' @param event A numeric vector of events: 1 = Kalends, 2 = Nones, 3 = Ides
 #' @param count A numeric vector of counts
-#' @param leap A logical vector indicating if year is a leap year
+#' @param leap_day A logical vector indicating if day is a leap day
 #' @return A roman vector object
 #' @seealso [cal_roman]
 #' @examples
 #' roman_date(66, 4, 1, 1, FALSE)
-#' new_date(year = 66, month = 4, event = 1, count = 1, leap = FALSE, calendar = cal_roman)
+#' new_date(year = 66, month = 4, event = 1, count = 1, leap_day = FALSE, calendar = cal_roman)
 #' as_roman("2016-01-01")
 #' tibble::tibble(
 #'   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
@@ -160,14 +160,14 @@ roman_date <- function(
   month = integer(),
   event = integer(),
   count = integer(),
-  leap = logical()
+  leap_day = logical()
 ) {
   new_date(
     year = year,
     month = month,
     event = event,
     count = count,
-    leap = leap,
+    leap_day = leap_day,
     calendar = cal_roman
   )
 }
