@@ -32,4 +32,6 @@ Old Hindu solar and lunar dates
 \examples{
 gregorian_date(2025, 1, 1:31) |>
   as_old_hindu_solar()
+gregorian_date(2025, 1, 1:31) |>
+  as_old_hindu_lunar()
 }

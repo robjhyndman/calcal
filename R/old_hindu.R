@@ -38,7 +38,7 @@ old_hindu_lunar_from_fixed <- function(date) {
   day <- 1 + (sun %/% ARYA_LUNAR_DAY) %% 30
   year <- ceiling((new_moon + ARYA_SOLAR_MONTH) / ARYA_SOLAR_YEAR) - 1
 
-  list(year=year, month=month, leap_month=leap, day=day)
+  list(year = year, month = month, leap_month = leap, day = day)
 }
 
 fixed_from_old_hindu_lunar <- function(date) {
@@ -76,8 +76,8 @@ validate_old_hindu_lunar <- function(date) {
   if (any(date$month < 1 | date$month > 12)) {
     stop("month must be between 1 and 12")
   }
-  if (any(date$day < 1 | date$day > 31)) {
-    stop("day must be between 1 and 31")
+  if (any(date$day < 1 | date$day > 30)) {
+    stop("day must be between 1 and 30")
   }
 }
 
@@ -147,7 +147,6 @@ cal_old_hindu_lunar <- cal_calendar(
   fixed_from_old_hindu_lunar
 )
 
-
 #' Old Hindu solar and lunar dates
 #'
 #' @param year A numeric vector of years
@@ -168,11 +167,12 @@ old_hindu_solar_date <- function(year, month, day) {
 #' @examples
 #' gregorian_date(2025, 1, 1:31) |>
 #'   as_old_hindu_solar()
+#' gregorian_date(2025, 1, 1:31) |>
+#'   as_old_hindu_lunar()
 #' @export
 as_old_hindu_solar <- function(date) {
   as_date(date, calendar = cal_old_hindu_solar)
 }
-
 
 hindu_day_count <- function(date) {
   date - HINDU_EPOCH
@@ -182,8 +182,13 @@ hindu_day_count <- function(date) {
 #' @param leap_month A logical vector indicating if year is a leap year
 #' @export
 old_hindu_lunar_date <- function(year, month, leap_month, day) {
-  new_date(year = year, month = month, leap_month = leap_month, day = day,
-  calendar = cal_old_hindu_lunar)
+  new_date(
+    year = year,
+    month = month,
+    leap_month = leap_month,
+    day = day,
+    calendar = cal_old_hindu_lunar
+  )
 }
 
 #' @rdname old_hindu_solar_date
@@ -196,7 +201,6 @@ old_hindu_lunar_leap_year <- function(l_year) {
   (l_year * ARYA_SOLAR_YEAR - ARYA_SOLAR_MONTH) %% ARYA_LUNAR_MONTH >=
     23902504679 / 1282400064
 }
-
 
 jovian_year <- function(date) {
   amod(27 + hindu_day_count(date) %/% (ARYA_JOVIAN_PERIOD / 12), 60)
