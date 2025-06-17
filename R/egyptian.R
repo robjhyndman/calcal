@@ -61,7 +61,7 @@ format_egyptian <- function(date) {
       "Payn",
       "Epip",
       "Meso",
-      "Epag"
+      "xxxx"
     )
   )
 }
@@ -82,7 +82,7 @@ format_armenian <- function(date) {
       "Mare",
       "Marg",
       "Hrot",
-      "Awel"
+      "xxxx"
     )
   )
 }
