@@ -164,6 +164,7 @@ new_date <- function(..., calendar) {
 
 new_calcalvec <- function(rd = integer(), calendar = cal_gregorian) {
   out <- new_vctr(vec_cast(rd, double()), class = "calcalvec")
+  class(out) <- c("calcalvec", calendar$name, "vctrs_vctr")
   attr(out, "calendar") <- calendar
   out
 }
