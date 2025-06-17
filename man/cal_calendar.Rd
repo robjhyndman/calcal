@@ -105,6 +105,6 @@ tibble::tibble(
   x = new_date(year = 2025, month = 5, day = 1:31, calendar = cal_gregorian),
   y = as_date(x, calendar = cal_islamic)
 )
-
+cal_gregorian
 }
 \keyword{datasets}

@@ -31,7 +31,7 @@ WINTER <- 270
 #'   x = new_date(year = 2025, month = 5, day = 1:31, calendar = cal_gregorian),
 #'   y = as_date(x, calendar = cal_islamic)
 #' )
-#'
+#' cal_gregorian
 #' @export
 cal_calendar <- function(
   name,
@@ -69,7 +69,7 @@ print.calcal <- function(x, ...) {
   )
 }
 
-#' Create or convert a date to a new calendar
+#' Create a new date vector or convert a date vector to a new calendar
 #'
 #' @param date Date vector on some calendar
 #' @param calendar Target calendar of class "calcal"
