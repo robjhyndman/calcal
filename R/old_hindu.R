@@ -163,22 +163,6 @@ old_hindu_solar_date <- function(year, month, day) {
 }
 
 #' @rdname old_hindu_solar_date
-#' @param date A date vector on some calendar
-#' @examples
-#' gregorian_date(2025, 1, 1:31) |>
-#'   as_old_hindu_solar()
-#' gregorian_date(2025, 1, 1:31) |>
-#'   as_old_hindu_lunar()
-#' @export
-as_old_hindu_solar <- function(date) {
-  as_date(date, calendar = cal_old_hindu_solar)
-}
-
-hindu_day_count <- function(date) {
-  date - HINDU_EPOCH
-}
-
-#' @rdname old_hindu_solar_date
 #' @param leap_month A logical vector indicating if year is a leap year
 #' @export
 old_hindu_lunar_date <- function(year, month, leap_month, day) {
@@ -192,9 +176,25 @@ old_hindu_lunar_date <- function(year, month, leap_month, day) {
 }
 
 #' @rdname old_hindu_solar_date
+#' @param date A date vector on some calendar
+#' @examples
+#' gregorian_date(2025, 1, 1:31) |>
+#'   as_old_hindu_solar()
+#' gregorian_date(2025, 1, 1:31) |>
+#'   as_old_hindu_lunar()
+#' @export
+as_old_hindu_solar <- function(date) {
+  as_date(date, calendar = cal_old_hindu_solar)
+}
+
+#' @rdname old_hindu_solar_date
 #' @export
 as_old_hindu_lunar <- function(date) {
   as_date(date, calendar = cal_old_hindu_lunar)
+}
+
+hindu_day_count <- function(date) {
+  date - HINDU_EPOCH
 }
 
 old_hindu_lunar_leap_year <- function(l_year) {
