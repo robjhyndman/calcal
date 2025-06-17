@@ -2,16 +2,16 @@
 % Please edit documentation in R/old_hindu.R
 \name{old_hindu_solar_date}
 \alias{old_hindu_solar_date}
-\alias{as_old_hindu_solar}
 \alias{old_hindu_lunar_date}
+\alias{as_old_hindu_solar}
 \alias{as_old_hindu_lunar}
 \title{Old Hindu solar and lunar dates}
 \usage{
 old_hindu_solar_date(year, month, day)
 
-as_old_hindu_solar(date)
-
 old_hindu_lunar_date(year, month, leap_month, day)
+
+as_old_hindu_solar(date)
 
 as_old_hindu_lunar(date)
 }
@@ -22,9 +22,9 @@ as_old_hindu_lunar(date)
 
 \item{day}{A numeric vector of days}
 
-\item{date}{A date vector on some calendar}
-
 \item{leap_month}{A logical vector indicating if year is a leap year}
+
+\item{date}{A date vector on some calendar}
 }
 \description{
 Old Hindu solar and lunar dates

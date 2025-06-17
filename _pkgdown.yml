@@ -68,6 +68,12 @@ reference:
       - ethiopic_date
       - as_coptic
       - as_ethiopic
+  - title: Egyptian and Armenian calendars
+    contents:
+      - egyptian_date
+      - armenian_date
+      - as_egyptian
+      - as_armenian
   - title: Hebrew calendar
     contents:
       - hebrew_date
