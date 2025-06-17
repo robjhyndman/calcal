@@ -42,14 +42,6 @@ reference:
     contents:
       - gregorian_date
       - as_gregorian
-      - day_of_week
-      - day_of_month
-      - day_of_year
-      - days_remaining
-      - week_of_month
-      - week_of_year
-      - month_of_year
-      - year
   - title: Baháʼí calendar
     contents:
       - bahai_date
@@ -74,6 +66,12 @@ reference:
       - armenian_date
       - as_egyptian
       - as_armenian
+  - title: French revolutionary calendars
+    contents:
+      - french_date
+      - afrench_date
+      - as_french
+      - as_afrench
   - title: Hebrew calendar
     contents:
       - hebrew_date
@@ -115,6 +113,14 @@ reference:
     contents:
       - granularity
       - granularity_names
+      - day_of_week
+      - day_of_month
+      - day_of_year
+      - days_remaining
+      - week_of_month
+      - week_of_year
+      - month_of_year
+      - year
   - title: Time of day
     contents:
       - time_of_day
