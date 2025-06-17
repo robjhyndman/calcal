@@ -183,15 +183,8 @@ format_date <- function(date, month_name = NULL) {
       parts[["month"]] <- month_name[parts[["month"]]]
     }
   }
-  if ("leap" %in% names(parts)) {
-    parts[["year"]] <- as.character(parts[["leap"]])
-    parts[["year"]][parts[["leap"]]] <- paste0(
-      parts[["year"]][parts[["leap"]]],
-      "*"
-    )
-  }
   if ("leap_year" %in% names(parts)) {
-    parts[["year"]] <- as.character(parts[["leap_year"]])
+    parts[["year"]] <- as.character(parts[["year"]])
     parts[["year"]][parts[["leap_year"]]] <- paste0(
       parts[["year"]][parts[["leap_year"]]],
       "*"

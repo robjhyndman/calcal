@@ -3,11 +3,17 @@
 \name{old_hindu_solar_date}
 \alias{old_hindu_solar_date}
 \alias{as_old_hindu_solar}
-\title{Old Hindu Solar dates}
+\alias{old_hindu_lunar_date}
+\alias{as_old_hindu_lunar}
+\title{Old Hindu solar and lunar dates}
 \usage{
 old_hindu_solar_date(year, month, day)
 
 as_old_hindu_solar(date)
+
+old_hindu_lunar_date(year, month, leap_month, day)
+
+as_old_hindu_lunar(date)
 }
 \arguments{
 \item{year}{A numeric vector of years}
@@ -17,9 +23,11 @@ as_old_hindu_solar(date)
 \item{day}{A numeric vector of days}
 
 \item{date}{A date vector on some calendar}
+
+\item{leap_month}{A logical vector indicating if year is a leap year}
 }
 \description{
-Old Hindu Solar dates
+Old Hindu solar and lunar dates
 }
 \examples{
 gregorian_date(2025, 1, 1:31) |>

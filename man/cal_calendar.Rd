@@ -17,6 +17,7 @@
 \alias{cal_iso}
 \alias{cal_julian}
 \alias{cal_old_hindu_solar}
+\alias{cal_old_hindu_lunar}
 \alias{cal_roman}
 \title{Define calendar objects}
 \format{
@@ -56,6 +57,8 @@ cal_iso
 cal_julian
 
 cal_old_hindu_solar
+
+cal_old_hindu_lunar
 
 cal_roman
 }
