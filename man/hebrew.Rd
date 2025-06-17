@@ -42,6 +42,7 @@ as_gregorian(hebrew_date(5785, 3, 2:4))
 as_hebrew(gregorian_date(2025, 1, 1:31))
 as_hebrew("2016-01-01")
 as_hebrew(Sys.Date())
+hebrew_date(5785, 3, 1:10) |> day_of_week()
 }
 \seealso{
 \link{cal_hebrew}, \link{rosh_hashanah}

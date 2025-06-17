@@ -174,3 +174,8 @@ fixed_from_mjd <- function(mjd) {
 mjd_from_fixed <- function(date) {
   date - MJD_EPOCH
 }
+
+#' @export
+day_of_week.julian <- function(date, ...) {
+  day_of_week.gregorian(date, ...)
+}

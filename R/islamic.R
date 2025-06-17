@@ -56,7 +56,7 @@ islamic_from_fixed <- function(date, ...) {
 #' @format NULL
 #' @export
 cal_islamic <- cal_calendar(
-  name = "Islamic",
+  name = "islamic",
   short_name = "Hij",
   granularities = c("year", "month", "day"),
   validate_granularities = validate_islamic,
@@ -80,6 +80,7 @@ cal_islamic <- cal_calendar(
 #'   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
 #'   y = as_islamic(x)
 #' )
+#' islamic_date(2025, 5, 1:10) |> day_of_week()
 #' @examples
 #' islamic_date(2025, 4, 19:30)
 #' @seealso [cal_islamic], [ramadan]
@@ -164,4 +165,18 @@ eid_al_fitr <- function(year) {
 # Eid al-Adha
 eid_al_adha <- function(year) {
   as_gregorian(islamic_in_gregorian(12, 10, year))
+}
+
+#' @export
+day_of_week.islamic <- function(date, ...) {
+  dow <- day_of_week_from_fixed(date) + 1
+  c(
+    "al-Ahad",
+    "al-Ithnayn",
+    "ath-Thulatha",
+    "al-Arba'a",
+    "al-Khamis",
+    "al-Jumu'ah",
+    "as-Sabt"
+  )[dow]
 }

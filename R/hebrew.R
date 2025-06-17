@@ -157,6 +157,7 @@ cal_hebrew <- cal_calendar(
 #' as_hebrew(gregorian_date(2025, 1, 1:31))
 #' as_hebrew("2016-01-01")
 #' as_hebrew(Sys.Date())
+#' hebrew_date(5785, 3, 1:10) |> day_of_week()
 #' @rdname hebrew
 #' @export
 hebrew_date <- function(year = integer(), month = integer(), day = integer()) {
@@ -427,4 +428,19 @@ sukkot <- function(year) {
 #' @export
 shavuot <- function(year) {
   as_gregorian(hebrew_in_gregorian(SIVAN, 6, year))
+}
+
+
+#' @export
+day_of_week.hebrew <- function(date, ...) {
+  dow <- day_of_week_from_fixed(date) + 1
+  c(
+    "Rishon",
+    "Sheni",
+    "Shlishi",
+    "Revii",
+    "Hamishi",
+    "Shishi",
+    "Shabbat"
+  )[dow]
 }

@@ -132,9 +132,9 @@ cal_ethiopic <- cal_calendar(
 #' @seealso [cal_coptic], [cal_ethiopic], [coptic_christmas]
 #' @examples
 #' tibble::tibble(
-#'  gregorian = gregorian_date(2025, 1, 1:31),
-#'  coptic = as_coptic(gregorian),
-#'  ethiopic = as_ethiopic(gregorian)
+#'   gregorian = gregorian_date(2025, 1, 1:31),
+#'   coptic = as_coptic(gregorian),
+#'   ethiopic = as_ethiopic(gregorian)
 #' )
 #' coptic_date(1741, 5, 16:18)
 #' as_date(Sys.Date(), calendar = cal_ethiopic)
@@ -202,4 +202,32 @@ coptic_in_gregorian <- function(c_month, c_day, g_year) {
 #' @export
 coptic_christmas <- function(year) {
   coptic_in_gregorian(4, 29, year) |> as_gregorian()
+}
+
+#' @export
+day_of_week.coptic <- function(date, ...) {
+  dow <- day_of_week_from_fixed(date) + 1
+  c(
+    "Tkyriake",
+    "Pesnau",
+    "Pshoment",
+    "Peftoou",
+    "Ptiou",
+    "Psoou",
+    "Psabbaton"
+  )[dow]
+}
+
+#' @export
+day_of_week.ethiopic <- function(date, ...) {
+  dow <- day_of_week_from_fixed(date) + 1
+  c(
+    "Ihud",
+    "Sanyo",
+    "Maksanyo",
+    "Rob",
+    "Hamus",
+    "Arb",
+    "Kidamme"
+  )[dow]
 }

@@ -31,3 +31,9 @@ Vendemiaire to the autumnal equinox. The second version, proposed in 1795, was a
 arithmetic calendar, but was never used. We distinguish the two by using "afrench"
 (for Arithmetic French) for the second form.
 }
+\examples{
+french_date(1, 1, 1:15) |>
+  as_gregorian()
+french_date(1, 1, 1:15) |>
+  day_of_week()
+}

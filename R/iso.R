@@ -81,3 +81,8 @@ iso_long_year <- function(i_year) {
   dec31 <- day_of_week_from_fixed(gregorian_year_end(i_year))
   jan1 == THURSDAY | dec31 == THURSDAY
 }
+
+#' @export
+day_of_week.iso <- function(date, ...) {
+  day_of_week.gregorian(date, ...)
+}

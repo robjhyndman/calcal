@@ -22,7 +22,7 @@ french_from_fixed <- function(date) {
   month <- 1 + (date - new_year) %/% 30
   day <- 1 + (date - new_year) %% 30
 
-  list(year=year, month=month, day=day)
+  list(year = year, month = month, day = day)
 }
 
 fixed_from_arithmetic_french <- function(date) {
@@ -40,12 +40,12 @@ fixed_from_arithmetic_french <- function(date) {
 arithmetic_french_from_fixed <- function(date) {
   date <- vec_data(date)
   approx <- 1 + (date - FRENCH_EPOCH + 2) %/% (1460969 / 4000)
-  year <- approx - (date < vec_data(afrench_date(approx, 1, 1))) 
+  year <- approx - (date < vec_data(afrench_date(approx, 1, 1)))
   month <- 1 +
     (date - vec_data(afrench_date(year, 1, 1))) %/% 30
   day <- 1 + date - vec_data(afrench_date(year, month, 1))
 
-  list(year=year, month=month, day=day)
+  list(year = year, month = month, day = day)
 }
 
 validate_french <- function(date) {
@@ -56,7 +56,7 @@ validate_french <- function(date) {
     stop("Day must be between 1 and 30")
   }
   leap_years <- TRUE
-  if(any(date$month == 13 & date$day > 6)) {
+  if (any(date$month == 13 & date$day > 6)) {
     stop("13th month can only have 5 or 6 days")
   }
 }
@@ -68,10 +68,10 @@ validate_afrench <- function(date) {
     stop("Day must be between 1 and 30")
   }
   leap_years <- arithmetic_french_leap_year(date$year)
-  if(any(date$month == 13 & date$day > 5 & !leap_years)) {
+  if (any(date$month == 13 & date$day > 5 & !leap_years)) {
     stop("13th month can only have 5 days in non-leap years")
   }
-  if(any(date$month == 13 & date$day > 6 & leap_years)) {
+  if (any(date$month == 13 & date$day > 6 & leap_years)) {
     stop("13th month can only have 6 days in leap years")
   }
 }
@@ -125,25 +125,30 @@ cal_afrench <- cal_calendar(
 
 
 #' French Revolutionary Dates
-#' 
+#'
 #' There are two versions of the French Revolutionary Calendar. The original
-#' version, used from 1793, was kept in sync with the solar year by setting the first day of 
+#' version, used from 1793, was kept in sync with the solar year by setting the first day of
 #' Vendemiaire to the autumnal equinox. The second version, proposed in 1795, was a simpler
-#' arithmetic calendar, but was never used. We distinguish the two by using "afrench" 
+#' arithmetic calendar, but was never used. We distinguish the two by using "afrench"
 #' (for Arithmetic French) for the second form.
 #'
 #' @param year year
 #' @param month month
 #' @param day day
+#' @examples
+#' french_date(1, 1, 1:15) |>
+#'   as_gregorian()
+#' french_date(1, 1, 1:15) |>
+#'   day_of_week()
 #' @export
 french_date <- function(year, month, day) {
-  new_date(year=year, month=month, day=day, calendar = cal_french)
+  new_date(year = year, month = month, day = day, calendar = cal_french)
 }
 
 #' @rdname french_date
 #' @export
 afrench_date <- function(year, month, day) {
-  new_date(year=year, month=month, day=day, calendar = cal_afrench)
+  new_date(year = year, month = month, day = day, calendar = cal_afrench)
 }
 
 
@@ -188,3 +193,31 @@ arithmetic_french_leap_year <- function(f_year) {
     !(f_year %% 4000 == 0)
 }
 
+#' @export
+day_of_week.french <- function(date, ...) {
+  dom <- granularity(date, "day")
+  dow <- amod(dom, 10)
+  month <- granularity(date, "month")
+  dow1 <- c(
+    "Primidi",
+    "Duodi",
+    "Tridi",
+    "Quartidi",
+    "Quintidi",
+    "Sextidi",
+    "Septidi",
+    "Octidi",
+    "Nonidi",
+    "Decadi"
+  )[dow]
+  dow2 <- c(
+    "Vertu",
+    "Genie",
+    "Travail",
+    "Opinion",
+    "Recompense",
+    "Revolution"
+  )[dow]
+  dow1[month == 13] <- dow2[month == 13]
+  dow1
+}

@@ -41,9 +41,9 @@ on whether it is a leap year. Leap years occur every 4 years.
 }
 \examples{
 tibble::tibble(
- gregorian = gregorian_date(2025, 1, 1:31),
- coptic = as_coptic(gregorian),
- ethiopic = as_ethiopic(gregorian)
+  gregorian = gregorian_date(2025, 1, 1:31),
+  coptic = as_coptic(gregorian),
+  ethiopic = as_ethiopic(gregorian)
 )
 coptic_date(1741, 5, 16:18)
 as_date(Sys.Date(), calendar = cal_ethiopic)

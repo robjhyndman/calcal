@@ -210,3 +210,17 @@ birth_of_the_bab <- function(year) {
   set8 <- bahai_sunset(day)
   as_gregorian(day + 1 + (m8 >= set8))
 }
+
+#' @export
+day_of_week.bahai <- function(date, ...) {
+  dow <- day_of_week_from_fixed(date) + 1
+  c(
+    "Jamal",
+    "Kamal",
+    "Fidal",
+    "'Idal",
+    "Istijlal",
+    "Istiqlal",
+    "Jalal"
+  )[dow]
+}

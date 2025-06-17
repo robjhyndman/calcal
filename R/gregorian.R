@@ -180,9 +180,12 @@ gregorian_year_range <- function(g_year) {
   c(gregorian_new_year(min(g_year)), gregorian_new_year(max(g_year) + 1) - 1)
 }
 
-#' Extract parts of a Gregorian date
+#' Compute granularities from a date
 #'
-#' Extract days, weeks, or months from a vector of Gregorian dates.
+#' Compute days, weeks, or months from a vector of dates. These work for Gregorian
+#' dates, and for some other calendars where it makes sense. In particular, `day_of_week`
+#' has been implemented for many calendars that contain the concept of a week. Similarly,
+#' `day_of_month`, `day_of_year` and `days_remaining` will work for several calendars.
 #'
 #' @details
 #' \code{week_of_year()} returns the ISO 8601 week number with \code{first_day} as Monday.
@@ -198,11 +201,10 @@ gregorian_year_range <- function(g_year) {
 #'
 #' Other functions should be self-explanatory.
 #'
-#' @param date A vector of Gregorian dates
-#' @param numeric Logical. Return a numeric vector if TRUE with 1 denoting the \code{first_day}
-#' @param first_day Character denoting first day of the week. Ignored if \code{numeric} is \code{FALSE}.
+#' @param date A vector of dates
+#' @param first_day Character denoting first day of the week.
+#' @param ... Other arguments used for specific calendars
 #' Default is \code{"Monday"}
-#' @param abbreviate Logical. Return abbreviated day names if \code{TRUE}. Ignored if \code{numeric} is \code{TRUE}.
 #' @examples
 #' april2025 <- gregorian_date(2025, 4, 1:30)
 #' day_of_week(april2025)
@@ -214,11 +216,22 @@ gregorian_year_range <- function(g_year) {
 #' month_of_year(april2025)
 #' @rdname gregorian-parts
 #' @export
-day_of_week <- function(
+day_of_week <- function(date, ...) {
+  UseMethod("day_of_week")
+}
+
+#' @export
+day_of_week.default <- function(date, ...) {
+  day_of_week(as_gregorian(date, ...))
+}
+
+#' @export
+day_of_week.gregorian <- function(
   date,
   numeric = FALSE,
   first_day = "Monday",
-  abbreviate = FALSE
+  abbreviate = FALSE,
+  ...
 ) {
   dow <- day_of_week_from_fixed(date) + 1
   if (numeric) {

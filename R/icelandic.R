@@ -85,6 +85,8 @@ cal_icelandic <- cal_calendar(
 #' @examples
 #' gregorian_date(2025, 4, 20:30) |>
 #'   as_icelandic()
+#' icelandic_date(2025, 1, 6, 0:6) |>
+#'   day_of_week()
 #' @export
 icelandic_date <- function(year, season, week, weekday) {
   new_date(
@@ -117,4 +119,18 @@ icelandic_winter <- function(i_year) {
 
 icelandic_leap_year <- function(i_year) {
   (icelandic_summer(i_year + 1) - icelandic_summer(i_year)) != 364
+}
+
+#' @export
+day_of_week.icelandic <- function(date, ...) {
+  dow <- day_of_week_from_fixed(date) + 1
+  c(
+    "Sunnudagur",
+    "Manudagur",
+    "\u00deri\u00f0judagur",
+    "Mi\u00f0vikudagur",
+    "Fimmtudagur",
+    "F\u00f8studagur",
+    "Laugardagur"
+  )[dow]
 }

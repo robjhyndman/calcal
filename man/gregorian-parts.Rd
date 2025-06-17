@@ -9,9 +9,9 @@
 \alias{week_of_year}
 \alias{month_of_year}
 \alias{year}
-\title{Extract parts of a Gregorian date}
+\title{Compute granularities from a date}
 \usage{
-day_of_week(date, numeric = FALSE, first_day = "Monday", abbreviate = FALSE)
+day_of_week(date, ...)
 
 day_of_month(date)
 
@@ -28,17 +28,18 @@ month_of_year(date)
 year(date)
 }
 \arguments{
-\item{date}{A vector of Gregorian dates}
+\item{date}{A vector of dates}
 
-\item{numeric}{Logical. Return a numeric vector if TRUE with 1 denoting the \code{first_day}}
-
-\item{first_day}{Character denoting first day of the week. Ignored if \code{numeric} is \code{FALSE}.
+\item{...}{Other arguments used for specific calendars
 Default is \code{"Monday"}}
 
-\item{abbreviate}{Logical. Return abbreviated day names if \code{TRUE}. Ignored if \code{numeric} is \code{TRUE}.}
+\item{first_day}{Character denoting first day of the week.}
 }
 \description{
-Extract days, weeks, or months from a vector of Gregorian dates.
+Compute days, weeks, or months from a vector of dates. These work for Gregorian
+dates, and for some other calendars where it makes sense. In particular, \code{day_of_week}
+has been implemented for many calendars that contain the concept of a week. Similarly,
+\code{day_of_month}, \code{day_of_year} and \code{days_remaining} will work for several calendars.
 }
 \details{
 \code{week_of_year()} returns the ISO 8601 week number with \code{first_day} as Monday.

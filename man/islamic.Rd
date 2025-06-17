@@ -35,6 +35,7 @@ tibble::tibble(
   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
   y = as_islamic(x)
 )
+islamic_date(2025, 5, 1:10) |> day_of_week()
 islamic_date(2025, 4, 19:30)
 }
 \seealso{

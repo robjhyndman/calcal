@@ -136,7 +136,6 @@ armenian_date <- function(year, month, day) {
   new_date(year = year, month = month, day = day, calendar = cal_armenian)
 }
 
-
 #' @rdname egyptian
 #' @param date Vector of dates on some calendar
 #' @export
