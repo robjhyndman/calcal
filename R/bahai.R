@@ -112,7 +112,6 @@ bahai_date <- function(major, cycle, year, month, day) {
   )
 }
 
-
 #' @rdname bahai
 #' @param date A numeric vector of dates
 #' @export

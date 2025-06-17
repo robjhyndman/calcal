@@ -182,7 +182,6 @@ dates3_in_gregorian <- function(g_year, date0, date1, date2) {
   c(unlist(out))
 }
 
-
 # Julian Day functions
 JD_EPOCH <- -1721424.5
 

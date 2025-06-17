@@ -54,7 +54,6 @@ format_coptic <- function(date) {
   )
 }
 
-
 #' @rdname cal_calendar
 #' @format NULL
 #' @export

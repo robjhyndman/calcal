@@ -116,7 +116,13 @@ roman_from_fixed <- function(date, ...) {
   if (any(case6)) {
     count[case6] <- 31 - day[case6]
   }
-  list(year = year, month = mmonth, event = event, count = count, leap_day = leap)
+  list(
+    year = year,
+    month = mmonth,
+    event = event,
+    count = count,
+    leap_day = leap
+  )
 }
 
 #' @rdname cal_calendar

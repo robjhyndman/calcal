@@ -85,7 +85,6 @@ as_time_of_day.numeric <- function(x, ...) {
   time_of_day(h, m, s)
 }
 
-
 #' @export
 as_time_of_day.calcalvec <- function(x, ...) {
   as_time_of_day(vec_data(x))
@@ -103,7 +102,6 @@ as_time_of_day.POSIXlt <- function(x, ...) {
 
 #' @export
 vec_ptype2.time_of_day.time_of_day <- function(x, y, ...) time_of_day()
-
 
 #' @export
 vec_cast.double.time_of_day <- function(x, ...) {

@@ -201,7 +201,6 @@ bali_dasawara_from_fixed <- function(date) {
   (1 + i_values[i + 1] + j_values[j + 1]) %% 10
 }
 
-
 bali_week_from_fixed <- function(date) {
   1 + bali_day_from_fixed(date) %/% 7
 }

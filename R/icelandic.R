@@ -103,7 +103,6 @@ as_icelandic <- function(date) {
   as_date(date, calendar = cal_icelandic)
 }
 
-
 icelandic_summer <- function(i_year) {
   apr19 <- ICELANDIC_EPOCH +
     365 * (i_year - 1) +
@@ -115,7 +114,6 @@ icelandic_summer <- function(i_year) {
 icelandic_winter <- function(i_year) {
   icelandic_summer(i_year + 1) - 180
 }
-
 
 icelandic_leap_year <- function(i_year) {
   (icelandic_summer(i_year + 1) - icelandic_summer(i_year)) != 364
