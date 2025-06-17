@@ -119,6 +119,12 @@ cal_armenian <- cal_calendar(
 #' @param year Numeric vector of years
 #' @param month Numeric vector of months
 #' @param day Numeric vector of days
+#' @examples
+#' tibble::tibble(
+#'   gregorian = gregorian_date(2025, 5, 1:10),
+#'   egyptian = as_egyptian(gregorian),
+#'   armenian = as_armenian(gregorian)
+#' )
 #' @export
 egyptian_date <- function(year, month, day) {
   new_date(year = year, month = month, day = day, calendar = cal_egyptian)

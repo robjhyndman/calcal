@@ -27,3 +27,10 @@ as_armenian(date)
 \description{
 Egyptian and Armenian dates
 }
+\examples{
+tibble::tibble(
+  gregorian = gregorian_date(2025, 5, 1:10),
+  egyptian = as_egyptian(gregorian),
+  armenian = as_armenian(gregorian)
+)
+}
