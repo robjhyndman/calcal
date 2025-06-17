@@ -430,7 +430,6 @@ shavuot <- function(year) {
   as_gregorian(hebrew_in_gregorian(SIVAN, 6, year))
 }
 
-
 #' @export
 day_of_week.hebrew <- function(date, ...) {
   dow <- day_of_week_from_fixed(date) + 1

@@ -123,7 +123,6 @@ cal_afrench <- cal_calendar(
   fixed_from_arithmetic_french
 )
 
-
 #' French Revolutionary Dates
 #'
 #' There are two versions of the French Revolutionary Calendar. The original
@@ -150,7 +149,6 @@ french_date <- function(year, month, day) {
 afrench_date <- function(year, month, day) {
   new_date(year = year, month = month, day = day, calendar = cal_afrench)
 }
-
 
 #' @rdname french_date
 #' @param date A vector of dates on some calendar
@@ -179,7 +177,6 @@ french_new_year_on_or_before <- function(date) {
   }
   return(out)
 }
-
 
 french_leap_year <- function(f_year) {
   (french_date(f_year + 1, 1, 1) -
