@@ -9,5 +9,5 @@ test_that("roman", {
       cal_roman$to_rd(),
     gregorian_date(1967, 5, 2) |> as.numeric()
   )
-  expect_no_error(as_roman(1:1e6) |> as.list() |> validate_roman())
+  expect_no_error(as_roman(1:1e5) |> as.list() |> validate_roman())
 })

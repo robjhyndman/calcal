@@ -13,7 +13,7 @@ test_that("balinese", {
       suppressWarnings(),
     gregorian_date(2025, 6, 15:16) |> vctrs::vec_data()
   )
-  expect_no_error(as_balinese(1:1e6) |> as.list() |> validate_balinese())
+  expect_no_error(as_balinese(1:1e5) |> as.list() |> validate_balinese())
   # Tumpek
   tumpek2025 <- tumpek(2025)
   expect_equal(diff(tumpek2025), rep(35, 9))

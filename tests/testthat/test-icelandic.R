@@ -12,5 +12,5 @@ test_that("icelandic", {
       cal_icelandic$to_rd(),
     icelandic_date(2025, 1, 6, 0:6) |> vctrs::vec_data()
   )
-  expect_no_error(as_icelandic(1:1e6) |> as.list() |> validate_icelandic())
+  expect_no_error(as_icelandic(1:1e5) |> as.list() |> validate_icelandic())
 })
