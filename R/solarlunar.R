@@ -1097,18 +1097,16 @@ new_moons <- function(year) {
   first <- new_moon_at_or_after(gregorian_date(min(year), JANUARY, 1))
   last <- new_moon_before(gregorian_date(max(year) + 1, JANUARY, 1))
   nm <- nth_new_moon(first:last)
-  as_gregorian(round(nm))
+  as_gregorian(nm)
 }
 
 #' @rdname new_moons
 #' @export
 full_moons <- function(year) {
-  first <- new_moon_at_or_after(
-    vec_data(gregorian_date(min(year), JANUARY, 1)) - 16
-  )
+  first <- new_moon_at_or_after(gregorian_date(min(year), JANUARY, 1) - 16)
   last <- new_moon_before(gregorian_date(max(year) + 1, JANUARY, 1) + 16)
   nm <- nth_new_moon(first:last)
-  fm <- as_gregorian(round(nm + MEAN_SYNODIC_MONTH / 2))
+  fm <- as_gregorian(nm + MEAN_SYNODIC_MONTH / 2)
   y <- granularity(fm, "year")
   fm[y %in% year]
 }
