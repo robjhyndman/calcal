@@ -2,7 +2,7 @@
 % Please edit documentation in R/aa_calendar.R, R/bahai.R, R/bali.R,
 %   R/chinese.R, R/coptic.R, R/egyptian.R, R/french.R, R/gregorian.R,
 %   R/hebrew.R, R/icelandic.R, R/islamic.R, R/iso.R, R/julian.R, R/old_hindu.R,
-%   R/roman.R
+%   R/persian.R, R/roman.R
 \docType{data}
 \name{cal_calendar}
 \alias{cal_calendar}
@@ -23,6 +23,8 @@
 \alias{cal_julian}
 \alias{cal_old_hindu_solar}
 \alias{cal_old_hindu_lunar}
+\alias{cal_persian}
+\alias{cal_apersian}
 \alias{cal_roman}
 \title{Define calendar objects}
 \format{
@@ -72,6 +74,10 @@ cal_julian
 cal_old_hindu_solar
 
 cal_old_hindu_lunar
+
+cal_persian
+
+cal_apersian
 
 cal_roman
 }

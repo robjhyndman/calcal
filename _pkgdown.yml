@@ -66,7 +66,7 @@ reference:
       - armenian_date
       - as_egyptian
       - as_armenian
-  - title: French revolutionary calendars
+  - title: French revolutionary calendar
     contents:
       - french_date
       - afrench_date
@@ -95,7 +95,15 @@ reference:
   - title: Old Hindu calendars
     contents:
       - old_hindu_solar_date
+      - old_hindu_lunar_date
       - as_old_hindu_solar
+      - as_old_hindu_lunar
+  - title: Persian calendar
+    contents:
+      - persian_date
+      - apersian_date
+      - as_persian
+      - as_apersian
   - title: Roman calendar
     contents:
       - roman_date
