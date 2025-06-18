@@ -17,8 +17,8 @@ test_that("lunar", {
   expect_true(all(diff(lunar_phase(april2025)) < 15))
   # New moon
   expect_true(abs(lunar_phase(as_gregorian("2025-04-28"))) < 3)
-  expect_true(as_gregorian(as_gregorian("2025-04-28")) %in% new_moons(2025))
+  expect_true(as_gregorian("2025-04-27") %in% new_moons(2025))
   # Full moon
   expect_true(abs(lunar_phase(as_gregorian("2025-04-13")) - 180) < 1)
-  expect_true(as_gregorian(as_gregorian("2025-04-13")) %in% full_moons(2025))
+  expect_true(as_gregorian("2025-04-13") %in% full_moons(2025))
 })

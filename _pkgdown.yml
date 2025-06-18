@@ -92,6 +92,10 @@ reference:
     contents:
       - julian_date
       - as_julian
+  - title: Mayan calendar
+    contents:
+      - mayan_date
+      - as_mayan
   - title: Old Hindu calendars
     contents:
       - old_hindu_solar_date

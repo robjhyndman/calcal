@@ -82,30 +82,12 @@ time_from_moment <- function(tee) {
   tee %% 1
 }
 
-from_radix <- function(a, b, c = NULL) {
-  if (is.null(c)) {
-    if (is.null(b)) {
-      return(a[1])
-    } else {
-      result <- vector(length = length(a))
-      result[1] <- from_radix(a[-1], b[-length(b)]) *
-        b[length(b)] +
-        a[length(a)]
-      return(result[1])
-    }
-  } else {
-    total <- 0
-    for (i in 1:length(a)) {
-      prod_value <- 1
-      for (j in 1:(i - 1)) {
-        if (j <= length(b) + length(c)) {
-          prod_value <- prod_value * c(b, c)[j]
-        }
-      }
-      total <- total + a[i] * prod_value
-    }
-    return(total / prod(c))
+from_radix <- function(a, b) {
+  mult <- rev(cumprod(c(1, b)))
+  if (!is.matrix(a)) {
+    a <- matrix(a, nrow = 1)
   }
+  apply(a, 1, function(x) sum(x * mult))
 }
 
 to_radix <- function(x, b, c = NULL) {
@@ -113,10 +95,14 @@ to_radix <- function(x, b, c = NULL) {
     if (is.null(b)) {
       return(x)
     } else {
-      b_last <- b[length(b)]
-      quot <- x %/% b_last
-      rem <- x %% b_last
-      return(c(to_radix(quot, b[-length(b)]), rem))
+      place_values <- rev(cumprod(c(1, b)))
+      digits <- matrix(0, nrow = length(x), ncol = length(place_values))
+      remainder <- x
+      for (i in seq_along(place_values)) {
+        digits[, i] <- remainder %/% place_values[i]
+        remainder <- remainder %% place_values[i]
+      }
+      return(digits)
     }
   } else {
     return(to_radix(x * prod(c), c(b, c)))
