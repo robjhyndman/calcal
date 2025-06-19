@@ -50,7 +50,7 @@ reference:
     contents:
       - balinese_date
       - as_balinese
-  - title: Chinese calendar
+  - title: Chinese, Japanese, Korean and Vietnamese calendars
     contents:
       - chinese_date
       - as_chinese

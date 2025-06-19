@@ -20,13 +20,22 @@ validate_chinese <- function(date) {
   }
 }
 
-chinese_from_fixed <- function(date) {
+validate_korean <- function(date) {
+  if (any(date$month < 1 | date$month > 12)) {
+    stop("month must be between 1 and 12")
+  }
+  if (any(date$day < 1 | date$day > 30)) {
+    stop("day must be between 1 and 30")
+  }
+}
+
+asian_from_fixed <- function(date, locfn) {
   date <- vec_data(date)
-  s1 <- chinese_winter_solstice_on_or_before(date) # Prior solstice
-  s2 <- chinese_winter_solstice_on_or_before(s1 + 370) # Following solstice
-  m12 <- chinese_new_moon_on_or_after(s1 + 1) # Month after last 11th month
-  next_m11 <- chinese_new_moon_before(s2 + 1) # Next 11th month
-  m <- chinese_new_moon_before(date + 1) # Start of month containing date
+  s1 <- chinese_winter_solstice_on_or_before(date, locfn) # Prior solstice
+  s2 <- chinese_winter_solstice_on_or_before(s1 + 370, locfn) # Following solstice
+  m12 <- chinese_new_moon_on_or_after(s1 + 1, locfn) # Month after last 11th month
+  next_m11 <- chinese_new_moon_before(s2 + 1, locfn) # Next 11th month
+  m <- chinese_new_moon_before(date + 1, locfn) # Start of month containing date
 
   # If there are 13 new moons (12 full lunar months)
   leap_year <- round((next_m11 - m12) / MEAN_SYNODIC_MONTH) == 12
@@ -35,15 +44,15 @@ chinese_from_fixed <- function(date) {
   month <- amod(
     round((m - m12) / MEAN_SYNODIC_MONTH) -
       # Minus 1 during or after a leap month
-      (leap_year & chinese_prior_leap_month(m12, m)),
+      (leap_year & chinese_prior_leap_month(m12, m, locfn)),
     12
   )
 
   # It's a leap month if there are 13 months, no major solar term,
   # and no prior leap month
   leap_month <- leap_year &
-    chinese_no_major_solar_term(m) &
-    !chinese_prior_leap_month(m12, chinese_new_moon_before(m))
+    chinese_no_major_solar_term(m, locfn) &
+    !chinese_prior_leap_month(m12, chinese_new_moon_before(m, locfn), locfn)
 
   # Approximate since the epoch
   elapsed_years <- floor(
@@ -63,7 +72,7 @@ chinese_from_fixed <- function(date) {
   )
 }
 
-fixed_from_chinese <- function(c_date) {
+fixed_from_asian <- function(c_date, locfn) {
   cycle <- c_date$cycle
   year <- c_date$year
   month <- c_date$month
@@ -77,11 +86,11 @@ fixed_from_chinese <- function(c_date) {
         MEAN_TROPICAL_YEAR
   )
 
-  new_year <- chinese_new_year_on_or_before(mid_year)
+  new_year <- chinese_new_year_on_or_before(mid_year, locfn)
 
   # New moon before date - a month too early if
   # there was prior leap month that year
-  p <- chinese_new_moon_on_or_after(new_year + (month - 1) * 29)
+  p <- chinese_new_moon_on_or_after(new_year + (month - 1) * 29, locfn)
   d <- chinese_from_fixed(p)
 
   # If the months match, that's the right month
@@ -89,9 +98,43 @@ fixed_from_chinese <- function(c_date) {
   prior_new_moon <- p
   idx <- !(month == d$month & leap_month == d$leap_month)
   if (any(idx)) {
-    prior_new_moon[idx] <- chinese_new_moon_on_or_after(p[idx] + 1)
+    prior_new_moon[idx] <- chinese_new_moon_on_or_after(p[idx] + 1, locfn)
   }
   prior_new_moon + day - 1
+}
+
+chinese_from_fixed <- function(date) {
+  asian_from_fixed(date, chinese_location)
+}
+fixed_from_chinese <- function(date) {
+  fixed_from_asian(date, chinese_location)
+}
+
+japanese_from_fixed <- function(date) {
+  asian_from_fixed(date, japanese_location)
+}
+fixed_from_japanese <- function(date) {
+  fixed_from_asian(date, japanese_location)
+}
+
+korean_from_fixed <- function(date) {
+  lst <- asian_from_fixed(date, korean_location)
+  lst$year <- korean_year(lst$cycle, lst$year)
+  lst$cycle <- NULL
+  lst
+}
+
+fixed_from_korean <- function(date) {
+  date$cycle <-  (date$year + 364) / 60 
+  date$year <- (date$year) %/% (60 * date$cycle) 
+  fixed_from_asian(date, korean_location)
+}
+
+vietnamese_from_fixed <- function(date) {
+  asian_from_fixed(date, vietnamese_location)
+}
+fixed_from_vietnamese <- function(date) {
+  fixed_from_asian(date, vietnamese_location)
 }
 
 #' @rdname cal_calendar
@@ -107,9 +150,50 @@ cal_chinese <- cal_calendar(
   to_rd = fixed_from_chinese
 )
 
-#' Chinese dates
+#' @rdname cal_calendar
+#' @format NULL
+#' @export
+cal_japanese <- cal_calendar(
+  name = "japanese",
+  short_name = "Jap",
+  granularities = c("cycle", "year", "month", "leap_month", "day"),
+  validate_granularities = validate_chinese,
+  format = format_date,
+  from_rd = japanese_from_fixed,
+  to_rd = fixed_from_japanese
+)
+
+#' @rdname cal_calendar
+#' @format NULL
+#' @export
+cal_korean <- cal_calendar(
+  name = "korean",
+  short_name = "Kor",
+  granularities = c("year", "month", "leap_month", "day"),
+  validate_granularities = validate_korean,
+  format = format_date,
+  from_rd = korean_from_fixed,
+  to_rd = fixed_from_korean
+)
+
+#' @rdname cal_calendar
+#' @format NULL
+#' @export
+cal_vietnamese <- cal_calendar(
+  name = "vietnamese",
+  short_name = "Viet",
+  granularities = c("cycle", "year", "month", "leap_month", "day"),
+  validate_granularities = validate_chinese,
+  format = format_date,
+  from_rd = vietnamese_from_fixed,
+  to_rd = fixed_from_vietnamese
+)
+
+#' Asian dates
 #'
 #' The traditional Chinese lunisolar calendar uses a 60-year cycle with 12 months per year.
+#' The Japanese, Korean and Vietnamese calendars are almost identical, but with different
+#' locations for determining astronomical positions.
 #'
 #' @rdname chinese
 #' @param cycle A numeric vector of cycles
@@ -155,10 +239,86 @@ chinese_date <- function(
 }
 
 #' @rdname chinese
+#' @export
+japanese_date <- function(
+  cycle = integer(),
+  year = integer(),
+  month = integer(),
+  leap_month = logical(),
+  day = integer()
+) {
+  new_date(
+    cycle = cycle,
+    year = year,
+    month = month,
+    leap_month = leap_month,
+    day = day,
+    calendar = cal_japanese
+  )
+}
+
+#' @rdname chinese
+#' @export
+korean_date <- function(
+  year = integer(),
+  month = integer(),
+  leap_month = logical(),
+  day = integer()
+) {
+  new_date(
+    year = year,
+    month = month,
+    leap_month = leap_month,
+    day = day,
+    calendar = cal_korean
+  )
+}
+
+#' @rdname chinese
+#' @export
+vietnamese_date <- function(
+  cycle = integer(),
+  year = integer(),
+  month = integer(),
+  leap_month = logical(),
+  day = integer()
+) {
+  new_date(
+    cycle = cycle,
+    year = year,
+    month = month,
+    leap_month = leap_month,
+    day = day,
+    calendar = cal_vietnamese
+  )
+}
+
+#' @rdname chinese
 #' @param date A numeric vector of dates
 #' @export
 as_chinese <- function(date) {
   as_date(date, calendar = cal_chinese)
+}
+
+#' @rdname chinese
+#' @param date A numeric vector of dates
+#' @export
+as_japanese <- function(date) {
+  as_date(date, calendar = cal_japanese)
+}
+
+#' @rdname chinese
+#' @param date A numeric vector of dates
+#' @export
+as_korean <- function(date) {
+  as_date(date, calendar = cal_korean)
+}
+
+#' @rdname chinese
+#' @param date A numeric vector of dates
+#' @export
+as_vietnamese <- function(date) {
+  as_date(date, calendar = cal_vietnamese)
 }
 
 chinese_location <- function(date) {
@@ -183,101 +343,107 @@ chinese_location <- function(date) {
   out
 }
 
-chinese_solar_longitude_on_or_after <- function(lambda, tee) {
+chinese_solar_longitude_on_or_after <- function(lambda, tee, locfn) {
   sun <- solar_longitude_after(
     lambda,
-    universal_from_standard(tee, chinese_location(tee))
+    universal_from_standard(tee, locfn(tee))
   )
 
-  standard_from_universal(sun, chinese_location(sun))
+  standard_from_universal(sun, locfn(sun))
 }
 
-current_major_solar_term <- function(date) {
+current_major_solar_term <- function(date, locfn) {
   s <- solar_longitude(
-    universal_from_standard(date, chinese_location(date))
+    universal_from_standard(date, locfn(date))
   )
 
   amod(2 + (s %/% deg(30)), 12)
 }
 
-major_solar_term_on_or_after <- function(date) {
-  s <- solar_longitude(midnight_in_china(date))
+major_solar_term_on_or_after <- function(date, locfn) {
+  s <- solar_longitude(midnight_in_china(date, locfn))
   l <- (30 * ceiling(s / 30)) %% 360
 
-  chinese_solar_longitude_on_or_after(l, date)
+  chinese_solar_longitude_on_or_after(l, date, locfn)
 }
 
-current_minor_solar_term <- function(date) {
+current_minor_solar_term <- function(date, locfn) {
   s <- solar_longitude(
-    universal_from_standard(date, chinese_location(date))
+    universal_from_standard(date, locfn(date))
   )
 
   amod(3 + ((s - deg(15)) %/% deg(30)), 12)
 }
 
-minor_solar_term_on_or_after <- function(date) {
-  s <- solar_longitude(midnight_in_china(date))
+minor_solar_term_on_or_after <- function(date, locfn) {
+  s <- solar_longitude(midnight_in_china(date, locfn))
   l <- (30 * ceiling((s - deg(15)) / 30) + deg(15)) %% 360
 
-  chinese_solar_longitude_on_or_after(l, date)
+  chinese_solar_longitude_on_or_after(l, date, locfn)
 }
 
-chinese_new_moon_before <- function(date) {
-  nm <- new_moon_before(midnight_in_china(date))
+chinese_new_moon_before <- function(date, locfn) {
+  nm <- new_moon_before(midnight_in_china(date, locfn))
   tee <- nth_new_moon(nm)
-  floor(standard_from_universal(tee, chinese_location(tee)))
+  floor(standard_from_universal(tee, locfn(tee)))
 }
 
-chinese_new_moon_on_or_after <- function(date) {
-  nm <- new_moon_at_or_after(midnight_in_china(date))
+chinese_new_moon_on_or_after <- function(date, locfn) {
+  nm <- new_moon_at_or_after(midnight_in_china(date, locfn))
   tee <- nth_new_moon(nm)
-  floor(standard_from_universal(tee, chinese_location(tee)))
+  floor(standard_from_universal(tee, locfn(tee)))
 }
 
-chinese_no_major_solar_term <- function(date) {
-  current_major_solar_term(date) ==
-    current_major_solar_term(chinese_new_moon_on_or_after(date + 1))
+chinese_no_major_solar_term <- function(date, locfn) {
+  current_major_solar_term(date, locfn) ==
+    current_major_solar_term(
+      chinese_new_moon_on_or_after(date + 1, locfn),
+      locfn
+    )
 }
 
-midnight_in_china <- function(date) {
-  vec_data(universal_from_standard(date, chinese_location(date)))
+midnight_in_china <- function(date, locfn) {
+  vec_data(universal_from_standard(date, locfn(date)))
 }
 
-chinese_winter_solstice_on_or_before <- function(date) {
-  approx <- estimate_prior_solar_longitude(WINTER, midnight_in_china(date + 1))
+chinese_winter_solstice_on_or_before <- function(date, locfn) {
+  approx <- estimate_prior_solar_longitude(
+    WINTER,
+    midnight_in_china(date + 1, locfn)
+  )
   d <- floor(approx) - 1
-  upper <- solar_longitude(midnight_in_china(d + 1))
+  upper <- solar_longitude(midnight_in_china(d + 1, locfn))
   while (any(WINTER >= upper)) {
     idx <- WINTER >= upper
     d[idx] <- d[idx] + 1
-    upper[idx] <- solar_longitude(midnight_in_china(d[idx] + 1))
+    upper[idx] <- solar_longitude(midnight_in_china(d[idx] + 1, locfn))
   }
   return(d)
 }
 
-chinese_new_year_in_sui <- function(date) {
-  s1 <- chinese_winter_solstice_on_or_before(date) # Prior solstice
-  s2 <- chinese_winter_solstice_on_or_before(s1 + 370) # Following solstice
-  m12 <- chinese_new_moon_on_or_after(s1 + 1) # Month after 11th month
-  m13 <- chinese_new_moon_on_or_after(m12 + 1) # Month after m12
-  next_m11 <- chinese_new_moon_before(s2 + 1) # Next 11th month
+chinese_new_year_in_sui <- function(date, locfn) {
+  s1 <- chinese_winter_solstice_on_or_before(date, locfn) # Prior solstice
+  s2 <- chinese_winter_solstice_on_or_before(s1 + 370, locfn) # Following solstice
+  m12 <- chinese_new_moon_on_or_after(s1 + 1, locfn) # Month after 11th month
+  m13 <- chinese_new_moon_on_or_after(m12 + 1, locfn) # Month after m12
+  next_m11 <- chinese_new_moon_before(s2 + 1, locfn) # Next 11th month
 
   # If 13 new moons and either m12 or m13 has no major solar term
   idx <- round((next_m11 - m12) / MEAN_SYNODIC_MONTH) == 12 &
-    (chinese_no_major_solar_term(m12) | chinese_no_major_solar_term(m13))
+    (chinese_no_major_solar_term(m12, locfn) | chinese_no_major_solar_term(m13, locfn))
   if (any(idx)) {
-    m13[idx] <- chinese_new_moon_on_or_after(m13[idx] + 1)
+    m13[idx] <- chinese_new_moon_on_or_after(m13[idx] + 1, locfn)
   }
   m13
 }
 
-chinese_new_year_on_or_before <- function(date) {
-  new_year <- chinese_new_year_in_sui(date)
+chinese_new_year_on_or_before <- function(date, locfn) {
+  new_year <- chinese_new_year_in_sui(date, locfn)
   # If date is after the solstice but before the new year,
   # go back half a year
   idx <- date < new_year
   if (any(idx)) {
-    new_year <- chinese_new_year_in_sui(date[idx] - 180)
+    new_year <- chinese_new_year_in_sui(date[idx] - 180, locfn)
   }
   new_year
 }
@@ -299,17 +465,22 @@ chinese_new_year_on_or_before <- function(date) {
 #' @export
 chinese_new_year <- function(year) {
   chinese_new_year_on_or_before(
-    vec_data(gregorian_date(year, JULY, 1))
+    vec_data(gregorian_date(year, JULY, 1)),
+    chinese_location
   ) |>
     as_gregorian()
 }
 
-chinese_prior_leap_month <- function(m_prime, m) {
+chinese_prior_leap_month <- function(m_prime, m, locfn) {
   out <- rep(FALSE, length(m))
   idx <- m >= m_prime
   if (any(idx)) {
-    out[idx] <- chinese_no_major_solar_term(m[idx]) |
-      chinese_prior_leap_month(m_prime[idx], chinese_new_moon_before(m[idx]))
+    out[idx] <- chinese_no_major_solar_term(m[idx], locfn) |
+      chinese_prior_leap_month(
+        m_prime[idx],
+        chinese_new_moon_before(m[idx], locfn),
+        locfn
+      )
   }
   out
 }
@@ -392,7 +563,8 @@ dragon_festival <- function(year) {
 #' @export
 qing_ming <- function(year) {
   floor(minor_solar_term_on_or_after(
-    vec_data(gregorian_date(year, MARCH, 30))
+    vec_data(gregorian_date(year, MARCH, 30)),
+    chinese_location
   )) |>
     as_gregorian()
 }
@@ -430,4 +602,61 @@ chinese_year_marriage_augury <- function(cycle, year) {
   } else {
     DOUBLE_BRIGHT # Lichun at start and end
   }
+}
+
+japanese_location <- function(date) {
+  if (inherits(date, "calcalvec")) {
+    tee <- vec_data(date)
+  } else {
+    tee <- date
+  }
+  year <- gregorian_year_from_fixed(floor(tee))
+  out <- rep(
+    # Longitude 135 time zone
+    location(deg(35), deg(135), mt(0), hr(9)),
+    length(tee)
+  )
+  if (any(year < 1888)) {
+    out[year < 1888] <-
+      # Tokyo (139 deg 46 min east) local time
+      location(deg(35.7), angle(139, 46, 0), mt(24), hr(9 + 143 / 450))
+  }
+  out
+}
+
+korean_location <- function(date) {
+  # Seoul city hall at a varying time zone.
+  if (inherits(date, "calcalvec")) {
+    tee <- vec_data(date)
+  } else {
+    tee <- date
+  }
+  z <- rep(9, length(tee))
+  case1 <- tee < vec_data(gregorian_date(1908, APRIL, 1))
+  case2 <- !case1 & tee < vec_data(gregorian_date(1912, JANUARY, 1))
+  case3 <- !case1 & !case2 & tee < vec_data(gregorian_date(1954, MARCH, 21))
+  case4 <- !case1 &
+    !case2 &
+    !case3 &
+    tee < vec_data(gregorian_date(1961, AUGUST, 10))
+  z[case2 | case4] <- 8.5
+  location(angle(37, 34, 0), angle(126, 58, 0), mt(0), hr(z))
+}
+
+korean_year <- function(cycle, year) {
+  # Equivalent Korean year to Chinese cycle and year
+  60 * cycle + year - 364
+}
+
+
+vietnamese_location <- function(date) {
+  if (inherits(date, "calcalvec")) {
+    tee <- vec_data(date)
+  } else {
+    tee <- date
+  }
+  # Location for Vietnamese calendar is Hanoi; varies with
+  # tee. Time zone has changed over the years.
+  z <- 7 + (tee < gregorian_new_year(1968))
+  location(angle(21, 2, 0), angle(105, 51, 0), mt(12), hr(z))
 }

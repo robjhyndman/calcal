@@ -9,6 +9,9 @@
 \alias{cal_bahai}
 \alias{cal_balinese}
 \alias{cal_chinese}
+\alias{cal_japanese}
+\alias{cal_korean}
+\alias{cal_vietnamese}
 \alias{cal_coptic}
 \alias{cal_ethiopic}
 \alias{cal_egyptian}
@@ -47,6 +50,12 @@ cal_bahai
 cal_balinese
 
 cal_chinese
+
+cal_japanese
+
+cal_korean
+
+cal_vietnamese
 
 cal_coptic
 

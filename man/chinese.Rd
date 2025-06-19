@@ -2,8 +2,14 @@
 % Please edit documentation in R/chinese.R
 \name{chinese_date}
 \alias{chinese_date}
+\alias{japanese_date}
+\alias{korean_date}
+\alias{vietnamese_date}
 \alias{as_chinese}
-\title{Chinese dates}
+\alias{as_japanese}
+\alias{as_korean}
+\alias{as_vietnamese}
+\title{Asian dates}
 \usage{
 chinese_date(
   cycle = integer(),
@@ -13,7 +19,36 @@ chinese_date(
   day = integer()
 )
 
+japanese_date(
+  cycle = integer(),
+  year = integer(),
+  month = integer(),
+  leap_month = logical(),
+  day = integer()
+)
+
+korean_date(
+  year = integer(),
+  month = integer(),
+  leap_month = logical(),
+  day = integer()
+)
+
+vietnamese_date(
+  cycle = integer(),
+  year = integer(),
+  month = integer(),
+  leap_month = logical(),
+  day = integer()
+)
+
 as_chinese(date)
+
+as_japanese(date)
+
+as_korean(date)
+
+as_vietnamese(date)
 }
 \arguments{
 \item{cycle}{A numeric vector of cycles}
@@ -33,6 +68,8 @@ A chinese vector object
 }
 \description{
 The traditional Chinese lunisolar calendar uses a 60-year cycle with 12 months per year.
+The Japanese, Korean and Vietnamese calendars are almost identical, but with different
+locations for determining astronomical positions.
 }
 \examples{
 chinese <- new_date(
