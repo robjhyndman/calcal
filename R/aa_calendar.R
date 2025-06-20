@@ -199,8 +199,15 @@ format_date <- function(date, month_name = NULL) {
       "*"
     )
   }
+  if ("leap_day" %in% names(parts)) {
+    parts[["day"]] <- as.character(parts[["day"]])
+    parts[["day"]][parts[["leap_day"]]] <- paste0(
+      parts[["day"]][parts[["leap_day"]]],
+      "*"
+    )
+  }
   # Drop leap year and leap Month
-  parts <- parts[!(names(parts) %in% c("leap_year", "leap_month"))]
+  parts <- parts[!(names(parts) %in% c("leap_year", "leap_month", "leap_day"))]
   for (i in seq_along(parts)) {
     if (is.numeric(parts[[i]])) {
       parts[[i]] <- sprintf("%.2d", parts[[i]])

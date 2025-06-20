@@ -112,6 +112,10 @@ reference:
     contents:
       - roman_date
       - as_roman
+  - title: Tibetan calendar
+    contents:
+      - tibetan_date
+      - as_tibetan
   - title: Holidays and special days
     contents:
       - easter
@@ -121,6 +125,7 @@ reference:
       - chinese_new_year
       - bahai_new_year
       - kajeng_keliwon
+      - losar
   - title: Granularities
     contents:
       - granularity
