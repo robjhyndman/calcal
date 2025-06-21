@@ -2,8 +2,6 @@
 # Solar and Lunar Functions
 # ==============================================================================
 
-
-
 universal_from_dynamical <- function(tee) {
   tee - ephemeris_correction(tee)
 }
