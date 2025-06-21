@@ -19,7 +19,7 @@ binary_search_single <- function(lo, hi, p, e) {
   x <- (lo + hi) / 2
   if (p(x)) {
     return(x)
-  } else if (e(x)) {
+  } else if (e(lo, hi)) {
     return(binary_search(lo, x, p, e))
   } else {
     return(binary_search(x, hi, p, e))

@@ -188,6 +188,8 @@ refraction <- function(tee, loc) {
 #' sydney <- location(-33.8688, 151.2093, 3, 10)
 #' sunrise(gregorian_date(2025, 1, 1), c(melbourne, sydney))
 #' sunset(gregorian_date(2025, 1, 1), c(melbourne, sydney))
+#' moonrise(gregorian_date(2025, 1, 1), c(melbourne, sydney))
+#' moonset(gregorian_date(2025, 1, 1), c(melbourne, sydney))
 #' @export
 sunrise <- function(date, location, ...) {
   if (inherits(date, "calcalvec")) {

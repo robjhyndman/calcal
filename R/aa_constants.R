@@ -6,3 +6,9 @@ SPRING <- 0
 SUMMER <- 90
 AUTUMN <- 180
 WINTER <- 270
+
+# Moon phases
+NEW <- 0 # New moon
+FIRST_QUARTER <- 90 # First quarter moon
+FULL <- 180 # Full moon
+LAST_QUARTER <- 270 # Last quarter moon
