@@ -21,4 +21,15 @@ test_that("lunar", {
   # Full moon
   expect_true(abs(lunar_phase(as_gregorian("2025-04-13")) - 180) < 1)
   expect_true(as_gregorian("2025-04-13") %in% full_moons(2025))
+
+  expect_equal(
+    moonrise(gregorian_date(2025,1,1), melbourne),
+    time_of_day(hour = 6, minute = 43, second = 0),
+    tolerance = 1
+  )
+  expect_equal(
+    moonset(gregorian_date(2025,1,1), melbourne),
+    time_of_day(hour = 22, minute = 09, second = 0),
+    tolerance = 1
+  )
 })

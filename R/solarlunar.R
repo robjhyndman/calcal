@@ -159,10 +159,17 @@ solar_longitude <- function(tee) {
   u <- julian_centuries(tee)
 
   # Calculate the sum
-  parts <- matrix(0, nrow = length(SOLAR_LONGITUDE_COEFFS$coefficients), ncol = length(u))
+  parts <- matrix(
+    0,
+    nrow = length(SOLAR_LONGITUDE_COEFFS$coefficients),
+    ncol = length(u)
+  )
   for (i in seq_along(SOLAR_LONGITUDE_COEFFS$coefficients)) {
     parts[i, ] <- SOLAR_LONGITUDE_COEFFS$coefficients[i] *
-      sin_degrees(SOLAR_LONGITUDE_COEFFS$addends[i] + SOLAR_LONGITUDE_COEFFS$multipliers[i] * u)
+      sin_degrees(
+        SOLAR_LONGITUDE_COEFFS$addends[i] +
+          SOLAR_LONGITUDE_COEFFS$multipliers[i] * u
+      )
   }
 
   longitude <- deg(282.7771834) +
@@ -269,7 +276,11 @@ lunar_longitude <- function(tee) {
   cap_F <- moon_node(u)
   cap_E <- poly(u, c(1, -0.002516, -0.0000074))
 
-  parts <- matrix(0, nrow = length(LUNAR_LONGITUDE_COEFFS$sine_coefficients), ncol = length(u))
+  parts <- matrix(
+    0,
+    nrow = length(LUNAR_LONGITUDE_COEFFS$sine_coefficients),
+    ncol = length(u)
+  )
   for (i in seq_along(LUNAR_LONGITUDE_COEFFS$sine_coefficients)) {
     parts[i, ] <- LUNAR_LONGITUDE_COEFFS$sine_coefficients[i] *
       (cap_E^abs(LUNAR_LONGITUDE_COEFFS$args_solar_anomaly[i])) *
@@ -365,7 +376,11 @@ nth_new_moon <- function(n) {
     deg(c(124.7746, -1.56375588 * 1236.85, 0.0020672, 0.00000215))
   )
 
-  parts <- matrix(0, nrow = length(NTH_NEW_MOON_COEFFS$sine_coeff), ncol = length(u))
+  parts <- matrix(
+    0,
+    nrow = length(NTH_NEW_MOON_COEFFS$sine_coeff),
+    ncol = length(u)
+  )
   for (i in seq_along(NTH_NEW_MOON_COEFFS$sine_coeff)) {
     parts[i, ] <- NTH_NEW_MOON_COEFFS$sine_coeff[i] *
       (cap_E^abs(NTH_NEW_MOON_COEFFS$E_factor[i])) *
@@ -378,9 +393,16 @@ nth_new_moon <- function(n) {
   }
   correction <- (deg(-0.00017) * sin_degrees(cap_omega)) + colSums(parts)
 
-  parts <- matrix(0, nrow = length(NTH_NEW_MOON_COEFFS$add_const), ncol = length(u))
+  parts <- matrix(
+    0,
+    nrow = length(NTH_NEW_MOON_COEFFS$add_const),
+    ncol = length(u)
+  )
   for (i in seq_along(NTH_NEW_MOON_COEFFS$add_const)) {
-    parts[i, ] <- NTH_NEW_MOON_COEFFS$add_factor[i] * sin_degrees(NTH_NEW_MOON_COEFFS$add_const[i] + NTH_NEW_MOON_COEFFS$add_coeff[i] * k)
+    parts[i, ] <- NTH_NEW_MOON_COEFFS$add_factor[i] *
+      sin_degrees(
+        NTH_NEW_MOON_COEFFS$add_const[i] + NTH_NEW_MOON_COEFFS$add_coeff[i] * k
+      )
   }
   additional <- colSums(parts)
 
@@ -432,169 +454,52 @@ lunar_phase_at_or_after <- function(phi, tee) {
   invert_angular(lunar_phase, phi, a, b)
 }
 
-
-# Helper functions
-deg <- function(x) x * pi / 180
-rad_to_deg <- function(x) x * 180 / pi
-mins <- function(x) x / 60
-mt <- function(x) x
-hr <- function(x) x / 24
-mn <- function(x) x / (24 * 60)
-
-# Simplified and robust vectorized coefficient calculation
-calculate_lunar_series <- function(
-    coeffs,
-    cap_D,
-    cap_M,
-    cap_M_prime,
-    cap_F,
-    cap_E,
-    use_sine = TRUE) {
-  # Validate coefficient arrays have same length
-  coeff_vec <- if (use_sine) coeffs$sine_coeff else coeffs$cosine_coeff
-  n_coeffs <- length(coeff_vec)
-
-  # Check all arrays have same length
-  if (
-    length(coeffs$args_lunar_elongation) != n_coeffs ||
-      length(coeffs$args_solar_anomaly) != n_coeffs ||
-      length(coeffs$args_lunar_anomaly) != n_coeffs ||
-      length(coeffs$args_moon_node) != n_coeffs
-  ) {
-    stop("Coefficient arrays have mismatched lengths")
-  }
-
-  n_times <- length(cap_D)
-
-  # Use outer product approach for better memory efficiency
-  result <- numeric(n_times)
-
-  for (i in seq_len(n_coeffs)) {
-    # Calculate argument for this coefficient term
-    arguments <- coeffs$args_lunar_elongation[i] *
-      cap_D +
-      coeffs$args_solar_anomaly[i] * cap_M +
-      coeffs$args_lunar_anomaly[i] * cap_M_prime +
-      coeffs$args_moon_node[i] * cap_F
-
-    # Apply E correction
-    e_correction <- cap_E^abs(coeffs$args_solar_anomaly[i])
-
-    # Calculate trigonometric terms
-    if (use_sine) {
-      trig_terms <- sin(deg(arguments))
-    } else {
-      trig_terms <- cos(deg(arguments))
-    }
-
-    # Add this term's contribution
-    result <- result + coeff_vec[i] * e_correction * trig_terms
-  }
-
-  result
-}
-
-# Alternative vectorized approach using apply functions
-calculate_lunar_series_vectorized <- function(
-    coeffs,
-    cap_D,
-    cap_M,
-    cap_M_prime,
-    cap_F,
-    cap_E,
-    use_sine = TRUE) {
-  # Get coefficient vector
-  coeff_vec <- if (use_sine) coeffs$sine_coeff else coeffs$cosine_coeff
-
-  # Create a function to calculate one term
-  calc_term <- function(i) {
-    arguments <- coeffs$args_lunar_elongation[i] *
-      cap_D +
-      coeffs$args_solar_anomaly[i] * cap_M +
-      coeffs$args_lunar_anomaly[i] * cap_M_prime +
-      coeffs$args_moon_node[i] * cap_F
-
-    e_correction <- cap_E^abs(coeffs$args_solar_anomaly[i])
-
-    if (use_sine) {
-      trig_terms <- sin(deg(arguments))
-    } else {
-      trig_terms <- cos(deg(arguments))
-    }
-
-    coeff_vec[i] * e_correction * trig_terms
-  }
-
-  # Calculate all terms and sum
-  terms <- sapply(seq_along(coeff_vec), calc_term)
-  if (is.matrix(terms)) {
-    rowSums(terms)
-  } else {
-    sum(terms)
-  }
-}
-
-# Fully vectorized lunar latitude calculation
 lunar_latitude <- function(tee) {
-  c <- julian_centuries(tee)
+  # TYPE moment -> half-circle
+  # Latitude of moon (in degrees) at moment tee.
+  # Adapted from "Astronomical Algorithms" by Jean Meeus,
+  # Willmann-Bell, 2nd edn., 1998, pp. 338-342.
+  u <- julian_centuries(tee)
+  cap_L_prime <- mean_lunar_longitude(u)
+  cap_D <- lunar_elongation(u)
+  cap_M <- solar_anomaly(u)
+  cap_M_prime <- lunar_anomaly(u)
+  cap_F <- moon_node(u)
+  cap_E <- poly(u, c(1, -0.002516, -0.0000074))
 
-  # Get astronomical parameters
-  cap_L_prime <- mean_lunar_longitude(c)
-  cap_D <- lunar_elongation(c)
-  cap_M <- solar_anomaly(c)
-  cap_M_prime <- lunar_anomaly(c)
-  cap_F <- moon_node(c)
-  cap_E <- 1 - 0.002516 * c - 0.0000074 * c^2
+  beta <- deg(1/1000000) * sum(LUNAR_LATITUDE_COEFFS$sine_coeff * cap_E^abs(LUNAR_LATITUDE_COEFFS$args_solar_anomaly) *
+    sin_degrees(LUNAR_LATITUDE_COEFFS$args_lunar_elongation * cap_D + LUNAR_LATITUDE_COEFFS$args_solar_anomaly * cap_M +
+                LUNAR_LATITUDE_COEFFS$args_lunar_anomaly * cap_M_prime + LUNAR_LATITUDE_COEFFS$args_moon_node * cap_F))
 
-  # Calculate main beta term
-  beta_terms <- calculate_lunar_series(
-    LUNAR_LATITUDE_COEFFS,
-    cap_D,
-    cap_M,
-    cap_M_prime,
-    cap_F,
-    cap_E,
-    TRUE
-  )
-  beta <- deg(1 / 1000000) * beta_terms
+  venus <- deg(175/1000000) *
+    (sin_degrees(deg(119.75) + u * deg(131.849) + cap_F) +
+     sin_degrees(deg(119.75) + u * deg(131.849) - cap_F))
 
-  # Additional corrections
-  venus <- deg(175 / 1000000) *
-    (sin(deg(119.75 + 131.849 * c + rad_to_deg(cap_F))) +
-      sin(deg(119.75 + 131.849 * c - rad_to_deg(cap_F))))
+  flat_earth <- deg(-2235/1000000) * sin_degrees(cap_L_prime) +
+    deg(127/1000000) * sin_degrees(cap_L_prime - cap_M_prime) +
+    deg(-115/1000000) * sin_degrees(cap_L_prime + cap_M_prime)
 
-  flat_earth <- deg(-2235 / 1000000) *
-    sin(cap_L_prime) +
-    deg(127 / 1000000) * sin(cap_L_prime - cap_M_prime) +
-    deg(-115 / 1000000) * sin(cap_L_prime + cap_M_prime)
-
-  extra <- deg(382 / 1000000) * sin(deg(313.45 + 481266.484 * c))
+  extra <- deg(382/1000000) * sin_degrees(deg(313.45) + u * deg(481266.484))
 
   beta + venus + flat_earth + extra
 }
 
+
 # Fully vectorized lunar distance calculation
 lunar_distance <- function(tee) {
   tee <- as.vector(tee)
-  c <- julian_centuries(tee)
+  u <- julian_centuries(tee)
 
   # Get astronomical parameters
-  cap_D <- lunar_elongation(c)
-  cap_M <- solar_anomaly(c)
-  cap_M_prime <- lunar_anomaly(c)
-  cap_F <- moon_node(c)
-  cap_E <- 1 - 0.002516 * c - 0.0000074 * c^2
+  cap_D <- lunar_elongation(u)
+  cap_M <- solar_anomaly(u)
+  cap_M_prime <- lunar_anomaly(u)
+  cap_F <- moon_node(u)
+  cap_E <- 1 - 0.002516 * u - 0.0000074 * u^2
 
-  # Calculate correction term
-  correction <- calculate_lunar_series(
-    LUNAR_DISTANCE_COEFFS,
-    cap_D,
-    cap_M,
-    cap_M_prime,
-    cap_F,
-    cap_E,
-    FALSE
-  )
+  correction <- sum(LUNAR_DISTANCE_COEFFS$cosine_coeff * cap_E^abs(LUNAR_DISTANCE_COEFFS$args_solar_anomaly) *
+    cos_degrees(LUNAR_DISTANCE_COEFFS$args_lunar_elongation * cap_D + LUNAR_DISTANCE_COEFFS$args_solar_anomaly * cap_M +
+                LUNAR_DISTANCE_COEFFS$args_lunar_anomaly * cap_M_prime + LUNAR_DISTANCE_COEFFS$args_moon_node * cap_F))
 
   mt(385000560) + correction
 }
@@ -620,7 +525,7 @@ lunar_altitude <- function(tee, location) {
       cos(deg(phi)) * cos(deg(delta)) * cos(deg(cap_H))
   )
 
-  altitude_deg <- rad_to_deg(altitude)
+  altitude_deg <- degrees_from_radians(altitude)
   ((altitude_deg + 180) %% 360) - 180
 }
 
@@ -630,7 +535,7 @@ lunar_parallax <- function(tee, location) {
   cap_Delta <- lunar_distance(tee)
   alt <- mt(6378140) / cap_Delta
   arg <- alt * cos(deg(geo))
-  rad_to_deg(asin(arg))
+  degrees_from_radians(asin(arg))
 }
 
 topocentric_lunar_altitude <- function(tee, location) {
@@ -647,61 +552,6 @@ observed_lunar_altitude <- function(tee, location) {
     mins(16)
 }
 
-# Simplified vectorized moonrise/moonset using individual optimization
-find_event_time_simple <- function(date, location, is_moonset = TRUE) {
-  tee <- universal_from_standard(date, location)
-
-  # Define objective function
-  objective <- function(t) {
-    alt <- observed_lunar_altitude(t, location)
-    if (is_moonset) {
-      ifelse(alt < 0, abs(alt), alt + 10) # Prefer negative altitudes
-    } else {
-      ifelse(alt > 0, abs(alt), abs(alt) + 10) # Prefer positive altitudes
-    }
-  }
-
-  # Estimate approximate time
-  phase <- lunar_phase(tee)
-  alt_midnight <- observed_lunar_altitude(tee, location)
-  lat <- latitude(location)
-  offset <- alt_midnight / (4 * (deg(90) - abs(lat)))
-
-  if (is_moonset) {
-    waxing <- phase < deg(180)
-    approx <- ifelse(
-      waxing,
-      ifelse(offset > 0, tee + offset, tee + 1 + offset),
-      tee - offset + 0.5
-    )
-  } else {
-    waning <- phase > deg(180)
-    approx <- ifelse(
-      waning,
-      ifelse(offset > 0, tee - 1 + offset, tee - offset),
-      tee + 0.5 + offset
-    )
-  }
-
-  # Find optimal time
-      result <- optimize(
-        objective,
-        interval = c(approx - hr(8), approx + hr(8)),
-        tol = mn(0.5)
-      )
-
-      event_time <- result$minimum
-      final_alt <- observed_lunar_altitude(event_time, location)
-
-      # Check if we found a valid event
-      #if (
-      #  abs(final_alt) < deg(2) && event_time >= tee && event_time < (tee + 1)
-      #) {
-        standard_from_universal(event_time, location)
-      #} else {
-      #  NA
-      #}
-}
 
 #' @rdname sunrise
 #' @export
@@ -714,14 +564,32 @@ moonset <- function(date, location) {
     location = location,
     .size = max(length(date), length(location))
   )
-  # Handle vector inputs
-  vapply(
-    lst$date,
-    find_event_time_simple,
-    numeric(1),
-    location = lst$location,
-    is_moonset = TRUE
-  ) |> as_time_of_day()
+  tee <- universal_from_standard(lst$date, lst$location) # Midnight.
+  waxing <- lunar_phase(tee) < deg(180)
+  alt <- observed_lunar_altitude(tee, lst$location) # Altitude at midnight.
+  lat <- latitude(location)
+  offset <- alt / (4 * (deg(90) - abs(lat)))
+  approx <- tee - offset + 1 / 2
+  if (any(waxing)) {
+    approx[waxing] <- tee[waxing] + offset[waxing] + (offset[waxing] <= 0)
+  }
+  set <- mapply(
+    function(approx, loc) {
+      binary_search_single(
+        approx - hr(6), # lo
+        approx + hr(6), # hi
+        function(x) observed_lunar_altitude(x, loc) < deg(0),
+        function(lo, hi) (hi - lo) < mn(1)
+      )
+    },
+    approx,
+    lst$location,
+    SIMPLIFY = TRUE
+  )
+
+  out <- pmax(standard_from_universal(set, location), date) # May be just before midnight.
+  out[set >= (date + 1)] <- NA
+  as_time_of_day(out)
 }
 
 #' @rdname sunrise
@@ -735,13 +603,34 @@ moonrise <- function(date, location) {
     location = location,
     .size = max(length(date), length(location))
   )
-  vapply(
-    lst$date,
-    find_event_time_simple,
-    numeric(1),
-    location = lst$location,
-    is_moonset = FALSE
-  ) |> as_time_of_day()
+  tee <- universal_from_standard(lst$date, lst$location) # Midnight.
+  waning <- lunar_phase(tee) > deg(180)
+  alt <- observed_lunar_altitude(tee, lst$location) # Altitude at midnight.
+  lat <- latitude(location)
+  offset <- alt / (4 * (deg(90) - abs(lat)))
+  approx <- tee + 1 / 2 + offset
+  if (any(waning)) {
+    offplus <- as.numeric(offset[waning] > 0)
+    approx[waning] <- tee[waning] +
+      (offset[waning] * (-1 + 2 * offplus)) -
+      offplus
+  }
+  rise <- mapply(
+    function(approx, loc) {
+      binary_search_single(
+        approx - hr(6), # lo
+        approx + hr(6), # hi
+        function(x) observed_lunar_altitude(x, loc) > deg(0), # test_fn
+        function(lo, hi) (hi - lo) < mn(1) # end_fn
+      )
+    },
+    approx,
+    lst$location,
+    SIMPLIFY = TRUE
+  )
+  out <- pmax(standard_from_universal(rise, location), date) # May be just before midnight.
+  out[rise >= (date + 1)] <- NA
+  as_time_of_day(out)
 }
 
 

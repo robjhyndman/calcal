@@ -88,7 +88,7 @@ arctan_degrees <- function(y, x) {
   if (x == 0 && y == 0) {
     return(bogus)
   }
-  
+
   if (x == 0) {
     alpha <- sign(y) * deg(90)
   } else {
@@ -97,7 +97,7 @@ arctan_degrees <- function(y, x) {
       alpha <- alpha + deg(180)
     }
   }
-  
+
   alpha %% 360
 }
 
@@ -151,9 +151,9 @@ direction <- function(location, focus) {
   psi <- longitude(location)
   psi_prime <- longitude(focus)
   y <- sin_degrees(psi_prime - psi)
-  x <- cos_degrees(phi) * tan_degrees(phi_prime) - 
+  x <- cos_degrees(phi) * tan_degrees(phi_prime) -
        sin_degrees(phi) * cos_degrees(psi - psi_prime)
-  
+
   if ((x == 0 && y == 0) || phi_prime == deg(90)) {
     return(deg(0))
   } else if (phi_prime == deg(-90)) {
@@ -252,7 +252,7 @@ obliquity <- function(tee) {
   # TYPE moment -> angle
   # Obliquity of ecliptic at moment tee.
   c <- julian_centuries(tee)
-  angle(23, 26, 21.448) + 
+  angle(23, 26, 21.448) +
     poly(c, c(0, angle(0, 0, -46.8150), angle(0, 0, -0.00059), angle(0, 0, 0.001813)))
 }
 
@@ -270,21 +270,21 @@ right_ascension <- function(tee, beta, lambda) {
   # Right ascension at moment UT tee of object at
   # latitude beta and longitude lambda.
   varepsilon <- obliquity(tee)
-  arctan_degrees(sin_degrees(lambda) * cos_degrees(varepsilon) - 
+  arctan_degrees(sin_degrees(lambda) * cos_degrees(varepsilon) -
                  tan_degrees(beta) * sin_degrees(varepsilon),
                  cos_degrees(lambda))
 }
 
 sine_offset <- function(tee, location, alpha) {
   # TYPE (moment location half-circle) -> real
-  # Sine of angle between position of sun at 
+  # Sine of angle between position of sun at
   # local time tee and when its depression is alpha at location.
   # Out of range when it does not occur.
   phi <- latitude(location)
   tee_prime <- universal_from_local(tee, location)
   delta <- declination(tee_prime, deg(0), solar_longitude(tee_prime))
-  
-  tan_degrees(phi) * tan_degrees(delta) + 
+
+  tan_degrees(phi) * tan_degrees(delta) +
     sin_degrees(alpha) / (cos_degrees(delta) * cos_degrees(phi))
 }
 
@@ -297,19 +297,19 @@ approx_moment_of_depression <- function(tee, location, alpha, early_p) {
   # angle is not reached.
   try_val <- sine_offset(tee, location, alpha)
   date <- fixed_from_moment(tee)
-  
+
   if (alpha >= 0) {
     alt <- if (early_p) date else (date + 1)
   } else {
     alt <- date + hr(12)
   }
-  
+
   value <- if (abs(try_val) > 1) {
     sine_offset(alt, location, alpha)
   } else {
     try_val
   }
-  
+
   if (abs(value) <= 1) {  # Event occurs
     offset <- mod3(arcsin_degrees(value) / deg(360), hr(-12), hr(12))
     local_from_apparent(
@@ -328,11 +328,11 @@ moment_of_depression <- function(approx, location, alpha, early_p) {
   # sought, and false for evening.
   # Returns bogus if depression angle is not reached.
   tee <- approx_moment_of_depression(approx, location, alpha, early_p)
-  
+
   if (identical(tee, bogus)) {
     return(bogus)
   }
-  
+
   if (abs(approx - tee) < sec(30)) {
     return(tee)
   } else {
@@ -352,7 +352,7 @@ dawn <- function(date, location, alpha) {
   # location when depression angle of sun is alpha.
   # Returns bogus if there is no dawn on date.
   result <- moment_of_depression(date + hr(6), location, alpha, MORNING)
-  
+
   if (identical(result, bogus)) {
     return(bogus)
   } else {
@@ -366,7 +366,7 @@ dusk <- function(date, location, alpha) {
   # location when depression angle of sun is alpha.
   # Returns bogus if there is no dusk on date.
   result <- moment_of_depression(date + hr(18), location, alpha, EVENING)
-  
+
   if (identical(result, bogus)) {
     return(bogus)
   } else {
@@ -381,7 +381,7 @@ refraction <- function(tee, location) {
   h <- max(mt(0), elevation(location))
   cap_R <- mt(6.372e6)  # Radius of Earth.
   dip <- arccos_degrees(cap_R / (cap_R + h))  # Depression of visible horizon.
-  
+
   mins(34) + dip + secs(19) * sqrt(h)
 }
 
@@ -419,7 +419,7 @@ daytime_temporal_hour <- function(date, location) {
   # Returns bogus if there no sunrise or sunset on date.
   sunrise_time <- sunrise(date, location)
   sunset_time <- sunset(date, location)
-  
+
   if (identical(sunrise_time, bogus) || identical(sunset_time, bogus)) {
     return(bogus)
   } else {
@@ -433,7 +433,7 @@ nighttime_temporal_hour <- function(date, location) {
   # Returns bogus if there no sunrise or sunset on date.
   sunrise_next <- sunrise(date + 1, location)
   sunset_time <- sunset(date, location)
-  
+
   if (identical(sunrise_next, bogus) || identical(sunset_time, bogus)) {
     return(bogus)
   } else {
@@ -447,7 +447,7 @@ standard_from_sundial <- function(tee, location) {
   # Returns bogus if temporal hour is undefined that day.
   date <- fixed_from_moment(tee)
   hour <- 24 * time_from_moment(tee)
-  
+
   if (hour >= 6 && hour <= 18) {  # daytime today
     h <- daytime_temporal_hour(date, location)
   } else if (hour < 6) {  # early this morning
@@ -455,11 +455,11 @@ standard_from_sundial <- function(tee, location) {
   } else {  # this evening
     h <- nighttime_temporal_hour(date, location)
   }
-  
+
   if (identical(h, bogus)) {
     return(bogus)
   }
-  
+
   if (hour >= 6 && hour <= 18) {  # daytime today
     return(sunrise(date, location) + (hour - 6) * h)
   } else if (hour < 6) {  # early this morning
@@ -486,11 +486,11 @@ asr <- function(date, location) {
   delta <- declination(noon, deg(0), solar_longitude(noon))  # Solar declination at noon.
   altitude <- arcsin_degrees(cos_degrees(delta) * cos_degrees(phi) +
                              sin_degrees(delta) * sin_degrees(phi))  # Solar altitude at noon.
-  
+
   if (altitude <= deg(0)) {  # No shadow.
     return(bogus)
   }
-  
+
   # Sun's altitude when shadow increases by double its length.
   h <- mod3(arctan_degrees(tan_degrees(altitude), 1 + 2 * tan_degrees(altitude)), -90, 90)
   dusk(date, location, -h)
@@ -506,11 +506,11 @@ alt_asr <- function(date, location) {
   delta <- declination(noon, deg(0), solar_longitude(noon))  # Solar declination at noon.
   altitude <- arcsin_degrees(cos_degrees(delta) * cos_degrees(phi) +
                              sin_degrees(delta) * sin_degrees(phi))  # Solar altitude at noon.
-  
+
   if (altitude <= deg(0)) {  # No shadow.
     return(bogus)
   }
-  
+
   # Sun's altitude when shadow increases by its length.
   h <- mod3(arctan_degrees(tan_degrees(altitude), 1 + tan_degrees(altitude)), -90, 90)
   dusk(date, location, -h)
@@ -532,7 +532,7 @@ italian_from_local <- function(tee_ell) {
   date <- fixed_from_moment(tee_ell)
   z0 <- local_zero_hour(tee_ell - 1)
   z <- local_zero_hour(tee_ell)
-  
+
   if (tee_ell > z) {  # if after zero hour
     tee_ell + (date + 1 - z)  # then next day
   } else {
@@ -591,29 +591,29 @@ ephemeris_correction <- function(tee) {
   year <- gregorian_year_from_fixed(floor(tee))
   c <- gregorian_date_difference(gregorian_date(1900, january, 1),
                                  gregorian_date(year, july, 1)) / 36525
-  
+
   c2051 <- (-20 + 32 * ((year - 1820) / 100)^2 + 0.5628 * (2150 - year)) / 86400
   y2000 <- year - 2000
   c2006 <- poly(y2000, c(62.92, 0.32217, 0.005589)) / 86400
   c1987 <- poly(y2000, c(63.86, 0.3345, -0.060374, 0.0017275, 0.000651814, 0.00002373599)) / 86400
   c1900 <- poly(c, c(-0.00002, 0.000297, 0.025184, -0.181133, 0.553040, -0.861938, 0.677066, -0.212591))
   c1800 <- poly(c, c(-0.000009, 0.003844, 0.083563, 0.865736, 4.867575, 15.845535, 31.332267, 38.291999, 28.316289, 11.636204, 2.043794))
-  
+
   y1700 <- year - 1700
   c1700 <- poly(y1700, c(8.118780842, -0.005092142, 0.003336121, -0.0000266484)) / 86400
-  
+
   y1600 <- year - 1600
   c1600 <- poly(y1600, c(120, -0.9808, -0.01532, 0.000140272128)) / 86400
-  
+
   y1000 <- (year - 1000) / 100
   c500 <- poly(y1000, c(1574.2, -556.01, 71.23472, 0.319781, -0.8503463, -0.005050998, 0.0083572073)) / 86400
-  
+
   y0 <- year / 100
   c0 <- poly(y0, c(10583.6, -1014.41, 33.78311, -5.952053, -0.1798452, 0.022174192, 0.0090316521)) / 86400
-  
+
   y1820 <- (year - 1820) / 100
   other <- poly(y1820, c(-20, 0, 32)) / 86400
-  
+
   if (year >= 2051 && year <= 2150) {
     c2051
   } else if (year >= 2006 && year <= 2050) {
@@ -648,14 +648,14 @@ equation_of_time <- function(tee) {
   eccentricity <- poly(c, c(0.016708617, -0.000042037, -0.0000001236))
   varepsilon <- obliquity(tee)
   y <- tan_degrees(varepsilon / 2)^2
-  
-  equation <- (1 / (2 * pi)) * 
-    (y * sin_degrees(2 * lambda) - 
-     2 * eccentricity * sin_degrees(anomaly) + 
-     4 * eccentricity * y * sin_degrees(anomaly) * cos_degrees(2 * lambda) - 
-     0.5 * y^2 * sin_degrees(4 * lambda) - 
+
+  equation <- (1 / (2 * pi)) *
+    (y * sin_degrees(2 * lambda) -
+     2 * eccentricity * sin_degrees(anomaly) +
+     4 * eccentricity * y * sin_degrees(anomaly) * cos_degrees(2 * lambda) -
+     0.5 * y^2 * sin_degrees(4 * lambda) -
      1.25 * eccentricity^2 * sin_degrees(2 * anomaly))
-  
+
   sign(equation) * min(abs(equation), hr(12))
 }
 
@@ -666,16 +666,16 @@ solar_longitude <- function(tee) {
   # to +2800" by Pierre Bretagnon and Jean-Louis Simon,
   # Willmann-Bell, 1986.
   c <- julian_centuries(tee)  # moment in Julian centuries
-  
+
   coefficients <- c(403406, 195207, 119433, 112392, 3891, 2819, 1721, 660, 350, 334, 314, 268, 242, 234, 158, 132, 129, 114, 99, 93, 86, 78, 72, 68, 64, 46, 38, 37, 32, 29, 28, 27, 27, 25, 24, 21, 21, 20, 18, 17, 14, 13, 13, 13, 12, 10, 10)
-  
+
   multipliers <- c(0.9287892, 35999.1376958, 35999.4089666, 35998.7287385, 71998.20261, 71998.4403, 36000.35726, 71997.4812, 32964.4678, -19.4410, 445267.1117, 45036.8840, 3.1008, 22518.4434, -19.9739, 65928.9345, 9038.0293, 3034.7684, 33718.148, 3034.448, -2280.773, 29929.992, 31556.493, 149.588, 9037.750, 107997.405, -4444.176, 151.771, 67555.316, 31556.080, -4561.540, 107996.706, 1221.655, 62894.167, 31437.369, 14578.298, -31931.757, 34777.243, 1221.999, 62894.511, -4442.039, 107997.909, 119.066, 16859.071, -4.578, 26895.292, -39.127, 12297.536, 90073.778)
-  
+
   addends <- c(270.54861, 340.19128, 63.91854, 331.26220, 317.843, 86.631, 240.052, 310.26, 247.23, 260.87, 297.82, 343.14, 166.79, 81.53, 3.50, 132.75, 182.95, 162.03, 29.8, 266.4, 249.2, 157.6, 257.8, 185.1, 69.9, 8.0, 197.1, 250.4, 65.3, 162.7, 341.5, 291.6, 98.5, 146.7, 110.0, 5.2, 342.6, 230.9, 256.1, 45.3, 242.9, 115.2, 151.8, 285.3, 53.3, 126.6, 205.7, 85.9, 146.1)
-  
-  lambda <- deg(282.7771834) + deg(36000.76953744) * c + 
+
+  lambda <- deg(282.7771834) + deg(36000.76953744) * c +
     deg(0.000005729577951308232) * sum(coefficients * sin_degrees(addends + multipliers * c))
-  
+
   (lambda + aberration(tee) + nutation(tee)) %% 360
 }
 
@@ -685,7 +685,7 @@ nutation <- function(tee) {
   c <- julian_centuries(tee)  # moment in Julian centuries
   cap_A <- poly(c, deg(c(124.90, -1934.134, 0.002063)))
   cap_B <- poly(c, deg(c(201.11, 72001.5377, 0.00057)))
-  
+
   deg(-0.004778) * sin_degrees(cap_A) + deg(-0.0003667) * sin_degrees(cap_B)
 }
 
@@ -704,7 +704,7 @@ solar_longitude_after <- function(lambda, tee) {
   tau <- tee + rate * ((lambda - solar_longitude(tee)) %% 360)  # Estimate (within 5 days).
   a <- max(tee, tau - 5)  # At or after tee.
   b <- tau + 5
-  
+
   invert_angular(solar_longitude, lambda, interval_closed(a, b))
 }
 
@@ -739,7 +739,7 @@ precession <- function(tee) {
   cap_A <- cos_degrees(eta) * sin_degrees(cap_P)
   cap_B <- cos_degrees(cap_P)
   arg <- arctan_degrees(cap_A, cap_B)
-  
+
   (p + cap_P - arg) %% 360
 }
 
@@ -756,7 +756,7 @@ estimate_prior_solar_longitude <- function(lambda, tee) {
   rate <- MEAN_TROPICAL_YEAR / deg(360)  # Mean change of one degree.
   tau <- tee - rate * ((solar_longitude(tee) - lambda) %% 360)  # First approximation.
   cap_Delta <- mod3(solar_longitude(tau) - lambda, -180, 180)  # Difference in longitude.
-  
+
   min(tee, tau - rate * cap_Delta)
 }
 
@@ -824,25 +824,25 @@ lunar_longitude <- function(tee) {
   cap_M_prime <- lunar_anomaly(c)
   cap_F <- moon_node(c)
   cap_E <- poly(c, c(1, -0.002516, -0.0000074))
-  
+
   args_lunar_elongation <- c(0, 2, 2, 0, 0, 0, 2, 2, 2, 2, 0, 1, 0, 2, 0, 0, 4, 0, 4, 2, 2, 1, 1, 2, 2, 4, 2, 0, 2, 2, 1, 2, 0, 0, 2, 2, 2, 4, 0, 3, 2, 4, 0, 2, 2, 2, 4, 0, 4, 1, 2, 0, 1, 3, 4, 2, 0, 1, 2)
-  
+
   args_solar_anomaly <- c(0, 0, 0, 0, 1, 0, 0, -1, 0, -1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, -1, 0, 0, 0, 1, 0, -1, 0, -2, 1, 2, -2, 0, 0, -1, 0, 0, 1, -1, 2, 2, 1, -1, 0, 0, -1, 0, 1, 0, 1, 0, 0, -1, 2, 1, 0)
-  
+
   args_lunar_anomaly <- c(1, -1, 0, 2, 0, 0, -2, -1, 1, 0, -1, 0, 1, 0, 1, 1, -1, 3, -2, -1, 0, -1, 0, 1, 2, 0, -3, -2, -1, -2, 1, 0, 2, 0, -1, 1, 0, -1, 2, -1, 1, -2, -1, -1, -2, 0, 1, 4, 0, -2, 0, 2, 1, -2, -3, 2, 1, -1, 3)
-  
+
   args_moon_node <- c(0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, -2, 2, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, -2, 2, 0, 2, 0, 0, 0, 0, 0, 0, -2, 0, 0, 0, 0, -2, -2, 0, 0, 0, 0, 0, 0, 0)
-  
+
   sine_coeff <- c(6288774, 1274027, 658314, 213618, -185116, -114332, 58793, 57066, 53322, 45758, -40923, -34720, -30383, 15327, -12528, 10980, 10675, 10034, 8548, -7888, -6766, -5163, 4987, 4036, 3994, 3861, 3665, -2689, -2602, 2390, -2348, 2236, -2120, -2069, 2048, -1773, -1595, 1215, -1110, -892, -810, 759, -713, -700, 691, 596, 549, 537, 520, -487, -399, -381, 351, -340, 330, 327, -323, 299, 294)
-  
-  correction <- deg(1/1000000) * sum(sine_coeff * cap_E^abs(args_solar_anomaly) * 
-    sin_degrees(args_lunar_elongation * cap_D + args_solar_anomaly * cap_M + 
+
+  correction <- deg(1/1000000) * sum(sine_coeff * cap_E^abs(args_solar_anomaly) *
+    sin_degrees(args_lunar_elongation * cap_D + args_solar_anomaly * cap_M +
                 args_lunar_anomaly * cap_M_prime + args_moon_node * cap_F))
-  
+
   venus <- deg(3958/1000000) * sin_degrees(deg(119.75) + c * deg(131.849))
   jupiter <- deg(318/1000000) * sin_degrees(deg(53.09) + c * deg(479264.29))
   flat_earth <- deg(1962/1000000) * sin_degrees(cap_L_prime - cap_F)
-  
+
   (cap_L_prime + correction + venus + jupiter + flat_earth + nutation(tee)) %% 360
 }
 
@@ -860,32 +860,32 @@ nth_new_moon <- function(n) {
   n0 <- 24724  # Months from RD 0 until j2000.
   k <- n - n0  # Months since j2000.
   c <- k / 1236.85  # Julian centuries.
-  
+
   approx <- J2000 + poly(c, c(5.09766, MEAN_SYNODIC_MONTH * 1236.85, 0.00015437, -0.000000150, 0.00000000073))
-  
+
   cap_E <- poly(c, c(1, -0.002516, -0.0000074))
   solar_anomaly <- poly(c, deg(c(2.5534, 1236.85 * 29.10535670, -0.0000014, -0.00000011)))
   lunar_anomaly <- poly(c, deg(c(201.5643, 385.81693528 * 1236.85, 0.0107582, 0.00001238, -0.000000058)))
   moon_argument <- poly(c, deg(c(160.7108, 390.67050284 * 1236.85, -0.0016118, -0.00000227, 0.000000011)))
   cap_omega <- poly(c, deg(c(124.7746, -1.56375588 * 1236.85, 0.0020672, 0.00000215)))
-  
+
   E_factor <- c(0, 1, 0, 0, 1, 1, 2, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
   solar_coeff <- c(0, 1, 0, 0, -1, 1, 2, 0, 0, 1, 0, 1, 1, -1, 2, 0, 3, 1, 0, 1, -1, -1, 1, 0)
   lunar_coeff <- c(1, 0, 2, 0, 1, 1, 0, 1, 1, 2, 3, 0, 0, 2, 1, 2, 0, 1, 2, 1, 1, 1, 3, 4)
   moon_coeff <- c(0, 0, 0, 2, 0, 0, 0, -2, 2, 0, 0, 2, -2, 0, 0, -2, 0, -2, 2, 2, 2, -2, 0, 0)
   sine_coeff <- c(-0.40720, 0.17241, 0.01608, 0.01039, 0.00739, -0.00514, 0.00208, -0.00111, -0.00057, 0.00056, -0.00042, 0.00042, 0.00038, -0.00024, -0.00007, 0.00004, 0.00004, 0.00003, 0.00003, -0.00003, 0.00003, -0.00002, -0.00002, 0.00002)
-  
-  correction <- -0.00017 * sin_degrees(cap_omega) + 
-    sum(sine_coeff * cap_E^E_factor * 
+
+  correction <- -0.00017 * sin_degrees(cap_omega) +
+    sum(sine_coeff * cap_E^E_factor *
         sin_degrees(solar_coeff * solar_anomaly + lunar_coeff * lunar_anomaly + moon_coeff * moon_argument))
-  
+
   add_const <- c(251.88, 251.83, 349.42, 84.66, 141.74, 207.14, 154.84, 34.52, 207.19, 291.34, 161.72, 239.56, 331.55)
   add_coeff <- c(0.016321, 26.651886, 36.412478, 18.206239, 53.303771, 2.453732, 7.306860, 27.261239, 0.121824, 1.844379, 24.198154, 25.513099, 3.592518)
   add_factor <- c(0.000165, 0.000164, 0.000126, 0.000110, 0.000062, 0.000060, 0.000056, 0.000047, 0.000042, 0.000040, 0.000037, 0.000035, 0.000023)
-  
+
   extra <- 0.000325 * sin_degrees(poly(c, deg(c(299.77, 132.8475848, -0.009173))))
   additional <- sum(add_factor * sin_degrees(add_const + add_coeff * k))
-  
+
   universal_from_dynamical(approx + correction + extra + additional)
 }
 
@@ -895,7 +895,7 @@ new_moon_before <- function(tee) {
   t0 <- nth_new_moon(0)
   phi <- lunar_phase(tee)
   n <- round((tee - t0) / MEAN_SYNODIC_MONTH - phi / deg(360))
-  
+
   nth_new_moon(final_func(function(k) nth_new_moon(k) < tee, n - 1))
 }
 
@@ -905,7 +905,7 @@ new_moon_at_or_after <- function(tee) {
   t0 <- nth_new_moon(0)
   phi <- lunar_phase(tee)
   n <- round((tee - t0) / MEAN_SYNODIC_MONTH - phi / deg(360))
-  
+
   nth_new_moon(next_func(function(k) nth_new_moon(k) >= tee, n))
 }
 
@@ -919,7 +919,7 @@ lunar_phase <- function(tee) {
   t0 <- nth_new_moon(0)
   n <- round((tee - t0) / MEAN_SYNODIC_MONTH)
   phi_prime <- deg(360) * ((tee - nth_new_moon(n)) / MEAN_SYNODIC_MONTH %% 1)
-  
+
   if (abs(phi - phi_prime) > deg(180)) {  # close call
     phi_prime
   } else {
@@ -934,7 +934,7 @@ lunar_phase_at_or_before <- function(phi, tee) {
   tau <- tee - MEAN_SYNODIC_MONTH * (1 / deg(360)) * ((lunar_phase(tee) - phi) %% 360)  # Estimate.
   a <- tau - 2
   b <- min(tee, tau + 2)  # At or before tee.
-  
+
   invert_angular(lunar_phase, phi, interval_closed(a, b))
 }
 
@@ -957,7 +957,7 @@ lunar_phase_at_or_after <- function(phi, tee) {
   tau <- tee + MEAN_SYNODIC_MONTH * (1 / deg(360)) * ((phi - lunar_phase(tee)) %% 360)  # Estimate.
   a <- max(tee, tau - 2)  # At or after tee.
   b <- tau + 2
-  
+
   invert_angular(lunar_phase, phi, interval_closed(a, b))
 }
 
@@ -973,37 +973,37 @@ lunar_latitude <- function(tee) {
   cap_M_prime <- lunar_anomaly(c)
   cap_F <- moon_node(c)
   cap_E <- poly(c, c(1, -0.002516, -0.0000074))
-  
+
   args_lunar_elongation <- c(0, 0, 0, 2, 2, 2, 2, 0, 2, 0, 2, 2, 2, 2, 2, 2, 2, 0, 4, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 4, 0, 4, 2, 2, 2, 2, 0, 2, 2, 2, 2, 4, 2, 2, 0, 2, 1, 1, 0, 2, 1, 2, 0, 4, 4, 1, 4, 1, 4, 2)
-  
+
   args_solar_anomaly <- c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 1, -1, -1, -1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1, 1, 0, -1, -2, 0, 1, 1, 1, 1, 1, 0, -1, 1, 0, -1, 0, 0, 0, -1, -2)
-  
+
   args_lunar_anomaly <- c(0, 1, 1, 0, -1, -1, 0, 2, 1, 2, 0, -2, 1, 0, -1, 0, -1, -1, -1, 0, 0, -1, 0, 1, 1, 0, 0, 3, 0, -1, 1, -2, 0, 2, 1, -2, 3, 2, -3, -1, 0, 0, 1, 0, 1, 1, 0, 0, -2, -1, 1, -2, 2, -2, -1, 1, 1, -1, 0, 0)
-  
-  args_moon_node <- c(1, 1, -1, -1, 1, -1, 1, 1, -1, -1, -1, -1, 1, -1, 1, 1, -1, -1, -1, 1, 3, 1, 1, 1, -1, -1, -1, 1, -1, 1, -3, 1, -3, -1, -1, 1, -1, 1, 1, 1, 1, -1, 3, -1, -1, 1, -1, -1, 1, -1, 1, -1, -1, -1, -1, -1, -1, 1)
-  
+
+  args_moon_node <- c(1, 1, -1, -1, 1, -1, 1, 1, -1, -1, -1, -1, 1, -1, 1, 1, -1, -1, -1, 1, 3, 1, 1, 1, -1, -1, -1, 1, -1, 1, -3, 1, -3, -1, -1, 1, -1, 1, 1, 1, 1, -1, 3, -1, -1, 1, -1, -1, 1, -1, -1, -1, -1, -1, -1, 1)
+
   sine_coeff <- c(5128122, 280602, 277693, 173237, 55413, 46271, 32573, 17198, 9266, 8822, 8216, 4324, 4200, -3359, 2463, 2211, 2065, -1870, 1828, -1794, -1749, -1565, -1491, -1475, -1410, -1344, -1335, 1107, 1021, 833, 777, 671, 607, 596, 491, -451, 439, 422, 421, -366, -351, 331, 315, 302, -283, -229, 223, 223, -220, -220, -185, 181, -177, 176, 166, -164, 132, -119, 115, 107)
-  
-  beta <- deg(1/1000000) * sum(sine_coeff * cap_E^abs(args_solar_anomaly) * 
-    sin_degrees(args_lunar_elongation * cap_D + args_solar_anomaly * cap_M + 
+
+  beta <- deg(1/1000000) * sum(sine_coeff * cap_E^abs(args_solar_anomaly) *
+    sin_degrees(args_lunar_elongation * cap_D + args_solar_anomaly * cap_M +
                 args_lunar_anomaly * cap_M_prime + args_moon_node * cap_F))
-  
-  venus <- deg(175/1000000) * 
-    (sin_degrees(deg(119.75) + c * deg(131.849) + cap_F) + 
+
+  venus <- deg(175/1000000) *
+    (sin_degrees(deg(119.75) + c * deg(131.849) + cap_F) +
      sin_degrees(deg(119.75) + c * deg(131.849) - cap_F))
-  
-  flat_earth <- deg(-2235/1000000) * sin_degrees(cap_L_prime) + 
-    deg(127/1000000) * sin_degrees(cap_L_prime - cap_M_prime) + 
+
+  flat_earth <- deg(-2235/1000000) * sin_degrees(cap_L_prime) +
+    deg(127/1000000) * sin_degrees(cap_L_prime - cap_M_prime) +
     deg(-115/1000000) * sin_degrees(cap_L_prime + cap_M_prime)
-  
+
   extra <- deg(382/1000000) * sin_degrees(deg(313.45) + c * deg(481266.484))
-  
+
   beta + venus + flat_earth + extra
 }
 
 lunar_altitude <- function(tee, location) {
   # TYPE (moment location) -> half-circle
-  # Geocentric altitude of moon at tee at location, 
+  # Geocentric altitude of moon at tee at location,
   # as a small positive/negative angle in degrees, ignoring
   # parallax and refraction. Adapted from "Astronomical
   # Algorithms" by Jean Meeus, Willmann-Bell, 2nd edn., 1998.
@@ -1015,10 +1015,10 @@ lunar_altitude <- function(tee, location) {
   delta <- declination(tee, beta, lambda)  # Lunar declination.
   theta0 <- sidereal_from_moment(tee)  # Sidereal time.
   cap_H <- (theta0 - psi - alpha) %% 360  # Local hour angle.
-  
-  altitude <- arcsin_degrees(sin_degrees(phi) * sin_degrees(delta) + 
+
+  altitude <- arcsin_degrees(sin_degrees(phi) * sin_degrees(delta) +
                              cos_degrees(phi) * cos_degrees(delta) * cos_degrees(cap_H))
-  
+
   mod3(altitude, -180, 180)
 }
 
@@ -1033,21 +1033,21 @@ lunar_distance <- function(tee) {
   cap_M_prime <- lunar_anomaly(c)
   cap_F <- moon_node(c)
   cap_E <- poly(c, c(1, -0.002516, -0.0000074))
-  
+
   args_lunar_elongation <- c(0, 2, 2, 0, 0, 0, 2, 2, 2, 2, 0, 1, 0, 2, 0, 0, 4, 0, 4, 2, 2, 1, 1, 2, 2, 4, 2, 0, 2, 2, 1, 2, 0, 0, 2, 2, 2, 4, 0, 3, 2, 4, 0, 2, 2, 2, 4, 0, 4, 1, 2, 0, 1, 3, 4, 2, 0, 1, 2, 2)
-  
+
   args_solar_anomaly <- c(0, 0, 0, 0, 1, 0, 0, -1, 0, -1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, -1, 0, 0, 0, 1, 0, -1, 0, -2, 1, 2, -2, 0, 0, -1, 0, 0, 1, -1, 2, 2, 1, -1, 0, 0, -1, 0, 1, 0, 1, 0, 0, -1, 2, 1, 0, 0)
-  
+
   args_lunar_anomaly <- c(1, -1, 0, 2, 0, 0, -2, -1, 1, 0, -1, 0, 1, 0, 1, 1, -1, 3, -2, -1, 0, -1, 0, 1, 2, 0, -3, -2, -1, -2, 1, 0, 2, 0, -1, 1, 0, -1, 2, -1, 1, -2, -1, -1, -2, 0, 1, 4, 0, -2, 0, 2, 1, -2, -3, 2, 1, -1, 3, -1)
-  
+
   args_moon_node <- c(0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, -2, 2, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, -2, 2, 0, 2, 0, 0, 0, 0, 0, 0, -2, 0, 0, 0, 0, -2, -2, 0, 0, 0, 0, 0, 0, 0, -2)
-  
+
   cosine_coeff <- c(-20905355, -3699111, -2955968, -569925, 48888, -3149, 246158, -152138, -170733, -204586, -129620, 108743, 104755, 10321, 0, 79661, -34782, -23210, -21636, 24208, 30824, -8379, -16675, -12831, -10445, -11650, 14403, -7003, 0, 10056, 6322, -9884, 5751, 0, -4950, 4130, 0, -3958, 0, 3258, 2616, -1897, -2117, 2354, 0, 0, -1423, -1117, -1571, -1739, 0, -4421, 0, 0, 0, 0, 1165, 0, 0, 8752)
-  
-  correction <- sum(cosine_coeff * cap_E^abs(args_solar_anomaly) * 
-    cos_degrees(args_lunar_elongation * cap_D + args_solar_anomaly * cap_M + 
+
+  correction <- sum(cosine_coeff * cap_E^abs(args_solar_anomaly) *
+    cos_degrees(args_lunar_elongation * cap_D + args_solar_anomaly * cap_M +
                 args_lunar_anomaly * cap_M_prime + args_moon_node * cap_F))
-  
+
   mt(385000560) + correction
 }
 
@@ -1060,13 +1060,13 @@ lunar_parallax <- function(tee, location) {
   cap_Delta <- lunar_distance(tee)
   alt <- mt(6378140) / cap_Delta
   arg <- alt * cos_degrees(geo)
-  
+
   arcsin_degrees(arg)
 }
 
 topocentric_lunar_altitude <- function(tee, location) {
   # TYPE (moment location) -> half-circle
-  # Topocentric altitude of moon at tee at location, 
+  # Topocentric altitude of moon at tee at location,
   # as a small positive/negative angle in degrees,
   # ignoring refraction.
   lunar_altitude(tee, location) - lunar_parallax(tee, location)
@@ -1082,7 +1082,7 @@ lunar_diameter <- function(tee) {
 
 observed_lunar_altitude <- function(tee, location) {
   # TYPE (moment location) -> half-circle
-  # Observed altitude of upper limb of moon at tee at location, 
+  # Observed altitude of upper limb of moon at tee at location,
   # as a small positive/negative angle in degrees, including
   # refraction and elevation.
   topocentric_lunar_altitude(tee, location) + refraction(tee, location) + mins(16)
@@ -1097,17 +1097,21 @@ moonset <- function(date, location) {
   alt <- observed_lunar_altitude(tee, location)  # Altitude at midnight.
   lat <- latitude(location)
   offset <- alt / (4 * (deg(90) - abs(lat)))
-  
+
   if (waxing) {
     approx <- if (offset > 0) (tee + offset) else (tee + 1 + offset)
   } else {
     approx <- tee - offset + 1/2
   }
-  
+
+  # Use binary_search with correct signature: lo, hi, test_fn, end_fn
   set <- binary_search(
-    function(x) observed_lunar_altitude(x, location) < deg(0),
-    approx - hr(6), approx + hr(6), mn(1))
-  
+    approx - hr(6),  # lo
+    approx + hr(6),  # hi
+    function(x) observed_lunar_altitude(x, location) < deg(0),  # test_fn
+    function(lo, hi) (hi - lo) < mn(1)  # end_fn
+  )
+
   if (set < (date + 1)) {
     max(standard_from_universal(set, location), date)  # May be just before midnight.
   } else {
@@ -1124,17 +1128,21 @@ moonrise <- function(date, location) {
   alt <- observed_lunar_altitude(tee, location)  # Altitude at midnight.
   lat <- latitude(location)
   offset <- alt / (4 * (deg(90) - abs(lat)))
-  
+
   if (waning) {
     approx <- if (offset > 0) (tee - 1 + offset) else (tee - offset)
   } else {
     approx <- tee + 1/2 + offset
   }
-  
+
+  # Use binary_search with correct signature: lo, hi, test_fn, end_fn
   rise <- binary_search(
-    function(x) observed_lunar_altitude(x, location) > deg(0),
-    approx - hr(6), approx + hr(6), mn(1))
-  
+    approx - hr(6),  # lo
+    approx + hr(6),  # hi
+    function(x) observed_lunar_altitude(x, location) > deg(0),  # test_fn
+    function(lo, hi) (hi - lo) < mn(1)  # end_fn
+  )
+
   if (rise < (date + 1)) {
     max(standard_from_universal(rise, location), date)  # May be just before midnight.
   } else {
