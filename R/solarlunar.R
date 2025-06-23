@@ -274,7 +274,7 @@ lunar_longitude <- function(tee) {
     parts[i, ] <- LUNAR_LONGITUDE_COEFFS$sine_coefficients[i] *
       (cap_E^abs(LUNAR_LONGITUDE_COEFFS$args_solar_anomaly[i])) *
       sin_degrees(
-        (args_lunar_elongation[i] * cap_D) +
+        (LUNAR_LONGITUDE_COEFFS$args_lunar_elongation[i] * cap_D) +
           (LUNAR_LONGITUDE_COEFFS$args_solar_anomaly[i] * cap_M) +
           (LUNAR_LONGITUDE_COEFFS$args_lunar_anomaly[i] * cap_M_prime) +
           (LUNAR_LONGITUDE_COEFFS$args_moon_node[i] * cap_F)
@@ -703,7 +703,7 @@ find_event_time_simple <- function(date, location, is_moonset = TRUE) {
       #}
 }
 
-#' @rdname
+#' @rdname sunrise
 #' @export
 moonset <- function(date, location) {
   if (inherits(date, "calcalvec")) {
@@ -724,7 +724,7 @@ moonset <- function(date, location) {
   ) |> as_time_of_day()
 }
 
-#' @rdname
+#' @rdname sunrise
 #' @export
 moonrise <- function(date, location) {
   if (inherits(date, "calcalvec")) {
