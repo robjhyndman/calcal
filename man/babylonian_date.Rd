@@ -17,6 +17,8 @@ as_babylonian(date)
 \item{leap}{Logical vector of leap months}
 
 \item{day}{Numeric vector of days}
+
+\item{date}{Vector of dates on some calendar.}
 }
 \value{
 A babylonian vector object

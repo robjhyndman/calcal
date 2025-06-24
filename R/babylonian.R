@@ -6,13 +6,12 @@ BABYLONIAN_EPOCH <- -113502 #vec_data(julian_date(bce(311), APRIL, 3))
 
 fixed_from_babylonian <- function(date) {
    # Elapsed months this year
-  month1 <- month - as.numeric(!((leap | ((year %% 19) == 18 & month > 6))))
+  month1 <- date$month - as.numeric(!((date$leap | ((date$year %% 19) == 18 & date$month > 6))))
    # Elapsed months since epoch
-  months <- (((year - 1) * 235 + 13) %/% 19) + month1
+  months <- (((date$year - 1) * 235 + 13) %/% 19) + month1
    # Middle of given month
   midmonth <- BABYLONIAN_EPOCH + round(MEAN_SYNODIC_MONTH * months) + 15
-
-  babylonian_new_month_on_or_before(midmonth) + day - 1
+  babylonian_new_month_on_or_before(midmonth) + date$day - 1
 }
 
 babylonian_from_fixed <- function(date) {
@@ -67,6 +66,7 @@ babylonian_date <- function(year, month, leap, day) {
 }
 
 #' @rdname babylonian_date
+#' @param date Vector of dates on some calendar.
 #' @export
 as_babylonian <- function(date) {
   as_date(date, calendar = cal_babylonian)
@@ -79,8 +79,9 @@ moonlag <- function(date, location) {
   # Returns NA if there is no sunset on date
   sun <- as.numeric(sunset(date, location))
   moon <- as.numeric(moonset(date, location))
-  moon[is.na(moon)] <- hr(24)  # Arbitrary
-  moon - sun
+  out <- moon - sun
+  out[is.na(moon)] <- hr(24) # Arbitrary
+  out
 }
 
 babylonian_leap_year_p <- function(b_year) {
@@ -104,9 +105,9 @@ babylonian_criterion <- function(date) {
 babylonian_new_month_on_or_before <- function(date) {
   # Fixed date of start of Babylonian month on or before
   # Babylonian date. Using lag of moonset criterion
-  moon <- fixed_from_moment(lunar_phase_at_or_before(NEW, date))
+  moon <- fixed_from_moment(lunar_phase_at_or_before(rep(NEW, length(date)), date))
   age <- date - moon
-  tau <- moon - 30* as.numeric(age <= 3 & !babylonian_criterion(date))
+  tau <- moon - 30 * as.numeric(age <= 3 & !babylonian_criterion(date))
   while(any(!babylonian_criterion(tau))) {
    j <- which(!babylonian_criterion(tau))
    tau[j] <- tau[j] +1
