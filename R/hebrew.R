@@ -89,30 +89,30 @@ fixed_from_hebrew <- function(date, ...) {
 }
 
 hebrew_from_fixed <- function(date, ...) {
+  date <- vec_data(date)
   # Approximate year (may be off by 1)
-  approx <- 1 + (vec_data(date) - HEBREW_EPOCH) %/% (35975351 / 98496)
+  approx <- 1 + (date - HEBREW_EPOCH) %/% (35975351 / 98496)
 
   # Search forward for year
-  ny <- hebrew_new_year(approx)
-  ny_next <- hebrew_new_year(approx + 1)
-  year <- approx - 1 + (date >= ny) + (date >= ny_next)
+  year <- final_value(approx - 1, function(y) {
+    hebrew_new_year(y) <= date
+  })
 
   start <- rep(NISAN, length(date))
-  start[date < hebrew_date(year, NISAN, 1)] <- TISHRI
+  start[date < vec_data(hebrew_date(year, NISAN, 1))] <- TISHRI
   # Find the month
-  month <- start
-  lower <- hebrew_date(year, month, last_day_of_hebrew_month(year, month))
-  while (any(date > lower)) {
-    j <- which(date > lower)
-    month[j] <- month[j] + 1
-    lower[j] <- hebrew_date(
-      year[j],
-      month[j],
-      last_day_of_hebrew_month(year[j], month[j])
-    )
-  }
+    # Find the month
+  month <- next_value(start, function(m) {
+    date <=
+      vec_data(hebrew_date(
+        year,
+        m,
+        last_day_of_hebrew_month(year, m)
+      ))
+  })
+
   # Calculate the day by subtraction
-  day <- date - hebrew_date(year, month, 1) + 1
+  day <- date - vec_data(hebrew_date(year, month, 1)) + 1
 
   list(year = year, month = month, day = day)
 }

@@ -160,12 +160,9 @@ midday_in_tehran <- function(date) {
 
 persian_new_year_on_or_before <- function(date) {
   approx <- estimate_prior_solar_longitude(SPRING, midday_in_tehran(date))
-  out <- trunc(approx) - 1
-  while (any(solar_longitude(midday_in_tehran(out)) > SPRING + deg(2))) {
-    j <- which(solar_longitude(midday_in_tehran(out)) > SPRING + deg(2))
-    out[j] <- out[j] + 1
-  }
-  return(out)
+  next_value(floor(approx) - 1, function(day) {
+    solar_longitude(midday_in_tehran(day)) <= SPRING + deg(2)
+  })
 }
 
 arithmetic_persian_leap_year <- function(p_year) {

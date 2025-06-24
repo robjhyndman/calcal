@@ -411,14 +411,9 @@ chinese_winter_solstice_on_or_before <- function(date, locfn) {
     WINTER,
     midnight_in_china(date + 1, locfn)
   )
-  d <- floor(approx) - 1
-  upper <- solar_longitude(midnight_in_china(d + 1, locfn))
-  while (any(WINTER >= upper)) {
-    idx <- WINTER >= upper
-    d[idx] <- d[idx] + 1
-    upper[idx] <- solar_longitude(midnight_in_china(d[idx] + 1, locfn))
-  }
-  return(d)
+  next_value(floor(approx) - 1, function(day) {
+    WINTER < solar_longitude(midnight_in_china(day + 1, locfn))
+  })
 }
 
 chinese_new_year_in_sui <- function(date, locfn) {

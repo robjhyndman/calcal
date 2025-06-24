@@ -26,30 +26,27 @@ fixed_from_tibetan <- function(t_date) {
 }
 
 tibetan_from_fixed <- function(date) {
+  date <- vec_data(date)
   # Tibetan lunar date corresponding to fixed date
   cap_Y <- 365 + 4975 / 18382 # Average Tibetan year
-  years <- ceiling((vec_data(date) - TIBETAN_ENOCH) / cap_Y)
+  years <- ceiling((date - TIBETAN_ENOCH) / cap_Y)
   # Search for year
-  year0 <- years
-  while (any(date >= tibetan_date(year0, 1, FALSE, 1, FALSE))) {
-    j <- which(date >= tibetan_date(year0, 1, FALSE, 1, FALSE))
-    year0[j] <- year0[j] + 1
-  }
-  year0 <- year0 - 1
+  year0 <- final_value(years, function(y) {
+    date >= vec_data(tibetan_date(y, 1, FALSE, 1, FALSE))
+  })
+
   # Search for month
-  month0 <- rep(1, length(year0))
-  while (any(date >= tibetan_date(year0, month0, FALSE, 1, FALSE))) {
-    j <- which(date >= tibetan_date(year0, month0, FALSE, 1, FALSE))
-    month0[j] <- month0[j] + 1
-  }
-  month0 <- month0 - 1
+  month0 <- final_value(rep(1, length(date)), function(m) {
+    date >= vec_data(tibetan_date(year0, m, FALSE, 1, FALSE))
+  })
+
+  # Estimated day
+  est <- date - vec_data(tibetan_date(year0, month0, FALSE, 1, FALSE))
+
   # Search for day
-  day0 <- date - tibetan_date(year0, month0, FALSE, 1, FALSE) - 2
-  while (any(date >= tibetan_date(year0, month0, FALSE, day0, FALSE))) {
-    j <- which(date >= tibetan_date(year0, month0, FALSE, day0, FALSE))
-    day0[j] <- day0[j] + 1
-  }
-  day0 <- day0 - 1
+  day0 <- final_value(est - 2, function(d) {
+    date >= vec_data(tibetan_date(year0, month0, FALSE, d, FALSE))
+  })
 
   leap_month <- day0 > 30
   day <- amod(day0, 30)
@@ -59,7 +56,7 @@ tibetan_from_fixed <- function(date) {
   case1 <- day > day0 & month0 == 1
   case2 <- leap_month & month0 == 12
   year <- year0 - case1 + case2
-  leap_day <- (date == tibetan_date(year, month, leap_month, day, TRUE))
+  leap_day <- (date == vec_data(tibetan_date(year, month, leap_month, day, TRUE)))
 
   list(
     year = year,
@@ -164,7 +161,7 @@ tibetan_moon_equation <- function(alpha) {
     integer_vals <- mins(c(0, 5, 10, 15, 19, 22, 24, 25))
     ifelse(
       x == floor(x) & x <= 7,
-      integer_vals[x + 1], 
+      integer_vals[x + 1],
       {
         # For x > 7, use symmetry: f(x) = f(14-x)
         x_sym <- ifelse(x > 7, 14 - x, x)
@@ -222,11 +219,11 @@ tibetan_leap_day_p <- function(t_year, t_month, t_day) {
 }
 
 #' Tibetan holidays
-#' 
+#'
 #' The Tibetan New Year occurs on the first day of the Tibetan calendar. These
 #' functions calculate the date given either a Gregorian year or a Tibetan year.
 #' Both return a Gregorian date.
-#' 
+#'
 #' @param year A vector of Gregorian years
 #' @param t_year A vector of Tibetan years
 #' @examples
@@ -237,7 +234,7 @@ tibetan_leap_day_p <- function(t_year, t_month, t_day) {
 tibetan_new_year <- function(year) {
   dec31 <- gregorian_year_end(year) |> vec_data()
   t_year <- tibetan_from_fixed(dec31)$year
-  losars <- losar(seq(min(t_year)-1 , max(t_year)))
+  losars <- losar(seq(min(t_year) - 1, max(t_year)))
   yr <- granularity(losars, "year")
   losars[yr %in% year]
 }
@@ -248,4 +245,3 @@ losar <- function(t_year) {
   t_leap <- tibetan_leap_month_p(t_year, 1)
   as_gregorian(tibetan_date(t_year, 1, t_leap, 1, FALSE))
 }
-

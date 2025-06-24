@@ -13,11 +13,34 @@ mod3 <- function(x, a, b) {
   return(result)
 }
 
+# Search and iteration utilities
+next_value <- function(initial, condition_fn) {
+  index <- initial
+  cond <- condition_fn(index) & !is.na(index)
+  while (any(!cond)) {
+    j <- !cond
+    index[j] <- index[j] + 1
+    cond <- condition_fn(index) & !is.na(index)
+  }
+  return(index)
+}
+
+final_value <- function(initial, condition_fn) {
+  index <- initial
+  cond <- condition_fn(initial) & !is.na(index)
+  while (any(cond)) {
+    j <- cond
+    index[j] <- index[j] + 1
+    cond <- condition_fn(index) & !is.na(index)
+  }
+  return(index - 1)
+}
+
 binary_search_single <- function(lo, hi, p, e) {
   # Bisection search for x in [lo, hi] such that condition 'e' holds.
   # p determines when to go left
   x <- (lo + hi) / 2
-  if(p(x) | abs(hi - lo) < 1e-8) {
+  if (p(x) | abs(hi - lo) < 1e-8) {
     return(x)
   } else if (e(lo, hi)) {
     return(binary_search_single(lo, x, p, e))
@@ -186,4 +209,3 @@ fixed_from_jd <- function(jd) {
 jd_from_fixed <- function(date) {
   jd_from_moment(date)
 }
-

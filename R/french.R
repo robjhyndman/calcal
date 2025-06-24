@@ -170,12 +170,9 @@ midnight_in_paris <- function(date) {
 
 french_new_year_on_or_before <- function(date) {
   approx <- estimate_prior_solar_longitude(AUTUMN, midnight_in_paris(date))
-  out <- floor(approx) - 1
-  while (any(AUTUMN > solar_longitude(midnight_in_paris(out)))) {
-    j <- which(AUTUMN > solar_longitude(midnight_in_paris(out)))
-    out[j] <- out[j] + 1
-  }
-  return(out)
+  next_value(floor(approx) - 1, function(day) {
+    AUTUMN <= solar_longitude(midnight_in_paris(day))
+  })
 }
 
 french_leap_year <- function(f_year) {

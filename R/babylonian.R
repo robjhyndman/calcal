@@ -108,9 +108,5 @@ babylonian_new_month_on_or_before <- function(date) {
   moon <- fixed_from_moment(lunar_phase_at_or_before(rep(NEW, length(date)), date))
   age <- date - moon
   tau <- moon - 30 * as.numeric(age <= 3 & !babylonian_criterion(date))
-  while(any(!babylonian_criterion(tau))) {
-   j <- which(!babylonian_criterion(tau))
-   tau[j] <- tau[j] +1
-  }
-  tau
+  next_value(tau, function(x) {!babylonian_criterion(x)})
 }

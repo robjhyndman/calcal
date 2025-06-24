@@ -149,12 +149,9 @@ bahai_sunset <- function(date) {
 
 astro_bahai_new_year_on_or_before <- function(date) {
   approx <- estimate_prior_solar_longitude(SPRING, bahai_sunset(date))
-  out <- floor(approx) - 1
-  while (any(solar_longitude(bahai_sunset(out)) > SPRING + deg(2))) {
-    j <- which(solar_longitude(bahai_sunset(out)) > SPRING + deg(2))
-    out[j] <- out[j] + 1
-  }
-  return(out)
+  next_value(floor(approx) - 1, function(day) {
+    solar_longitude(bahai_sunset(day)) <= SPRING + deg(2)
+  })
 }
 
 fixed_from_astro_bahai <- function(date) {
