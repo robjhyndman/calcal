@@ -156,9 +156,12 @@ dawn <- function(date, locale, alpha) {
 }
 
 dusk <- function(date, locale, alpha) {
+  if(inherits(date, "calcalvec")) {
+    date <- vec_data(date)
+  }
   # Standard time in evening on date at locale when depression angle of sun is alpha
   result <- moment_of_depression(
-    vec_data(date) + hr(18),
+    date + hr(18),
     locale,
     alpha,
     EVENING
