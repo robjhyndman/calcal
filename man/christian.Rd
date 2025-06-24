@@ -7,7 +7,6 @@
 \alias{epiphany}
 \alias{easter}
 \alias{orthodox_easter}
-\alias{alt_orthodox_easter}
 \alias{pentecost}
 \alias{coptic_christmas}
 \title{Christian Ecclesiastical Holidays}
@@ -23,8 +22,6 @@ epiphany(year)
 easter(year)
 
 orthodox_easter(year)
-
-alt_orthodox_easter(year)
 
 pentecost(year)
 
@@ -48,7 +45,6 @@ tibble::tibble(
   epiphany = epiphany(year),
   easter = easter(year),
   orthodox_easter = orthodox_easter(year),
-  alt_orthodox_easter = alt_orthodox_easter(year),
   pentecost = pentecost(year)
 )
 }

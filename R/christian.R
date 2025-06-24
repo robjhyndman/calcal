@@ -18,7 +18,6 @@
 #'   epiphany = epiphany(year),
 #'   easter = easter(year),
 #'   orthodox_easter = orthodox_easter(year),
-#'   alt_orthodox_easter = alt_orthodox_easter(year),
 #'   pentecost = pentecost(year)
 #' )
 #' @export
@@ -82,23 +81,6 @@ orthodox_easter <- function(year) {
 
   # Day after full moon on or after March 21
   paschal_moon <- julian_date(j_year, APRIL, 19) - shifted_epact
-
-  # Return the Sunday following the Paschal moon
-  as_gregorian(kday_after(SUNDAY, paschal_moon))
-}
-
-#' @rdname christian
-#' @export
-alt_orthodox_easter <- function(year) {
-  # Alternate calculation of fixed date of Orthodox Easter in Gregorian year
-  # Day after full moon on or after March 21
-  paschal_moon <- 354 *
-    year +
-    30 * ((7 * year + 8) %/% 19) +
-    year %/% 4 -
-    year %/% 19 -
-    273 +
-    GREGORIAN_EPOCH
 
   # Return the Sunday following the Paschal moon
   as_gregorian(kday_after(SUNDAY, paschal_moon))
