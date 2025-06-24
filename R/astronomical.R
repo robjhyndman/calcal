@@ -69,7 +69,7 @@ arctan_degrees <- function(y, x) {
 }
 
 arcsin_degrees <- function(x) {
-  degrees_from_radians(asin(x))
+  suppressWarnings(degrees_from_radians(asin(x)))
 }
 
 arccos_degrees <- function(x) {
@@ -130,7 +130,7 @@ approx_moment_of_depression <- function(tee, loc, alpha, early) {
   alt[alpha >= 0] <- date[alpha >= 0] + !early
   alt[alpha < 0] <- date[alpha < 0] + hr(12)
   value <- try_val
-  gt1 <- abs(try_val) > 1
+  gt1 <- abs(try_val) > 1 & !is.na(try_val)
   if (any(gt1)) {
     value[gt1] <- sine_offset(alt[gt1], loc, alpha)
   }

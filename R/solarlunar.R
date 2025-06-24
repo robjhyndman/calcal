@@ -24,15 +24,15 @@ ephemeris_correction <- function(tee) {
   u <- (gregorian_date(year, JULY, 1) - gregorian_date(1900, JANUARY, 1)) /
     36525
 
-  case1 <- (2051 <= year & year <= 2150)
-  case2 <- (2006 <= year & year <= 2050)
-  case3 <- (1987 <= year & year <= 2005)
-  case4 <- (1900 <= year & year <= 1986)
-  case5 <- (1800 <= year & year <= 1899)
-  case6 <- (1700 <= year & year <= 1799)
-  case7 <- (1600 <= year & year <= 1699)
-  case8 <- (500 <= year & year <= 1599)
-  case9 <- (-500 < year & year < 500)
+  case1 <- (2051 <= year & year <= 2150) & !is.na(year)
+  case2 <- (2006 <= year & year <= 2050) & !is.na(year)
+  case3 <- (1987 <= year & year <= 2005) & !is.na(year)
+  case4 <- (1900 <= year & year <= 1986) & !is.na(year)
+  case5 <- (1800 <= year & year <= 1899) & !is.na(year)
+  case6 <- (1700 <= year & year <= 1799) & !is.na(year)
+  case7 <- (1600 <= year & year <= 1699) & !is.na(year)
+  case8 <- (500 <= year & year <= 1599) & !is.na(year)
+  case9 <- (-500 < year & year < 500) & !is.na(year)
 
   y1820 <- (year - 1820) / 100
   result <- (1 / 86400) * poly(y1820, c(-20, 0, 32))
@@ -264,7 +264,7 @@ moon_node <- function(u) {
 }
 
 lunar_node <- function(date) {
-  moon_node(julian_centuries(date)) %% 360
+  moon_node(julian_centuries(date)) |> mod3(-90, 90)
 }
 
 lunar_longitude <- function(tee) {
@@ -467,19 +467,34 @@ lunar_latitude <- function(tee) {
   cap_F <- moon_node(u)
   cap_E <- poly(u, c(1, -0.002516, -0.0000074))
 
-  beta <- deg(1/1000000) * sum(LUNAR_LATITUDE_COEFFS$sine_coeff * cap_E^abs(LUNAR_LATITUDE_COEFFS$args_solar_anomaly) *
-    sin_degrees(LUNAR_LATITUDE_COEFFS$args_lunar_elongation * cap_D + LUNAR_LATITUDE_COEFFS$args_solar_anomaly * cap_M +
-                LUNAR_LATITUDE_COEFFS$args_lunar_anomaly * cap_M_prime + LUNAR_LATITUDE_COEFFS$args_moon_node * cap_F))
+  parts <- matrix(
+    0,
+    nrow = length(LUNAR_LATITUDE_COEFFS$sine_coeff),
+    ncol = length(u)
+  )
+  for (i in seq_along(LUNAR_LATITUDE_COEFFS$sine_coeff)) {
+    parts[i, ] <- LUNAR_LATITUDE_COEFFS$sine_coeff[i] *
+      (cap_E^abs(LUNAR_LATITUDE_COEFFS$args_solar_anomaly[i])) *
+      sin_degrees(
+        (LUNAR_LATITUDE_COEFFS$args_lunar_elongation[i] * cap_D) +
+          (LUNAR_LATITUDE_COEFFS$args_solar_anomaly[i] * cap_M) +
+          (LUNAR_LATITUDE_COEFFS$args_lunar_anomaly[i] * cap_M_prime) +
+          (LUNAR_LATITUDE_COEFFS$args_moon_node[i] * cap_F)
+      )
+  }
 
-  venus <- deg(175/1000000) *
+  beta <- deg(1 / 1000000) * colSums(parts)
+
+  venus <- deg(175 / 1000000) *
     (sin_degrees(deg(119.75) + u * deg(131.849) + cap_F) +
-     sin_degrees(deg(119.75) + u * deg(131.849) - cap_F))
+      sin_degrees(deg(119.75) + u * deg(131.849) - cap_F))
 
-  flat_earth <- deg(-2235/1000000) * sin_degrees(cap_L_prime) +
-    deg(127/1000000) * sin_degrees(cap_L_prime - cap_M_prime) +
-    deg(-115/1000000) * sin_degrees(cap_L_prime + cap_M_prime)
+  flat_earth <- deg(-2235 / 1000000) *
+    sin_degrees(cap_L_prime) +
+    deg(127 / 1000000) * sin_degrees(cap_L_prime - cap_M_prime) +
+    deg(-115 / 1000000) * sin_degrees(cap_L_prime + cap_M_prime)
 
-  extra <- deg(382/1000000) * sin_degrees(deg(313.45) + u * deg(481266.484))
+  extra <- deg(382 / 1000000) * sin_degrees(deg(313.45) + u * deg(481266.484))
 
   beta + venus + flat_earth + extra
 }
@@ -497,46 +512,59 @@ lunar_distance <- function(tee) {
   cap_F <- moon_node(u)
   cap_E <- 1 - 0.002516 * u - 0.0000074 * u^2
 
-  correction <- sum(LUNAR_DISTANCE_COEFFS$cosine_coeff * cap_E^abs(LUNAR_DISTANCE_COEFFS$args_solar_anomaly) *
-    cos_degrees(LUNAR_DISTANCE_COEFFS$args_lunar_elongation * cap_D + LUNAR_DISTANCE_COEFFS$args_solar_anomaly * cap_M +
-                LUNAR_DISTANCE_COEFFS$args_lunar_anomaly * cap_M_prime + LUNAR_DISTANCE_COEFFS$args_moon_node * cap_F))
+  parts <- matrix(
+    0,
+    nrow = length(LUNAR_DISTANCE_COEFFS$cosine_coeff),
+    ncol = length(u)
+  )
+  for (i in seq_along(LUNAR_DISTANCE_COEFFS$cosine_coeff)) {
+    parts[i, ] <- LUNAR_DISTANCE_COEFFS$cosine_coeff[i] *
+      (cap_E^abs(LUNAR_DISTANCE_COEFFS$args_solar_anomaly[i])) *
+      cos_degrees(
+        (LUNAR_DISTANCE_COEFFS$args_lunar_elongation[i] * cap_D) +
+          (LUNAR_DISTANCE_COEFFS$args_solar_anomaly[i] * cap_M) +
+          (LUNAR_DISTANCE_COEFFS$args_lunar_anomaly[i] * cap_M_prime) +
+          (LUNAR_DISTANCE_COEFFS$args_moon_node[i] * cap_F)
+      )
+  }
+
+  correction <- colSums(parts)
 
   mt(385000560) + correction
 }
 
-# Vectorized lunar altitude calculation
 lunar_altitude <- function(tee, location) {
-  tee <- as.vector(tee)
-
-  phi <- latitude(location)
-  psi <- longitude(location)
-
-  lambda <- lunar_longitude(tee)
-  beta <- lunar_latitude(tee)
-  alpha <- right_ascension(tee, beta, lambda)
-  delta <- declination(tee, beta, lambda)
-  theta0 <- sidereal_from_moment(tee)
-
-  cap_H <- (theta0 - psi - alpha) %% 360
-
-  altitude <- asin(
-    sin(deg(phi)) *
-      sin(deg(delta)) +
-      cos(deg(phi)) * cos(deg(delta)) * cos(deg(cap_H))
-  )
-
-  altitude_deg <- degrees_from_radians(altitude)
-  ((altitude_deg + 180) %% 360) - 180
+  # Geocentric altitude of moon at tee at location, 
+  # as a small positive/negative angle in degrees, ignoring
+  # parallax and refraction. Adapted from "Astronomical
+  # Algorithms" by Jean Meeus, Willmann-Bell, 2nd edn., 1998.
+  phi <- latitude(location)  # Local latitude.
+  psi <- longitude(location)  # Local longitude.
+  lambda <- lunar_longitude(tee)  # Lunar longitude.
+  beta <- lunar_latitude(tee)  # Lunar latitude.
+  alpha <- right_ascension(tee, beta, lambda)  # Lunar right ascension.
+  delta <- declination(tee, beta, lambda)  # Lunar declination.
+  theta0 <- sidereal_from_moment(tee)  # Sidereal time.
+  cap_H <- (theta0 - psi - alpha) %% 360  # Local hour angle.
+  
+  altitude <- arcsin_degrees(sin_degrees(phi) * sin_degrees(delta) + 
+                             cos_degrees(phi) * cos_degrees(delta) * cos_degrees(cap_H))
+  
+  mod3(altitude, -180, 180)
 }
 
-# Other vectorized functions remain the same
 lunar_parallax <- function(tee, location) {
+  # Parallax of moon at tee at location.
+  # Adapted from "Astronomical Algorithms" by Jean Meeus,
+  # Willmann-Bell, 2nd edn., 1998.
   geo <- lunar_altitude(tee, location)
   cap_Delta <- lunar_distance(tee)
   alt <- mt(6378140) / cap_Delta
-  arg <- alt * cos(deg(geo))
-  degrees_from_radians(asin(arg))
+  arg <- alt * cos_degrees(geo)
+  
+  arcsin_degrees(arg)
 }
+
 
 topocentric_lunar_altitude <- function(tee, location) {
   lunar_altitude(tee, location) - lunar_parallax(tee, location)
@@ -567,7 +595,7 @@ moonset <- function(date, location) {
   tee <- universal_from_standard(lst$date, lst$location) # Midnight.
   waxing <- lunar_phase(tee) < deg(180)
   alt <- observed_lunar_altitude(tee, lst$location) # Altitude at midnight.
-  lat <- latitude(location)
+  lat <- latitude(lst$location)
   offset <- alt / (4 * (deg(90) - abs(lat)))
   approx <- tee - offset + 1 / 2
   if (any(waxing)) {
@@ -587,8 +615,8 @@ moonset <- function(date, location) {
     SIMPLIFY = TRUE
   )
 
-  out <- pmax(standard_from_universal(set, location), date) # May be just before midnight.
-  out[set >= (date + 1)] <- NA
+  out <- pmax(standard_from_universal(set, lst$location), lst$date) # May be just before midnight.
+  out[set >= (lst$date + 1)] <- NA
   as_time_of_day(out)
 }
 
@@ -606,7 +634,7 @@ moonrise <- function(date, location) {
   tee <- universal_from_standard(lst$date, lst$location) # Midnight.
   waning <- lunar_phase(tee) > deg(180)
   alt <- observed_lunar_altitude(tee, lst$location) # Altitude at midnight.
-  lat <- latitude(location)
+  lat <- latitude(lst$location)
   offset <- alt / (4 * (deg(90) - abs(lat)))
   approx <- tee + 1 / 2 + offset
   if (any(waning)) {
@@ -628,8 +656,8 @@ moonrise <- function(date, location) {
     lst$location,
     SIMPLIFY = TRUE
   )
-  out <- pmax(standard_from_universal(rise, location), date) # May be just before midnight.
-  out[rise >= (date + 1)] <- NA
+  out <- pmax(standard_from_universal(rise, lst$location), lst$date) # May be just before midnight.
+  out[rise >= (lst$date + 1)] <- NA
   as_time_of_day(out)
 }
 

@@ -29,6 +29,11 @@ time_of_day <- function(
     .size = max(unlist(lapply(lst, length)))
   )
   validate_time(lst)
+  # Convert NaN to NA
+  lst$hour[is.nan(lst$hour)] <- NA_integer_
+  lst$minute[is.nan(lst$minute)] <- NA_integer_
+  lst$second[is.nan(lst$second)] <- NA_real_
+
   new_rcrd(lst, class = "time_of_day")
 }
 
@@ -36,13 +41,13 @@ validate_time <- function(args) {
   hour <- args$hour
   minute <- args$minute
   second <- args$second
-  if (any(hour < 0 | hour > 23)) {
+  if (any(hour < 0 | hour > 23, na.rm = TRUE)) {
     stop("hour must be between 0 and 23")
   }
-  if (any(minute < 0 | minute > 59)) {
+  if (any(minute < 0 | minute > 59, na.rm = TRUE)) {
     stop("minute must be between 0 and 23")
   }
-  if (any(second < 0 | second >= 60)) {
+  if (any(second < 0 | second >= 60, na.rm = TRUE)) {
     stop("second must be between 0 and 23")
   }
 }
