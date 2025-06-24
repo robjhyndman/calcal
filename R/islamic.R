@@ -71,6 +71,11 @@ cal_islamic <- cal_calendar(
 #' lunar months in a year of 354 or 355 days. It is widely used in
 #' for Islamic holidays, and in countries where the predominant
 #' religion is Islam.
+#' 
+#' Three variations are implemented here. The standard Islamic calendar
+#' is available using `as_islamic` and `islamic_date`. The Saudi Islamic calendar
+#' uses `as_saudi` and `saudi_date`, while the traditional observational
+#' Islamic calendar is available using `as_oislamic` and `oislamic_date`. 
 #'
 #' @examples
 #' islamic_date(2025, 5, 1:30)
