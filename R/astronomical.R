@@ -144,19 +144,29 @@ approx_moment_of_depression <- function(tee, loc, alpha, early) {
 
 moment_of_depression <- function(approx, loc, alpha, early) {
   tee <- approx_moment_of_depression(approx, loc, alpha, early)
-  iter <- abs(approx - tee) > sec(30)
-  tee[iter] <- approx_moment_of_depression(tee[iter], loc, alpha, early)
+  iter <- abs(approx - tee) >= sec(30) & !is.na(tee)
+  if (any(iter)) {
+    tee[iter] <- moment_of_depression(tee[iter], loc, alpha, early)
+  }
   return(tee)
 }
 
 dawn <- function(date, locale, alpha) {
+  if (inherits(date, "calcalvec")) {
+    date <- vec_data(date)
+  }
   # Standard time in morning of date at locale when depression angle of sun is alpha
-  result <- moment_of_depression(vec_data(date) + hr(6), locale, alpha, MORNING)
+  result <- moment_of_depression(
+    date + hr(6),
+    locale,
+    alpha,
+    MORNING
+  )
   standard_from_local(result, locale)
 }
 
 dusk <- function(date, locale, alpha) {
-  if(inherits(date, "calcalvec")) {
+  if (inherits(date, "calcalvec")) {
     date <- vec_data(date)
   }
   # Standard time in evening on date at locale when depression angle of sun is alpha
