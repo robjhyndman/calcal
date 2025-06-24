@@ -91,7 +91,7 @@ as_date.numeric <- function(date, calendar) {
 #' @export
 as_date.Date <- function(date, calendar) {
   new_calcalvec(
-    as.numeric(date) + gregorian_date(1970, 1, 1),
+    as.numeric(date) + as.numeric(gregorian_date(1970, 1, 1)),
     calendar
   )
 }
