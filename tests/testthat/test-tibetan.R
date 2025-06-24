@@ -17,5 +17,8 @@ test_that("tibetan", {
   expect_true(all(d$month >= 1 & d$month <= 12))
   expect_true(all(d$day >= 1 & d$day <= 30))
   # New year
-  expect_equal(tibetan_new_year(2025:2026), gregorian_date(2025:2026, 2, c(28,18)))
+  expect_equal(
+    tibetan_new_year(2025:2026),
+    gregorian_date(2025:2026, 2, c(28, 18))
+  )
 })

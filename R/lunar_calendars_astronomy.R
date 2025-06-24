@@ -121,7 +121,11 @@ samaritan_from_fixed <- function(date) {
   # Samaritan date corresponding to fixed date.
   date <- vec_data(date)
   # First of month
-  moon <- samaritan_new_moon_at_or_before(samaritan_noon(date))
+  moon <- nth_new_moon(
+    samaritan_new_moon_at_or_before(
+      samaritan_noon(date)
+    )
+  )
   new_year <- samaritan_new_year_on_or_before(moon)
   month <- 1 + round((moon - new_year) / 29.5)
   year <- round((new_year - SAMARITAN_EPOCH) / 365.25) +
@@ -487,7 +491,9 @@ phasis_on_or_before <- function(date, location) {
   moon <- fixed_from_moment(lunar_phase_at_or_before(NEW, date))
   age <- date - moon
   tau <- moon - 30 * (age <= 3 & !visible_crescent(date, location))
-  next_value(tau, function(x) {visible_crescent(x, location)})
+  next_value(tau, function(x) {
+    visible_crescent(x, location)
+  })
 }
 
 phasis_on_or_after <- function(date, location) {
@@ -504,6 +510,7 @@ phasis_on_or_after <- function(date, location) {
   if (any(not_visible, na.rm = TRUE)) {
     tau[not_visible] <- moon[not_visible] + 29 # Next new moon
   }
-  next_value(tau, function(x) {visible_crescent(x, location)})
+  next_value(tau, function(x) {
+    visible_crescent(x, location)
+  })
 }
-

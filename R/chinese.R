@@ -125,8 +125,8 @@ korean_from_fixed <- function(date) {
 }
 
 fixed_from_korean <- function(date) {
-  date$cycle <-  (date$year + 364) / 60 
-  date$year <- (date$year) %/% (60 * date$cycle) 
+  date$cycle <- (date$year + 364) / 60
+  date$year <- (date$year) %/% (60 * date$cycle)
   fixed_from_asian(date, korean_location)
 }
 
@@ -322,11 +322,7 @@ as_vietnamese <- function(date) {
 }
 
 chinese_location <- function(date) {
-  if (inherits(date, "calcalvec")) {
-    tee <- vec_data(date)
-  } else {
-    tee <- date
-  }
+  tee <- vec_data(date)
   year <- gregorian_year_from_fixed(floor(tee))
   out <- rep(
     location(angle(39, 55, 0), angle(116, 25, 0), mt(43.5), hr(8)),
@@ -425,7 +421,8 @@ chinese_new_year_in_sui <- function(date, locfn) {
 
   # If 13 new moons and either m12 or m13 has no major solar term
   idx <- round((next_m11 - m12) / MEAN_SYNODIC_MONTH) == 12 &
-    (chinese_no_major_solar_term(m12, locfn) | chinese_no_major_solar_term(m13, locfn))
+    (chinese_no_major_solar_term(m12, locfn) |
+      chinese_no_major_solar_term(m13, locfn))
   if (any(idx)) {
     m13[idx] <- chinese_new_moon_on_or_after(m13[idx] + 1, locfn)
   }
@@ -600,11 +597,7 @@ chinese_year_marriage_augury <- function(cycle, year) {
 }
 
 japanese_location <- function(date) {
-  if (inherits(date, "calcalvec")) {
-    tee <- vec_data(date)
-  } else {
-    tee <- date
-  }
+  tee <- vec_data(date)
   year <- gregorian_year_from_fixed(floor(tee))
   out <- rep(
     # Longitude 135 time zone
@@ -621,11 +614,7 @@ japanese_location <- function(date) {
 
 korean_location <- function(date) {
   # Seoul city hall at a varying time zone.
-  if (inherits(date, "calcalvec")) {
-    tee <- vec_data(date)
-  } else {
-    tee <- date
-  }
+  tee <- vec_data(date)
   z <- rep(9, length(tee))
   case1 <- tee < vec_data(gregorian_date(1908, APRIL, 1))
   case2 <- !case1 & tee < vec_data(gregorian_date(1912, JANUARY, 1))
@@ -645,11 +634,7 @@ korean_year <- function(cycle, year) {
 
 
 vietnamese_location <- function(date) {
-  if (inherits(date, "calcalvec")) {
-    tee <- vec_data(date)
-  } else {
-    tee <- date
-  }
+  tee <- vec_data(date)
   # Location for Vietnamese calendar is Hanoi; varies with
   # tee. Time zone has changed over the years.
   z <- 7 + (tee < gregorian_new_year(1968))

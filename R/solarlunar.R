@@ -314,13 +314,7 @@ lunar_longitude <- function(tee) {
 #'
 #' @export
 lunar_phase <- function(date) {
-  if (inherits(date, "calcalvec")) {
-    tee <- vec_data(date)
-  } else if (is.numeric(date)) {
-    tee <- date
-  } else {
-    stop("Incorrect date format")
-  }
+  tee <- vec_data(date)
   phi <- (lunar_longitude(tee) - solar_longitude(tee)) %% 360
   t0 <- nth_new_moon(0)
   n <- round((tee - t0) / MEAN_SYNODIC_MONTH)
@@ -423,7 +417,7 @@ new_moon_at_or_after <- function(tee) {
   t0 <- nth_new_moon(0)
   phi <- lunar_phase(tee)
   n <- round((tee - t0) / MEAN_SYNODIC_MONTH - phi / 360)
-   next_value(n, function(k) nth_new_moon(k) >= tee)
+  next_value(n, function(k) nth_new_moon(k) >= tee)
 }
 
 lunar_phase_at_or_before <- function(phi, tee) {
@@ -522,22 +516,25 @@ lunar_distance <- function(tee) {
 }
 
 lunar_altitude <- function(tee, location) {
-  # Geocentric altitude of moon at tee at location, 
+  # Geocentric altitude of moon at tee at location,
   # as a small positive/negative angle in degrees, ignoring
   # parallax and refraction. Adapted from "Astronomical
   # Algorithms" by Jean Meeus, Willmann-Bell, 2nd edn., 1998.
-  phi <- latitude(location)  # Local latitude.
-  psi <- longitude(location)  # Local longitude.
-  lambda <- lunar_longitude(tee)  # Lunar longitude.
-  beta <- lunar_latitude(tee)  # Lunar latitude.
-  alpha <- right_ascension(tee, beta, lambda)  # Lunar right ascension.
-  delta <- declination(tee, beta, lambda)  # Lunar declination.
-  theta0 <- sidereal_from_moment(tee)  # Sidereal time.
-  cap_H <- (theta0 - psi - alpha) %% 360  # Local hour angle.
-  
-  altitude <- arcsin_degrees(sin_degrees(phi) * sin_degrees(delta) + 
-                             cos_degrees(phi) * cos_degrees(delta) * cos_degrees(cap_H))
-  
+  phi <- latitude(location) # Local latitude.
+  psi <- longitude(location) # Local longitude.
+  lambda <- lunar_longitude(tee) # Lunar longitude.
+  beta <- lunar_latitude(tee) # Lunar latitude.
+  alpha <- right_ascension(tee, beta, lambda) # Lunar right ascension.
+  delta <- declination(tee, beta, lambda) # Lunar declination.
+  theta0 <- sidereal_from_moment(tee) # Sidereal time.
+  cap_H <- (theta0 - psi - alpha) %% 360 # Local hour angle.
+
+  altitude <- arcsin_degrees(
+    sin_degrees(phi) *
+      sin_degrees(delta) +
+      cos_degrees(phi) * cos_degrees(delta) * cos_degrees(cap_H)
+  )
+
   mod3(altitude, -180, 180)
 }
 
@@ -549,7 +546,7 @@ lunar_parallax <- function(tee, location) {
   cap_Delta <- lunar_distance(tee)
   alt <- mt(6378140) / cap_Delta
   arg <- alt * cos_degrees(geo)
-  
+
   arcsin_degrees(arg)
 }
 
@@ -572,9 +569,7 @@ observed_lunar_altitude <- function(tee, location) {
 #' @rdname sunrise
 #' @export
 moonset <- function(date, location) {
-  if (inherits(date, "calcalvec")) {
-    date <- vec_data(date)
-  }
+  date <- vec_data(date)
   lst <- vec_recycle_common(
     date = date,
     location = location,
@@ -611,9 +606,7 @@ moonset <- function(date, location) {
 #' @rdname sunrise
 #' @export
 moonrise <- function(date, location) {
-  if (inherits(date, "calcalvec")) {
-    date <- vec_data(date)
-  }
+  date <- vec_data(date)
   lst <- vec_recycle_common(
     date = date,
     location = location,

@@ -56,7 +56,8 @@ tibetan_from_fixed <- function(date) {
   case1 <- day > day0 & month0 == 1
   case2 <- leap_month & month0 == 12
   year <- year0 - case1 + case2
-  leap_day <- (date == vec_data(tibetan_date(year, month, leap_month, day, TRUE)))
+  leap_day <- (date ==
+    vec_data(tibetan_date(year, month, leap_month, day, TRUE)))
 
   list(
     year = year,

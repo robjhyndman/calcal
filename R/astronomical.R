@@ -152,9 +152,7 @@ moment_of_depression <- function(approx, loc, alpha, early) {
 }
 
 dawn <- function(date, locale, alpha) {
-  if (inherits(date, "calcalvec")) {
-    date <- vec_data(date)
-  }
+  date <- vec_data(date)
   # Standard time in morning of date at locale when depression angle of sun is alpha
   result <- moment_of_depression(
     date + hr(6),
@@ -166,9 +164,7 @@ dawn <- function(date, locale, alpha) {
 }
 
 dusk <- function(date, locale, alpha) {
-  if (inherits(date, "calcalvec")) {
-    date <- vec_data(date)
-  }
+  date <- vec_data(date)
   # Standard time in evening on date at locale when depression angle of sun is alpha
   result <- moment_of_depression(
     date + hr(18),
@@ -205,9 +201,7 @@ refraction <- function(tee, loc) {
 #' moonset(gregorian_date(2025, 1, 1), c(melbourne, sydney))
 #' @export
 sunrise <- function(date, location, ...) {
-  if (inherits(date, "calcalvec")) {
-    date <- vec_data(date)
-  }
+  date <- vec_data(date)
   lst <- vec_recycle_common(
     date = date,
     location = location,
@@ -221,9 +215,7 @@ sunrise <- function(date, location, ...) {
 #' @rdname sunrise
 #' @export
 sunset <- function(date, location, ...) {
-  if (inherits(date, "calcalvec")) {
-    date <- vec_data(date)
-  }
+  date <- vec_data(date)
   lst <- vec_recycle_common(
     date = date,
     location = location,

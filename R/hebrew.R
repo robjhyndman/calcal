@@ -101,7 +101,7 @@ hebrew_from_fixed <- function(date, ...) {
   start <- rep(NISAN, length(date))
   start[date < vec_data(hebrew_date(year, NISAN, 1))] <- TISHRI
   # Find the month
-    # Find the month
+  # Find the month
   month <- next_value(start, function(m) {
     date <=
       vec_data(hebrew_date(

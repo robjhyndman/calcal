@@ -179,4 +179,3 @@ gregorian_year_range <- function(g_year) {
   # Range of days in a vector of Gregorian years (from first to last)
   c(gregorian_new_year(min(g_year)), gregorian_new_year(max(g_year) + 1) - 1)
 }
-
