@@ -41,3 +41,28 @@ test_that("islamic", {
     as_gregorian(c("2025-06-07", "2026-05-27"))
   )
 })
+
+
+test_that("oslamic", {
+    expect_equal(oislamic_date(1446, 6, 30), as_oislamic("2025-01-01"))
+  expect_equal(
+    as.Date(as_gregorian(oislamic_date(1446, 6, 30))),
+    as.Date("2025-01-01")
+  )
+  expect_equal(
+    vec_data(oislamic_date(1446, 6, 30)),
+    vec_data(gregorian_date(2025, 1, 1))
+  )
+  expect_error(oislamic_date(1446, 13, 1))
+  expect_error(oislamic_date(2025, 2, 31))
+  expect_equal(
+    gregorian_date(1967, 5, 2) |>
+      as_oislamic() |>
+      cal_oislamic$from_rd() |>
+      cal_oislamic$to_rd(),
+    gregorian_date(1967, 5, 2) |> as.numeric()
+  )
+  expect_no_error(as_oislamic(1:1e3) |> as.list() |> validate_islamic())
+
+
+})

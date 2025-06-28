@@ -45,8 +45,6 @@ observational_islamic_from_fixed <- function(date) {
   list(year = year, month = month, day = day)
 }
 
-validate_oslamic <- function(date) {}
-
 
 fixed_from_saudi_islamic <- function(s_date) {
   # TYPE islamic-date -> fixed-date
@@ -156,8 +154,8 @@ fixed_from_samaritan <- function(s_date) {
 cal_oislamic <- cal_calendar(
   "oislamic",
   "OHij",
-  c("year","month","day"),
-  validate_oslamic,
+  c("year", "month", "day"),
+  validate_islamic,
   format_islamic,
   observational_islamic_from_fixed,
   fixed_from_observational_islamic
@@ -169,8 +167,8 @@ cal_oislamic <- cal_calendar(
 cal_saudi <- cal_calendar(
   "saudi",
   "SHij",
-  c("year","month","day"),
-  validate_oslamic,
+  c("year", "month", "day"),
+  validate_islamic,
   format_islamic,
   saudi_islamic_from_fixed,
   fixed_from_saudi_islamic
@@ -182,7 +180,7 @@ cal_saudi <- cal_calendar(
 cal_ohebrew <- cal_calendar(
   "ohebrew",
   "OHeb",
-  c("year","month","day"),
+  c("year", "month", "day"),
   validate_hebrew,
   format_hebrew,
   observational_hebrew_from_fixed,
@@ -195,7 +193,7 @@ cal_ohebrew <- cal_calendar(
 cal_samaritan <- cal_calendar(
   "samaritan",
   "Sam",
-  c("year","month","day"),
+  c("year", "month", "day"),
   validate_hebrew,
   format_hebrew,
   samaritan_from_fixed,
@@ -267,12 +265,12 @@ astronomical_easter <- function(year) {
 saudi_criterion <- function(date) {
   # TYPE fixed-date -> boolean
   # Saudi visibility criterion on eve of fixed date in Mecca.
-  set <- as.numeric(date) + as.numeric(sunset(date - 1, MECCA))
-  tee <- universal_from_standard(set, MECCA)
+  set <- as.numeric(date) + as.numeric(sunset(date - 1, rep(MECCA, length(date))))
+  tee <- universal_from_standard(set, rep(MECCA, length(date)))
   phase <- lunar_phase(tee)
 
   (NEW < phase & phase < FIRST_QUARTER) &
-    (moonlag(date - 1, MECCA) > 0)
+    (moonlag(date - 1, rep(MECCA, length(date))) > 0)
 }
 
 saudi_new_month_on_or_before <- function(date) {
@@ -281,7 +279,10 @@ saudi_new_month_on_or_before <- function(date) {
   # visibility criterion held.
 
   # Prior new moon.
-  moon <- fixed_from_moment(lunar_phase_at_or_before(NEW, date))
+  moon <- fixed_from_moment(lunar_phase_at_or_before(
+    rep(NEW, length(date)),
+    date
+  ))
   age <- date - moon
   tau <- moon - 30 * (age <= 3 & !saudi_criterion(date))
   next_value(tau, saudi_criterion)
@@ -474,7 +475,7 @@ simple_best_view <- function(date, location) {
   # Simple version.
 
   # Best viewing time prior evening.
-  dark <- dusk(date, location, deg(4.5))
+  dark <- dusk(date, location, rep(deg(4.5), length(date)))
   best <- dark
   best[is.na(best)] <- date[is.na(best)] + 1 # An arbitrary time
 
