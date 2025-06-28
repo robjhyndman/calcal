@@ -586,7 +586,7 @@ moonset <- function(date, location) {
     as.numeric(waxing & (offset <= 0))
   set <- mapply(
     function(approx, loc) {
-      binary_search(
+      binary_search_single(
         approx - hr(6), # lo
         approx + hr(6), # hi
         function(x) observed_lunar_altitude(x, loc) < deg(0), # test_fn
@@ -594,7 +594,8 @@ moonset <- function(date, location) {
       )
     },
     approx,
-    lst$location
+    lst$location,
+    SIMPLIFY = TRUE
   )
   out <- pmax(standard_from_universal(set, lst$location), lst$date) # May be just before midnight.
   out[set >= (lst$date + 1)] <- NA
