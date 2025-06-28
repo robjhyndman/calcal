@@ -72,6 +72,7 @@ fixed_from_roman <- function(date, ...) {
 }
 
 roman_from_fixed <- function(date, ...) {
+  date <- vec_data(date)
   j_date <- cal_julian$from_rd(as_julian(date))
   month <- j_date$month
   day <- j_date$day
@@ -79,7 +80,7 @@ roman_from_fixed <- function(date, ...) {
   month_prime <- amod(month + 1, 12)
   year_prime <- year + (month_prime == 1 & year != -1)
   year_prime[month_prime == 1 & year == -1] <- 1
-  kalends1 <- roman_date(year_prime, month_prime, KALENDS, 1, FALSE)
+  kalends1 <- vec_data(roman_date(year_prime, month_prime, KALENDS, 1, FALSE))
   case1 <- day == 1
   case2 <- !case1 & day <= nones_of_month(month)
   case3 <- !case1 & !case2 & day <= ides_of_month(month)
@@ -129,7 +130,7 @@ roman_from_fixed <- function(date, ...) {
 #' @format NULL
 #' @export
 cal_roman <- cal_calendar(
-  name = "Roman",
+  name = "roman",
   short_name = "Rom",
   granularities = c("year", "month", "event", "count", "leap_day"),
   validate_granularities = validate_roman,
