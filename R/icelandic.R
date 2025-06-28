@@ -88,7 +88,12 @@ cal_icelandic <- cal_calendar(
 #' icelandic_date(2025, 1, 6, 0:6) |>
 #'   day_of_week()
 #' @export
-icelandic_date <- function(year, season, week, weekday) {
+icelandic_date <- function(
+  year = integer(),
+  season = integer(),
+  week = integer(),
+  weekday = integer()
+) {
   new_date(
     year = year,
     season = season,

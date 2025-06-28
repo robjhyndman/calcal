@@ -71,19 +71,17 @@ fixed_from_gregorian <- function(date, ...) {
 }
 
 gregorian_from_fixed <- function(date, ...) {
-  if (length(date) == 0L) {
-    return(gregorian_date())
-  }
+  date <- vec_data(date)
   # Gregorian (year month day) corresponding to fixed date
   year <- gregorian_year_from_fixed(date)
-  prior_days <- date - gregorian_new_year(year)
+  prior_days <- date - vec_data(gregorian_new_year(year))
   # Correction to simulate a 30-day Feb
-  correction <- (date >= gregorian_date(year, MARCH, 1)) *
+  correction <- (date >= vec_data(gregorian_date(year, MARCH, 1))) *
     (2 - gregorian_leap_year(year))
   # Assuming a 30-day Feb
   month <- (12 * (prior_days + correction) + 373) %/% 367
   # Calculate the day by subtraction
-  day <- 1 + date - gregorian_date(year, month, 1)
+  day <- 1 + date - vec_data(gregorian_date(year, month, 1))
   list(year = year, month = month, day = day)
 }
 

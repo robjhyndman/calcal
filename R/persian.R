@@ -131,13 +131,17 @@ cal_apersian <- cal_calendar(
 #'   as_persian()
 #'
 #' @export
-persian_date <- function(year, month, day) {
+persian_date <- function(year = integer(), month = integer(), day = integer()) {
   new_date(year = year, month = month, day = day, calendar = cal_persian)
 }
 
 #' @rdname persian_date
 #' @export
-apersian_date <- function(year, month, day) {
+apersian_date <- function(
+  year = integer(),
+  month = integer(),
+  day = integer()
+) {
   new_date(year = year, month = month, day = day, calendar = cal_apersian)
 }
 

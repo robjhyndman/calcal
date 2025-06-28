@@ -132,7 +132,13 @@ cal_bahai <- cal_calendar(
 #' )
 #' bahai_date(1, 10, 11, 3, 5:7)
 #' @export
-bahai_date <- function(major, cycle, year, month, day) {
+bahai_date <- function(
+  major = integer(),
+  cycle = integer(),
+  year = integer(),
+  month = integer(),
+  day = integer()
+) {
   new_date(
     major = major,
     cycle = cycle,

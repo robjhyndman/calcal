@@ -118,16 +118,16 @@ cal_balinese <- cal_calendar(
 #' @seealso [kajeng_keliwon]
 #' @export
 balinese_date <- function(
-  luang,
-  dwiwara,
-  triwara,
-  caturwara,
-  pancawara,
-  sadwara,
-  saptawara,
-  asatawara,
-  sangawara,
-  dasawara
+  luang = integer(),
+  dwiwara = integer(),
+  triwara = integer(),
+  caturwara = integer(),
+  pancawara = integer(),
+  sadwara = integer(),
+  saptawara = integer(),
+  asatawara = integer(),
+  sangawara = integer(),
+  dasawara = integer()
 ) {
   new_date(
     luang = luang,

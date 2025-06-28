@@ -65,7 +65,13 @@ cal_mayan <- cal_calendar(
 #' gregorian_date(2012, 12, 10:30) |>
 #'   as_mayan()
 #' @export
-mayan_date <- function(baktun, katun, tun, uinal, kin) {
+mayan_date <- function(
+  baktun = integer(),
+  katun = integer(),
+  tun = integer(),
+  uinal = integer(),
+  kin = integer()
+) {
   new_date(
     baktun = baktun,
     katun = katun,

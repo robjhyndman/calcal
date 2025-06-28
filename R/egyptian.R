@@ -126,13 +126,21 @@ cal_armenian <- cal_calendar(
 #'   armenian = as_armenian(gregorian)
 #' )
 #' @export
-egyptian_date <- function(year, month, day) {
+egyptian_date <- function(
+  year = integer(),
+  month = integer(),
+  day = integer()
+) {
   new_date(year = year, month = month, day = day, calendar = cal_egyptian)
 }
 
 #' @rdname egyptian
 #' @export
-armenian_date <- function(year, month, day) {
+armenian_date <- function(
+  year = integer(),
+  month = integer(),
+  day = integer()
+) {
   new_date(year = year, month = month, day = day, calendar = cal_armenian)
 }
 

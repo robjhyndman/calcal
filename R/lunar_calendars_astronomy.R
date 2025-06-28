@@ -201,7 +201,7 @@ cal_samaritan <- cal_calendar(
 )
 
 #' @rdname islamic
-oislamic_date <- function(year, month, day) {
+oislamic_date <- function(year=integer(), month=integer(), day=integer()) {
   new_date(year = year, month = month, day = day, calendar = cal_oislamic)
 }
 
@@ -211,7 +211,7 @@ as_oislamic <- function(date) {
 }
 
 #' @rdname islamic
-saudi_date <- function(year, month, day) {
+saudi_date <- function(year=integer(), month=integer(), day=integer()) {
   new_date(year = year, month = month, day = day, calendar = cal_saudi)
 }
 
@@ -265,7 +265,8 @@ astronomical_easter <- function(year) {
 saudi_criterion <- function(date) {
   # TYPE fixed-date -> boolean
   # Saudi visibility criterion on eve of fixed date in Mecca.
-  set <- as.numeric(date) + as.numeric(sunset(date - 1, rep(MECCA, length(date))))
+  set <- as.numeric(date) +
+    as.numeric(sunset(date - 1, rep(MECCA, length(date))))
   tee <- universal_from_standard(set, rep(MECCA, length(date)))
   phase <- lunar_phase(tee)
 

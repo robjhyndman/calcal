@@ -101,7 +101,13 @@ cal_tibetan <- cal_calendar(
 #' @return A `tibetan_date` object
 #'
 #' @export
-tibetan_date <- function(year, month, leap_month, day, leap_day) {
+tibetan_date <- function(
+  year = integer(),
+  month = integer(),
+  leap_month = logical(),
+  day = integer(),
+  leap_day = logical()
+) {
   new_date(
     year = year,
     month = month,

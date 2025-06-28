@@ -153,7 +153,11 @@ cal_old_hindu_lunar <- cal_calendar(
 #' @param month A numeric vector of months
 #' @param day A numeric vector of days
 #' @export
-old_hindu_solar_date <- function(year, month, day) {
+old_hindu_solar_date <- function(
+  year = integer(),
+  month = integer(),
+  day = integer()
+) {
   new_date(
     year = year,
     month = month,
@@ -165,7 +169,12 @@ old_hindu_solar_date <- function(year, month, day) {
 #' @rdname old_hindu_solar_date
 #' @param leap_month A logical vector indicating if year is a leap year
 #' @export
-old_hindu_lunar_date <- function(year, month, leap_month, day) {
+old_hindu_lunar_date <- function(
+  year = integer(),
+  month = integer(),
+  leap_month = logical(),
+  day = integer()
+) {
   new_date(
     year = year,
     month = month,

@@ -140,13 +140,13 @@ cal_afrench <- cal_calendar(
 #' french_date(1, 1, 1:15) |>
 #'   day_of_week()
 #' @export
-french_date <- function(year, month, day) {
+french_date <- function(year = integer(), month = integer(), day = integer()) {
   new_date(year = year, month = month, day = day, calendar = cal_french)
 }
 
 #' @rdname french_date
 #' @export
-afrench_date <- function(year, month, day) {
+afrench_date <- function(year = integer(), month = integer(), day = integer()) {
   new_date(year = year, month = month, day = day, calendar = cal_afrench)
 }
 

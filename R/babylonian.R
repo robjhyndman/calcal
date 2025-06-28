@@ -94,7 +94,12 @@ cal_babylonian <- cal_calendar(
 #' )
 #' babylonian_date(2335, 6, FALSE, 1:10)
 #' @export
-babylonian_date <- function(year, month, leap_month, day) {
+babylonian_date <- function(
+  year = integer(),
+  month = integer(),
+  leap_month = logical(),
+  day = integer()
+) {
   new_date(
     year = year,
     month = month,

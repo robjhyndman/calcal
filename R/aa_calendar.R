@@ -67,11 +67,11 @@ print.calcal <- function(x, ...) {
 }
 
 #' Create a new date vector or convert a date vector to a new calendar
-#' 
+#'
 #' New dates can be calculated using `new_date()` for any calendar. Dates can be
 #' converted from one calendar to another using `as_date()`. `as_date()` also works
-#' with the native R `Date` class and several other classes. When applied to 
-#' integers, the conversion is from the RD day number (with day 1 being 
+#' with the native R `Date` class and several other classes. When applied to
+#' integers, the conversion is from the RD day number (with day 1 being
 #' 01-01-01 on the Gregorian calendar).
 #'
 #' @param date Date vector on some calendar
@@ -119,7 +119,11 @@ as_date.list <- function(date, calendar) {
   # Check the granularities are valid
   calendar$validate_granularities(lst)
   # Convert to RD
-  rd <- calendar$to_rd(lst)
+  if (all(unlist(lapply(lst, length)) == 0L)) {
+    rd <- integer()
+  } else {
+    rd <- calendar$to_rd(lst)
+  }
   # Create the new date object
   new_calcalvec(rd, calendar)
 }
