@@ -42,6 +42,10 @@ reference:
     contents:
       - gregorian_date
       - as_gregorian
+  - title: Babylonian calendar
+    contents:
+      - babylonian_date
+      - as_babylonian
   - title: Baháʼí calendar
     contents:
       - bahai_date
@@ -83,7 +87,11 @@ reference:
   - title: Islamic calendar
     contents:
       - islamic_date
+      - oislamic_date
+      - saudi_date
       - as_islamic
+      - as_oislamic
+      - as_saudi
   - title: ISO calendar
     contents:
       - iso_date
@@ -150,4 +158,3 @@ reference:
       - lunar_phase
       - new_moons
       - sunrise
-      - sunset
