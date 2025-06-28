@@ -31,7 +31,7 @@ currently corresponds to 7 or 8 January in the Gregorian calendar."><meta proper
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Christian Ecclesiastical Holidays</h1>
-      <small class="dont-index">Source: <a href="https://github.com/robjhyndman/calcal/blob/main/R/christian.R" class="external-link"><code>R/christian.R</code></a>, <a href="https://github.com/robjhyndman/calcal/blob/main/R/coptic.R" class="external-link"><code>R/coptic.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/robjhyndman/calcal/blob/main/R/christian.R" class="external-link"><code>R/christian.R</code></a>, <a href="https://github.com/robjhyndman/calcal/blob/main/R/coptic.R" class="external-link"><code>R/coptic.R</code></a>, <a href="https://github.com/robjhyndman/calcal/blob/main/R/lunar_calendars_astronomy.R" class="external-link"><code>R/lunar_calendars_astronomy.R</code></a></small>
       <div class="d-none name"><code>christian.Rd</code></div>
     </div>
 
@@ -55,11 +55,11 @@ currently corresponds to 7 or 8 January in the Gregorian calendar.</p>
 <span></span>
 <span><span class="fu">orthodox_easter</span><span class="op">(</span><span class="va">year</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">alt_orthodox_easter</span><span class="op">(</span><span class="va">year</span><span class="op">)</span></span>
-<span></span>
 <span><span class="fu">pentecost</span><span class="op">(</span><span class="va">year</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">coptic_christmas</span><span class="op">(</span><span class="va">year</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">coptic_christmas</span><span class="op">(</span><span class="va">year</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">astronomical_easter</span><span class="op">(</span><span class="va">year</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -81,10 +81,9 @@ currently corresponds to 7 or 8 January in the Gregorian calendar.</p>
 <span class="r-in"><span>  epiphany <span class="op">=</span> <span class="fu">epiphany</span><span class="op">(</span><span class="va">year</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  easter <span class="op">=</span> <span class="fu">easter</span><span class="op">(</span><span class="va">year</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  orthodox_easter <span class="op">=</span> <span class="fu">orthodox_easter</span><span class="op">(</span><span class="va">year</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  alt_orthodox_easter <span class="op">=</span> <span class="fu">alt_orthodox_easter</span><span class="op">(</span><span class="va">year</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  pentecost <span class="op">=</span> <span class="fu">pentecost</span><span class="op">(</span><span class="va">year</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 9</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 8</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    year      advent   christmas orthodox_christmas    epiphany      easter</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;Gre&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;Gre&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;Gre&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;Gre&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;Gre&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>  <span style="text-decoration: underline;">2</span>025 2025-Nov-30 2025-Dec-25        2025-Jan-07 2025-Jan-05 2025-Apr-20</span>
@@ -93,8 +92,7 @@ currently corresponds to 7 or 8 January in the Gregorian calendar.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>  <span style="text-decoration: underline;">2</span>028 2028-Dec-03 2028-Dec-25        2028-Jan-07 2028-Jan-02 2028-Apr-16</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>  <span style="text-decoration: underline;">2</span>029 2029-Dec-02 2029-Dec-25        2029-Jan-07 2029-Jan-07 2029-Apr-01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>  <span style="text-decoration: underline;">2</span>030 2030-Dec-01 2030-Dec-25        2030-Jan-07 2030-Jan-06 2030-Apr-21</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 3 more variables: orthodox_easter &lt;Gre&gt;, alt_orthodox_easter &lt;Gre&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   pentecost &lt;Gre&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 2 more variables: orthodox_easter &lt;Gre&gt;, pentecost &lt;Gre&gt;</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

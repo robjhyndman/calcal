@@ -31,7 +31,7 @@ and cal_iso.'><meta property="og:image" content="https://pkg.robjhyndman.com/cal
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Define calendar objects</h1>
-      <small class="dont-index">Source: <a href="https://github.com/robjhyndman/calcal/blob/main/R/aa_calendar.R" class="external-link"><code>R/aa_calendar.R</code></a>, <a href="https://github.com/robjhyndman/calcal/blob/main/R/bahai.R" class="external-link"><code>R/bahai.R</code></a>, <a href="https://github.com/robjhyndman/calcal/blob/main/R/bali.R" class="external-link"><code>R/bali.R</code></a>, and 14 more</small>
+      <small class="dont-index">Source: <a href="https://github.com/robjhyndman/calcal/blob/main/R/aa_calendar.R" class="external-link"><code>R/aa_calendar.R</code></a>, <a href="https://github.com/robjhyndman/calcal/blob/main/R/babylonian.R" class="external-link"><code>R/babylonian.R</code></a>, <a href="https://github.com/robjhyndman/calcal/blob/main/R/bahai.R" class="external-link"><code>R/bahai.R</code></a>, and 16 more</small>
       <div class="d-none name"><code>cal_calendar.Rd</code></div>
     </div>
 
@@ -52,6 +52,8 @@ and <code>cal_iso</code>.</p>
 <span>  <span class="va">from_rd</span>,</span>
 <span>  <span class="va">to_rd</span></span>
 <span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">cal_babylonian</span></span>
 <span></span>
 <span><span class="va">cal_bahai</span></span>
 <span></span>
@@ -88,6 +90,14 @@ and <code>cal_iso</code>.</p>
 <span><span class="va">cal_iso</span></span>
 <span></span>
 <span><span class="va">cal_julian</span></span>
+<span></span>
+<span><span class="va">cal_oislamic</span></span>
+<span></span>
+<span><span class="va">cal_saudi</span></span>
+<span></span>
+<span><span class="va">cal_ohebrew</span></span>
+<span></span>
+<span><span class="va">cal_samaritan</span></span>
 <span></span>
 <span><span class="va">cal_mayan</span></span>
 <span></span>
@@ -143,16 +153,9 @@ Gregorian months should be between 1 and 12).</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="new_date.html">new_date</a></span><span class="op">(</span>year <span class="op">=</span> <span class="fl">2025</span>, month <span class="op">=</span> <span class="fl">4</span>, day <span class="op">=</span> <span class="fl">19</span><span class="op">:</span><span class="fl">30</span>, calendar <span class="op">=</span> <span class="va">cal_gregorian</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;gregorian[12]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 2025-Apr-19 2025-Apr-20 2025-Apr-21 2025-Apr-22 2025-Apr-23 2025-Apr-24</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] 2025-Apr-25 2025-Apr-26 2025-Apr-27 2025-Apr-28 2025-Apr-29 2025-Apr-30</span>
-<span class="r-in"><span><span class="fu"><a href="new_date.html">as_date</a></span><span class="op">(</span><span class="st">"2016-01-01"</span>, calendar <span class="op">=</span> <span class="va">cal_islamic</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;islamic[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1437-Rab1-20</span>
-<span class="r-in"><span><span class="fu"><a href="new_date.html">as_date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>, calendar <span class="op">=</span> <span class="va">cal_islamic</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;islamic[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1446-Dhu'l_H-23</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">cal_gregorian</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Calendar: gregorian</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Granularities: year, month, day</span>
 <span class="r-in"><span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  x <span class="op">=</span> <span class="fu"><a href="new_date.html">new_date</a></span><span class="op">(</span>year <span class="op">=</span> <span class="fl">2025</span>, month <span class="op">=</span> <span class="fl">5</span>, day <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">31</span>, calendar <span class="op">=</span> <span class="va">cal_gregorian</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  y <span class="op">=</span> <span class="fu"><a href="new_date.html">as_date</a></span><span class="op">(</span><span class="va">x</span>, calendar <span class="op">=</span> <span class="va">cal_islamic</span><span class="op">)</span></span></span>
@@ -171,9 +174,6 @@ Gregorian months should be between 1 and 12).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 2025-May-09 1446-Dhu'l_Q-11</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2025-May-10 1446-Dhu'l_Q-12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 21 more rows</span></span>
-<span class="r-in"><span><span class="va">cal_gregorian</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Calendar: gregorian</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Granularities: year, month, day</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
