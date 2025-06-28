@@ -24,7 +24,7 @@ as_babylonian(date)
 A babylonian vector object
 }
 \description{
-Babylonian dates
+The classical Babylonian calendar was a lunisolar calendar with a fixed 19-year Metonic cycle.
 }
 \examples{
 babylonian_date(2025, 6, FALSE, 1:10)

@@ -32,7 +32,7 @@ babylonian_from_fixed <- function(date) {
   month <- month1 - as.numeric((leap | (special & month1 > 6)))
   day <- date - crescent + 1
 
-  list(year = year, month = month, leap = leap, day = day)
+  list(year = year, month = month, leap_month = leap, day = day)
 }
 
 validate_babylonian <- function(date) {
@@ -44,35 +44,57 @@ validate_babylonian <- function(date) {
   }
 }
 
+format_babylonian <- function(x, ...) {
+  format_date(
+    x,
+    month_name = c(
+      "Nisa",
+      "Ayar",
+      "Sima",
+      "Du‘uz",
+      "Abu",
+      "Ulul",
+      "Tash",
+      "Arak",
+      "Kisl",
+      "Tebe",
+      "Shab",
+      "Adar"
+    )
+  )
+}
+
 #' @rdname cal_calendar
 #' @format NULL
 #' @export
 cal_babylonian <- cal_calendar(
   name = "babylonian",
   "Bab",
-  c("year", "month", "leap", "day"),
+  c("year", "month", "leap_month", "day"),
   validate = validate_babylonian,
-  format_date,
+  format_babylonian,
   babylonian_from_fixed,
   fixed_from_babylonian
 )
 
 #' Babylonian dates
 #'
+#' The classical Babylonian calendar was a lunisolar calendar with a fixed 19-year Metonic cycle.
+#'
 #' @param year Numeric vector of years
 #' @param month Numeric vector of months
-#' @param leap Logical vector of leap months
+#' @param leap_month Logical vector of leap months
 #' @param day Numeric vector of days
 #' @return A babylonian vector object
 #' @seealso [cal_babylonian]
 #' @examples
 #' babylonian_date(2025, 6, FALSE, 1:10)
 #' @export
-babylonian_date <- function(year, month, leap, day) {
+babylonian_date <- function(year, month, leap_month, day) {
   new_date(
     year = year,
     month = month,
-    leap = leap,
+    leap_month = leap_month,
     day = day,
     calendar = cal_babylonian
   )
@@ -92,7 +114,7 @@ moonlag <- function(date, location) {
   # Returns NA if there is no sunset on date
   sun <- as.numeric(sunset(date, location))
   moon <- as.numeric(moonset(date, location))
-  out <- moon - sun
+  out <- (moon - sun)/24
   out[is.na(moon)] <- hr(24) # Arbitrary
   out
 }
@@ -106,12 +128,12 @@ babylonian_criterion <- function(date) {
   # Moonlag criterion for visibility of crescent moon on
   # eve of date in Babylon
   set <- sunset(date - 1, BABYLON)
-  set <- date + as.numeric(set) / 24
+  set <- date - 1 + as.numeric(set) / 24
   tee <- universal_from_standard(set, BABYLON)
   phase <- lunar_phase(tee)
 
   (NEW < phase & phase < FIRST_QUARTER) &
-    (new_moon_before(tee) <= (tee - hr(24))) &
+    (nth_new_moon(new_moon_before(tee)) <= (tee - hr(24))) &
     (moonlag(date - 1, BABYLON) > mn(48))
 }
 
@@ -125,6 +147,6 @@ babylonian_new_month_on_or_before <- function(date) {
   age <- date - moon
   tau <- moon - 30 * as.numeric(age <= 3 & !babylonian_criterion(date))
   next_value(tau, function(x) {
-    !babylonian_criterion(x)
+    babylonian_criterion(x)
   })
 }
