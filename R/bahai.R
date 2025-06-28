@@ -24,26 +24,26 @@ format_bahai <- function(x, ...) {
   format_date(
     x,
     month_name = c(
-      "Bahá",
-      "Jalál",
-      "Jamál",
-      "Aẓamat",
-      "Núr",
-      "Raḥmat",
-      "Kalimát",
-      "Kamál",
-      "Asmá",
+      "Baha",
+      "Jalal",
+      "Jamal",
+      "Azamat",
+      "Nur",
+      "Rahmat",
+      "Kalimat",
+      "Kamal",
+      "Asma",
       "Izzat",
-      "Mas͟híyyat",
+      "Mashiyyat",
       "Ilm",
       "Qudrat",
       "Qawl",
-      "Masáil",
-      "S͟haraf",
-      "Sulṭán",
+      "Masail",
+      "Sharaf",
+      "Sultan",
       "Mulk",
-      "Alá",
-      "Ayyám-i-Há"
+      "Ala",
+      "Ayyam-i-Ha"
     )
   )
 }
@@ -87,7 +87,8 @@ bahai_from_fixed <- function(date) {
 
   days <- date - vec_data(bahai_date(major, cycle, year, 1, 1))
   case1 <- date >= vec_data(bahai_date(major, cycle, year, 19, 1))
-  case2 <- !case1 & date >= vec_data(bahai_date(major, cycle, year, AYYAM_I_HA, 1))
+  case2 <- !case1 &
+    date >= vec_data(bahai_date(major, cycle, year, AYYAM_I_HA, 1))
   month <- 1 + days %/% 19
   month[case1] <- 19
   month[case2] <- AYYAM_I_HA
