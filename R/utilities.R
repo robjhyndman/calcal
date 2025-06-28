@@ -14,6 +14,8 @@ mod3 <- function(x, a, b) {
 }
 
 # Search and iteration utilities
+# Return first value for which condition_fn is true
+# starting with initial and incrementing by one
 next_value <- function(initial, condition_fn) {
   index <- initial
   cond <- condition_fn(index) & !is.na(index)
@@ -25,6 +27,8 @@ next_value <- function(initial, condition_fn) {
   return(index)
 }
 
+# Return last value for which condition_fn is true
+# starting with initial and incrementing by one.
 final_value <- function(initial, condition_fn) {
   index <- initial
   cond <- condition_fn(initial) & !is.na(index)
@@ -36,17 +40,20 @@ final_value <- function(initial, condition_fn) {
   return(index - 1)
 }
 
-binary_search_single <- function(lo, hi, p, e) {
-  # Bisection search for x in [lo, hi] such that condition 'e' holds.
-  # p determines when to go left
-  x <- (lo + hi) / 2
-  if (p(x) | abs(hi - lo) < 1e-8) {
-    return(x)
-  } else if (e(lo, hi)) {
-    return(binary_search_single(lo, x, p, e))
-  } else {
-    return(binary_search_single(x, hi, p, e))
+binary_search_single <- function(lo, hi, test_fn, end_fn) {
+  # Bisection search for x in [lo, hi] such that condition 'end_fn' holds.
+  # test_fn determines when to go left
+  x <- (hi + lo) / 2
+  while(!end_fn(lo, hi)) {
+    # Determine direction based on test function
+    if(test_fn(x)) {
+      hi <- x
+    } else {
+      lo <- x
+    }
+    x <- (hi + lo) / 2
   }
+  return(x)
 }
 
 binary_search <- function(lo, hi, test_fn, end_fn) {
@@ -82,6 +89,7 @@ invert_angular <- function(f, y, a, b) {
   }
   output
 }
+
 
 # Polynomial function with coefficients in a
 # return a[1] + a[2]*x + a[3]*x^2 + ... + a[n]*x^n
