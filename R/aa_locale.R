@@ -28,7 +28,7 @@ location <- function(
     latitude = lst$latitude,
     longitude = lst$longitude,
     elevation = lst$elevation,
-    zone = hr(lst$zone),
+    zone = lst$zone,
     .size = max(unlist(lapply(lst, length)))
   )
   validate_locale(lst)
@@ -40,7 +40,7 @@ validate_locale <- function(args) {
   longitude <- args$longitude
   elevation <- args$elevation
   zone <- args$zone
-  if (any(zone < hr(-12) | zone > hr(14), na.rm = TRUE)) {
+  if (any(zone < -12 | zone > 14, na.rm = TRUE)) {
     stop("zone must be between -12 and 14")
   }
   if (any(latitude < -90 | latitude > 90, na.rm = TRUE)) {

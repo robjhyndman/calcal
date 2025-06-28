@@ -1,10 +1,10 @@
 # Time conversion functions
 standard_from_universal <- function(tee_rom_u, loc) {
-  tee_rom_u + zone(loc)
+  tee_rom_u + hr(zone(loc))
 }
 
 universal_from_standard <- function(tee_rom_s, loc) {
-  tee_rom_s - zone(loc)
+  tee_rom_s - hr(zone(loc))
 }
 
 zone_from_longitude <- function(phi) {

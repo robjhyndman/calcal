@@ -325,7 +325,7 @@ chinese_location <- function(date) {
   tee <- vec_data(date)
   year <- gregorian_year_from_fixed(floor(tee))
   out <- rep(
-    location(angle(39, 55, 0), angle(116, 25, 0), mt(43.5), hr(8)),
+    location(angle(39, 55, 0), angle(116, 25, 0), mt(43.5), 8),
     length(tee)
   )
   if (any(year < 1929)) {
@@ -333,7 +333,7 @@ chinese_location <- function(date) {
       angle(39, 55, 0),
       angle(116, 25, 0),
       mt(43.5),
-      hr(1397 / 180)
+      1397 / 180
     )
   }
   out
@@ -601,13 +601,13 @@ japanese_location <- function(date) {
   year <- gregorian_year_from_fixed(floor(tee))
   out <- rep(
     # Longitude 135 time zone
-    location(deg(35), deg(135), mt(0), hr(9)),
+    location(deg(35), deg(135), mt(0), 9),
     length(tee)
   )
   if (any(year < 1888)) {
     out[year < 1888] <-
       # Tokyo (139 deg 46 min east) local time
-      location(deg(35.7), angle(139, 46, 0), mt(24), hr(9 + 143 / 450))
+      location(deg(35.7), angle(139, 46, 0), mt(24), 9 + 143 / 450)
   }
   out
 }
@@ -624,7 +624,7 @@ korean_location <- function(date) {
     !case3 &
     tee < vec_data(gregorian_date(1961, AUGUST, 10))
   z[case2 | case4] <- 8.5
-  location(angle(37, 34, 0), angle(126, 58, 0), mt(0), hr(z))
+  location(angle(37, 34, 0), angle(126, 58, 0), mt(0), z)
 }
 
 korean_year <- function(cycle, year) {
@@ -638,5 +638,5 @@ vietnamese_location <- function(date) {
   # Location for Vietnamese calendar is Hanoi; varies with
   # tee. Time zone has changed over the years.
   z <- 7 + (tee < gregorian_new_year(1968))
-  location(angle(21, 2, 0), angle(105, 51, 0), mt(12), hr(z))
+  location(angle(21, 2, 0), angle(105, 51, 0), mt(12), z)
 }

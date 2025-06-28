@@ -2,17 +2,17 @@
 
 # Sample location for Observational Islamic calendar
 # (Cairo, Egypt).
-ISLAMIC_LOCATION <- location(deg(30.1), deg(31.3), mt(200), hr(2))
-MECCA <- location(angle(21, 25, 24), angle(39, 49, 24), mt(298), hr(3))
+ISLAMIC_LOCATION <- location(deg(30.1), deg(31.3), mt(200), 2)
+MECCA <- location(angle(21, 25, 24), angle(39, 49, 24), mt(298), 3)
 # Location of Jerusalem.
-JERUSALEM <- location(deg(31.78), deg(35.24), mt(740), hr(2))
+JERUSALEM <- location(deg(31.78), deg(35.24), mt(740), 2)
 # Location of Acre.
-ACRE <- location(deg(32.94), deg(35.09), mt(22), hr(2))
+ACRE <- location(deg(32.94), deg(35.09), mt(22), 2)
 # Sample location for Observational Hebrew calendar
 # (Haifa, Israel).
-HEBREW_LOCATION <- location(deg(32.82), deg(35), mt(0), hr(2))
+HEBREW_LOCATION <- location(deg(32.82), deg(35), mt(0), 2)
 # Location of Mt. Gerizim.
-SAMARITAN_LOCATION <- location(deg(32.1994), deg(35.2728), mt(881), hr(2))
+SAMARITAN_LOCATION <- location(deg(32.1994), deg(35.2728), mt(881), 2)
 # Fixed date of start of the Samaritan Entry Era.
 SAMARITAN_EPOCH <- -598573 # vec_data(julian_date(bce(1639), MARCH, 15))
 

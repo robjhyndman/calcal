@@ -3,7 +3,7 @@
 #==============================================================================
 
 PERSIAN_EPOCH <- 226896 # vec_data(julian_date(ce(622), MARCH, 19))
-TEHRAN <- location(angle(35.68, 0, 0), angle(51.42, 0, 0), mt(1100), hr(3.5))
+TEHRAN <- location(angle(35.68, 0, 0), angle(51.42, 0, 0), mt(1100), 3.5)
 
 fixed_from_persian <- function(p_date) {
   new_year <- persian_new_year_on_or_before(

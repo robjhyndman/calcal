@@ -3,7 +3,7 @@
 #==============================================================================
 
 FRENCH_EPOCH <- 654415 # vec_data(gregorian_date(1792, SEPTEMBER, 22))
-PARIS <- location(angle(48, 50, 11), angle(2, 20, 15), mt(27), hr(1))
+PARIS <- location(angle(48, 50, 11), angle(2, 20, 15), mt(27), 1)
 
 fixed_from_french <- function(date) {
   new_year <- french_new_year_on_or_before(
