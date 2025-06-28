@@ -44,9 +44,9 @@ binary_search_single <- function(lo, hi, test_fn, end_fn) {
   # Bisection search for x in [lo, hi] such that condition 'end_fn' holds.
   # test_fn determines when to go left
   x <- (hi + lo) / 2
-  while(!end_fn(lo, hi)) {
+  while (!end_fn(lo, hi)) {
     # Determine direction based on test function
-    if(test_fn(x)) {
+    if (test_fn(x)) {
       hi <- x
     } else {
       lo <- x

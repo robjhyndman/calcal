@@ -44,7 +44,7 @@ test_that("islamic", {
 
 
 test_that("oslamic", {
-    expect_equal(oislamic_date(1446, 6, 30), as_oislamic("2025-01-01"))
+  expect_equal(oislamic_date(1446, 6, 30), as_oislamic("2025-01-01"))
   expect_equal(
     as.Date(as_gregorian(oislamic_date(1446, 6, 30))),
     as.Date("2025-01-01")
@@ -63,6 +63,4 @@ test_that("oslamic", {
     gregorian_date(1967, 5, 2) |> as.numeric()
   )
   expect_no_error(as_oislamic(1:1e3) |> as.list() |> validate_islamic())
-
-
 })
