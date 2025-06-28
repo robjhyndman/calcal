@@ -130,7 +130,7 @@ samaritan_from_fixed <- function(date) {
   month <- 1 + round((moon - new_year) / 29.5)
   year <- round((new_year - SAMARITAN_EPOCH) / 365.25) +
     ceiling((month - 5) / 8)
-  day <- date - moon + 1
+  day <- trunc(date - moon + 1)
 
   list(year = year, month = month, day = day)
 }
@@ -224,6 +224,29 @@ as_saudi <- function(date) {
 
 astronomical_easter <- function(g_year) {
   # TYPE gregorian-year -> fixed-date
+#' @rdname hebrew
+ohebrew_date <- function(year = integer(), month = integer(), day = integer()) {
+  new_date(year = year, month = month, day = day, calendar = cal_ohebrew)
+}
+
+#' @rdname hebrew
+as_ohebrew <- function(date) {
+  as_date(date, calendar = cal_ohebrew)
+}
+
+#' @rdname hebrew
+samaritan_date <- function(
+  year = integer(),
+  month = integer(),
+  day = integer()
+) {
+  new_date(year = year, month = month, day = day, calendar = cal_samaritan)
+}
+
+#' @rdname hebrew
+as_samaritan <- function(date) {
+  as_date(date, calendar = cal_samaritan)
+}
   # Date of (proposed) astronomical Easter in Gregorian year.
 
   # Spring equinox.
@@ -269,13 +292,14 @@ observational_hebrew_first_of_nisan <- function(g_year) {
   # Nisan 1 occurring in Gregorian year.
 
   # Spring equinox.
-  equinox <- season_in_gregorian(SPRING, g_year)
+  equinox <- season_in_gregorian(rep(SPRING, length(g_year)), g_year)
 
   # Moment (UT) of sunset on day of equinox.
   set <- universal_from_standard(
-    sunset(floor(equinox), HEBREW_LOCATION),
-    HEBREW_LOCATION
-  )
+    as.numeric(sunset(floor(equinox), HEBREW_LOCATION)),
+    rep(HEBREW_LOCATION, length(g_year))
+  ) +
+    floor(equinox)
 
   phasis_on_or_after(
     floor(equinox) - if (equinox < set) 14 else 13,
@@ -345,16 +369,11 @@ samaritan_new_year_on_or_before <- function(date) {
 
   one_date <- function(date, g_year) {
     # All possible March 11's.
-    dates <- c(
-      julian_in_gregorian(MARCH, 11, g_year - 1),
-      julian_in_gregorian(MARCH, 11, g_year),
-      date + 1
-    ) # Extra to stop search.
-    j <- samaritan_new_moon_after(samaritan_noon(dates)) <= date
-    n <- which(j)[1]
-    samaritan_new_moon_after(samaritan_noon(dates[n]))
+    dates <- julian_in_gregorian(MARCH, 11, g_year - c(1, 0))
+    nnm <- nth_new_moon(samaritan_new_moon_after(samaritan_noon(dates)))
+    utils::tail(nnm[nnm <= date], 1)
   }
-  nth_new_moon(unlist(mapply(one_date, date, g_year)))
+  unlist(mapply(one_date, date, g_year))
 }
 
 
@@ -486,13 +505,16 @@ phasis_on_or_before <- function(date, location) {
   # TYPE (fixed-date location) -> fixed-date
   # Closest fixed date on or before date when crescent
   # moon first became visible at location.
-
+  lst <- vctrs::vec_recycle_common(date = date, location = location)
   # Prior new moon.
-  moon <- fixed_from_moment(lunar_phase_at_or_before(NEW, date))
-  age <- date - moon
-  tau <- moon - 30 * (age <= 3 & !visible_crescent(date, location))
+  moon <- fixed_from_moment(lunar_phase_at_or_before(
+    rep(NEW, length(date)),
+    lst$date
+  ))
+  age <- lst$date - moon
+  tau <- moon - 30 * (age <= 3 & !visible_crescent(lst$date, lst$location))
   next_value(tau, function(x) {
-    visible_crescent(x, location)
+    visible_crescent(x, lst$location)
   })
 }
 
@@ -500,17 +522,21 @@ phasis_on_or_after <- function(date, location) {
   # TYPE (fixed-date location) -> fixed-date
   # Closest fixed date on or after date on the eve
   # of which crescent moon first became visible at location.
+  lst <- vctrs::vec_recycle_common(date = date, location = location)
 
   # Prior new moon.
-  moon <- fixed_from_moment(lunar_phase_at_or_before(NEW, date))
-  age <- date - moon
-  tau <- date
+  moon <- fixed_from_moment(lunar_phase_at_or_before(
+    rep(NEW, length(date)),
+    lst$date
+  ))
+  age <- lst$date - moon
+  tau <- lst$date
   # Check if not visible yet on eve of date.
-  not_visible <- age >= 4 | visible_crescent(date - 1, location)
+  not_visible <- age >= 4 | visible_crescent(lst$date - 1, lst$location)
   if (any(not_visible, na.rm = TRUE)) {
     tau[not_visible] <- moon[not_visible] + 29 # Next new moon
   }
   next_value(tau, function(x) {
-    visible_crescent(x, location)
+    visible_crescent(x, lst$location)
   })
 }

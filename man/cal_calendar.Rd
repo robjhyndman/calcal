@@ -28,6 +28,8 @@
 \alias{cal_julian}
 \alias{cal_oislamic}
 \alias{cal_saudi}
+\alias{cal_ohebrew}
+\alias{cal_samaritan}
 \alias{cal_mayan}
 \alias{cal_old_hindu_solar}
 \alias{cal_old_hindu_lunar}
@@ -90,6 +92,11 @@ cal_julian
 cal_oislamic
 
 cal_saudi
+
+cal_ohebrew
+
+cal_samaritan
+
 cal_mayan
 
 cal_old_hindu_solar

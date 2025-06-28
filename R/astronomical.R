@@ -146,7 +146,7 @@ moment_of_depression <- function(approx, loc, alpha, early) {
   tee <- approx_moment_of_depression(approx, loc, alpha, early)
   iter <- abs(approx - tee) >= sec(30) & !is.na(tee)
   if (any(iter)) {
-    tee[iter] <- moment_of_depression(tee[iter], loc, alpha, early)
+    tee[iter] <- moment_of_depression(tee[iter], loc[iter], alpha[iter], early)
   }
   return(tee)
 }
@@ -227,11 +227,11 @@ sunset <- function(date, location, ...) {
 }
 
 jewish_dusk <- function(date, loc) {
-  dusk(date, loc, angle(4, 40, 0))
+  dusk(date, loc, rep(angle(4, 40, 0), length(date)))
 }
 
 jewish_sabbath_ends <- function(date, loc) {
-  dusk(date, loc, angle(7, 5, 0))
+  dusk(date, loc, rep(angle(7, 5, 0), length(date)))
 }
 
 daytime_temporal_hour <- function(date, loc) {
