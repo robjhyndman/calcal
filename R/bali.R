@@ -5,6 +5,7 @@
 BALI_EPOCH <- -1721279 # fixed_from_jd(146)
 
 bali_pawukon_from_fixed <- function(date) {
+  date <- vec_data(date)
   out <- list(
     luang = bali_luang_from_fixed(date),
     dwiwara = bali_dwiwara_from_fixed(date),
