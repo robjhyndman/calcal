@@ -3,18 +3,46 @@
 #==============================================================================
 
 BAHAI_EPOCH <- 673222 # as.numeric(gregorian_date(1844, MARCH, 21))
-AYYAM_I_HA <- 0 # Signifies intercalary period of 4 or 5 days
+AYYAM_I_HA <- 20 # Signifies intercalary period of 4 or 5 days
 
 validate_bahai <- function(date) {
   if (any(date$year < 1 | date$year > 19)) {
     stop("Year must be between 1 and 19")
   }
-  if (any(date$month < 0 | date$month > 19)) {
+  if (any(date$month < 1 | date$month > 20)) {
     stop("Month must be between 0 and 19")
   }
   if (any(date$day < 1 | date$day > 24)) {
     stop("Day must be between 1 and 24")
   }
+}
+
+format_bahai <- function(x, ...) {
+  format_date(
+    x,
+    month_name = c(
+      "Bahá",
+      "Jalál",
+      "Jamál",
+      "ʻAẓamat",
+      "Núr",
+      "Raḥmat",
+      "Kalimát",
+      "Kamál",
+      "Asmáʼ",
+      "ʻIzzat",
+      "Mas͟híyyat",
+      "ʻIlm ",
+      "Qudrat",
+      "Qawl",
+      "Masáʼil",
+      "S͟haraf",
+      "Sulṭán",
+      "Mulk",
+      "ʻAláʼ",
+      "Ayyám-i-Há"
+    )
+  )
 }
 
 fixed_from_bahai <- function(date) {
@@ -53,14 +81,14 @@ bahai_from_fixed <- function(date) {
   cycle <- 1 + (years %% 361) %/% 19
   year <- 1 + years %% 19
 
-  days <- date - bahai_date(major, cycle, year, 1, 1)
-  case1 <- date >= bahai_date(major, cycle, year, 19, 1)
-  case2 <- date >= bahai_date(major, cycle, year, AYYAM_I_HA, 1)
+  days <- date - vec_data(bahai_date(major, cycle, year, 1, 1))
+  case1 <- date >= vec_data(bahai_date(major, cycle, year, 19, 1))
+  case2 <- !case1 & date >= vec_data(bahai_date(major, cycle, year, AYYAM_I_HA, 1))
   month <- 1 + days %/% 19
   month[case1] <- 19
   month[case2] <- AYYAM_I_HA
 
-  day <- date - bahai_date(major, cycle, year, month, 1) + 1
+  day <- date - vec_data(bahai_date(major, cycle, year, month, 1)) + 1
 
   list(major = major, cycle = cycle, year = year, month = month, day = day)
 }
@@ -73,7 +101,7 @@ cal_bahai <- cal_calendar(
   "Bah",
   c("major", "cycle", "year", "month", "day"),
   validate_bahai,
-  format_date,
+  format_bahai,
   bahai_from_fixed,
   fixed_from_bahai
 )
