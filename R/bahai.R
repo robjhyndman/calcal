@@ -94,12 +94,10 @@ cal_bahai <- cal_calendar(
 #' @seealso [cal_bahai], [bahai_new_year]
 #' @examples
 #' tibble::tibble(
-#'  gregorian = gregorian_date(2025, 1, 1:31),
-#'  bahai = as_bahai(gregorian)
+#'   gregorian = gregorian_date(2025, 2, 15) + 0:30,
+#'   bahai = as_bahai(gregorian)
 #' )
 #' bahai_date(1, 10, 11, 3, 5)
-#' as_bahai("2016-01-01")
-#' as_bahai(Sys.Date())
 #' @export
 bahai_date <- function(major, cycle, year, month, day) {
   new_date(

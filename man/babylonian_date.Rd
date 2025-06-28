@@ -5,7 +5,7 @@
 \alias{as_babylonian}
 \title{Babylonian dates}
 \usage{
-babylonian_date(year, month, leap, day)
+babylonian_date(year, month, leap_month, day)
 
 as_babylonian(date)
 }
@@ -14,7 +14,7 @@ as_babylonian(date)
 
 \item{month}{Numeric vector of months}
 
-\item{leap}{Logical vector of leap months}
+\item{leap_month}{Logical vector of leap months}
 
 \item{day}{Numeric vector of days}
 
@@ -27,6 +27,10 @@ A babylonian vector object
 The classical Babylonian calendar was a lunisolar calendar with a fixed 19-year Metonic cycle.
 }
 \examples{
+tibble::tibble(
+  gregorian = gregorian_date(2025, 1, 1:31),
+  babylonian = as_babylonian(gregorian)
+)
 babylonian_date(2025, 6, FALSE, 1:10)
 }
 \seealso{

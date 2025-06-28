@@ -88,6 +88,10 @@ cal_babylonian <- cal_calendar(
 #' @return A babylonian vector object
 #' @seealso [cal_babylonian]
 #' @examples
+#' tibble::tibble(
+#'   gregorian = gregorian_date(2025, 1, 1:31),
+#'   babylonian = as_babylonian(gregorian)
+#' )
 #' babylonian_date(2025, 6, FALSE, 1:10)
 #' @export
 babylonian_date <- function(year, month, leap_month, day) {
@@ -114,7 +118,7 @@ moonlag <- function(date, location) {
   # Returns NA if there is no sunset on date
   sun <- as.numeric(sunset(date, location))
   moon <- as.numeric(moonset(date, location))
-  out <- (moon - sun)/24
+  out <- (moon - sun) / 24
   out[is.na(moon)] <- hr(24) # Arbitrary
   out
 }

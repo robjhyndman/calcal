@@ -32,12 +32,10 @@ corresponding to 21 March on the Gregorian calendar.
 }
 \examples{
 tibble::tibble(
- gregorian = gregorian_date(2025, 1, 1:31),
- bahai = as_bahai(gregorian)
+  gregorian = gregorian_date(2025, 1, 1:31),
+  bahai = as_bahai(gregorian)
 )
 bahai_date(1, 10, 11, 3, 5)
-as_bahai("2016-01-01")
-as_bahai(Sys.Date())
 }
 \seealso{
 \link{cal_bahai}, \link{bahai_new_year}
