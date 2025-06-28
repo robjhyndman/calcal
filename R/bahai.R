@@ -6,14 +6,17 @@ BAHAI_EPOCH <- 673222 # as.numeric(gregorian_date(1844, MARCH, 21))
 AYYAM_I_HA <- 20 # Signifies intercalary period of 4 or 5 days
 
 validate_bahai <- function(date) {
+  if (any(date$cycle < 1 | date$cycle > 19)) {
+    stop("Year must be between 1 and 19")
+  }
   if (any(date$year < 1 | date$year > 19)) {
     stop("Year must be between 1 and 19")
   }
   if (any(date$month < 1 | date$month > 20)) {
-    stop("Month must be between 0 and 19")
+    stop("Month must be between 0 and 20")
   }
-  if (any(date$day < 1 | date$day > 24)) {
-    stop("Day must be between 1 and 24")
+  if (any(date$day < 1 | date$day > 19)) {
+    stop("Day must be between 1 and 19")
   }
 }
 
@@ -69,6 +72,7 @@ fixed_from_bahai <- function(date) {
 }
 
 bahai_from_fixed <- function(date) {
+  date <- vec_data(date)
   g_year <- gregorian_year_from_fixed(date)
   start <- gregorian_year_from_fixed(BAHAI_EPOCH) # 1844
 
@@ -110,7 +114,7 @@ cal_bahai <- cal_calendar(
 #'
 #' The Baháʼí calendar is a solar calendar used in the Baháʼí faith comprising 18 months, with four or five
 #' intercalary days each year. The New Year is at the northern Spring equinox,
-#' corresponding to 21 March on the Gregorian calendar.
+#' corresponding to 21 March on the Gregorian calendar. Ayyám-i-Há is specified as month 20.
 #'
 #' @rdname bahai
 #' @param major A numeric vector of major periods
@@ -125,7 +129,7 @@ cal_bahai <- cal_calendar(
 #'   gregorian = gregorian_date(2025, 2, 15) + 0:30,
 #'   bahai = as_bahai(gregorian)
 #' )
-#' bahai_date(1, 10, 11, 3, 5)
+#' bahai_date(1, 10, 11, 3, 5:7)
 #' @export
 bahai_date <- function(major, cycle, year, month, day) {
   new_date(

@@ -28,14 +28,14 @@ A bahai vector object
 \description{
 The Baháʼí calendar is a solar calendar used in the Baháʼí faith comprising 18 months, with four or five
 intercalary days each year. The New Year is at the northern Spring equinox,
-corresponding to 21 March on the Gregorian calendar.
+corresponding to 21 March on the Gregorian calendar. Ayyám-i-Há is specified as month 20.
 }
 \examples{
 tibble::tibble(
-  gregorian = gregorian_date(2025, 1, 1:31),
+  gregorian = gregorian_date(2025, 2, 15) + 0:30,
   bahai = as_bahai(gregorian)
 )
-bahai_date(1, 10, 11, 3, 5)
+bahai_date(1, 10, 11, 3, 5:7)
 }
 \seealso{
 \link{cal_bahai}, \link{bahai_new_year}
