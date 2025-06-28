@@ -35,7 +35,14 @@ babylonian_from_fixed <- function(date) {
   list(year = year, month = month, leap = leap, day = day)
 }
 
-validate_babylonian <- function(date) {}
+validate_babylonian <- function(date) {
+  if (any(date$month < 1 | date$month > 12)) {
+    stop("month must be between 1 and 12")
+  }
+  if (any(date$day < 1 | date$day > 30)) {
+    stop("day must be between 1 and 30")
+  }
+}
 
 #' @rdname cal_calendar
 #' @format NULL
