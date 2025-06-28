@@ -9,6 +9,7 @@
 \alias{orthodox_easter}
 \alias{pentecost}
 \alias{coptic_christmas}
+\alias{astronomical_easter}
 \title{Christian Ecclesiastical Holidays}
 \usage{
 advent(year)
@@ -26,6 +27,8 @@ orthodox_easter(year)
 pentecost(year)
 
 coptic_christmas(year)
+
+astronomical_easter(year)
 }
 \arguments{
 \item{year}{Gregorian year}

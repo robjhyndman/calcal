@@ -527,7 +527,7 @@ lunar_altitude <- function(tee, location) {
   alpha <- right_ascension(tee, beta, lambda) # Lunar right ascension.
   delta <- declination(tee, beta, lambda) # Lunar declination.
   theta0 <- sidereal_from_moment(tee) # Sidereal time.
-  cap_H <- (theta0 - psi - alpha) %% 360 # Local hour angle.
+  cap_H <- (theta0 + psi - alpha) %% 360 # Local hour angle.
 
   altitude <- arcsin_degrees(
     sin_degrees(phi) *

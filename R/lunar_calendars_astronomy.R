@@ -222,8 +222,6 @@ as_saudi <- function(date) {
   as_date(date, calendar = cal_saudi)
 }
 
-astronomical_easter <- function(g_year) {
-  # TYPE gregorian-year -> fixed-date
 #' @rdname hebrew
 ohebrew_date <- function(year = integer(), month = integer(), day = integer()) {
   new_date(year = year, month = month, day = day, calendar = cal_ohebrew)
@@ -247,10 +245,14 @@ samaritan_date <- function(
 as_samaritan <- function(date) {
   as_date(date, calendar = cal_samaritan)
 }
+
+#' @rdname christian
+#' @export
+astronomical_easter <- function(year) {
   # Date of (proposed) astronomical Easter in Gregorian year.
 
   # Spring equinox.
-  equinox <- season_in_gregorian(SPRING, g_year)
+  equinox <- season_in_gregorian(SPRING, year)
 
   # Date of next full moon.
   paschal_moon <- floor(apparent_from_universal(
@@ -259,7 +261,7 @@ as_samaritan <- function(date) {
   ))
 
   # Return the Sunday following the Paschal moon.
-  kday_after(SUNDAY, paschal_moon)
+  as_gregorian(kday_after(SUNDAY, paschal_moon))
 }
 
 saudi_criterion <- function(date) {
