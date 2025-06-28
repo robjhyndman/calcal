@@ -17,9 +17,13 @@ new_date(..., calendar)
 \item{...}{Named arguments denoting the granularities required for \code{calendar}.}
 }
 \description{
-Create a new date vector or convert a date vector to a new calendar
+New dates can be calculated using \code{new_date()} for any calendar. Dates can be
+converted from one calendar to another using \code{as_date()}. \code{as_date()} also works
+with the native R \code{Date} class and several other classes. When applied to
+integers, the conversion is from the RD day number (with day 1 being
+01-01-01 on the Gregorian calendar).
 }
 \examples{
-april25 <- new_date(year = 2025, month = 4, day = 1:30, calendar = cal_gregorian)
-as_date(april25, calendar = cal_iso)
+april2025 <- new_date(year = 2025, month = 4, day = 1:30, calendar = cal_gregorian)
+as_date(april2025, calendar = cal_iso)
 }

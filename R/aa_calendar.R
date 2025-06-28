@@ -24,14 +24,11 @@ WINTER <- 270
 #' @param to_rd Function to convert from calendar date to RD.
 #' @format An object of class `calcal`
 #' @examples
-#' new_date(year = 2025, month = 4, day = 19:30, calendar = cal_gregorian)
-#' as_date("2016-01-01", calendar = cal_islamic)
-#' as_date(Sys.Date(), calendar = cal_islamic)
+#' cal_gregorian
 #' tibble::tibble(
 #'   x = new_date(year = 2025, month = 5, day = 1:31, calendar = cal_gregorian),
 #'   y = as_date(x, calendar = cal_islamic)
 #' )
-#' cal_gregorian
 #' @export
 cal_calendar <- function(
   name,
@@ -70,13 +67,19 @@ print.calcal <- function(x, ...) {
 }
 
 #' Create a new date vector or convert a date vector to a new calendar
+#' 
+#' New dates can be calculated using `new_date()` for any calendar. Dates can be
+#' converted from one calendar to another using `as_date()`. `as_date()` also works
+#' with the native R `Date` class and several other classes. When applied to 
+#' integers, the conversion is from the RD day number (with day 1 being 
+#' 01-01-01 on the Gregorian calendar).
 #'
 #' @param date Date vector on some calendar
 #' @param calendar Target calendar of class "calcal"
 #' @param ... Named arguments denoting the granularities required for `calendar`.
 #' @examples
-#' april25 <- new_date(year = 2025, month = 4, day = 1:30, calendar = cal_gregorian)
-#' as_date(april25, calendar = cal_iso)
+#' april2025 <- new_date(year = 2025, month = 4, day = 1:30, calendar = cal_gregorian)
+#' as_date(april2025, calendar = cal_iso)
 #' @rdname new_date
 #' @export
 as_date <- function(date, calendar) {
