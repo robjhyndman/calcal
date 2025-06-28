@@ -9,7 +9,7 @@ test_that("chinese", {
   )
   expect_equal(
     qing_ming(2025:2026),
-    gregorian_date(2025:2026, c(4, 4), c(4, 4))
+    gregorian_date(2025:2026, c(4, 4), c(4, 5))
   )
   expect_equal(
     as_gregorian(Sys.Date()),
