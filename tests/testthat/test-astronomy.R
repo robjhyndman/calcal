@@ -35,12 +35,12 @@ test_that("lunar", {
   melbourne <- location(-37.8136, 144.9631, 31, 10)
   expect_equal(
     moonrise(gregorian_date(2025, 1, 1), melbourne),
-    time_of_day(hour = 6, minute = 43, second = 0),
+    time_of_day(hour = 5, minute = 42, second = 36),
     tolerance = .1
   )
   expect_equal(
     moonset(gregorian_date(2025, 1, 1), melbourne),
-    time_of_day(hour = 23, minute = 10, second = 18),
+    time_of_day(hour = 21, minute = 11, second = 26),
     tolerance = .1
   )
 })

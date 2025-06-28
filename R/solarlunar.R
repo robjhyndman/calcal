@@ -580,24 +580,22 @@ moonset <- function(date, location) {
   alt <- observed_lunar_altitude(tee, lst$location) # Altitude at midnight.
   lat <- latitude(lst$location)
   offset <- alt / (4 * (deg(90) - abs(lat)))
-  approx <- tee - offset + 1 / 2
-  if (any(waxing)) {
-    approx[waxing] <- tee[waxing] + offset[waxing] + (offset[waxing] <= 0)
-  }
+  approx <- tee +
+    as.numeric(0.5 * !waxing) +
+    offset * as.numeric(-1 + 2 * waxing) +
+    as.numeric(waxing & (offset <= 0))
   set <- mapply(
     function(approx, loc) {
-      binary_search_single(
+      binary_search(
         approx - hr(6), # lo
         approx + hr(6), # hi
-        function(x) observed_lunar_altitude(x, loc) < deg(0),
-        function(lo, hi) (hi - lo) < mn(1)
+        function(x) observed_lunar_altitude(x, loc) < deg(0), # test_fn
+        function(lo, hi) (hi - lo) < mn(1) # end_fn
       )
     },
     approx,
-    lst$location,
-    SIMPLIFY = TRUE
+    lst$location
   )
-
   out <- pmax(standard_from_universal(set, lst$location), lst$date) # May be just before midnight.
   out[set >= (lst$date + 1)] <- NA
   as_time_of_day(out)
@@ -617,13 +615,10 @@ moonrise <- function(date, location) {
   alt <- observed_lunar_altitude(tee, lst$location) # Altitude at midnight.
   lat <- latitude(lst$location)
   offset <- alt / (4 * (deg(90) - abs(lat)))
-  approx <- tee + 1 / 2 + offset
-  if (any(waning)) {
-    offplus <- as.numeric(offset[waning] > 0)
-    approx[waning] <- tee[waning] +
-      (offset[waning] * (-1 + 2 * offplus)) -
-      offplus
-  }
+  approx <- tee +
+    as.numeric(0.5 * (!waning)) +
+    offset * as.numeric(1 - 2 * waning) +
+    as.numeric(waning & (offset > 0))
   rise <- mapply(
     function(approx, loc) {
       binary_search_single(
@@ -637,8 +632,9 @@ moonrise <- function(date, location) {
     lst$location,
     SIMPLIFY = TRUE
   )
+
   out <- pmax(standard_from_universal(rise, lst$location), lst$date) # May be just before midnight.
-  out[rise >= (lst$date + 1)] <- NA
+  out[rise >= (tee + 1)] <- NA
   as_time_of_day(out)
 }
 
