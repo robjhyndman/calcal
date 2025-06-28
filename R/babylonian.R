@@ -51,7 +51,7 @@ format_babylonian <- function(x, ...) {
       "Nisa",
       "Ayar",
       "Sima",
-      "Du‘uz",
+      "Du'uz",
       "Abu",
       "Ulul",
       "Tash",
@@ -89,10 +89,10 @@ cal_babylonian <- cal_calendar(
 #' @seealso [cal_babylonian]
 #' @examples
 #' tibble::tibble(
-#'   gregorian = gregorian_date(2025, 1, 1:31),
+#'   gregorian = gregorian_date(2025, 1, 1:5),
 #'   babylonian = as_babylonian(gregorian)
 #' )
-#' babylonian_date(2025, 6, FALSE, 1:10)
+#' babylonian_date(2335, 6, FALSE, 1:10)
 #' @export
 babylonian_date <- function(year, month, leap_month, day) {
   new_date(
