@@ -5,7 +5,13 @@
 \alias{as_bahai}
 \title{Baháʼí dates}
 \usage{
-bahai_date(major, cycle, year, month, day)
+bahai_date(
+  major = integer(),
+  cycle = integer(),
+  year = integer(),
+  month = integer(),
+  day = integer()
+)
 
 as_bahai(date)
 }

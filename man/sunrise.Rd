@@ -5,7 +5,7 @@
 \alias{sunset}
 \alias{moonset}
 \alias{moonrise}
-\title{Sunrise and sunset given a date and location}
+\title{Sun and moon rise and set given a date and location}
 \usage{
 sunrise(date, location, ...)
 
@@ -26,8 +26,9 @@ moonrise(date, location)
 Time of sunrise
 }
 \description{
-Calculate the time of sunrise and sunset at a specific location and date. The
-time zone of the location is used as specified in the \code{location} object.
+Calculate the time of sunrise, sunset, moonrise and moonset at a specific location and date. The
+time zone of the location is used as specified in the \code{location} object. No adjustments are made for
+daylight saving.
 }
 \examples{
 melbourne <- location(-37.8136, 144.9631, 31, 10)

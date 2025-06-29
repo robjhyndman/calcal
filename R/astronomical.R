@@ -183,10 +183,11 @@ refraction <- function(tee, loc) {
   mins(34) + dip + secs(19) * sqrt(h)
 }
 
-#' Sunrise and sunset given a date and location
+#' Sun and moon rise and set given a date and location
 #'
-#' Calculate the time of sunrise and sunset at a specific location and date. The
-#' time zone of the location is used as specified in the `location` object.
+#' Calculate the time of sunrise, sunset, moonrise and moonset at a specific location and date. The
+#' time zone of the location is used as specified in the `location` object. No adjustments are made for
+#' daylight saving.
 #'
 #' @param date Date in calcalvec format
 #' @param location Location of class "location", usually the output from the `location` function

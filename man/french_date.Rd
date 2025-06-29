@@ -7,9 +7,9 @@
 \alias{as_afrench}
 \title{French Revolutionary Dates}
 \usage{
-french_date(year, month, day)
+french_date(year = integer(), month = integer(), day = integer())
 
-afrench_date(year, month, day)
+afrench_date(year = integer(), month = integer(), day = integer())
 
 as_french(date)
 

@@ -5,7 +5,13 @@
 \alias{as_tibetan}
 \title{Tibetan dates}
 \usage{
-tibetan_date(year, month, leap_month, day, leap_day)
+tibetan_date(
+  year = integer(),
+  month = integer(),
+  leap_month = logical(),
+  day = integer(),
+  leap_day = logical()
+)
 
 as_tibetan(date)
 }

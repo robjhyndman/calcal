@@ -7,9 +7,9 @@
 \alias{as_apersian}
 \title{Persian dates}
 \usage{
-persian_date(year, month, day)
+persian_date(year = integer(), month = integer(), day = integer())
 
-apersian_date(year, month, day)
+apersian_date(year = integer(), month = integer(), day = integer())
 
 as_persian(date)
 

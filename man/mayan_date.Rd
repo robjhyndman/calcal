@@ -5,7 +5,13 @@
 \alias{as_mayan}
 \title{Mayan dates}
 \usage{
-mayan_date(baktun, katun, tun, uinal, kin)
+mayan_date(
+  baktun = integer(),
+  katun = integer(),
+  tun = integer(),
+  uinal = integer(),
+  kin = integer()
+)
 
 as_mayan(date)
 }

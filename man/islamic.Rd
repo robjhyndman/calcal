@@ -13,11 +13,11 @@ islamic_date(year = integer(), month = integer(), day = integer())
 
 as_islamic(date)
 
-oislamic_date(year, month, day)
+oislamic_date(year = integer(), month = integer(), day = integer())
 
 as_oislamic(date)
 
-saudi_date(year, month, day)
+saudi_date(year = integer(), month = integer(), day = integer())
 
 as_saudi(date)
 }

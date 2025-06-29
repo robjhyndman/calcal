@@ -7,9 +7,9 @@
 \alias{as_armenian}
 \title{Egyptian and Armenian dates}
 \usage{
-egyptian_date(year, month, day)
+egyptian_date(year = integer(), month = integer(), day = integer())
 
-armenian_date(year, month, day)
+armenian_date(year = integer(), month = integer(), day = integer())
 
 as_egyptian(date)
 

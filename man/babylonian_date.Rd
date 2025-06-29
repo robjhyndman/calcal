@@ -5,7 +5,12 @@
 \alias{as_babylonian}
 \title{Babylonian dates}
 \usage{
-babylonian_date(year, month, leap_month, day)
+babylonian_date(
+  year = integer(),
+  month = integer(),
+  leap_month = logical(),
+  day = integer()
+)
 
 as_babylonian(date)
 }

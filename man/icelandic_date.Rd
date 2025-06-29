@@ -5,7 +5,12 @@
 \alias{as_icelandic}
 \title{Icelandic dates}
 \usage{
-icelandic_date(year, season, week, weekday)
+icelandic_date(
+  year = integer(),
+  season = integer(),
+  week = integer(),
+  weekday = integer()
+)
 
 as_icelandic(date)
 }

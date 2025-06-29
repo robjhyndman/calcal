@@ -6,16 +6,16 @@
 \title{Balinese Pawukon dates}
 \usage{
 balinese_date(
-  luang,
-  dwiwara,
-  triwara,
-  caturwara,
-  pancawara,
-  sadwara,
-  saptawara,
-  asatawara,
-  sangawara,
-  dasawara
+  luang = integer(),
+  dwiwara = integer(),
+  triwara = integer(),
+  caturwara = integer(),
+  pancawara = integer(),
+  sadwara = integer(),
+  saptawara = integer(),
+  asatawara = integer(),
+  sangawara = integer(),
+  dasawara = integer()
 )
 
 as_balinese(date)

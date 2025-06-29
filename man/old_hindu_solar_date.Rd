@@ -7,9 +7,14 @@
 \alias{as_old_hindu_lunar}
 \title{Old Hindu solar and lunar dates}
 \usage{
-old_hindu_solar_date(year, month, day)
+old_hindu_solar_date(year = integer(), month = integer(), day = integer())
 
-old_hindu_lunar_date(year, month, leap_month, day)
+old_hindu_lunar_date(
+  year = integer(),
+  month = integer(),
+  leap_month = logical(),
+  day = integer()
+)
 
 as_old_hindu_solar(date)
 
