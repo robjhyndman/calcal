@@ -407,13 +407,29 @@ nth_new_moon <- function(n) {
 }
 
 new_moon_before <- function(tee) {
+  first <- old_new_moon_at_or_after(min(tee)-30)
+  last <- old_new_moon_before(max(tee)+30)
+  j <- round(first:last)
+  j[findInterval(tee, nth_new_moon(j))]
+}
+
+old_new_moon_before <- function(tee) {
   t0 <- nth_new_moon(0)
   phi <- lunar_phase(tee)
   n <- round((tee - t0) / MEAN_SYNODIC_MONTH - phi / 360)
-  final_value(n - 1, function(k) nth_new_moon(k) < tee)
+  final_value(n - 1, function(k) {
+    nth_new_moon(k) < tee
+  })
 }
 
 new_moon_at_or_after <- function(tee) {
+  first <- old_new_moon_at_or_after(min(tee)-30)
+  last <- old_new_moon_before(max(tee)+30)
+  j <- round(first:last)
+  j[findInterval(tee, nth_new_moon(j))]+1
+}
+
+old_new_moon_at_or_after <- function(tee) {
   t0 <- nth_new_moon(0)
   phi <- lunar_phase(tee)
   n <- round((tee - t0) / MEAN_SYNODIC_MONTH - phi / 360)
@@ -651,8 +667,8 @@ moonrise <- function(date, location) {
 #' @return A vector of dates
 #' @export
 new_moons <- function(year) {
-  first <- new_moon_at_or_after(gregorian_date(min(year), JANUARY, 1))
-  last <- new_moon_before(gregorian_date(max(year) + 1, JANUARY, 1))
+  first <- new_moon_at_or_after(vec_data(gregorian_date(min(year), JANUARY, 1)))
+  last <- new_moon_before(vec_data(gregorian_date(max(year) + 1, JANUARY, 1)))
   nm <- nth_new_moon(first:last)
   as_gregorian(nm)
 }
