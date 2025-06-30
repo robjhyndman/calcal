@@ -76,7 +76,7 @@ fixed_from_observational_hebrew <- function(h_date) {
   # TYPE hebrew-date -> fixed-date
   # Fixed date equivalent to Observational Hebrew date.
   year1 <- h_date$year - (h_date$month >= TISHRI)
-  start <- fixed_from_hebrew(hebrew_date(year1, NISAN, 1))
+  start <- vec_data(hebrew_date(year1, NISAN, 1))
   g_year <- gregorian_year_from_fixed(start + 60)
   new_year <- observational_hebrew_first_of_nisan(g_year)
 
@@ -128,7 +128,7 @@ samaritan_from_fixed <- function(date) {
   month <- 1 + round((moon - new_year) / 29.5)
   year <- round((new_year - SAMARITAN_EPOCH) / 365.25) +
     ceiling((month - 5) / 8)
-  day <- trunc(date - moon + 1)
+  day <- trunc(date - moon + 1.5)
 
   list(year = year, month = month, day = day)
 }
@@ -144,7 +144,7 @@ fixed_from_samaritan <- function(s_date) {
     )
   )
   nm <- samaritan_new_moon_at_or_before(ny + 29.5 * (s_date$month - 1) + 15)
-  nm + s_date$day - 1
+  round(nth_new_moon(nm) + s_date$day - 1)
 }
 
 
@@ -201,7 +201,11 @@ cal_samaritan <- cal_calendar(
 )
 
 #' @rdname islamic
-oislamic_date <- function(year=integer(), month=integer(), day=integer()) {
+oislamic_date <- function(
+  year = integer(),
+  month = integer(),
+  day = integer()
+) {
   new_date(year = year, month = month, day = day, calendar = cal_oislamic)
 }
 
@@ -211,7 +215,7 @@ as_oislamic <- function(date) {
 }
 
 #' @rdname islamic
-saudi_date <- function(year=integer(), month=integer(), day=integer()) {
+saudi_date <- function(year = integer(), month = integer(), day = integer()) {
   new_date(year = year, month = month, day = day, calendar = cal_saudi)
 }
 
@@ -306,7 +310,7 @@ observational_hebrew_first_of_nisan <- function(g_year) {
     floor(equinox)
 
   phasis_on_or_after(
-    floor(equinox) - if (equinox < set) 14 else 13,
+    floor(equinox) - 13 - as.numeric(equinox < set),
     HEBREW_LOCATION
   )
 }

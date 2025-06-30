@@ -69,7 +69,7 @@ cal_coptic <- cal_calendar(
 
 fixed_from_ethiopic <- function(date) {
   ETHIOPIC_EPOCH +
-    (fixed_from_coptic(coptic_date(date$year, date$month, date$day)) -
+    (vec_data(coptic_date(date$year, date$month, date$day)) -
       COPTIC_EPOCH)
 }
 
