@@ -407,13 +407,13 @@ nth_new_moon <- function(n) {
 }
 
 new_moon_before <- function(tee) {
-  first <- old_new_moon_at_or_after(min(tee)-30)
-  last <- old_new_moon_before(max(tee)+30)
+  first <- get_new_moon_at_or_after(min(tee)-30)
+  last <- get_new_moon_before(max(tee)+30)
   j <- round(first:last)
   j[findInterval(tee, nth_new_moon(j))]
 }
 
-old_new_moon_before <- function(tee) {
+get_new_moon_before <- function(tee) {
   t0 <- nth_new_moon(0)
   phi <- lunar_phase(tee)
   n <- round((tee - t0) / MEAN_SYNODIC_MONTH - phi / 360)
@@ -423,13 +423,13 @@ old_new_moon_before <- function(tee) {
 }
 
 new_moon_at_or_after <- function(tee) {
-  first <- old_new_moon_at_or_after(min(tee)-30)
-  last <- old_new_moon_before(max(tee)+30)
+  first <- get_new_moon_at_or_after(min(tee)-30)
+  last <- get_new_moon_before(max(tee)+30)
   j <- round(first:last)
   j[findInterval(tee, nth_new_moon(j))]+1
 }
 
-old_new_moon_at_or_after <- function(tee) {
+get_new_moon_at_or_after <- function(tee) {
   t0 <- nth_new_moon(0)
   phi <- lunar_phase(tee)
   n <- round((tee - t0) / MEAN_SYNODIC_MONTH - phi / 360)

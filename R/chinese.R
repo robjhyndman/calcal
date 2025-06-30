@@ -316,18 +316,13 @@ as_vietnamese <- function(date) {
 
 chinese_location <- function(date) {
   tee <- vec_data(date)
-  year <- gregorian_year_from_fixed(floor(tee))
   out <- rep(
-    location(angle(39, 55, 0), angle(116, 25, 0), mt(43.5), 8),
+    location(angle(39, 55, 0), angle(116, 25, 0), 43.5, 8),
     length(tee)
   )
-  if (any(year < 1929)) {
-    out[year < 1929] <- location(
-      angle(39, 55, 0),
-      angle(116, 25, 0),
-      mt(43.5),
-      1397 / 180
-    )
+  before_1929 <- tee < 704188 # gregorian_date(1929,1,1) |> vec_data()
+  if (any(before_1929)) {
+    field(out[before_1929], "zone") <- rep(1397 / 180, length(tee))
   }
   out
 }
@@ -591,14 +586,14 @@ chinese_year_marriage_augury <- function(cycle, year) {
 
 japanese_location <- function(date) {
   tee <- vec_data(date)
-  year <- gregorian_year_from_fixed(floor(tee))
   out <- rep(
     # Longitude 135 time zone
     location(deg(35), deg(135), mt(0), 9),
     length(tee)
   )
-  if (any(year < 1888)) {
-    out[year < 1888] <-
+  before_1888 <- tee < 689213 # vec_data(gregorian_date(1888,1,1))
+  if (any(before_1888)) {
+    out[before_1888] <-
       # Tokyo (139 deg 46 min east) local time
       location(deg(35.7), angle(139, 46, 0), mt(24), 9 + 143 / 450)
   }
@@ -609,13 +604,13 @@ korean_location <- function(date) {
   # Seoul city hall at a varying time zone.
   tee <- vec_data(date)
   z <- rep(9, length(tee))
-  case1 <- tee < vec_data(gregorian_date(1908, APRIL, 1))
-  case2 <- !case1 & tee < vec_data(gregorian_date(1912, JANUARY, 1))
-  case3 <- !case1 & !case2 & tee < vec_data(gregorian_date(1954, MARCH, 21))
+  case1 <- tee < 696608 #vec_data(gregorian_date(1908, APRIL, 1))
+  case2 <- !case1 & tee < 697978 #vec_data(gregorian_date(1912, JANUARY, 1))
+  case3 <- !case1 & !case2 & tee < 713398 #vec_data(gregorian_date(1954, MARCH, 21))
   case4 <- !case1 &
     !case2 &
     !case3 &
-    tee < vec_data(gregorian_date(1961, AUGUST, 10))
+    tee < 716097 # vec_data(gregorian_date(1961, AUGUST, 10))
   z[case2 | case4] <- 8.5
   location(angle(37, 34, 0), angle(126, 58, 0), mt(0), z)
 }
@@ -630,6 +625,6 @@ vietnamese_location <- function(date) {
   tee <- vec_data(date)
   # Location for Vietnamese calendar is Hanoi; varies with
   # tee. Time zone has changed over the years.
-  z <- 7 + (tee < gregorian_new_year(1968))
+  z <- 7 + (tee < 718432) #vec_data(gregorian_new_year(1968))
   location(angle(21, 2, 0), angle(105, 51, 0), mt(12), z)
 }
