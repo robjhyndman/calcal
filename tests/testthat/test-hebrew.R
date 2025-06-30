@@ -85,3 +85,36 @@ test_that("hebrew", {
     ))
   )
 })
+
+
+test_that("ohebrew", {
+  expect_equal(
+    gregorian_date(1967, 5, 2) |>
+      as_ohebrew() |>
+      cal_ohebrew$from_rd() |>
+      cal_ohebrew$to_rd(),
+    gregorian_date(1967, 5, 2) |> as.numeric()
+  )
+  expect_equal(
+    ohebrew_date(2774, 3, 1:4) |>
+      cal_ohebrew$from_rd() |>
+      cal_ohebrew$to_rd(),
+    ohebrew_date(2774, 3, 1:4) |> vctrs::vec_data()
+  )
+})
+
+test_that("samaritan", {
+  expect_equal(
+    gregorian_date(1967, 5, 2) |>
+      as_samaritan() |>
+      cal_samaritan$from_rd() |>
+      cal_samaritan$to_rd(),
+    gregorian_date(1967, 5, 2) |> as.numeric()
+  )
+  expect_equal(
+    samaritan_date(3663, 3, 1:10) |>
+      cal_samaritan$from_rd() |>
+      cal_samaritan$to_rd(),
+    samaritan_date(3663, 3, 1:10) |> vctrs::vec_data()
+  )
+})
