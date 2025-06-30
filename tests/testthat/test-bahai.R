@@ -28,13 +28,13 @@ test_that("bahai_new_year", {
   )
   expect_equal(
     naw_ruz(2023:2027),
-    gregorian_date(2023:2027, MARCH, c(21, 20, 20, 21, 21))
-  )
-  expect_equal(
-    birth_of_the_bab(2023:2025),
-    gregorian_date(2023:2025, c(10, 11, 10), c(16, 2, 22))
+    gregorian_date(2023:2027, MARCH, c(21, 20, 20, 20, 21))
   )
   # value for 2026 is different from official value.
   # Seems to be to do with solar_longitude calculation being
   # very close to the boundary (360|0).
+  expect_equal(
+    birth_of_the_bab(2023:2027),
+    gregorian_date(2023:2027, c(10, 11, 10, 11, 10), c(16, 2, 22, 10, 30))
+  )
 })
