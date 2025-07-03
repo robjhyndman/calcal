@@ -43,18 +43,18 @@ tibble(
   Hebrew = as_hebrew(Gregorian)
 )
 #> # A tibble: 10 × 5
-#>      Gregorian        ISO    Chinese     Islamic         Hebrew
-#>          <Gre>      <ISO>      <Chi>       <Hij>          <Heb>
-#>  1 1990-Feb-21 1990-08-03 78-07-1-27 1410-Raj-25 5750-Shevat-26
-#>  2 1990-Feb-22 1990-08-04 78-07-1-28 1410-Raj-26 5750-Shevat-27
-#>  3 1990-Feb-23 1990-08-05 78-07-1-29 1410-Raj-27 5750-Shevat-28
-#>  4 1990-Feb-24 1990-08-06 78-07-1-30 1410-Raj-28 5750-Shevat-29
-#>  5 1990-Feb-25 1990-08-07 78-07-2-01 1410-Raj-29 5750-Shevat-30
-#>  6 1990-Feb-26 1990-09-01 78-07-2-02 1410-Raj-30   5750-Adar-01
-#>  7 1990-Feb-27 1990-09-02 78-07-2-03 1410-Sha-01   5750-Adar-02
-#>  8 1990-Feb-28 1990-09-03 78-07-2-04 1410-Sha-02   5750-Adar-03
-#>  9 1990-Mar-01 1990-09-04 78-07-2-05 1410-Sha-03   5750-Adar-04
-#> 10 1990-Mar-02 1990-09-05 78-07-2-06 1410-Sha-04   5750-Adar-05
+#>      Gregorian        ISO     Chinese     Islamic         Hebrew
+#>          <Gre>      <ISO>       <Chi>       <Hij>          <Heb>
+#>  1 1990-Feb-21 1990-08-03 78-07-01-26 1410-Raj-25 5750-Shevat-26
+#>  2 1990-Feb-22 1990-08-04 78-07-01-27 1410-Raj-26 5750-Shevat-27
+#>  3 1990-Feb-23 1990-08-05 78-07-01-28 1410-Raj-27 5750-Shevat-28
+#>  4 1990-Feb-24 1990-08-06 78-07-01-29 1410-Raj-28 5750-Shevat-29
+#>  5 1990-Feb-25 1990-08-07 78-07-02-01 1410-Raj-29 5750-Shevat-30
+#>  6 1990-Feb-26 1990-09-01 78-07-02-02 1410-Raj-30   5750-Adar-01
+#>  7 1990-Feb-27 1990-09-02 78-07-02-03 1410-Sha-01   5750-Adar-02
+#>  8 1990-Feb-28 1990-09-03 78-07-02-04 1410-Sha-02   5750-Adar-03
+#>  9 1990-Mar-01 1990-09-04 78-07-02-05 1410-Sha-03   5750-Adar-04
+#> 10 1990-Mar-02 1990-09-05 78-07-02-06 1410-Sha-04   5750-Adar-05
 ```
 
 Some religious and cultural holidays
@@ -97,12 +97,12 @@ tibble(
 #>  3 Ramadan            2025-Mar-01 2026-Feb-18 2027-Feb-08 2028-Jan-28
 #>  4 Naw Ruz            2025-Mar-20 2026-Mar-20 2027-Mar-21 2028-Mar-20
 #>  5 Eid al-Fitr        2025-Mar-31 2026-Mar-20 2027-Mar-10 2028-Feb-27
-#>  6 Qing Ming          2025-Apr-04 2026-Apr-04 2027-Apr-05 2028-Apr-04
+#>  6 Qing Ming          2025-Apr-04 2026-Apr-05 2027-Apr-05 2028-Apr-04
 #>  7 Passover           2025-Apr-13 2026-Apr-02 2027-Apr-22 2028-Apr-11
 #>  8 Easter             2025-Apr-20 2026-Apr-05 2027-Mar-28 2028-Apr-16
 #>  9 Orthodox Easter    2025-Apr-20 2026-Apr-12 2027-May-02 2028-Apr-16
 #> 10 Feast of Ridvan    2025-Apr-20 2026-Apr-20 2027-Apr-21 2028-Apr-20
-#> 11 Dragon Festival    2025-May-31 2026-Jun-19 2027-Jun-08 2028-May-28
+#> 11 Dragon Festival    2025-May-31 2026-Jun-19 2027-Jun-09 2028-May-28
 #> 12 Eid al-Adha        2025-Jun-07 2026-May-27 2027-May-17 2028-May-05
 #> 13 Rosh Hashanah      2025-Sep-23 2026-Sep-12 2027-Oct-02 2028-Sep-21
 #> 14 Yom Kippur         2025-Oct-02 2026-Sep-21 2027-Oct-11 2028-Sep-30
