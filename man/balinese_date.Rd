@@ -3,7 +3,7 @@
 \name{balinese_date}
 \alias{balinese_date}
 \alias{as_balinese}
-\title{Balinese Pawukon dates}
+\title{Balinese Pawukon calendar dates}
 \usage{
 balinese_date(
   luang = integer(),

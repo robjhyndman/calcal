@@ -5,7 +5,7 @@
 \alias{armenian_date}
 \alias{as_egyptian}
 \alias{as_armenian}
-\title{Egyptian and Armenian dates}
+\title{Egyptian and Armenian calendar dates}
 \usage{
 egyptian_date(year = integer(), month = integer(), day = integer())
 
@@ -25,7 +25,8 @@ as_armenian(date)
 \item{date}{Vector of dates on some calendar}
 }
 \description{
-Egyptian and Armenian dates
+The ancient Egyptian calendar is a 365-day solar calendar with 12 months of 30 days each, plus a 13th month of 5 days.
+The Armenian calendar is similar but has a different epoch and month names.
 }
 \examples{
 tibble::tibble(

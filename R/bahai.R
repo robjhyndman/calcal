@@ -111,7 +111,7 @@ cal_bahai <- cal_calendar(
   fixed_from_bahai
 )
 
-#' Baháʼí dates
+#' Baháʼí calendar dates
 #'
 #' The Baháʼí calendar is a solar calendar used in the Baháʼí faith comprising 18 months, with four or five
 #' intercalary days each year. The New Year is at the northern Spring equinox,

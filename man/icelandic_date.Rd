@@ -3,7 +3,7 @@
 \name{icelandic_date}
 \alias{icelandic_date}
 \alias{as_icelandic}
-\title{Icelandic dates}
+\title{Icelandic calendar dates}
 \usage{
 icelandic_date(
   year = integer(),
@@ -27,7 +27,11 @@ as_icelandic(date)
 \item{date}{A numeric vector of dates}
 }
 \description{
-Icelandic dates
+The Icelandic calendar, still in use in Iceland, divides times into
+7-day weeks and two seasons: Summer and Winter. Summer starts on the first
+Thursday after April 18th, and Winter 180 days earlier. Ordinary years have
+52 weeks with leap years having 53 weeks. The leap week occurs every 5-7
+years in midsummer.
 }
 \examples{
 gregorian_date(2025, 4, 20:30) |>

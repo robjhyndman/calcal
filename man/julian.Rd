@@ -3,7 +3,7 @@
 \name{julian_date}
 \alias{julian_date}
 \alias{as_julian}
-\title{Julian dates}
+\title{Julian calendar dates}
 \usage{
 julian_date(year = integer(), month = integer(), day = integer())
 

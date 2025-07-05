@@ -137,6 +137,13 @@ cal_hebrew <- cal_calendar(
 #' 29 or 30 days, which begin and end at approximately the time of the new moon.
 #' An extra lunar month is added every 2 or 3 years, so the calendar has either 12
 #' or 13 months per year.
+#' 
+#' The observational Hebrew calendar ("ohebrew") is the classical calendar where the 
+#' new month began with the reported observation of the crescent new moon. In this 
+#' implementation, Haifa is taken as the point of observation. 
+#' 
+#' The Samaritan calendar is similar, but the moment of new moon marking the start of
+#' each new month is based on a traditional reckoning of the lunar cycle,
 #'
 #' @param year A numeric vector of years
 #' @param month A numeric vector of months

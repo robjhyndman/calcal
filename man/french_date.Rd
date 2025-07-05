@@ -5,7 +5,7 @@
 \alias{afrench_date}
 \alias{as_french}
 \alias{as_afrench}
-\title{French Revolutionary Dates}
+\title{French Revolutionary calendar dates}
 \usage{
 french_date(year = integer(), month = integer(), day = integer())
 

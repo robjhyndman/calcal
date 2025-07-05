@@ -7,7 +7,7 @@
 \alias{as_oislamic}
 \alias{saudi_date}
 \alias{as_saudi}
-\title{Islamic dates}
+\title{Islamic calendar dates}
 \usage{
 islamic_date(year = integer(), month = integer(), day = integer())
 

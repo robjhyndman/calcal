@@ -5,7 +5,7 @@
 \alias{ethiopic_date}
 \alias{as_coptic}
 \alias{as_ethiopic}
-\title{Coptic and Ethoiopic dates}
+\title{Coptic and Ethoiopic calendar dates}
 \usage{
 coptic_date(year = integer(), month = integer(), day = integer())
 

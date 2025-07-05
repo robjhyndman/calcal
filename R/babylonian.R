@@ -77,7 +77,7 @@ cal_babylonian <- cal_calendar(
   fixed_from_babylonian
 )
 
-#' Babylonian dates
+#' Babylonian calendar dates
 #'
 #' The classical Babylonian calendar was a lunisolar calendar with a fixed 19-year Metonic cycle.
 #'
@@ -89,10 +89,10 @@ cal_babylonian <- cal_calendar(
 #' @seealso [cal_babylonian]
 #' @examples
 #' tibble::tibble(
-#'   gregorian = gregorian_date(2025, 1, 1:5),
+#'   gregorian = gregorian_date(2335, 1, 1:3),
 #'   babylonian = as_babylonian(gregorian)
 #' )
-#' babylonian_date(2335, 6, FALSE, 1:10)
+#' babylonian_date(2335, 6, FALSE, 1:3)
 #' @export
 babylonian_date <- function(
   year = integer(),

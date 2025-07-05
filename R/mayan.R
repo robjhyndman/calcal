@@ -49,11 +49,13 @@ cal_mayan <- cal_calendar(
   fixed_from_mayan_long_count
 )
 
-#' Mayan dates
+#' Mayan calendar dates
 #'
 #' There are three Mayan calendars: the famous "long count" calendar, the "Haab" calendar, and the "Tzolkin" calendar.
 #' Of these, only the long count calendar can be converted to and from other calendars, so it is the only one that
 #' has been implemented here.
+#' 
+#' The Mayan long count calendar is a vigesimal (base-20) calendar with five components: kin (1 day), uinal (20 kin), tun (18 uinal), katun (20 tun), and baktun (20 katun). So the full cycle repeats every 20x18x20x20 = 144,000 days (approximately 394 years).
 #'
 #' @param baktun Numeric vector
 #' @param katun Numeric vector

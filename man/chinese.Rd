@@ -9,7 +9,7 @@
 \alias{as_japanese}
 \alias{as_korean}
 \alias{as_vietnamese}
-\title{Asian dates}
+\title{Chinese, Japanese, Korean and Vietnamese calendar dates}
 \usage{
 chinese_date(
   cycle = integer(),

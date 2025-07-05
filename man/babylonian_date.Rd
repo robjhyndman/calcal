@@ -3,7 +3,7 @@
 \name{babylonian_date}
 \alias{babylonian_date}
 \alias{as_babylonian}
-\title{Babylonian dates}
+\title{Babylonian calendar dates}
 \usage{
 babylonian_date(
   year = integer(),
@@ -33,10 +33,10 @@ The classical Babylonian calendar was a lunisolar calendar with a fixed 19-year 
 }
 \examples{
 tibble::tibble(
-  gregorian = gregorian_date(2025, 1, 1:5),
+  gregorian = gregorian_date(2335, 1, 1:3),
   babylonian = as_babylonian(gregorian)
 )
-babylonian_date(2335, 6, FALSE, 1:10)
+babylonian_date(2335, 6, FALSE, 1:3)
 }
 \seealso{
 \link{cal_babylonian}

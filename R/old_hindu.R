@@ -147,7 +147,11 @@ cal_old_hindu_lunar <- cal_calendar(
   fixed_from_old_hindu_lunar
 )
 
-#' Old Hindu solar and lunar dates
+#' Old Hindu solar and lunar calendar dates
+#' 
+#' These functions create dates on the old Hindu solar and lunar calendars. 
+#' Hindu solar months are 1/12 of a solar year (approximately 30.44 days),
+#' while lunar months are based on the lunar cycle (approximately 29.53 days).
 #'
 #' @param year A numeric vector of years
 #' @param month A numeric vector of months

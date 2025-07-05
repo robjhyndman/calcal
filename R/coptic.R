@@ -111,7 +111,7 @@ cal_ethiopic <- cal_calendar(
   to_rd = fixed_from_ethiopic
 )
 
-#' Coptic and Ethoiopic dates
+#' Coptic and Ethoiopic calendar dates
 #'
 #' These two calendars are identical apart from the starting point or epoch.
 #' The Coptic calendar (also called the Alexandrian calendar) starts on

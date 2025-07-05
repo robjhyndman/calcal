@@ -82,7 +82,7 @@ cal_julian <- cal_calendar(
   to_rd = fixed_from_julian
 )
 
-#' Julian dates
+#' Julian calendar dates
 #'
 #' The Julian calendar is the calendar used by the Roman Empire, and
 #' takes its name from Julius Caesar, who introduced it in 46 BC. It

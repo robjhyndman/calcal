@@ -95,7 +95,7 @@ cal_balinese <- cal_calendar(
   fixed_from_bali
 )
 
-#' Balinese Pawukon dates
+#' Balinese Pawukon calendar dates
 #'
 #' The Balinese calendar repeats every 210 days. It has 10 concurrent
 #' weeks, of lengths 1, 2, ..., 10 days. The 210 day cycles are unnumbered,

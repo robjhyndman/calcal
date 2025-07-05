@@ -123,7 +123,7 @@ cal_afrench <- cal_calendar(
   fixed_from_arithmetic_french
 )
 
-#' French Revolutionary Dates
+#' French Revolutionary calendar dates
 #'
 #' There are two versions of the French Revolutionary Calendar. The original
 #' version, used from 1793, was kept in sync with the solar year by setting the first day of

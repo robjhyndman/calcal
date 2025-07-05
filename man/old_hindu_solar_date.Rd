@@ -5,7 +5,7 @@
 \alias{old_hindu_lunar_date}
 \alias{as_old_hindu_solar}
 \alias{as_old_hindu_lunar}
-\title{Old Hindu solar and lunar dates}
+\title{Old Hindu solar and lunar calendar dates}
 \usage{
 old_hindu_solar_date(year = integer(), month = integer(), day = integer())
 
@@ -32,7 +32,9 @@ as_old_hindu_lunar(date)
 \item{date}{A date vector on some calendar}
 }
 \description{
-Old Hindu solar and lunar dates
+These functions create dates on the old Hindu solar and lunar calendars.
+Hindu solar months are 1/12 of a solar year (approximately 30.44 days),
+while lunar months are based on the lunar cycle (approximately 29.53 days).
 }
 \examples{
 gregorian_date(2025, 1, 1:31) |>

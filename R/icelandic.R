@@ -75,7 +75,13 @@ cal_icelandic <- cal_calendar(
   fixed_from_icelandic
 )
 
-#' Icelandic dates
+#' Icelandic calendar dates
+#' 
+#' The Icelandic calendar, still in use in Iceland, divides times into 
+#' 7-day weeks and two seasons: Summer and Winter. Summer starts on the first
+#' Thursday after April 18th, and Winter 180 days earlier. Ordinary years have 
+#' 52 weeks with leap years having 53 weeks. The leap week occurs every 5-7 
+#' years in midsummer.
 #'
 #' @param year A numeric vector of years
 #' @param season A numeric vector of seasons (1 = Summer, 2 = Winter)

@@ -88,7 +88,11 @@ cal_tibetan <- cal_calendar(
   fixed_from_tibetan
 )
 
-#' Tibetan dates
+#' Tibetan calendar dates
+#' 
+#' There are several Tibetan calendars. These functions implement the
+#' official Phuglugs version of the Kalachakra calendar, which is similar
+#' to the Hindu lunisolar calendars.
 #'
 #' @param year A numeric vector of years
 #' @param month A numeric vector of months

@@ -3,7 +3,7 @@
 \name{bahai_date}
 \alias{bahai_date}
 \alias{as_bahai}
-\title{Baháʼí dates}
+\title{Baháʼí calendar dates}
 \usage{
 bahai_date(
   major = integer(),

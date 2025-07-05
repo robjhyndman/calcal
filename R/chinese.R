@@ -182,7 +182,7 @@ cal_vietnamese <- cal_calendar(
   to_rd = fixed_from_vietnamese
 )
 
-#' Asian dates
+#' Chinese, Japanese, Korean and Vietnamese calendar dates
 #'
 #' The traditional Chinese lunisolar calendar uses a 60-year cycle with 12 months per year.
 #' The Japanese, Korean and Vietnamese calendars are almost identical, but with different

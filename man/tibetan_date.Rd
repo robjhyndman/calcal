@@ -3,7 +3,7 @@
 \name{tibetan_date}
 \alias{tibetan_date}
 \alias{as_tibetan}
-\title{Tibetan dates}
+\title{Tibetan calendar dates}
 \usage{
 tibetan_date(
   year = integer(),
@@ -32,7 +32,9 @@ as_tibetan(date)
 A \code{tibetan_date} object
 }
 \description{
-Tibetan dates
+There are several Tibetan calendars. These functions implement the
+official Phuglugs version of the Kalachakra calendar, which is similar
+to the Hindu lunisolar calendars.
 }
 \examples{
 gregorian_date(2025,6,1:10) |> as_tibetan()
