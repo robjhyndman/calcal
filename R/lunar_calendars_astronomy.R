@@ -269,13 +269,13 @@ astronomical_easter <- function(year) {
 saudi_criterion <- function(date) {
   # TYPE fixed-date -> boolean
   # Saudi visibility criterion on eve of fixed date in Mecca.
-  set <- as.numeric(date) +
-    as.numeric(sunset(date - 1, rep(MECCA, length(date))))
-  tee <- universal_from_standard(set, rep(MECCA, length(date)))
+  set <- sunset(date - 1, MECCA)
+  set <- date - 1 + as.numeric(set) / 24
+  tee <- universal_from_standard(set, MECCA)
   phase <- lunar_phase(tee)
 
   (NEW < phase & phase < FIRST_QUARTER) &
-    (moonlag(date - 1, rep(MECCA, length(date))) > 0)
+    (moonlag(date - 1, MECCA) > 0)
 }
 
 saudi_new_month_on_or_before <- function(date) {

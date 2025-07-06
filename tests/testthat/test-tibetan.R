@@ -13,9 +13,7 @@ test_that("tibetan", {
     tibetan_date(2152, 4, FALSE, 1:30, FALSE) |> vctrs::vec_data()
   )
   # Validation
-  d <- as_tibetan(1:1e5) |> as.list()
-  expect_true(all(d$month >= 1 & d$month <= 12))
-  expect_true(all(d$day >= 1 & d$day <= 30))
+  d <- as_tibetan(1:1e5) |> as.list() |> validate_tibetan()
   # New year
   expect_equal(
     tibetan_new_year(2025:2026),
