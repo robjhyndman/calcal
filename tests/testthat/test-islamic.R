@@ -43,7 +43,7 @@ test_that("islamic", {
 })
 
 
-test_that("oslamic", {
+test_that("oislamic", {
   expect_equal(oislamic_date(1446, 6, 30), as_oislamic("2025-01-01"))
   expect_equal(
     as.Date(as_gregorian(oislamic_date(1446, 6, 30))),
@@ -63,4 +63,25 @@ test_that("oslamic", {
     gregorian_date(1967, 5, 2) |> as.numeric()
   )
   expect_no_error(as_oislamic(1:1e3) |> as.list() |> validate_islamic())
+})
+
+test_that("saudi", {
+  expect_equal(saudi_date(1446, 6, 30), as_saudi("2025-01-01"))
+  expect_equal(
+    as.Date(as_gregorian(saudi_date(1446, 6, 30))),
+    as.Date("2025-01-01")
+  )
+  expect_equal(
+    vec_data(saudi_date(1446, 6, 30)),
+    vec_data(gregorian_date(2025, 1, 1))
+  )
+  expect_error(saudi_date(1446, 13, 1))
+  expect_error(saudi_date(2025, 2, 31))
+  expect_equal(
+    gregorian_date(1967, 5, 2) |>
+      as_saudi() |>
+      cal_saudi$from_rd() |>
+      cal_saudi$to_rd(),
+    gregorian_date(1967, 5, 2) |> as.numeric()
+  )
 })
