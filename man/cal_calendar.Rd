@@ -2,8 +2,8 @@
 % Please edit documentation in R/aa_calendar.R, R/babylonian.R, R/bahai.R,
 %   R/bali.R, R/chinese.R, R/coptic.R, R/egyptian.R, R/french.R,
 %   R/gregorian.R, R/hebrew.R, R/icelandic.R, R/islamic.R, R/iso.R, R/julian.R,
-%   R/lunar_calendars_astronomy.R, R/mayan.R, R/old_hindu.R, R/persian.R,
-%   R/roman.R
+%   R/lunar_calendars_astronomy.R, R/mayan.R, R/modern_hindu.R, R/old_hindu.R,
+%   R/persian.R, R/roman.R
 \docType{data}
 \name{cal_calendar}
 \alias{cal_calendar}
@@ -31,6 +31,8 @@
 \alias{cal_ohebrew}
 \alias{cal_samaritan}
 \alias{cal_mayan}
+\alias{cal_hindu_lunar}
+\alias{cal_hindu_solar}
 \alias{cal_old_hindu_solar}
 \alias{cal_old_hindu_lunar}
 \alias{cal_persian}
@@ -98,6 +100,10 @@ cal_ohebrew
 cal_samaritan
 
 cal_mayan
+
+cal_hindu_lunar
+
+cal_hindu_solar
 
 cal_old_hindu_solar
 

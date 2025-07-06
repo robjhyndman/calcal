@@ -63,72 +63,14 @@ fixed_from_old_hindu_lunar <- function(date) {
   return(ceiling(result))
 }
 
-validate_old_hindu_solar <- function(date) {
-  if (any(date$month < 1 | date$month > 12)) {
-    stop("month must be between 1 and 12")
-  }
-  if (any(date$day < 1 | date$day > 31)) {
-    stop("day must be between 1 and 31")
-  }
-}
-
-validate_old_hindu_lunar <- function(date) {
-  if (any(date$month < 1 | date$month > 12)) {
-    stop("month must be between 1 and 12")
-  }
-  if (any(date$day < 1 | date$day > 30)) {
-    stop("day must be between 1 and 30")
-  }
-}
-
-format_hindu_solar <- function(date) {
-  format_date(
-    date,
-    month_name = c(
-      "Mesa",
-      "Vrsa",
-      "Mith",
-      "Kark",
-      "Simh",
-      "Kany",
-      "Tula",
-      "Vrsc",
-      "Dhan",
-      "Maka",
-      "Kumb",
-      "Mina"
-    )
-  )
-}
-
-format_hindu_lunar <- function(date) {
-  format_date(
-    date,
-    month_name = c(
-      "Cait",
-      "Vais",
-      "Jyes",
-      "Asad",
-      "Srav",
-      "Bhad",
-      "Asvi",
-      "Kart",
-      "Marg",
-      "Paus",
-      "Magh",
-      "Phal"
-    )
-  )
-}
-
 #' @rdname cal_calendar
 #' @format NULL
 #' @export
 cal_old_hindu_solar <- cal_calendar(
   "old_hindu_solar",
-  "OHS",
+  "OHinS",
   c("year", "month", "day"),
-  validate_old_hindu_solar,
+  validate_hindu_solar,
   format_hindu_solar,
   old_hindu_solar_from_fixed,
   fixed_from_old_hindu_solar
@@ -139,23 +81,15 @@ cal_old_hindu_solar <- cal_calendar(
 #' @export
 cal_old_hindu_lunar <- cal_calendar(
   "old_hindu_lunar",
-  "OHL",
+  "OHinL",
   c("year", "month", "leap_month", "day"),
-  validate_old_hindu_lunar,
+  validate_hindu_lunar,
   format_hindu_lunar,
   old_hindu_lunar_from_fixed,
   fixed_from_old_hindu_lunar
 )
 
-#' Old Hindu solar and lunar calendar dates
-#' 
-#' These functions create dates on the old Hindu solar and lunar calendars. 
-#' Hindu solar months are 1/12 of a solar year (approximately 30.44 days),
-#' while lunar months are based on the lunar cycle (approximately 29.53 days).
-#'
-#' @param year A numeric vector of years
-#' @param month A numeric vector of months
-#' @param day A numeric vector of days
+#' @rdname hindu_solar_date
 #' @export
 old_hindu_solar_date <- function(
   year = integer(),
@@ -170,8 +104,7 @@ old_hindu_solar_date <- function(
   )
 }
 
-#' @rdname old_hindu_solar_date
-#' @param leap_month A logical vector indicating if year is a leap year
+#' @rdname hindu_solar_date
 #' @export
 old_hindu_lunar_date <- function(
   year = integer(),
@@ -188,19 +121,13 @@ old_hindu_lunar_date <- function(
   )
 }
 
-#' @rdname old_hindu_solar_date
-#' @param date A date vector on some calendar
-#' @examples
-#' gregorian_date(2025, 1, 1:31) |>
-#'   as_old_hindu_solar()
-#' gregorian_date(2025, 1, 1:31) |>
-#'   as_old_hindu_lunar()
+#' @rdname hindu_solar_date
 #' @export
 as_old_hindu_solar <- function(date) {
   as_date(date, calendar = cal_old_hindu_solar)
 }
 
-#' @rdname old_hindu_solar_date
+#' @rdname hindu_solar_date
 #' @export
 as_old_hindu_lunar <- function(date) {
   as_date(date, calendar = cal_old_hindu_lunar)
