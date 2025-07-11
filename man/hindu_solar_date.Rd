@@ -11,9 +11,9 @@
 \alias{as_old_hindu_lunar}
 \title{#' Hindu solar and lunar calendar dates}
 \usage{
-hindu_solar_date(year, month, leap_month, day, leap_day)
+hindu_solar_date(year, month, day)
 
-hindu_lunar_date(year, month, day)
+hindu_lunar_date(year, month, leap_month, day, leap_day)
 
 as_hindu_solar(date)
 
@@ -37,9 +37,9 @@ as_old_hindu_lunar(date)
 
 \item{month}{A numeric vector of months}
 
-\item{leap_month}{A logical vector indicating if year is a leap year}
-
 \item{day}{A numeric vector of days}
+
+\item{leap_month}{A logical vector indicating if year is a leap year}
 
 \item{date}{A date vector on some calendar}
 }
