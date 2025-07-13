@@ -36,6 +36,29 @@ test_that("hindu_lunar", {
   )
 })
 
+test_that("hindu_holidays", {
+  expect_equal(
+    diwali(2025:2026),
+    gregorian_date(2025:2026, c(12, 11), c(21, 10))
+  )
+  expect_equal(
+    shiva(2025:2026),
+    gregorian_date(2025:2026, 2, c(27, 16))
+  )
+  expect_equal(
+    rama(2025:2026),
+    gregorian_date(2025:2026, c(4, 7), c(5, 22))
+  )
+  expect_equal(
+    mesha_samkranti(2025:2026),
+    gregorian_date(2025:2026, 4, 14)
+  )
+  expect_equal(
+    sacred_wednesdays(2025:2026),
+    as_gregorian(c("2025-2-5", "2025-10-29", "2026-7-22"))
+  )
+})
+
 test_that("old_hindu_solar", {
   expect_equal(
     gregorian_date(1967, 5, 2) |>

@@ -59,12 +59,12 @@ fixed_from_hindu_lunar <- function(l_date) {
     # Handle borderline cases
     mid <- hindu_lunar_from_fixed(s[outside] - 15)
     cond <- rep(TRUE, length(outside))
-    cond[outside] <- hindu_lunar_month(mid) != l_date$month[outside] |
-      (hindu_lunar_leap_month(mid) & !l_date$leap_month[outside])
+    cond[outside] <- mid$month != l_date$month[outside] |
+      (mid$leap_month & !l_date$leap_month[outside])
     est[outside & cond] <- est[outside & cond] +
       mod3(k[outside & cond], -15, 15)
     est[outside & !cond] <- est[outside & !cond] +
-      mod3(k[outside], 15, 45)
+      mod3(k[outside & !cond], 15, 45)
   }
 
   # Refine estimate
@@ -217,6 +217,7 @@ cal_hindu_solar <- cal_calendar(
 #' @param month A numeric vector of months
 #' @param day A numeric vector of days
 #' @param leap_month A logical vector indicating if year is a leap year
+#' @param leap_day A logical vector indicating if day is a leap day
 #' @param date A date vector on some calendar
 #' @examples
 #' gregorian_date(2025, 1, 1:31) |>
@@ -257,16 +258,6 @@ as_hindu_solar <- function(date) {
 as_hindu_lunar <- function(date) {
   as_date(date, calendar = cal_hindu_lunar)
 }
-
-
-
-# Accessor functions
-hindu_lunar_year <- function(date) granularity(date, "year")
-hindu_lunar_month <- function(date) granularity(date, "month")
-hindu_lunar_leap_month <- function(date) granularity(date, "leap_month")
-hindu_lunar_day <- function(date) granularity(date, "day")
-hindu_lunar_leap_day <- function(date) granularity(date, "leap_day")
-
 
 # Hindu sine table simulation
 hindu_sine_table <- function(entry) {
@@ -527,67 +518,105 @@ hindu_solar_longitude_at_or_after <- function(lambda, tee) {
       (1 / deg(360)) *
       ((lambda - hindu_solar_longitude(tee)) %% 360)
 
-  a <- max(tee, tau - 5)
+  a <- pmax(tee, tau - 5)
   b <- tau + 5
 
-  invert_angular(hindu_solar_longitude, lambda, a, b)
+  mapply(
+    function(a, b) {
+      invert_angular(hindu_solar_longitude, lambda, a, b)
+    },
+    a,
+    b,
+    SIMPLIFY = TRUE
+  )
 }
 
-mesha_samkranti <- function(g_year) {
+#' @rdname diwali
+#' @export
+mesha_samkranti <- function(year) {
   # TYPE gregorian-year -> rational-moment
   # Fixed moment of Mesha samkranti (Vernal equinox)
-  # in Gregorian $g-year$.
-  jan1 <- gregorian_new_year(g_year)
-  hindu_solar_longitude_at_or_after(deg(0), jan1)
+  # in Gregorian year
+  jan1 <- gregorian_new_year(year) |> vec_data()
+  hindu_solar_longitude_at_or_after(deg(0), jan1) |>
+    as_gregorian()
 }
 
 
-# Holiday calculations
-diwali <- function(g_year) {
-  # Diwali is on the new moon day in the month of Kartik (month 8)
-  hindu_lunar_holiday(8, 1, g_year)
+#' Hindu holidays and special days
+#'
+#' Functions to return Gregorian dates for various Hindu holidays baed on the
+#' Hindu lunar calendar. Diwali is on the new moon day in the month of Kartik (month 8).
+#' The Great Night of Shiva is at the end of the 11 month of Magha.
+#' The Birthday of Rama is on the 8th or 9th day of the first month (Caitra)
+#'
+#' @param year A numeric vector of Gregorian years
+#' @return A list of dates on the Gregorian calendar
+#' @seealso [hindu_lunar_date]
+#' @examples
+#' shiva(2025)
+#' rama(2025)
+#' mesha_samkranti(2025)
+#' diwali(2025)
+#' sacred_wednesdays(2025)
+#' @export
+diwali <- function(year) {
+  hindu_lunar_holiday(8, 1, year) |>
+    unlist() |>
+    as_gregorian()
 }
 
 hindu_lunar_holiday <- function(l_month, l_day, g_year) {
   # Get lunar year for the Gregorian year
-  jan1 <- gregorian_new_year(g_year)
+  jan1 <- gregorian_new_year(g_year) |> vec_data()
 
-  l_year <- hindu_lunar_year(hindu_lunar_from_fixed(jan1))
+  l_year <- hindu_lunar_from_fixed(jan1)$year
 
   # Find occurrences in current and next lunar year
   date0 <- hindu_date_occur(l_year, l_month, l_day)
   date1 <- hindu_date_occur(l_year + 1, l_month, l_day)
 
   # Filter dates that fall within the Gregorian year
-  list_range(list(date0, date1), gregorian_year_range(g_year))
+  candidates <- c(date0, date1)
+  gyears <- granularity(as_gregorian(candidates), "year")
+  sort(unique(candidates[gyears %in% g_year]))
 }
 
 hindu_date_occur <- function(l_year, l_month, l_day) {
-  lunar <- hindu_lunar_date(l_year, l_month, FALSE, l_day, FALSE)
-  try_date <- fixed_from_hindu_lunar(lunar)
+  # Make all the same length
+  date <- vec_recycle_common(year = l_year, month = l_month, day = l_day)
+  lunar <- hindu_lunar_date(date$year, date$month, FALSE, date$day, FALSE)
+  try_date <- vec_data(lunar)
 
-  mid <- hindu_lunar_from_fixed(ifelse(l_day > 15, try_date - 5, try_date))
-  expunged <- (l_month != hindu_lunar_month(mid))
-
-  if (expunged) {
+  mid <- hindu_lunar_from_fixed(try_date - 5 * as.numeric(date$day > 15))
+  expunged <- (date$month != mid$month)
+  out <- try_date
+  if (any(expunged)) {
     l_date <- hindu_lunar_date(
-      hindu_lunar_year(mid),
-      hindu_lunar_month(mid),
-      hindu_lunar_leap_month(mid),
-      l_day,
+      mid$year[expunged],
+      mid$month[expunged],
+      mid$leap_month[expunged],
+      date$day[expunged],
       FALSE
     )
     # Find next occurrence
-    d <- try_date
-    while (hindu_lunar_on_or_before(hindu_lunar_from_fixed(d), l_date)) {
-      d <- d + 1
+    d <- try_date[expunged]
+    j <- hindu_lunar_on_or_before(hindu_lunar_from_fixed(d), l_date)
+    while (any(j)) {
+      d[j] <- d[j] + 1
+      j <- hindu_lunar_on_or_before(hindu_lunar_from_fixed(d), l_date)
     }
-    d - 1
-  } else if (l_day != hindu_lunar_day(hindu_lunar_from_fixed(try_date))) {
-    try_date - 1
-  } else {
-    try_date
+    out[expunged] <- d - 1
   }
+  cond <- rep(FALSE, length(out))
+  if (any(!expunged)) {
+    cond[!expunged] <- date$day[!expunged] !=
+      hindu_lunar_from_fixed(try_date[!expunged])$day
+  }
+  if (any(cond)) {
+    out[cond] <- try_date[cond] - 1
+  }
+  return(out)
 }
 
 hindu_fullmoon_from_fixed <- function(date) {
@@ -595,17 +624,14 @@ hindu_fullmoon_from_fixed <- function(date) {
   # Hindu lunar date, full-moon scheme,
   # equivalent to fixed $date$.
   l_date <- hindu_lunar_from_fixed(date)
-  year <- hindu_lunar_year(l_date)
-  month <- hindu_lunar_month(l_date)
-  leap_month <- hindu_lunar_leap_month(l_date)
-  day <- hindu_lunar_day(l_date)
-  leap_day <- hindu_lunar_leap_day(l_date)
-  m <- if (day >= 16) {
-    hindu_lunar_month(
-      hindu_lunar_from_fixed(date + 20)
-    )
-  } else {
-    month
+  year <- l_date$year
+  month <- l_date$month
+  leap_month <- l_date$leap_month
+  day <- l_date$day
+  leap_day <- l_date$leap_day
+  m <- month
+  if (any(day >= 16)) {
+    m[day >= 16] <- hindu_lunar_from_fixed(date[day >= 16] + 20)$month
   }
   hindu_lunar_date(year, m, leap_month, day, leap_day)
 }
@@ -616,49 +642,52 @@ hindu_expunged <- function(l_year, l_month) {
   # True of Hindu lunar month $l-month$ in $l-year$
   # is expunged.
   l_month !=
-    hindu_lunar_month(
-      hindu_lunar_from_fixed(
-        fixed_from_hindu_lunar(
-          list(l_year, l_month, FALSE, 15, FALSE)
-        )
+    hindu_lunar_from_fixed(
+      vec_data(
+        hindu_lunar_date(l_year, l_month, FALSE, 15, FALSE)
       )
-    )
+    )$month
 }
 
 fixed_from_hindu_fullmoon <- function(l_date) {
   # TYPE hindu-lunar-date -> fixed-date
   # Fixed date equivalent to Hindu lunar $l-date$
   # in full-moon scheme.
-  year <- hindu_lunar_year(l_date)
-  month <- hindu_lunar_month(l_date)
-  leap_month <- hindu_lunar_leap_month(l_date)
-  day <- hindu_lunar_day(l_date)
-  leap_day <- hindu_lunar_leap_day(l_date)
-  m <- if (leap_month || day <= 15) {
-    month
-  } else if (hindu_expunged(year, amod(month - 1, 12))) {
-    amod(month - 2, 12)
-  } else {
-    amod(month - 1, 12)
-  }
-  fixed_from_hindu_lunar(
-    hindu_lunar_date(year, m, leap_month, day, leap_day)
+  m <- l_date$month
+  cond1 <- (l_date$leap_month | l_date$day <= 15)
+  cond2 <- !cond1 & (hindu_expunged(l_date$year, amod(l_date$month - 1, 12)))
+  m[cond2] <- amod(l_date$month[cond2] - 2, 12)
+  m[!cond1 & !cond2] <- amod(l_date$month[!cond1 & !cond2] - 1, 12)
+  vec_data(
+    hindu_lunar_date(
+      l_date$year,
+      m,
+      l_date$leap_month,
+      l_date$day,
+      l_date$leap_day
+    )
   )
 }
 
 
 # Comparison function for lunar dates
 hindu_lunar_on_or_before <- function(l_date1, l_date2) {
-  year1 <- hindu_lunar_year(l_date1)
-  year2 <- hindu_lunar_year(l_date2)
-  month1 <- hindu_lunar_month(l_date1)
-  month2 <- hindu_lunar_month(l_date2)
-  day1 <- hindu_lunar_day(l_date1)
-  day2 <- hindu_lunar_day(l_date2)
-  leap1 <- hindu_lunar_leap_month(l_date1)
-  leap2 <- hindu_lunar_leap_month(l_date2)
-  leap_day1 <- hindu_lunar_leap_day(l_date1)
-  leap_day2 <- hindu_lunar_leap_day(l_date2)
+  if (inherits(l_date1, "calcalvec")) {
+    l_date1 <- attributes(l_date1)$calendar$from_rd(l_date1)
+  }
+  if (inherits(l_date2, "calcalvec")) {
+    l_date2 <- attributes(l_date2)$calendar$from_rd(l_date2)
+  }
+  year1 <- l_date1$year
+  year2 <- l_date2$year
+  month1 <- l_date1$month
+  month2 <- l_date2$month
+  day1 <- l_date1$day
+  day2 <- l_date2$day
+  leap1 <- l_date1$leap_month
+  leap2 <- l_date2$leap_month
+  leap_day1 <- l_date1$leap_day
+  leap_day2 <- l_date2$leap_day
 
   year1 < year2 |
     (year1 == year2 &
@@ -681,18 +710,23 @@ yoga <- function(date) {
         27
     )
 }
-shiva <- function(g_year) {
+
+#' @rdname diwali
+#' @export
+shiva <- function(year) {
   # TYPE gregorian-year -> list-of-fixed-dates
   # List of fixed date(s) of Night of Shiva in Gregorian
   # year $g-year$.
-  hindu_lunar_event(11, 29, hr(24), g_year)
+  hindu_lunar_event(11, 29, hr(24), year) |> as_gregorian()
 }
 
-rama <- function(g_year) {
+#' @rdname diwali
+#' @export
+rama <- function(year) {
   # TYPE gregorian-year -> list-of-fixed-dates
   # List of fixed date(s) of Rama's Birthday in Gregorian
   # year $g-year$.
-  hindu_lunar_event(1, 9, hr(12), g_year)
+  hindu_lunar_event(1, 9, hr(12), year) |> as_gregorian()
 }
 
 
@@ -704,12 +738,14 @@ karana <- function(n) {
   out
 }
 
-sacred_wednesdays <- function(g_year) {
+#' @rdname diwali
+#' @export
+sacred_wednesdays <- function(year) {
   # TYPE gregorian-year -> list-of-fixed-dates
   # List of Wednesdays in Gregorian year $g-year$
   # that are day 8 of Hindu lunar months.
   sacred_wednesdays_in_range(
-    gregorian_year_range(g_year)
+    gregorian_year_range(year) |> vec_data()
   )
 }
 
@@ -719,22 +755,11 @@ sacred_wednesdays_in_range <- function(range) {
   # that are day 8 of Hindu lunar months.
   a <- min(range)
   b <- max(range)
-  wed <- kday_on_or_after(wednesday, a)
+  wed <- kday_on_or_after(WEDNESDAY, a)
+  wed <- seq(wed, b, by = 7)
+  day8 <- granularity(as_hindu_lunar(wed), "day") == 8
   h_date <- hindu_lunar_from_fixed(wed)
-  if (in_range(wed, range)) {
-    c(
-      if (hindu_lunar_day(h_date) == 8) {
-        list(wed)
-      } else {
-        NULL
-      },
-      sacred_wednesdays_in_range(
-        c(wed + 1, b)
-      )
-    )
-  } else {
-    NULL
-  }
+  as_gregorian(wed[day8])
 }
 
 
@@ -790,17 +815,12 @@ hindu_tithi_occur <- function(l_month, tithi, tee, l_year) {
   lunar <- hindu_lunar_day_at_or_after(tithi, approx - 2)
   try <- fixed_from_moment(lunar)
   tee_h <- standard_from_sundial(try + tee, UJJAIN)
-  if (
-    lunar <= tee_h ||
-      hindu_lunar_phase(
-        standard_from_sundial(try + 1 + tee, UJJAIN)
-      ) >
-        12 * tithi
-  ) {
-    try
-  } else {
-    try + 1
-  }
+  try +
+    as.numeric(
+      !(lunar <= tee_h |
+        hindu_lunar_phase(standard_from_sundial(try + 1 + tee, UJJAIN)) >
+          12 * tithi)
+    )
 }
 hindu_lunar_event <- function(l_month, tithi, tee, g_year) {
   # TYPE (hindu-lunar-month rational rational
@@ -808,12 +828,111 @@ hindu_lunar_event <- function(l_month, tithi, tee, g_year) {
   # List of fixed dates of occurrences of Hindu lunar $tithi$
   # prior to sundial time $tee$, in Hindu lunar $l-month$,
   # in Gregorian year $g-year$.
-  l_year <- hindu_lunar_year(
-    hindu_lunar_from_fixed(
-      gregorian_new_year(g_year)
-    )
+  date <- vec_recycle_common(
+    month = l_month,
+    tithi = tithi,
+    tee = tee,
+    g_year = g_year
   )
-  date0 <- hindu_tithi_occur(l_month, tithi, tee, l_year)
-  date1 <- hindu_tithi_occur(l_month, tithi, tee, l_year + 1)
-  list_range(list(date0, date1), gregorian_year_range(g_year))
+
+  l_year <-
+    hindu_lunar_from_fixed(
+      vec_data(gregorian_new_year(date$g_year))
+    )
+  l_year <- l_year$year
+  date0 <- hindu_tithi_occur(date$month, date$tithi, date$tee, l_year)
+  date1 <- hindu_tithi_occur(date$month, date$tithi, date$tee, l_year + 1)
+  # Filter dates that fall within the Gregorian year
+  candidates <- c(date0, date1)
+  gyears <- granularity(as_gregorian(candidates), "year")
+  sort(unique(candidates[gyears %in% g_year]))
+}
+
+standard_from_sundial <- function(tee, location) {
+  # TYPE (moment location) -> moment
+  # Standard time of temporal moment tee at location.
+
+  date <- fixed_from_moment(tee)
+  hour <- 24 * time_from_moment(tee)
+
+  # Determine temporal hour length based on time of day
+  daytime <- 6 <= hour & hour <= 18
+  early_morning <- hour < 6
+  evening <- hour > 18
+  h <- rep(NA_real_, length(date))
+  if (any(daytime)) {
+    h[daytime] <- daytime_temporal_hour(date[daytime], location)
+  }
+  if (any(early_morning)) {
+    h[early_morning] <- nighttime_temporal_hour(
+      date[early_morning] - 1,
+      location
+    )
+  }
+  if (any(evening)) {
+    h[evening] <- nighttime_temporal_hour(date[evening], location)
+  }
+
+  # Calculate standard time based on temporal hours
+  out <- rep(NA_real_, length(date))
+  sunrise_today <- sunrise(date, location)
+  sunset_today <- sunset(date, location)
+  sunset_yesterday <- sunset(date - 1, location)
+  if (any(daytime)) {
+    out[daytime] <- sunrise_today + (hour[daytime] - 6) * h[daytime]
+  }
+  if (any(early_morning)) {
+    out[early_morning] <- sunset_yesterday +
+      (hour[early_morning] + 6) * h[early_morning]
+  }
+  if (any(evening)) {
+    out[evening] <- sunset_today + (hour[evening] - 18) * h[evening]
+  }
+  return(out)
+}
+
+daytime_temporal_hour <- function(date, location) {
+  # Length of daytime temporal hour on fixed date at location.
+  (sunset(date, location) - sunrise(date, location)) / 12
+}
+
+nighttime_temporal_hour <- function(date, location) {
+  # Length of nighttime temporal hour on fixed date at location.
+  (sunrise(date + 1, location) - sunset(date, location)) / 12
+}
+
+sidereal_solar_longitude <- function(tee) {
+  # TYPE moment -> angle
+  # Sidereal solar longitude at moment tee
+
+  ((solar_longitude(tee) - precession(tee) + SIDEREAL_START) %% 360)
+}
+
+
+precession <- function(tee) {
+  # TYPE moment -> angle
+  # Precession at moment tee using 0,0 as J2000 coordinates.
+  # Adapted from "Astronomical Algorithms" by Jean Meeus,
+  # Willmann-Bell, 2nd edn., 1998, pp. 136-137.
+
+  c <- julian_centuries(tee)
+
+  # Calculate eta (in degrees)
+  eta <- poly(c, c(0, secs(47.0029), secs(-0.03302), secs(0.000060))) %% 360
+
+  # Calculate cap-P (in degrees)
+  cap_P <- poly(c, c(deg(174.876384), secs(-869.8089), secs(0.03536))) %% 360
+
+  # Calculate p (in degrees)
+  p <- poly(c, c(0, secs(5029.0966), secs(1.11113), secs(0.000006))) %% 360
+
+  # Calculate intermediate values
+  cap_A <- cos_degrees(eta) * sin_degrees(cap_P)
+  cap_B <- cos_degrees(cap_P)
+
+  # Calculate argument
+  arg <- arctan_degrees(cap_A, cap_B)
+
+  # Return final precession angle
+  (p + cap_P - arg) %% 360
 }

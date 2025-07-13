@@ -50,3 +50,10 @@ midnight <- function(date, loc) {
 midday <- function(date, loc) {
   universal_from_apparent(date + hr(12), loc)
 }
+
+dynamical_from_universal <- function(tee_rom_u) {
+  # TYPE moment -> moment
+  # Dynamical time at Universal moment tee_rom_u.
+  
+  tee_rom_u + ephemeris_correction(tee_rom_u)
+}

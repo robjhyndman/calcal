@@ -115,3 +115,29 @@ vec_cast.double.time_of_day <- function(x, ...) {
   second <- field(x, "second")
   hour + minute / 60 + second / 3600
 }
+
+#' @export
+#' @method vec_arith time_of_day
+vec_arith.time_of_day <- function(op, x, y, ...) {
+  UseMethod("vec_arith.time_of_day", y)
+}
+
+
+#' @export
+#' @method vec_arith.time_of_day time_of_day
+vec_arith.time_of_day.time_of_day <- function(op, x, y, ...) {
+  vec_arith(op, as.numeric(x), as.numeric(y))
+}
+
+#' @export
+#' @method vec_arith.time_of_day numeric
+vec_arith.time_of_day.numeric <- function(op, x, y, ...) {
+  vec_arith(op, as.numeric(x), as.numeric(y))
+}
+
+#' @export
+#' @method vec_arith.numeric time_of_day
+vec_arith.numeric.time_of_day <- function(op, x, y, ...) {
+  vec_arith(op, as.numeric(x), as.numeric(y))
+}
+

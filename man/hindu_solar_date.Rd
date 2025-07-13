@@ -41,6 +41,8 @@ as_old_hindu_lunar(date)
 
 \item{leap_month}{A logical vector indicating if year is a leap year}
 
+\item{leap_day}{A logical vector indicating if day is a leap day}
+
 \item{date}{A date vector on some calendar}
 }
 \description{
