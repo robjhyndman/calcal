@@ -496,8 +496,10 @@ hindu_lunar_station <- function(date) {
 }
 
 # Hindu lunar new year
-hindu_lunar_new_year <- function(g_year) {
-  jan1 <- gregorian_new_year(g_year)
+#' @rdname diwali
+#' @export
+hindu_lunar_new_year <- function(year) {
+  jan1 <- gregorian_new_year(year)
 
   mina <- hindu_solar_longitude_at_or_after(deg(330), jan1)
   new_moon <- hindu_lunar_day_at_or_after(1, mina)
@@ -508,7 +510,8 @@ hindu_lunar_new_year <- function(g_year) {
     as.numeric(
       !(new_moon < critical |
         hindu_lunar_day_from_moment(hindu_sunrise(h_day + 1)) == 2)
-    )
+    ) |>
+      as_gregorian()
 }
 
 # Solar longitude at or after

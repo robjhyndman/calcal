@@ -50,8 +50,8 @@ test_that("hindu_holidays", {
     gregorian_date(2025:2026, c(4, 7), c(5, 22))
   )
   expect_equal(
-    mesha_samkranti(2025:2026),
-    gregorian_date(2025:2026, 4, 14)
+    mesha_samkranti(c(2000, 2025:2026)),
+    gregorian_date(c(2000, 2025:2026), 4, c(13, 14, 14))
   )
   expect_equal(
     sacred_wednesdays(2025:2026),
