@@ -33,10 +33,10 @@ The classical Babylonian calendar was a lunisolar calendar with a fixed 19-year 
 }
 \examples{
 tibble::tibble(
-  gregorian = gregorian_date(2335, 1, 1:3),
+  gregorian = gregorian_date(2335, 1, 1:2),
   babylonian = as_babylonian(gregorian)
 )
-babylonian_date(2335, 6, FALSE, 1:3)
+babylonian_date(2335, 6, FALSE, 1:2)
 }
 \seealso{
 \link{cal_babylonian}
