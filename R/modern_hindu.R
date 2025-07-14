@@ -139,30 +139,10 @@ validate_hindu_lunar <- function(date) {
   }
 }
 
-format_hindu_solar <- function(date) {
+format_hindu <- function(date) {
   format_date(
     date,
-    month_name = c(
-      "Mesa",
-      "Vrsa",
-      "Mith",
-      "Kark",
-      "Simh",
-      "Kany",
-      "Tula",
-      "Vrsc",
-      "Dhan",
-      "Maka",
-      "Kumb",
-      "Mina"
-    )
-  )
-}
-
-format_hindu_lunar <- function(date) {
-  format_date(
-    date,
-    month_name = c(
+    c(
       "Cait",
       "Vais",
       "Jyes",
@@ -188,7 +168,7 @@ cal_hindu_lunar <- cal_calendar(
   "HinL",
   granularities = c("year", "month", "leap_month", "day", "leap_day"),
   validate_hindu_lunar,
-  format_hindu_lunar,
+  format_hindu,
   hindu_lunar_from_fixed,
   fixed_from_hindu_lunar
 )
@@ -201,7 +181,7 @@ cal_hindu_solar <- cal_calendar(
   "HinS",
   granularities = c("year", "month", "day"),
   validate_hindu_solar,
-  format_hindu_solar,
+  format_hindu,
   hindu_solar_from_fixed,
   fixed_from_hindu_solar
 )
