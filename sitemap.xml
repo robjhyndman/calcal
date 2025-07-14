@@ -14,12 +14,14 @@
 <url><loc>https://pkg.robjhyndman.com/calcal/reference/chinese_new_year.html</loc></url>
 <url><loc>https://pkg.robjhyndman.com/calcal/reference/christian.html</loc></url>
 <url><loc>https://pkg.robjhyndman.com/calcal/reference/coptic.html</loc></url>
+<url><loc>https://pkg.robjhyndman.com/calcal/reference/diwali.html</loc></url>
 <url><loc>https://pkg.robjhyndman.com/calcal/reference/egyptian.html</loc></url>
 <url><loc>https://pkg.robjhyndman.com/calcal/reference/french_date.html</loc></url>
 <url><loc>https://pkg.robjhyndman.com/calcal/reference/granularities.html</loc></url>
 <url><loc>https://pkg.robjhyndman.com/calcal/reference/gregorian-parts.html</loc></url>
 <url><loc>https://pkg.robjhyndman.com/calcal/reference/gregorian.html</loc></url>
 <url><loc>https://pkg.robjhyndman.com/calcal/reference/hebrew.html</loc></url>
+<url><loc>https://pkg.robjhyndman.com/calcal/reference/hindu_solar_date.html</loc></url>
 <url><loc>https://pkg.robjhyndman.com/calcal/reference/icelandic_date.html</loc></url>
 <url><loc>https://pkg.robjhyndman.com/calcal/reference/index.html</loc></url>
 <url><loc>https://pkg.robjhyndman.com/calcal/reference/islamic.html</loc></url>
@@ -33,7 +35,6 @@
 <url><loc>https://pkg.robjhyndman.com/calcal/reference/mayan_date.html</loc></url>
 <url><loc>https://pkg.robjhyndman.com/calcal/reference/new_date.html</loc></url>
 <url><loc>https://pkg.robjhyndman.com/calcal/reference/new_moons.html</loc></url>
-<url><loc>https://pkg.robjhyndman.com/calcal/reference/old_hindu_solar_date.html</loc></url>
 <url><loc>https://pkg.robjhyndman.com/calcal/reference/persian_date.html</loc></url>
 <url><loc>https://pkg.robjhyndman.com/calcal/reference/roman.html</loc></url>
 <url><loc>https://pkg.robjhyndman.com/calcal/reference/sunrise.html</loc></url>

@@ -87,6 +87,14 @@ or 13 months per year.</p>
     <p>A hebrew vector object</p>
     </div>
     <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>The observational Hebrew calendar ("ohebrew") is the classical calendar where the
+new month began with the reported observation of the crescent new moon. In this
+implementation, Haifa is taken as the point of observation.</p>
+<p>The Samaritan calendar is similar, but the moment of new moon marking the start of
+each new month is based on a traditional reckoning of the lunar cycle,</p>
+    </div>
+    <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><a href="cal_calendar.html">cal_hebrew</a>, <a href="jewish.html">rosh_hashanah</a></p></div>
     </div>
@@ -105,7 +113,7 @@ or 13 months per year.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2025-May-29 2025-May-30 2025-May-31</span>
 <span class="r-in"><span><span class="fu"><a href="new_date.html">as_date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>, calendar <span class="op">=</span> <span class="va">cal_hebrew</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;hebrew[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5785-Tammuz-07</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5785-Tammuz-18</span>
 <span class="r-in"><span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  gregorian <span class="op">=</span> <span class="fu"><a href="gregorian.html">gregorian_date</a></span><span class="op">(</span><span class="fl">2025</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> <span class="fl">0</span><span class="op">:</span><span class="fl">364</span>,</span></span>
 <span class="r-in"><span>  hebrew <span class="op">=</span> <span class="fu"><a href="new_date.html">as_date</a></span><span class="op">(</span><span class="va">gregorian</span>, calendar <span class="op">=</span> <span class="va">cal_hebrew</span><span class="op">)</span>,</span></span>
@@ -141,7 +149,7 @@ or 13 months per year.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5776-Tevet-20</span>
 <span class="r-in"><span><span class="fu">as_hebrew</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;hebrew[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5785-Tammuz-07</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5785-Tammuz-18</span>
 <span class="r-in"><span><span class="fu">hebrew_date</span><span class="op">(</span><span class="fl">5785</span>, <span class="fl">3</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="gregorian-parts.html">day_of_week</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "Revii"   "Hamishi" "Shishi"  "Shabbat" "Rishon"  "Sheni"   "Shlishi"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [8] "Revii"   "Hamishi" "Shishi" </span>
