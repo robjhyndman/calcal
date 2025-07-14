@@ -22,6 +22,18 @@ next_value <- function(initial, condition_fn) {
   while (any(!cond)) {
     j <- !cond
     index[j] <- index[j] + 1
+    cond[j] <- condition_fn(index[j]) & !is.na(index[j])
+  }
+  return(index)
+}
+
+# Same as next_value but condition_fn must use full vector
+next_value2 <- function(initial, condition_fn) {
+  index <- initial
+  cond <- condition_fn(index) & !is.na(index)
+  while (any(!cond)) {
+    j <- !cond
+    index[j] <- index[j] + 1
     cond <- condition_fn(index) & !is.na(index)
   }
   return(index)

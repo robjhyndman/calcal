@@ -521,7 +521,7 @@ phasis_on_or_before <- function(date, location) {
   ))
   age <- lst$date - moon
   tau <- moon - 30 * (age <= 3 & !visible_crescent(lst$date, lst$location))
-  next_value(tau, function(x) {
+  next_value2(tau, function(x) {
     visible_crescent(x, lst$location)
   })
 }
