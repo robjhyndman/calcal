@@ -12,6 +12,9 @@ test_that("hindu_solar", {
       cal_hindu_solar$to_rd(),
     hindu_solar_date(1947, 3, 1:10) |> vctrs::vec_data()
   )
+  expect_equal(
+    as_hindu_solar(0), hindu_solar_date(-78, 10, 20)
+  )
   expect_no_error(
     as_hindu_solar(1:1e5) |> as.list() |> validate_hindu_solar()
   )
@@ -31,26 +34,30 @@ test_that("hindu_lunar", {
       cal_hindu_lunar$to_rd(),
     hindu_lunar_date(1947, 3, FALSE, 1:10, FALSE) |> vctrs::vec_data()
   )
+  expect_equal(
+    as_hindu_lunar(0), hindu_lunar_date(57,10,FALSE,19,FALSE)
+  )
   expect_no_error(
     as_hindu_lunar(1:1e4) |> as.list() |> validate_hindu_lunar()
   )
+  expect_equal(vec_data(gregorian_date(2025,7,15)), vec_data(hindu_lunar_date(2082, 4, FALSE, 20, FALSE)))
 })
 
 test_that("hindu_holidays", {
   expect_equal(
-    diwali(2025:2026),
-    gregorian_date(2025:2026, c(12, 11), c(21, 10))
+    diwali(2024:2026),
+    gregorian_date(2024:2026, c(11,10, 11), c(1,20, 8))
   )
   expect_equal(
-    shiva(2025:2026),
-    gregorian_date(2025:2026, 2, c(27, 16))
+    shiva(2024:2026),
+    gregorian_date(2024:2026, c(3,2,2), c(9, 26, 16))
   )
   expect_equal(
-    rama(2025:2026),
-    gregorian_date(2025:2026, c(4, 7), c(5, 22))
+    rama(2024:2026),
+    gregorian_date(2024:2026, c(4, 4, 3), c(17, 6, 27))
   )
   expect_equal(
-    mesha_samkranti(c(2000, 2025:2026)),
+    mesha_sankranti(c(2000, 2025:2026)),
     gregorian_date(c(2000, 2025:2026), 4, c(13, 14, 14))
   )
   expect_equal(

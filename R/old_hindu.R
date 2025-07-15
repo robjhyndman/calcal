@@ -71,7 +71,7 @@ cal_old_hindu_solar <- cal_calendar(
   "OHinS",
   c("year", "month", "day"),
   validate_hindu_solar,
-  format_hindu,
+  format_hindu_solar,
   old_hindu_solar_from_fixed,
   fixed_from_old_hindu_solar
 )
@@ -84,7 +84,7 @@ cal_old_hindu_lunar <- cal_calendar(
   "OHinL",
   c("year", "month", "leap_month", "day"),
   validate_hindu_lunar,
-  format_hindu,
+  format_hindu_lunar,
   old_hindu_lunar_from_fixed,
   fixed_from_old_hindu_lunar
 )

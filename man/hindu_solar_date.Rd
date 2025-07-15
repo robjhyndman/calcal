@@ -9,7 +9,7 @@
 \alias{old_hindu_lunar_date}
 \alias{as_old_hindu_solar}
 \alias{as_old_hindu_lunar}
-\title{#' Hindu solar and lunar calendar dates}
+\title{Hindu solar and lunar calendar dates}
 \usage{
 hindu_solar_date(year, month, day)
 

@@ -139,14 +139,14 @@ validate_hindu_lunar <- function(date) {
   }
 }
 
-format_hindu <- function(date) {
+format_hindu_lunar <- function(date) {
   format_date(
     date,
     c(
       "Cait",
       "Vais",
       "Jyes",
-      "Asad",
+      "Asha",
       "Srav",
       "Bhad",
       "Asvi",
@@ -159,6 +159,25 @@ format_hindu <- function(date) {
   )
 }
 
+format_hindu_solar <- function(date) {
+  format_date(
+    date,
+    c(
+      "Mesa",
+      "Vrsh",
+      "Mith",
+      "Kark",
+      "Simh",
+      "Kany",
+      "Tula",
+      "Vrsc",
+      "Dhan",
+      "Maka",
+      "Kumb",
+      "Mina"
+    )
+  )
+}
 
 #' @rdname cal_calendar
 #' @format NULL
@@ -168,7 +187,7 @@ cal_hindu_lunar <- cal_calendar(
   "HinL",
   granularities = c("year", "month", "leap_month", "day", "leap_day"),
   validate_hindu_lunar,
-  format_hindu,
+  format_hindu_lunar,
   hindu_lunar_from_fixed,
   fixed_from_hindu_lunar
 )
@@ -181,12 +200,12 @@ cal_hindu_solar <- cal_calendar(
   "HinS",
   granularities = c("year", "month", "day"),
   validate_hindu_solar,
-  format_hindu,
+  format_hindu_solar,
   hindu_solar_from_fixed,
   fixed_from_hindu_solar
 )
 
-#' #' Hindu solar and lunar calendar dates
+#' Hindu solar and lunar calendar dates
 #'
 #' There are four Hindu calendars implemented: modern Hindu solar and lunar calendars,
 #' and the old Hindu solar and lunar calendars.
@@ -516,7 +535,7 @@ hindu_solar_longitude_at_or_after <- function(lambda, tee) {
 
 #' @rdname diwali
 #' @export
-mesha_samkranti <- function(year) {
+mesha_sankranti <- function(year) {
   # TYPE gregorian-year -> rational-moment
   # Fixed moment of Mesha samkranti (Vernal equinox)
   # in Gregorian year
@@ -539,7 +558,7 @@ mesha_samkranti <- function(year) {
 #' @examples
 #' shiva(2025)
 #' rama(2025)
-#' mesha_samkranti(2025)
+#' mesha_sankranti(2025)
 #' diwali(2025)
 #' sacred_wednesdays(2025)
 #' @export

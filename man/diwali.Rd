@@ -2,7 +2,7 @@
 % Please edit documentation in R/modern_hindu.R
 \name{hindu_lunar_new_year}
 \alias{hindu_lunar_new_year}
-\alias{mesha_samkranti}
+\alias{mesha_sankranti}
 \alias{diwali}
 \alias{shiva}
 \alias{rama}
@@ -11,7 +11,7 @@
 \usage{
 hindu_lunar_new_year(year)
 
-mesha_samkranti(year)
+mesha_sankranti(year)
 
 diwali(year)
 
@@ -36,7 +36,7 @@ The Birthday of Rama is on the 8th or 9th day of the first month (Caitra)
 \examples{
 shiva(2025)
 rama(2025)
-mesha_samkranti(2025)
+mesha_sankranti(2025)
 diwali(2025)
 sacred_wednesdays(2025)
 }
