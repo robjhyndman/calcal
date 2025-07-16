@@ -407,8 +407,8 @@ nth_new_moon <- function(n) {
 }
 
 new_moon_before <- function(tee) {
-  first <- get_new_moon_at_or_after(min(tee)-30)
-  last <- get_new_moon_before(max(tee)+30)
+  first <- get_new_moon_at_or_after(min(tee) - 30)
+  last <- get_new_moon_before(max(tee) + 30)
   j <- round(first:last)
   j[findInterval(tee, nth_new_moon(j))]
 }
@@ -423,10 +423,10 @@ get_new_moon_before <- function(tee) {
 }
 
 new_moon_at_or_after <- function(tee) {
-  first <- get_new_moon_at_or_after(min(tee)-30)
-  last <- get_new_moon_before(max(tee)+30)
+  first <- get_new_moon_at_or_after(min(tee) - 30)
+  last <- get_new_moon_before(max(tee) + 30)
   j <- round(first:last)
-  j[findInterval(tee, nth_new_moon(j))]+1
+  j[findInterval(tee, nth_new_moon(j))] + 1
 }
 
 get_new_moon_at_or_after <- function(tee) {
@@ -585,6 +585,10 @@ observed_lunar_altitude <- function(tee, location) {
 #' @rdname sunrise
 #' @export
 moonset <- function(date, location) {
+  if (!inherits(date, "calcalvec")) {
+    # Convert to some calendar
+    date <- as_gregorian(date)
+  }
   date <- vec_data(date)
   lst <- vec_recycle_common(
     date = date,
@@ -621,6 +625,10 @@ moonset <- function(date, location) {
 #' @rdname sunrise
 #' @export
 moonrise <- function(date, location) {
+  if (!inherits(date, "calcalvec")) {
+    # Convert to some calendar
+    date <- as_gregorian(date)
+  }
   date <- vec_data(date)
   lst <- vec_recycle_common(
     date = date,

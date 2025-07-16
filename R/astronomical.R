@@ -189,9 +189,8 @@ refraction <- function(tee, loc) {
 #' time zone of the location is used as specified in the `location` object. No adjustments are made for
 #' daylight saving.
 #'
-#' @param date Date in calcalvec format
-#' @param location Location of class "location", usually the output from the `location` function
-#' @param ... Additional arguments passed to specific methods
+#' @param date Vector of dates on some calendar.
+#' @param location Vector of locations of class "location", usually the output from the `location` function
 #' @return Time of sunrise
 #' @examples
 #' melbourne <- location(-37.8136, 144.9631, 31, 10)
@@ -201,7 +200,11 @@ refraction <- function(tee, loc) {
 #' moonrise(gregorian_date(2025, 1, 1), c(melbourne, sydney))
 #' moonset(gregorian_date(2025, 1, 1), c(melbourne, sydney))
 #' @export
-sunrise <- function(date, location, ...) {
+sunrise <- function(date, location) {
+  if (!inherits(date, "calcalvec")) {
+    # Convert to some calendar
+    date <- as_gregorian(date)
+  }
   date <- vec_data(date)
   lst <- vec_recycle_common(
     date = date,
@@ -215,7 +218,11 @@ sunrise <- function(date, location, ...) {
 
 #' @rdname sunrise
 #' @export
-sunset <- function(date, location, ...) {
+sunset <- function(date, location) {
+  if (!inherits(date, "calcalvec")) {
+    # Convert to some calendar
+    date <- as_gregorian(date)
+  }
   date <- vec_data(date)
   lst <- vec_recycle_common(
     date = date,

@@ -7,20 +7,18 @@
 \alias{moonrise}
 \title{Sun and moon rise and set given a date and location}
 \usage{
-sunrise(date, location, ...)
+sunrise(date, location)
 
-sunset(date, location, ...)
+sunset(date, location)
 
 moonset(date, location)
 
 moonrise(date, location)
 }
 \arguments{
-\item{date}{Date in calcalvec format}
+\item{date}{Vector of dates on some calendar.}
 
-\item{location}{Location of class "location", usually the output from the \code{location} function}
-
-\item{...}{Additional arguments passed to specific methods}
+\item{location}{Vector of locations of class "location", usually the output from the \code{location} function}
 }
 \value{
 Time of sunrise
