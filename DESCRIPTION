@@ -1,13 +1,11 @@
 Package: calcal
 Title: Calendrical Calculations
 Version: 1.0.0
-Authors@R:
-    c(
-    person("Rob", "Hyndman", , "Rob.Hyndman@monash.edu", role = c("aut", "cre", "cph"),
-           comment = c(ORCID = "0000-0002-2140-5352")),
-    person("Edward","Reingold", role = c("cph", "ctb"), comment = "Original Lisp code"),
-    person("Nachum","Dershowitz", role = c("cph", "ctb"), comment = "Original Lisp code")
-    )
+Authors@R: c(
+  person("Rob", "Hyndman", email="Rob.Hyndman@monash.edu", role=c("aut", "cre", "cph"), comment = c(ORCID = "0000-0002-2140-5352")),
+  person("Edward","Reingold", role = c("cph", "ctb"), comment = "Original Lisp code"),
+  person("Nachum","Dershowitz", role = c("cph", "ctb"), comment = "Original Lisp code")
+  )
 Description: An R implementation of the algorithms described in Reingold and
     Dershowitz (4th ed., Cambridge University Press, 2018) <doi:10.1017/9781107415058>,
     allowing conversion between many different calendar systems. Cultural and religious holidays

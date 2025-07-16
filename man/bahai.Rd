@@ -3,7 +3,7 @@
 \name{bahai_date}
 \alias{bahai_date}
 \alias{as_bahai}
-\title{Baháʼí calendar dates}
+\title{Bahá'í calendar dates}
 \usage{
 bahai_date(
   major = integer(),
@@ -32,7 +32,7 @@ as_bahai(date)
 A bahai vector object
 }
 \description{
-The Baháʼí calendar is a solar calendar used in the Baháʼí faith comprising 18 months, with four or five
+The Bahá'í calendar is a solar calendar used in the Bahá'í faith comprising 18 months, with four or five
 intercalary days each year. The New Year is at the northern Spring equinox,
 corresponding to 21 March on the Gregorian calendar. Ayyám-i-Há is specified as month 20.
 }

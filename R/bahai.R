@@ -111,9 +111,9 @@ cal_bahai <- new_calendar(
   fixed_from_bahai
 )
 
-#' Baháʼí calendar dates
+#' Bahá'í calendar dates
 #'
-#' The Baháʼí calendar is a solar calendar used in the Baháʼí faith comprising 18 months, with four or five
+#' The Bahá'í calendar is a solar calendar used in the Bahá'í faith comprising 18 months, with four or five
 #' intercalary days each year. The New Year is at the northern Spring equinox,
 #' corresponding to 21 March on the Gregorian calendar. Ayyám-i-Há is specified as month 20.
 #'
@@ -156,7 +156,7 @@ as_bahai <- function(date) {
   as_date(date, calendar = cal_bahai)
 }
 
-#' Baháʼí holidays
+#' Bahá'í holidays
 #'
 #' Dates are returned as Gregorian dates
 #'
