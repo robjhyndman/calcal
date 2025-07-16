@@ -26,10 +26,15 @@ It is largely a translation of the Lisp code produced by Reingold and Dershowitz
 
 ## Installation
 
-You can install the development version of calcal from [GitHub](https://github.com/) with:
+You can install the **stable** version from [CRAN](https://CRAN.R-project.org/package=calcal) with:
 
 ``` r
-# install.packages("pak")
+pak::pak("calcal")
+```
+
+You can install the **development** version from [GitHub](https://github.com/) with:
+
+``` r
 pak::pak("robjhyndman/calcal")
 ```
 
@@ -87,4 +92,3 @@ tibble(
   pivot_wider(names_from = year, values_from = value) |>
   arrange(`2025`)
 ```
-

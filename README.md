@@ -18,11 +18,17 @@ Dershowitz for [Calendrica
 
 ## Installation
 
-You can install the development version of calcal from
+You can install the **stable** version from
+[CRAN](https://CRAN.R-project.org/package=calcal) with:
+
+``` r
+pak::pak("calcal")
+```
+
+You can install the **development** version from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("pak")
 pak::pak("robjhyndman/calcal")
 ```
 
