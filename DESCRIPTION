@@ -3,13 +3,15 @@ Title: Calendrical Calculations
 Version: 0.0.0.9000
 Authors@R:
     c(
-    person("Rob", "Hyndman", , "Rob.Hyndman@monash.edu", role = c("aut", "cre"),
+    person("Rob", "Hyndman", , "Rob.Hyndman@monash.edu", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0002-2140-5352")),
     person("Edward","Reingold", role = c("cph", "ctb"), comment = "Original Lisp code"),
     person("Nachum","Dershowitz", role = c("cph", "ctb"), comment = "Original Lisp code")
     )
 Description: An R implementation of the algorithms described in Reingold and
-    Dershowitz (4th ed., Cambridge University Press, 2018) <doi:10.1017/9781107415058>.
+    Dershowitz (4th ed., Cambridge University Press, 2018) <doi:10.1017/9781107415058>,
+    allowing conversion between many different calendar systems. Cultural and religious holidays
+    from several calendars can be calculated.
 License: Apache License (>= 2)
 ByteCompile: TRUE
 Encoding: UTF-8
@@ -26,3 +28,4 @@ Suggests:
 Config/testthat/edition: 3
 URL: https://pkg.robjhyndman.com/calcal/, https://github.com/robjhyndman/calcal
 VignetteBuilder: knitr
+BugReports: https://github.com/robjhyndman/calcal/issues

@@ -8,18 +8,19 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-An R implementation of the algorithms described in Reingold and Dershowitz (4th ed., Cambridge University Press, 2018) \doi{10.1017/9781107415058}.
+An R implementation of the algorithms described in Reingold and Dershowitz (4th ed., Cambridge University Press, 2018) \doi{10.1017/9781107415058}, allowing conversion between many different calendar systems. Cultural and religious holidays from several calendars can be calculated.
 }
 \seealso{
 Useful links:
 \itemize{
   \item \url{https://pkg.robjhyndman.com/calcal/}
   \item \url{https://github.com/robjhyndman/calcal}
+  \item Report bugs at \url{https://github.com/robjhyndman/calcal/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: Rob Hyndman \email{Rob.Hyndman@monash.edu} (\href{https://orcid.org/0000-0002-2140-5352}{ORCID})
+\strong{Maintainer}: Rob Hyndman \email{Rob.Hyndman@monash.edu} (\href{https://orcid.org/0000-0002-2140-5352}{ORCID}) [copyright holder]
 
 Other contributors:
 \itemize{
