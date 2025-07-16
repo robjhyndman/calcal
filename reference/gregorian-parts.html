@@ -77,14 +77,17 @@ has been implemented for many calendars that contain the concept of a week. Simi
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Other arguments used for specific calendars
-Default is <code>"Monday"</code></p></dd>
+<dd><p>Other arguments used for specific calendars</p></dd>
 
 
 <dt id="arg-first-day">first_day<a class="anchor" aria-label="anchor" href="#arg-first-day"></a></dt>
-<dd><p>Character denoting first day of the week.</p></dd>
+<dd><p>Character denoting first day of the week. Default is <code>"Monday"</code></p></dd>
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p>A vector of numerical values for the requested granularity. In the case of <code>day_of_week()</code>, it returns a character vector of the name of the day of the week, or a numeric vector if <code>numeric = TRUE</code> is specified.</p>
+    </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p><code>week_of_year()</code> returns the ISO 8601 week number with <code>first_day</code> as Monday.
