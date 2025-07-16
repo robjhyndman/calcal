@@ -47,7 +47,6 @@ library(dplyr)
 tibble(
   Gregorian = gregorian_date(1990, 2, 20) + 1:10,
   ISO = as_iso(Gregorian),
-  Chinese = as_chinese(Gregorian),
   Islamic = as_islamic(Gregorian),
   Hebrew = as_hebrew(Gregorian)
 )
@@ -59,28 +58,30 @@ Some religious and cultural holidays
 tibble(
   year = 2025:2028,
   # Christian holidays
-   `Easter` = easter(year),
+    Easter = easter(year),
    `Orthodox Easter` = orthodox_easter(year),
-   `Christmas` = christmas(year),
+    Christmas = christmas(year),
    `Orthodox Christmas` = orthodox_christmas(year),
   # Jewish holidays
    `Rosh Hashanah` = rosh_hashanah(year),
-   `Passover` = passover(year),
+    Passover = passover(year),
    `Yom Kippur` = yom_kippur(year),
-   `Sukkot` = sukkot(year),
-   `Hanukkah` = hanukkah(year),
+    Sukkot = sukkot(year),
+    Hanukkah = hanukkah(year),
   # Islamic holidays
-   `Ramadan` = ramadan(year),
+    Ramadan = ramadan(year),
    `Eid al-Fitr` = eid_al_fitr(year),
    `Eid al-Adha` = eid_al_adha(year),
-  # Baháʼí holidays
-   `Birth of the Bab` = birth_of_the_bab(year),
-   `Naw Ruz` = naw_ruz(year),
-   `Feast of Ridvan` = feast_of_ridvan(year),
   # Chinese Holidays
    `Chinese New Year` = chinese_new_year(year),
    `Dragon Festival` = dragon_festival(year),
-   `Qing Ming` = qing_ming(year)
+   `Qing Ming` = qing_ming(year),
+  # Hindu Holidays
+   `Hindu Lunar New Year` = hindu_lunar_new_year(year),
+   `Hindu Solar New Year` = mesha_sankranti(year),
+    Diwali = diwali(year),
+    Rama = rama(year),
+    Shiva = shiva(year)
 ) |>
   pivot_longer(-year) |>
   pivot_wider(names_from = year, values_from = value) |>
