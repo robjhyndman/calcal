@@ -214,6 +214,7 @@ cal_hindu_solar <- cal_calendar(
 #' @param leap_month A logical vector indicating if year is a leap year
 #' @param leap_day A logical vector indicating if day is a leap day
 #' @param date A date vector on some calendar
+#' @seealso [cal_hindu_solar], [cal_hindu_lunar], [cal_old_hindu_solar], [cal_old_hindu_lunar],
 #' @examples
 #' gregorian_date(2025, 1, 1:31) |>
 #'   as_hindu_solar()

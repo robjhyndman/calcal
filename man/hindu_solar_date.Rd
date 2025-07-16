@@ -57,3 +57,6 @@ gregorian_date(2025, 1, 1:31) |>
 gregorian_date(2025, 1, 1:31) |>
   as_hindu_lunar()
 }
+\seealso{
+\link{cal_hindu_solar}, \link{cal_hindu_lunar}, \link{cal_old_hindu_solar}, \link{cal_old_hindu_lunar},
+}

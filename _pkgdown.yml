@@ -80,6 +80,16 @@ reference:
     contents:
       - hebrew_date
       - as_hebrew
+  - title: Hindu calendars
+    contents:
+      - hindu_solar_date
+      - hindu_lunar_date
+      - old_hindu_solar_date
+      - old_hindu_lunar_date
+      - as_hindu_solar
+      - as_hindu_lunar
+      - as_old_hindu_solar
+      - as_old_hindu_lunar
   - title: Icelandic calendar
     contents:
       - icelandic_date
@@ -104,16 +114,6 @@ reference:
     contents:
       - mayan_date
       - as_mayan
-  - title: Hindu calendars
-    contents:
-      - hindu_solar_date
-      - hindu_lunar_date
-      - old_hindu_solar_date
-      - old_hindu_lunar_date
-      - as_hindu_solar
-      - as_hindu_lunar
-      - as_old_hindu_solar
-      - as_old_hindu_lunar
   - title: Persian calendar
     contents:
       - persian_date

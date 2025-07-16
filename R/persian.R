@@ -76,18 +76,18 @@ format_persian <- function(date) {
   format_date(
     date,
     month_name = c(
-      "Farvardin",
-      "Ordibehesht",
-      "Khordad",
+      "Farv",
+      "Ordi",
+      "Khor",
       "Tir",
-      "Mordad",
-      "Shahrivar",
+      "Mord",
+      "Shah",
       "Mehr",
       "Aban",
       "Azar",
       "Dey",
-      "Bahman",
-      "Esfand"
+      "Bahm",
+      "Esfa"
     )
   )
 }

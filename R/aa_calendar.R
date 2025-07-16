@@ -19,7 +19,7 @@ WINTER <- 270
 #' (e.g., for the Gregorian calendar, the granularities are `year`, `month`, and `day`).
 #' @param validate_granularities Function to check granularities are valid (e.g.,
 #' Gregorian months should be between 1 and 12).
-#' @param format Functon to specify date format as a character string.
+#' @param format Function to specify date format as a character string.
 #' @param from_rd Function to convert from RD to calendar date.
 #' @param to_rd Function to convert from calendar date to RD.
 #' @format An object of class `calcal`

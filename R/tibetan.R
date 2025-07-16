@@ -68,6 +68,16 @@ tibetan_from_fixed <- function(date) {
   )
 }
 
+format_tibetan <- function(date) {
+  format_date(
+    date,
+    month_name = c(
+      "dbo", "nagpa", "saga", "snron", "chust", "grobz",
+      "khrum", "thask", "smind", "mgo", "rgyal", "mchu"
+    )
+  )
+}
+
 validate_tibetan <- function(date) {
   # Validation causes errors because some calculations use invalid dates
   #  if (any(date$month < 0 | date$month > 13)) {
@@ -78,18 +88,21 @@ validate_tibetan <- function(date) {
   #  }
 }
 
+#' @rdname cal_calendar
+#' @format NULL
+#' @export
 cal_tibetan <- cal_calendar(
   name = "tibetan",
   "Tib",
   c("year", "month", "leap_month", "day", "leap_day"),
   validate = validate_tibetan,
-  format_date,
+  format_tibetan,
   tibetan_from_fixed,
   fixed_from_tibetan
 )
 
 #' Tibetan calendar dates
-#' 
+#'
 #' There are several Tibetan calendars. These functions implement the
 #' official Phuglugs version of the Kalachakra calendar, which is similar
 #' to the Hindu lunisolar calendars.

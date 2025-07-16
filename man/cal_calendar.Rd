@@ -3,7 +3,7 @@
 %   R/bali.R, R/chinese.R, R/coptic.R, R/egyptian.R, R/french.R,
 %   R/gregorian.R, R/hebrew.R, R/icelandic.R, R/islamic.R, R/iso.R, R/julian.R,
 %   R/lunar_calendars_astronomy.R, R/mayan.R, R/modern_hindu.R, R/old_hindu.R,
-%   R/persian.R, R/roman.R
+%   R/persian.R, R/roman.R, R/tibetan.R
 \docType{data}
 \name{cal_calendar}
 \alias{cal_calendar}
@@ -38,6 +38,7 @@
 \alias{cal_persian}
 \alias{cal_apersian}
 \alias{cal_roman}
+\alias{cal_tibetan}
 \title{Define calendar objects}
 \format{
 An object of class \code{calcal}
@@ -114,6 +115,8 @@ cal_persian
 cal_apersian
 
 cal_roman
+
+cal_tibetan
 }
 \arguments{
 \item{name}{Name of calendar}
@@ -126,7 +129,7 @@ cal_roman
 \item{validate_granularities}{Function to check granularities are valid (e.g.,
 Gregorian months should be between 1 and 12).}
 
-\item{format}{Functon to specify date format as a character string.}
+\item{format}{Function to specify date format as a character string.}
 
 \item{from_rd}{Function to convert from RD to calendar date.}
 
