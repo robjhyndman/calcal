@@ -149,5 +149,16 @@ month_of_year(nd)
 The dates on this new calendar can be converted to any other defined calendar. For example:
 
 ```{r}
+as_date(nd, calendar = cal_hebrew)
 as_iso(nd)
 ```
+
+If you want to regularly convert dates on other calendars to your new calendar, you can create an `as_<calendar_name>` function. For example:
+
+```{r}
+as_Gregorian <- function(date) {
+  as_date(date, calendar = Gcal)
+}
+as_Gregorian("2026-01-01")
+```
+
