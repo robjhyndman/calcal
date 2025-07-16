@@ -269,3 +269,18 @@ losar <- function(t_year) {
   t_leap <- tibetan_leap_month_p(t_year, 1)
   as_gregorian(tibetan_date(t_year, 1, t_leap, 1, FALSE))
 }
+
+
+#' @export
+day_of_week.tibetan <- function(date, ...) {
+  dow <- day_of_week_from_fixed(date) + 1
+  c(
+    "gza' nyi ma",
+    "gza' zla wa",
+    "gza' mig dmar",
+    "gza' lhak pa",
+    "gza' phur bu",
+    "gza' pa sangs",
+    "gza' spen ba"
+  )[dow]
+}
