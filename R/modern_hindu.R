@@ -1,6 +1,6 @@
 # Hindu Calendar Functions in R
 # Ujjain location
-UJJAIN <- location(angle(23, 9, 0), angle(75, 46, 6), mt(0), hr(5 + 461 / 9000))
+UJJAIN <- location(angle(23, 9, 0), angle(75, 46, 6), mt(0), 5 + 461 / 9000)
 HINDU_LOCATION <- UJJAIN
 # Constants
 HINDU_SIDEREAL_YEAR <- 365 + 279457 / 1080000
