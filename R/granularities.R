@@ -19,12 +19,12 @@
 #' @export
 granularity_names <- function(calendar) {
   if (inherits(calendar, "rdvec")) {
-    attributes(calendar)$calendar$granularities
-  } else if (inherits(calendar, "calendar")) {
-    calendar$granularities
-  } else {
-    stop("Invalid calendar")
+    calendar <- attributes(calendar)$calendar
   }
+  if (!inherits(calendar, "calendar")) {
+    stop("`calendar` must be a calendar object", call. = FALSE)
+  }
+  calendar$granularities
 }
 
 #' @rdname granularities
