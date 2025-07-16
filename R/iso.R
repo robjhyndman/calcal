@@ -18,8 +18,8 @@ fixed_from_iso <- function(date, ...) {
 
 iso_from_fixed <- function(date, ...) {
   approx <- gregorian_year_from_fixed(date - 3)
-  year <- approx + (date >= iso_date(approx + 1, 1, 1))
-  week <- 1 + (date - iso_date(year, 1, 1)) %/% 7
+  year <- approx + (date >= vec_data(iso_date(approx + 1, 1, 1)))
+  week <- 1 + (date - vec_data(iso_date(year, 1, 1))) %/% 7
   day <- amod(vec_data(date), 7L)
   list(year = year, week = week, day = day)
 }
