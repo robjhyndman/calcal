@@ -678,10 +678,10 @@ fixed_from_hindu_fullmoon <- function(l_date) {
 
 # Comparison function for lunar dates
 hindu_lunar_on_or_before <- function(l_date1, l_date2) {
-  if (inherits(l_date1, "calcalvec")) {
+  if (inherits(l_date1, "rdvec")) {
     l_date1 <- attributes(l_date1)$calendar$from_rd(l_date1)
   }
-  if (inherits(l_date2, "calcalvec")) {
+  if (inherits(l_date2, "rdvec")) {
     l_date2 <- attributes(l_date2)$calendar$from_rd(l_date2)
   }
   year1 <- l_date1$year

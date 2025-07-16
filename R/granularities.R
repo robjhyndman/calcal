@@ -18,7 +18,7 @@
 #' @seealso [week_of_year] for some non-canonical granularities.
 #' @export
 granularity_names <- function(calendar) {
-  if (inherits(calendar, "calcalvec")) {
+  if (inherits(calendar, "rdvec")) {
     attributes(calendar)$calendar$granularities
   } else if (inherits(calendar, "calcal")) {
     calendar$granularities

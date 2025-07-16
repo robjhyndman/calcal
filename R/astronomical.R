@@ -201,7 +201,7 @@ refraction <- function(tee, loc) {
 #' moonset(gregorian_date(2025, 1, 1), c(melbourne, sydney))
 #' @export
 sunrise <- function(date, location) {
-  if (!inherits(date, "calcalvec")) {
+  if (!inherits(date, "rdvec")) {
     # Convert to some calendar
     date <- as_gregorian(date)
   }
@@ -219,7 +219,7 @@ sunrise <- function(date, location) {
 #' @rdname sunrise
 #' @export
 sunset <- function(date, location) {
-  if (!inherits(date, "calcalvec")) {
+  if (!inherits(date, "rdvec")) {
     # Convert to some calendar
     date <- as_gregorian(date)
   }

@@ -91,7 +91,7 @@ as_time_of_day.numeric <- function(x, ...) {
 }
 
 #' @export
-as_time_of_day.calcalvec <- function(x, ...) {
+as_time_of_day.rdvec <- function(x, ...) {
   as_time_of_day(vec_data(x))
 }
 
@@ -140,4 +140,3 @@ vec_arith.time_of_day.numeric <- function(op, x, y, ...) {
 vec_arith.numeric.time_of_day <- function(op, x, y, ...) {
   vec_arith(op, as.numeric(x), as.numeric(y))
 }
-

@@ -1,34 +1,34 @@
 # Functions for all calendars
 
 #' @export
-#' @method vec_arith calcalvec
-vec_arith.calcalvec <- function(op, x, y, ...) {
-  UseMethod("vec_arith.calcalvec", y)
+#' @method vec_arith rdvec
+vec_arith.rdvec <- function(op, x, y, ...) {
+  UseMethod("vec_arith.rdvec", y)
 }
 #' @export
-#' @method vec_arith.calcalvec calcalvec
-vec_arith.calcalvec.calcalvec <- function(op, x, y, ...) {
+#' @method vec_arith.rdvec rdvec
+vec_arith.rdvec.rdvec <- function(op, x, y, ...) {
   vec_arith(op, vec_data(x), vec_data(y))
 }
 #' @export
-#' @method vec_arith.numeric calcalvec
-vec_arith.numeric.calcalvec <- function(op, x, y, ...) {
-  new_calcalvec(
+#' @method vec_arith.numeric rdvec
+vec_arith.numeric.rdvec <- function(op, x, y, ...) {
+  new_rdvec(
     vec_arith(op, x, vec_data(y)),
     attributes(y)$calendar
   )
 }
 
 #' @export
-#' @method vec_arith.calcalvec numeric
-vec_arith.calcalvec.numeric <- function(op, x, y, ...) {
-  new_calcalvec(
+#' @method vec_arith.rdvec numeric
+vec_arith.rdvec.numeric <- function(op, x, y, ...) {
+  new_rdvec(
     vec_arith(op, vec_data(x), y),
     attributes(x)$calendar
   )
 }
 
 #' @export
-as.character.calcalvec <- function(x, ...) {
+as.character.rdvec <- function(x, ...) {
   format(x)
 }

@@ -585,7 +585,7 @@ observed_lunar_altitude <- function(tee, location) {
 #' @rdname sunrise
 #' @export
 moonset <- function(date, location) {
-  if (!inherits(date, "calcalvec")) {
+  if (!inherits(date, "rdvec")) {
     # Convert to some calendar
     date <- as_gregorian(date)
   }
@@ -625,7 +625,7 @@ moonset <- function(date, location) {
 #' @rdname sunrise
 #' @export
 moonrise <- function(date, location) {
-  if (!inherits(date, "calcalvec")) {
+  if (!inherits(date, "rdvec")) {
     # Convert to some calendar
     date <- as_gregorian(date)
   }
