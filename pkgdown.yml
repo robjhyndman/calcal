@@ -1,8 +1,9 @@
 pandoc: 3.1.11
 pkgdown: 2.1.3
 pkgdown_sha: ~
-articles: {}
-last_built: 2025-07-16T02:36Z
+articles:
+  new_calendar: new_calendar.html
+last_built: 2025-07-16T05:11Z
 urls:
   reference: https://pkg.robjhyndman.com/calcal/reference
   article: https://pkg.robjhyndman.com/calcal/articles
