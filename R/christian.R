@@ -9,6 +9,7 @@
 #' @param year Gregorian year
 #'
 #' @rdname christian
+#' @return A vector of dates on the Gregorian calendar
 #' @examples
 #' tibble::tibble(
 #'   year = 2025:2030,

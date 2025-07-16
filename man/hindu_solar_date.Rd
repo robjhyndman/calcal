@@ -45,6 +45,9 @@ as_old_hindu_lunar(date)
 
 \item{date}{A date vector on some calendar}
 }
+\value{
+A vector object of Hindu dates.
+}
 \description{
 There are four Hindu calendars implemented: modern Hindu solar and lunar calendars,
 and the old Hindu solar and lunar calendars.

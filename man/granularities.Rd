@@ -16,6 +16,9 @@ granularity(date, granularity)
 
 \item{granularity}{A character string indicating the granularity to extract}
 }
+\value{
+A character vector of granularity names or a vector of numerical values for the specified granularity.
+}
 \description{
 \code{granularities()} will return a character vector of canonical granularity names for the
 relevant calendar. These are the granularities used to define dates on the calendar.

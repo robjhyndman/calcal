@@ -22,7 +22,7 @@ WINTER <- 270
 #' @param format Function to specify date format as a character string.
 #' @param from_rd Function to convert from RD to calendar date.
 #' @param to_rd Function to convert from calendar date to RD.
-#' @format An object of class `calendar`
+#' @return A calendar object of class "calendar"
 #' @examples
 #' cal_gregorian
 #' tibble::tibble(
@@ -77,6 +77,7 @@ print.calendar <- function(x, ...) {
 #' @param date Date vector on some calendar
 #' @param calendar Target calendar of class "calendar"
 #' @param ... Named arguments denoting the granularities required for `calendar`.
+#' @return A date vector of class "rdvec" with the specified calendar.
 #' @examples
 #' april2025 <- new_date(year = 2025, month = 4, day = 1:30, calendar = cal_gregorian)
 #' as_date(april2025, calendar = cal_iso)

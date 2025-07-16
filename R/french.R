@@ -134,6 +134,7 @@ cal_afrench <- new_calendar(
 #' @param year year
 #' @param month month
 #' @param day day
+#' @return A vector of dates on the French Revolutionary calendar
 #' @examples
 #' french_date(1, 1, 1:15) |>
 #'   as_gregorian()

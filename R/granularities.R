@@ -8,6 +8,7 @@
 #' @param date A date vector on some calendar
 #' @param granularity A character string indicating the granularity to extract
 #' @rdname granularities
+#' @return A character vector of granularity names or a vector of numerical values for the specified granularity.
 #' @examples
 #' granularity_names(cal_iso)
 #' granularity_names(cal_gregorian)

@@ -16,6 +16,9 @@ new_date(..., calendar)
 
 \item{...}{Named arguments denoting the granularities required for \code{calendar}.}
 }
+\value{
+A date vector of class "rdvec" with the specified calendar.
+}
 \description{
 New dates can be calculated using \code{new_date()} for any calendar. Dates can be
 converted from one calendar to another using \code{as_date()}. \code{as_date()} also works

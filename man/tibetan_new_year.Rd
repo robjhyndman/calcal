@@ -14,6 +14,9 @@ losar(t_year)
 
 \item{t_year}{A vector of Tibetan years}
 }
+\value{
+A vector of Gregorian dates corresponding to the Tibetan New Year
+}
 \description{
 The Tibetan New Year occurs on the first day of the Tibetan calendar. These
 functions calculate the date given either a Gregorian year or a Tibetan year.

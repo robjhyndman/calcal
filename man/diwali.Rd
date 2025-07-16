@@ -25,7 +25,7 @@ sacred_wednesdays(year)
 \item{year}{A numeric vector of Gregorian years}
 }
 \value{
-A list of dates on the Gregorian calendar
+A vector of dates on the Gregorian calendar
 }
 \description{
 Functions to return Gregorian dates for various Hindu holidays based on the

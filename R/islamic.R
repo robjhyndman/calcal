@@ -125,7 +125,7 @@ islamic_in_gregorian <- function(i_month, i_day, g_year) {
 #' dates can vary slightly based on moon sightings in different regions.
 #'
 #' @param year A numeric vector of Gregorian years
-#' @return A list of dates on the Gregorian calendar
+#' @return A vector of dates on the Gregorian calendar
 #' @seealso [islamic_date]
 #'
 #' @examples

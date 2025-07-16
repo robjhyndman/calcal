@@ -669,6 +669,7 @@ moonrise <- function(date, location) {
 #' Calculate all the near-full or near-new moons in a vector of Gregorian years
 #'
 #' @param year A vector of Gregorian years
+#' @return A vector of Gregorian dates representing the full moons or new moons in the given years.
 #' @examples
 #' full_moons(2025)
 #' new_moons(2025)

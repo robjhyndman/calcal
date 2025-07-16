@@ -25,7 +25,7 @@ as_ethiopic(date)
 \item{date}{A numeric vector of dates}
 }
 \value{
-A coptic vector object
+A coptic or ethiopic vector object
 }
 \description{
 These two calendars are identical apart from the starting point or epoch.

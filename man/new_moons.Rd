@@ -13,6 +13,8 @@ full_moons(year)
 \item{year}{A vector of Gregorian years}
 }
 \value{
+A vector of Gregorian dates representing the full moons or new moons in the given years.
+
 A vector of dates
 }
 \description{

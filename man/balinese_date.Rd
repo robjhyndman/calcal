@@ -43,6 +43,9 @@ as_balinese(date)
 
 \item{date}{A vector of dates on some calendar.}
 }
+\value{
+A balinese vector object
+}
 \description{
 The Balinese calendar repeats every 210 days. It has 10 concurrent
 weeks, of lengths 1, 2, ..., 10 days. The 210 day cycles are unnumbered,

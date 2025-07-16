@@ -88,6 +88,7 @@ cal_icelandic <- new_calendar(
 #' @param week A numeric vector of weeks within the season (1 to 28)
 #' @param weekday A number vector containing day of week (0 = Sunday, 1 = Monday,
 #' ..., 6 = Saturday))
+#' @return An icelandic vector object
 #' @examples
 #' gregorian_date(2025, 4, 20:30) |>
 #'   as_icelandic()

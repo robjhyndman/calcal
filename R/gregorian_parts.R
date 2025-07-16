@@ -20,9 +20,9 @@
 #' Other functions should be self-explanatory.
 #'
 #' @param date A vector of dates
-#' @param first_day Character denoting first day of the week.
+#' @param first_day Character denoting first day of the week. Default is \code{"Monday"}
 #' @param ... Other arguments used for specific calendars
-#' Default is \code{"Monday"}
+#' @return A vector of numerical values for the requested granularity. In the case of `day_of_week()`, it returns a character vector of the name of the day of the week, or a numeric vector if `numeric = TRUE` is specified.
 #' @examples
 #' april2025 <- gregorian_date(2025, 4, 1:30)
 #' day_of_week(april2025)

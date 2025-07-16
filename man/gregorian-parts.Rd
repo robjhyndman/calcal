@@ -30,10 +30,12 @@ year(date)
 \arguments{
 \item{date}{A vector of dates}
 
-\item{...}{Other arguments used for specific calendars
-Default is \code{"Monday"}}
+\item{...}{Other arguments used for specific calendars}
 
-\item{first_day}{Character denoting first day of the week.}
+\item{first_day}{Character denoting first day of the week. Default is \code{"Monday"}}
+}
+\value{
+A vector of numerical values for the requested granularity. In the case of \code{day_of_week()}, it returns a character vector of the name of the day of the week, or a numeric vector if \code{numeric = TRUE} is specified.
 }
 \description{
 Compute days, weeks, or months from a vector of dates. These work for Gregorian

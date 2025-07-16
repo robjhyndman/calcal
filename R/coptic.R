@@ -128,7 +128,7 @@ cal_ethiopic <- new_calendar(
 #' @param year A numeric vector of years
 #' @param month A numeric vector of months
 #' @param day A numeric vector of days
-#' @return A coptic vector object
+#' @return A coptic or ethiopic vector object
 #' @seealso [cal_coptic], [cal_ethiopic], [coptic_christmas]
 #' @examples
 #' tibble::tibble(

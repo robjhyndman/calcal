@@ -24,6 +24,9 @@ as_armenian(date)
 
 \item{date}{Vector of dates on some calendar}
 }
+\value{
+An egyptian or armenian vector object
+}
 \description{
 The ancient Egyptian calendar is a 365-day solar calendar with 12 months of 30 days each, plus a 13th month of 5 days.
 The Armenian calendar is similar but has a different epoch and month names.

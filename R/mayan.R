@@ -63,6 +63,7 @@ cal_mayan <- new_calendar(
 #' @param uinal Numeric vector
 #' @param kin Numeric vector
 #' @seealso [cal_mayan]
+#' @return A mayan vector object
 #' @examples
 #' gregorian_date(2012, 12, 10:30) |>
 #'   as_mayan()

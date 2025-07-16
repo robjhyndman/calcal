@@ -112,6 +112,7 @@ cal_balinese <- new_calendar(
 #' @param asatawara A numeric vector
 #' @param sangawara A numeric vector
 #' @param dasawara A numeric vector
+#' @return A balinese vector object
 #' @examples
 #' gregorian_date(2025,6,1:10) |>
 #'   as_balinese()
@@ -230,6 +231,7 @@ bali_on_or_before <- function(b_date, date) {
 #' Gregorian years.
 #'
 #' @param year A numeric vector of Gregorian years
+#' @return A vector of dates on the Gregorian calendar
 #' @examples
 #' kajeng_keliwon(2025)
 #' tumpek(2025)

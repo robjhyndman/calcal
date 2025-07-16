@@ -7,7 +7,7 @@
 #' Functions to return Gregorian dates for US holidays and other special days
 #'
 #' @param year Gregorian year
-#'
+#' @return A vector of Gregorian dates corresponding to the US holidays or special days.
 #' @rdname us_holidays
 #' @examples
 #' us_memorial_day(2025)

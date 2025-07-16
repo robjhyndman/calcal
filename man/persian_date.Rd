@@ -24,6 +24,9 @@ as_apersian(date)
 
 \item{date}{Vector of dates on some calendar}
 }
+\value{
+A persian vector object
+}
 \description{
 The modern Persian calendar was adopted in 1925 in Iran and in 1957 in Afghanistan. An alternative version
 of the calendar, using only arithmetic (rather than astronomical) calculations is available as the \code{apersian} calendar.

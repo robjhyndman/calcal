@@ -34,6 +34,9 @@ astronomical_easter(year)
 \arguments{
 \item{year}{Gregorian year}
 }
+\value{
+A vector of dates on the Gregorian calendar
+}
 \description{
 Functions to return Gregorian dates for various Christian ecclesiastical holidays and other special days
 

@@ -126,6 +126,7 @@ cal_apersian <- new_calendar(
 #' @param year Numeric vector of years
 #' @param month Numeric vector of months
 #' @param day Numeric vector of days
+#' @return A persian vector object
 #' @examples
 #' gregorian_date(2025,5,1:20) |>
 #'   as_persian()

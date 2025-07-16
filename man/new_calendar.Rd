@@ -40,9 +40,6 @@
 \alias{cal_roman}
 \alias{cal_tibetan}
 \title{Define calendar objects}
-\format{
-An object of class \code{calendar}
-}
 \usage{
 new_calendar(
   name,
@@ -134,6 +131,9 @@ Gregorian months should be between 1 and 12).}
 \item{from_rd}{Function to convert from RD to calendar date.}
 
 \item{to_rd}{Function to convert from calendar date to RD.}
+}
+\value{
+A calendar object of class "calendar"
 }
 \description{
 Generate a calendar object of class "calendar". Examples of calendars

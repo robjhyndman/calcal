@@ -250,6 +250,7 @@ tibetan_leap_day_p <- function(t_year, t_month, t_day) {
 #'
 #' @param year A vector of Gregorian years
 #' @param t_year A vector of Tibetan years
+#' @return A vector of Gregorian dates corresponding to the Tibetan New Year
 #' @examples
 #' tibetan_new_year(2025:2028)
 #' losar(2152:2154)

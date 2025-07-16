@@ -12,6 +12,9 @@ tumpek(year)
 \arguments{
 \item{year}{A numeric vector of Gregorian years}
 }
+\value{
+A vector of dates on the Gregorian calendar
+}
 \description{
 Find all occurrences of Kajeng Keliwon and Tumpek in a vector of
 Gregorian years.

@@ -28,6 +28,9 @@ as_mayan(date)
 
 \item{date}{Vector of dates on some calendar}
 }
+\value{
+A mayan vector object
+}
 \description{
 There are three Mayan calendars: the famous "long count" calendar, the "Haab" calendar, and the "Tzolkin" calendar.
 Of these, only the long count calendar can be converted to and from other calendars, so it is the only one that

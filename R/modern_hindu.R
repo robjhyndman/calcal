@@ -214,6 +214,7 @@ cal_hindu_solar <- new_calendar(
 #' @param leap_month A logical vector indicating if year is a leap year
 #' @param leap_day A logical vector indicating if day is a leap day
 #' @param date A date vector on some calendar
+#' @return A vector object of Hindu dates.
 #' @seealso [cal_hindu_solar], [cal_hindu_lunar], [cal_old_hindu_solar], [cal_old_hindu_lunar], [diwali]
 #' @examples
 #' gregorian_date(2025, 1, 1:31) |>
@@ -556,7 +557,7 @@ mesha_sankranti <- function(year) {
 #' Dates may vary by a day or two due to variations of the lunar calendar and local traditions.
 #'
 #' @param year A numeric vector of Gregorian years
-#' @return A list of dates on the Gregorian calendar
+#' @return A vector of dates on the Gregorian calendar
 #' @seealso [hindu_lunar_date]
 #' @examples
 #' shiva(2025:2026)

@@ -24,6 +24,9 @@ as_afrench(date)
 
 \item{date}{A vector of dates on some calendar}
 }
+\value{
+A vector of dates on the French Revolutionary calendar
+}
 \description{
 There are two versions of the French Revolutionary Calendar. The original
 version, used from 1793, was kept in sync with the solar year by setting the first day of

@@ -27,6 +27,9 @@ unlucky_fridays(year)
 \arguments{
 \item{year}{Gregorian year}
 }
+\value{
+A vector of Gregorian dates corresponding to the US holidays or special days.
+}
 \description{
 Functions to return Gregorian dates for US holidays and other special days
 }

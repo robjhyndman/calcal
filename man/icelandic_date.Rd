@@ -26,6 +26,9 @@ as_icelandic(date)
 
 \item{date}{A numeric vector of dates}
 }
+\value{
+An icelandic vector object
+}
 \description{
 The Icelandic calendar, still in use in Iceland, divides times into
 7-day weeks and two seasons: Summer and Winter. Summer starts on the first
