@@ -116,10 +116,10 @@ hebrew_from_fixed <- function(date, ...) {
   list(year = year, month = month, day = day)
 }
 
-#' @rdname cal_calendar
+#' @rdname new_calendar
 #' @format NULL
 #' @export
-cal_hebrew <- cal_calendar(
+cal_hebrew <- new_calendar(
   name = "hebrew",
   short_name = "Heb",
   granularities = c("year", "month", "day"),
@@ -136,11 +136,11 @@ cal_hebrew <- cal_calendar(
 #' 29 or 30 days, which begin and end at approximately the time of the new moon.
 #' An extra lunar month is added every 2 or 3 years, so the calendar has either 12
 #' or 13 months per year.
-#' 
-#' The observational Hebrew calendar ("ohebrew") is the classical calendar where the 
-#' new month began with the reported observation of the crescent new moon. In this 
-#' implementation, Haifa is taken as the point of observation. 
-#' 
+#'
+#' The observational Hebrew calendar ("ohebrew") is the classical calendar where the
+#' new month began with the reported observation of the crescent new moon. In this
+#' implementation, Haifa is taken as the point of observation.
+#'
 #' The Samaritan calendar is similar, but the moment of new moon marking the start of
 #' each new month is based on a traditional reckoning of the lunar cycle,
 #'

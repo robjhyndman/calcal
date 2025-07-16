@@ -30,7 +30,7 @@ WINTER <- 270
 #'   y = as_date(x, calendar = cal_islamic)
 #' )
 #' @export
-cal_calendar <- function(
+new_calendar <- function(
   name,
   short_name,
   granularities,

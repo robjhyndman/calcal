@@ -5,8 +5,8 @@
 %   R/lunar_calendars_astronomy.R, R/mayan.R, R/modern_hindu.R, R/old_hindu.R,
 %   R/persian.R, R/roman.R, R/tibetan.R
 \docType{data}
-\name{cal_calendar}
-\alias{cal_calendar}
+\name{new_calendar}
+\alias{new_calendar}
 \alias{cal_babylonian}
 \alias{cal_bahai}
 \alias{cal_balinese}
@@ -44,7 +44,7 @@
 An object of class \code{calcal}
 }
 \usage{
-cal_calendar(
+new_calendar(
   name,
   short_name,
   granularities,

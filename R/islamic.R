@@ -52,10 +52,10 @@ islamic_from_fixed <- function(date, ...) {
   list(year = year, month = month, day = day)
 }
 
-#' @rdname cal_calendar
+#' @rdname new_calendar
 #' @format NULL
 #' @export
-cal_islamic <- cal_calendar(
+cal_islamic <- new_calendar(
   name = "islamic",
   short_name = "Hij",
   granularities = c("year", "month", "day"),

@@ -175,10 +175,10 @@ format_hindu_solar <- function(date) {
   )
 }
 
-#' @rdname cal_calendar
+#' @rdname new_calendar
 #' @format NULL
 #' @export
-cal_hindu_lunar <- cal_calendar(
+cal_hindu_lunar <- new_calendar(
   "hindu_lunar",
   "HinL",
   granularities = c("year", "month", "leap_month", "day", "leap_day"),
@@ -188,10 +188,10 @@ cal_hindu_lunar <- cal_calendar(
   fixed_from_hindu_lunar
 )
 
-#' @rdname cal_calendar
+#' @rdname new_calendar
 #' @format NULL
 #' @export
-cal_hindu_solar <- cal_calendar(
+cal_hindu_solar <- new_calendar(
   "hindu_solar",
   "HinS",
   granularities = c("year", "month", "day"),

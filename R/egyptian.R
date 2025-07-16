@@ -87,10 +87,10 @@ format_armenian <- function(date) {
   )
 }
 
-#' @rdname cal_calendar
+#' @rdname new_calendar
 #' @format NULL
 #' @export
-cal_egyptian <- cal_calendar(
+cal_egyptian <- new_calendar(
   name = "egyptian",
   short_name = "Egy",
   granularities = c("year", "month", "day"),
@@ -100,10 +100,10 @@ cal_egyptian <- cal_calendar(
   to_rd = fixed_from_egyptian
 )
 
-#' @rdname cal_calendar
+#' @rdname new_calendar
 #' @format NULL
 #' @export
-cal_armenian <- cal_calendar(
+cal_armenian <- new_calendar(
   name = "armenian",
   short_name = "Arm",
   granularities = c("year", "month", "day"),
@@ -114,7 +114,7 @@ cal_armenian <- cal_calendar(
 )
 
 #' Egyptian and Armenian calendar dates
-#' 
+#'
 #' The ancient Egyptian calendar is a 365-day solar calendar with 12 months of 30 days each, plus a 13th month of 5 days.
 #' The Armenian calendar is similar but has a different epoch and month names.
 #'

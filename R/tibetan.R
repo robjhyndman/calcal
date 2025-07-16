@@ -88,10 +88,10 @@ validate_tibetan <- function(date) {
   #  }
 }
 
-#' @rdname cal_calendar
+#' @rdname new_calendar
 #' @format NULL
 #' @export
-cal_tibetan <- cal_calendar(
+cal_tibetan <- new_calendar(
   name = "tibetan",
   "Tib",
   c("year", "month", "leap_month", "day", "leap_day"),

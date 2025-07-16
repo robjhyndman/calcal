@@ -24,10 +24,10 @@ iso_from_fixed <- function(date, ...) {
   list(year = year, week = week, day = day)
 }
 
-#' @rdname cal_calendar
+#' @rdname new_calendar
 #' @format NULL
 #' @export
-cal_iso <- cal_calendar(
+cal_iso <- new_calendar(
   name = "iso",
   short_name = "ISO",
   granularities = c("year", "week", "day"),

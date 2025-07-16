@@ -130,10 +130,10 @@ fixed_from_vietnamese <- function(date) {
   fixed_from_asian(date, vietnamese_location)
 }
 
-#' @rdname cal_calendar
+#' @rdname new_calendar
 #' @format NULL
 #' @export
-cal_chinese <- cal_calendar(
+cal_chinese <- new_calendar(
   name = "chinese",
   short_name = "Chi",
   granularities = c("cycle", "year", "month", "leap_month", "day"),
@@ -143,10 +143,10 @@ cal_chinese <- cal_calendar(
   to_rd = fixed_from_chinese
 )
 
-#' @rdname cal_calendar
+#' @rdname new_calendar
 #' @format NULL
 #' @export
-cal_japanese <- cal_calendar(
+cal_japanese <- new_calendar(
   name = "japanese",
   short_name = "Jap",
   granularities = c("cycle", "year", "month", "leap_month", "day"),
@@ -156,10 +156,10 @@ cal_japanese <- cal_calendar(
   to_rd = fixed_from_japanese
 )
 
-#' @rdname cal_calendar
+#' @rdname new_calendar
 #' @format NULL
 #' @export
-cal_korean <- cal_calendar(
+cal_korean <- new_calendar(
   name = "korean",
   short_name = "Kor",
   granularities = c("year", "month", "leap_month", "day"),
@@ -169,10 +169,10 @@ cal_korean <- cal_calendar(
   to_rd = fixed_from_korean
 )
 
-#' @rdname cal_calendar
+#' @rdname new_calendar
 #' @format NULL
 #' @export
-cal_vietnamese <- cal_calendar(
+cal_vietnamese <- new_calendar(
   name = "vietnamese",
   short_name = "Viet",
   granularities = c("cycle", "year", "month", "leap_month", "day"),

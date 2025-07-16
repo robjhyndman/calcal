@@ -126,10 +126,10 @@ roman_from_fixed <- function(date, ...) {
   )
 }
 
-#' @rdname cal_calendar
+#' @rdname new_calendar
 #' @format NULL
 #' @export
-cal_roman <- cal_calendar(
+cal_roman <- new_calendar(
   name = "roman",
   short_name = "Rom",
   granularities = c("year", "month", "event", "count", "leap_day"),

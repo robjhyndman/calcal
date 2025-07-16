@@ -92,10 +92,10 @@ format_persian <- function(date) {
   )
 }
 
-#' @rdname cal_calendar
+#' @rdname new_calendar
 #' @format NULL
 #' @export
-cal_persian <- cal_calendar(
+cal_persian <- new_calendar(
   name = "persian",
   short_name = "Per",
   c("year", "month", "day"),
@@ -105,10 +105,10 @@ cal_persian <- cal_calendar(
   fixed_from_persian
 )
 
-#' @rdname cal_calendar
+#' @rdname new_calendar
 #' @format NULL
 #' @export
-cal_apersian <- cal_calendar(
+cal_apersian <- new_calendar(
   name = "apersian",
   short_name = "APer",
   c("year", "month", "day"),

@@ -97,10 +97,10 @@ format_french <- function(date) {
   )
 }
 
-#' @rdname cal_calendar
+#' @rdname new_calendar
 #' @format NULL
 #' @export
-cal_french <- cal_calendar(
+cal_french <- new_calendar(
   "french",
   "Fre",
   c("year", "month", "day"),
@@ -110,10 +110,10 @@ cal_french <- cal_calendar(
   fixed_from_french
 )
 
-#' @rdname cal_calendar
+#' @rdname new_calendar
 #' @format NULL
 #' @export
-cal_afrench <- cal_calendar(
+cal_afrench <- new_calendar(
   "afrench",
   "AFre",
   c("year", "month", "day"),

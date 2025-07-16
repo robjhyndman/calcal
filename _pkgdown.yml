@@ -25,7 +25,7 @@ reference:
       - calcal-package
   - title: Create new calendars and dates
     contents:
-      - cal_calendar
+      - new_calendar
       - cal_bahai
       - cal_balinese
       - cal_chinese

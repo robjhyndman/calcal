@@ -64,10 +64,10 @@ format_babylonian <- function(x, ...) {
   )
 }
 
-#' @rdname cal_calendar
+#' @rdname new_calendar
 #' @format NULL
 #' @export
-cal_babylonian <- cal_calendar(
+cal_babylonian <- new_calendar(
   name = "babylonian",
   "Bab",
   c("year", "month", "leap_month", "day"),

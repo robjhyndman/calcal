@@ -63,10 +63,10 @@ fixed_from_old_hindu_lunar <- function(date) {
   return(ceiling(result))
 }
 
-#' @rdname cal_calendar
+#' @rdname new_calendar
 #' @format NULL
 #' @export
-cal_old_hindu_solar <- cal_calendar(
+cal_old_hindu_solar <- new_calendar(
   "old_hindu_solar",
   "OHinS",
   c("year", "month", "day"),
@@ -76,10 +76,10 @@ cal_old_hindu_solar <- cal_calendar(
   fixed_from_old_hindu_solar
 )
 
-#' @rdname cal_calendar
+#' @rdname new_calendar
 #' @format NULL
 #' @export
-cal_old_hindu_lunar <- cal_calendar(
+cal_old_hindu_lunar <- new_calendar(
   "old_hindu_lunar",
   "OHinL",
   c("year", "month", "leap_month", "day"),

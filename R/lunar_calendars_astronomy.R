@@ -148,10 +148,10 @@ fixed_from_samaritan <- function(s_date) {
 }
 
 
-#' @rdname cal_calendar
+#' @rdname new_calendar
 #' @format NULL
 #' @export
-cal_oislamic <- cal_calendar(
+cal_oislamic <- new_calendar(
   "oislamic",
   "OHij",
   c("year", "month", "day"),
@@ -161,10 +161,10 @@ cal_oislamic <- cal_calendar(
   fixed_from_observational_islamic
 )
 
-#' @rdname cal_calendar
+#' @rdname new_calendar
 #' @format NULL
 #' @export
-cal_saudi <- cal_calendar(
+cal_saudi <- new_calendar(
   "saudi",
   "SHij",
   c("year", "month", "day"),
@@ -174,10 +174,10 @@ cal_saudi <- cal_calendar(
   fixed_from_saudi_islamic
 )
 
-#' @rdname cal_calendar
+#' @rdname new_calendar
 #' @format NULL
 #' @export
-cal_ohebrew <- cal_calendar(
+cal_ohebrew <- new_calendar(
   "ohebrew",
   "OHeb",
   c("year", "month", "day"),
@@ -187,10 +187,10 @@ cal_ohebrew <- cal_calendar(
   fixed_from_observational_hebrew
 )
 
-#' @rdname cal_calendar
+#' @rdname new_calendar
 #' @format NULL
 #' @export
-cal_samaritan <- cal_calendar(
+cal_samaritan <- new_calendar(
   "samaritan",
   "Sam",
   c("year", "month", "day"),

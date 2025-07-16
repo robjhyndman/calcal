@@ -85,10 +85,10 @@ gregorian_from_fixed <- function(date, ...) {
   list(year = year, month = month, day = day)
 }
 
-#' @rdname cal_calendar
+#' @rdname new_calendar
 #' @format NULL
 #' @export
-cal_gregorian <- cal_calendar(
+cal_gregorian <- new_calendar(
   name = "gregorian",
   short_name = "Gre",
   granularities = c("year", "month", "day"),

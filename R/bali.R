@@ -71,10 +71,10 @@ validate_balinese <- function(date) {
   }
 }
 
-#' @rdname cal_calendar
+#' @rdname new_calendar
 #' @format NULL
 #' @export
-cal_balinese <- cal_calendar(
+cal_balinese <- new_calendar(
   "bali",
   "Bal",
   c(

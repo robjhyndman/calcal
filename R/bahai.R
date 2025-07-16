@@ -98,10 +98,10 @@ bahai_from_fixed <- function(date) {
   list(major = major, cycle = cycle, year = year, month = month, day = day)
 }
 
-#' @rdname cal_calendar
+#' @rdname new_calendar
 #' @format NULL
 #' @export
-cal_bahai <- cal_calendar(
+cal_bahai <- new_calendar(
   "bahai",
   "Bah",
   c("major", "cycle", "year", "month", "day"),

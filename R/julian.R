@@ -69,10 +69,10 @@ julian_from_fixed <- function(date, ...) {
   list(year = year, month = month, day = day)
 }
 
-#' @rdname cal_calendar
+#' @rdname new_calendar
 #' @format NULL
 #' @export
-cal_julian <- cal_calendar(
+cal_julian <- new_calendar(
   name = "julian",
   short_name = "Jul",
   granularities = c("year", "month", "day"),

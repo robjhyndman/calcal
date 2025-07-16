@@ -54,10 +54,10 @@ format_coptic <- function(date) {
   )
 }
 
-#' @rdname cal_calendar
+#' @rdname new_calendar
 #' @format NULL
 #' @export
-cal_coptic <- cal_calendar(
+cal_coptic <- new_calendar(
   name = "coptic",
   short_name = "Cop",
   granularities = c("year", "month", "day"),
@@ -98,10 +98,10 @@ format_ethiopic <- function(date) {
   )
 }
 
-#' @rdname cal_calendar
+#' @rdname new_calendar
 #' @format NULL
 #' @export
-cal_ethiopic <- cal_calendar(
+cal_ethiopic <- new_calendar(
   name = "ethiopic",
   short_name = "Eth",
   granularities = c("year", "month", "day"),
