@@ -19,7 +19,10 @@ Depends: R (>= 4.1.0)
 Imports:
     vctrs
 Suggests:
+    knitr,
+    rmarkdown,
     testthat (>= 3.0.0),
     tibble
 Config/testthat/edition: 3
 URL: https://pkg.robjhyndman.com/calcal/, https://github.com/robjhyndman/calcal
+VignetteBuilder: knitr

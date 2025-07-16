@@ -1,0 +1,153 @@
+---
+title: "Creating a new calendar"
+author: "Rob J Hyndman"
+date: "`r format(Sys.Date(), '%d %B %Y')`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Creating a new calendar}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(calcal)
+```
+
+Dates in the `calcal` package are stored as `rdvec` objects which are simply vectors of Rata Die (RD) integer values, denoting the number of days since the onset of Monday 1 January 1 CE on the Gregorian calendar. A calendar is attached to each `rdvec` vector as an attribute, which allows for the conversion of the RD values to the desired calendar format when required. Converting from one calendar to another is simply a matter of changing the calendar attribute of the vector.
+
+A calendar object is an object of class `calendar` which is a list containing the following elements:
+
+- `name`: The name of the calendar.
+- `short_name`: A short name to use in tibble headers.
+- `granularities`: A character vector with names of the granularities used to define dates on the calendar. For example, for the Gregorian calendar, the granularities are `"year"`, `"month"`, and `"day"`).
+- `validate_granularities`: A function to check if the granularities are valid. For example, on the Gregorian calendar, this function checks that the `month` is between 1 and 12, and the `day` is valid for the given month and year.
+- `format`: A function to output the date format as a character vector.
+- `from_rd`: A function to convert from RD to a list of granularities on the new calendar.
+- `to_rd`: A function to convert from a list of granularities to RD values.
+
+For example, on the Gregorian calendar, here is the relevant function to convert from a Gregorian date to RD. The `date` argument is a list containing the `year`, `month`, and `day` components of the date.
+
+```{r}
+gregorian_to_rd <- function(date) {
+  result <- 365 * (date$year - 1) + # Ordinary days since day 0 to start of year
+    (date$year - 1) %/% 4 - # Adjust for leap years
+    (date$year - 1) %/% 100 + # Remove century leap years
+    (date$year - 1) %/% 400 + # Add back 400-year leap years
+    (367 * date$month - 362) %/% 12 # Add days in prior months this year
+  # Adjust if a leap year
+  adjustment <- (date$month > 2) * (leap_year(date$year) - 2)
+  # Add days in current month
+  result + adjustment + date$day
+}
+leap_year <- function(year) {
+  (year %% 4 == 0) & !(year %% 400 %in% c(100, 200, 300))
+}
+```
+
+To go the other way, from RD to a Gregorian date, we need to calculate the year, month, and day from the RD value. This is done by calculating the year first, then determining how many days have passed since the start of that year, and finally calculating the month and day based on that.
+
+```{r}
+rd_to_gregorian <- function(rd) {
+  # Calculate the year
+  d0 <- rd - 1
+  n400 <- d0 %/% 146097 # Completed 400-year cycles
+  d1 <- d0 %% 146097 # Prior days not in n400
+  n100 <- d1 %/% 36524 # 100-year cycles not in n400
+  d2 <- d1 %% 36524 # Prior days not in n400 or n100
+  n4 <- d2 %/% 1461 # 4-year cycles not in n400 or n100
+  d3 <- d2 %% 1461 # Prior days not in n400, n100, or n4
+  n1 <- d3 %/% 365 # Years not in n400, n100, or n4
+  year <- 400 * n400 + 100 * n100 + 4 * n4 + n1
+  # leap year adjustment
+  year <- year + !(n100 == 4 | n1 == 4)
+  # Calculate the month
+  jan1 <- gregorian_to_rd(list(year = year, month = 1, day = 1))
+  mar1 <- gregorian_to_rd(list(year = year, month = 3, day = 1))
+  correction <- (rd >= mar1) * (2 - leap_year(year))
+  month <- (12 * (rd - jan1 + correction) + 373) %/% 367
+  # Calculate the day by subtraction
+  day1_of_month <- gregorian_to_rd(list(year = year, month = month, day = 1))
+  day <- 1 + rd - day1_of_month
+  # Return the dates as a list
+  list(year = year, month = month, day = day)
+}
+```
+
+The next function we need validates the granularities of the calendar. For the Gregorian calendar, the following function is used:
+
+```{r}
+validate_gregorian <- function(date) {
+  if (any(date$month < 1 | date$month > 12, na.rm = TRUE)) {
+    stop("month must be between 1 and 12")
+  } else if (any(date$day > 30 & date$month %in% c(4, 6, 9, 11), na.rm = TRUE)) {
+    stop("day must be between 1 and 30")
+  } else if (any(date$day > 29 & date$month == 2, na.rm = TRUE)) {
+    stop("days in February must be between 1 and 29")
+  } else if (any(date$day > 28 & date$month == 2 & leap_year(date$year), na.rm = TRUE)) {
+    stop("days in February must be between 1 and 28 when not a leap year")
+  } else if (any(date$day < 1 | date$day > 31, na.rm = TRUE)) {
+    stop("day must be between 1 and 31")
+  }
+}
+```
+
+Finally, we need a function to format the date as a character vector. For the Gregorian calendar, this can be done as follows:
+
+```{r}
+format_gregorian <- function(rd) {
+  date <- rd_to_gregorian(rd)
+  date[["year"]] <- sprintf("%02d", date[["year"]])
+  date[["month"]] <- month.name[date[["month"]]]
+  date[["day"]] <- sprintf("%02d", date[["day"]])
+  paste(date[["year"]], date[["month"]], date[["day"]], sep = "-")
+}
+```
+
+To create a new Gregorian calendar object, we use the `new_calendar` function:
+
+```{r}
+Gcal <- new_calendar(
+  name = "Gregorian",
+  short_name = "G",
+  granularities = c("year", "month", "day"),
+  validate_granularities = validate_gregorian,
+  format = format_gregorian,
+  from_rd = rd_to_gregorian,
+  to_rd = gregorian_to_rd
+)
+```
+
+Then we can use the `Gcal` calendar to create `rdvec` vectors:
+
+```{r}
+as_date("2026-01-01", calendar = Gcal) + 0:10
+nd <- new_date(year = 2025, month = 7, day = 18:24, calendar = Gcal)
+nd
+tibble::tibble(
+  greg = nd,
+  RD = as.integer(nd)
+)
+```
+
+Existing helper functions will also work with the new calendar. For example:
+
+```{r}
+granularity_names(Gcal)
+granularity(nd, "day")
+day_of_week(nd)
+week_of_year(nd)
+month_of_year(nd)
+```
+
+The dates on this new calendar can be converted to any other defined calendar. For example:
+
+```{r}
+as_iso(nd)
+```
