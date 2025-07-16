@@ -12,7 +12,7 @@ new_date(..., calendar)
 \arguments{
 \item{date}{Date vector on some calendar}
 
-\item{calendar}{Target calendar of class "calcal"}
+\item{calendar}{Target calendar of class "calendar"}
 
 \item{...}{Named arguments denoting the granularities required for \code{calendar}.}
 }

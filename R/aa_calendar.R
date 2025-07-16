@@ -9,7 +9,7 @@ WINTER <- 270
 
 #' Define calendar objects
 #'
-#' Generate a calendar object of class "calcal". Examples of calendars
+#' Generate a calendar object of class "calendar". Examples of calendars
 #' produced in this way include `cal_chinese`, `cal_gregorian`, `cal_hebrew`, `cal_islamic`,
 #' and `cal_iso`.
 #'
@@ -22,7 +22,7 @@ WINTER <- 270
 #' @param format Function to specify date format as a character string.
 #' @param from_rd Function to convert from RD to calendar date.
 #' @param to_rd Function to convert from calendar date to RD.
-#' @format An object of class `calcal`
+#' @format An object of class `calendar`
 #' @examples
 #' cal_gregorian
 #' tibble::tibble(
@@ -49,12 +49,12 @@ new_calendar <- function(
       from_rd = from_rd,
       to_rd = to_rd
     ),
-    class = "calcal"
+    class = "calendar"
   )
 }
 
 #' @export
-print.calcal <- function(x, ...) {
+print.calendar <- function(x, ...) {
   cat(
     "Calendar: ",
     x$name,
@@ -75,7 +75,7 @@ print.calcal <- function(x, ...) {
 #' 01-01-01 on the Gregorian calendar).
 #'
 #' @param date Date vector on some calendar
-#' @param calendar Target calendar of class "calcal"
+#' @param calendar Target calendar of class "calendar"
 #' @param ... Named arguments denoting the granularities required for `calendar`.
 #' @examples
 #' april2025 <- new_date(year = 2025, month = 4, day = 1:30, calendar = cal_gregorian)

@@ -41,7 +41,7 @@
 \alias{cal_tibetan}
 \title{Define calendar objects}
 \format{
-An object of class \code{calcal}
+An object of class \code{calendar}
 }
 \usage{
 new_calendar(
@@ -136,7 +136,7 @@ Gregorian months should be between 1 and 12).}
 \item{to_rd}{Function to convert from calendar date to RD.}
 }
 \description{
-Generate a calendar object of class "calcal". Examples of calendars
+Generate a calendar object of class "calendar". Examples of calendars
 produced in this way include \code{cal_chinese}, \code{cal_gregorian}, \code{cal_hebrew}, \code{cal_islamic},
 and \code{cal_iso}.
 }

@@ -20,7 +20,7 @@
 granularity_names <- function(calendar) {
   if (inherits(calendar, "rdvec")) {
     attributes(calendar)$calendar$granularities
-  } else if (inherits(calendar, "calcal")) {
+  } else if (inherits(calendar, "calendar")) {
     calendar$granularities
   } else {
     stop("Invalid calendar")
