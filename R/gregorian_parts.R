@@ -40,7 +40,7 @@ day_of_week <- function(date, ...) {
 
 #' @export
 day_of_week.default <- function(date, ...) {
-  day_of_week(as_gregorian(date, ...))
+  day_of_week(as_gregorian(date), ...)
 }
 
 #' @export

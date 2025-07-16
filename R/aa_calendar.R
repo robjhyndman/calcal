@@ -144,7 +144,7 @@ as_date.default <- function(date, calendar) {
 }
 
 base_granularities <- function(date) {
-  attributes(date)$calendar$from_rd(date)
+  attributes(date)$calendar$from_rd(vec_data(date))
 }
 
 #' @export
@@ -159,7 +159,7 @@ as.data.frame.rdvec <- function(x, ...) {
 
 #' @export
 as.Date.rdvec <- function(x, ...) {
-  gdate <- as.data.frame(cal_gregorian$from_rd(x))
+  gdate <- as.data.frame(cal_gregorian$from_rd(vec_data(x)))
   as.Date(apply(gdate, 1, paste, collapse = "-"))
 }
 
