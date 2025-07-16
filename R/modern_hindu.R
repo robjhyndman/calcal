@@ -52,33 +52,29 @@ fixed_from_hindu_lunar <- function(l_date) {
   )
   k <- hindu_lunar_day_from_moment(s + hr(6))
   # Estimate date
-  outside <- !(k > 3 & k < 27)
-  est <- s + l_date$day - k * as.numeric(!outside)
-
-  if (any(outside)) {
-    # Handle borderline cases
-    mid <- hindu_lunar_from_fixed(s[outside] - 15)
-    cond <- rep(TRUE, length(outside))
-    cond[outside] <- mid$month != l_date$month[outside] |
-      (mid$leap_month & !l_date$leap_month[outside])
-    est[outside & cond] <- est[outside & cond] +
-      mod3(k[outside & cond], -15, 15)
-    est[outside & !cond] <- est[outside & !cond] +
-      mod3(k[outside & !cond], 15, 45)
-  }
+  est <- s + l_date$day
+  inside <- (3 < k & k < 27)
+  mid <- hindu_lunar_from_fixed(s - 15)
+  cond2 <- !inside &
+    (mid$month != l_date$month |
+      (mid$leap_month & !l_date$leap_month))
+  cond3 <- !inside & !cond2
+  est[inside] <- est[inside] - k[inside]
+  est[cond2] <- est[cond2] - mod3(k[cond2], -15, 15)
+  est[cond3] <- est[cond3] - mod3(k[cond3], 15, 45)
 
   # Refine estimate
   tau <- est -
     mod3(hindu_lunar_day_from_moment(est + hr(6)) - l_date$day, -15, 15)
 
-  # Find exact date
   date <- floor(tau)
-  j <- !(hindu_lunar_day_from_moment(hindu_sunrise(date)) %in%
-    c(l_date$day, amod(l_date$day + 1, 30)))
+  hs <- hindu_lunar_day_from_moment(hindu_sunrise(date))
+  hsrange <- c(l_date$day, amod(l_date$day + 1, 30))
+  j <- !(hs %in% hsrange)
   while (any(j)) {
     date[j] <- date[j] + 1
-    j <- !(hindu_lunar_day_from_moment(hindu_sunrise(date)) %in%
-      c(l_date$day, amod(l_date$day + 1, 30)))
+    hs[j] <- hindu_lunar_day_from_moment(hindu_sunrise(date[j]))
+    j <- !(hs %in% hsrange)
   }
 
   date + as.numeric(l_date$leap_day)
@@ -498,10 +494,11 @@ hindu_lunar_station <- function(date) {
 #' @rdname diwali
 #' @export
 hindu_lunar_new_year <- function(year) {
-  jan1 <- gregorian_new_year(year)
+  jan1 <- gregorian_new_year(year) |> vec_data()
+  ny <- length(year)
 
   mina <- hindu_solar_longitude_at_or_after(deg(330), jan1)
-  new_moon <- hindu_lunar_day_at_or_after(1, mina)
+  new_moon <- hindu_lunar_day_at_or_after(rep(1, ny), mina)
   h_day <- floor(new_moon)
   critical <- hindu_sunrise(h_day)
 
@@ -547,20 +544,25 @@ mesha_sankranti <- function(year) {
 
 #' Hindu holidays and special days
 #'
-#' Functions to return Gregorian dates for various Hindu holidays baed on the
-#' Hindu lunar calendar. Diwali is on the new moon day in the month of Kartik (month 8).
+#' Functions to return Gregorian dates for various Hindu holidays based on the
+#' Hindu calendars.
+#' Hindu Lunar New Year is the first day of the lunar month of Caitra (month 1).
+#' The Birthday of Rama is on the 8th or 9th day of the first month (Caitra).
+#' Diwali is on the new moon day in the month of Kartik (month 8).
 #' The Great Night of Shiva is at the end of the 11 month of Magha.
-#' The Birthday of Rama is on the 8th or 9th day of the first month (Caitra)
+#' Mesha Sankranti is the day when the sun enters the sign of Aries (Mesha).
+#' Sacred Wednesdays are the 8th day of the lunar month that falls on a Wednesday.
 #'
 #' @param year A numeric vector of Gregorian years
 #' @return A list of dates on the Gregorian calendar
 #' @seealso [hindu_lunar_date]
 #' @examples
-#' shiva(2025)
-#' rama(2025)
-#' mesha_sankranti(2025)
-#' diwali(2025)
-#' sacred_wednesdays(2025)
+#' shiva(2025:2026)
+#' hindu_lunar_new_year(2025:2026)
+#' rama(2025:2026)
+#' mesha_sankranti(2025:2026)
+#' diwali(2025:2026)
+#' sacred_wednesdays(2025:2026)
 #' @export
 diwali <- function(year) {
   hindu_lunar_holiday(8, 1, year) |>

@@ -28,17 +28,22 @@ sacred_wednesdays(year)
 A list of dates on the Gregorian calendar
 }
 \description{
-Functions to return Gregorian dates for various Hindu holidays baed on the
-Hindu lunar calendar. Diwali is on the new moon day in the month of Kartik (month 8).
+Functions to return Gregorian dates for various Hindu holidays based on the
+Hindu calendars.
+Hindu Lunar New Year is the first day of the lunar month of Caitra (month 1).
+The Birthday of Rama is on the 8th or 9th day of the first month (Caitra).
+Diwali is on the new moon day in the month of Kartik (month 8).
 The Great Night of Shiva is at the end of the 11 month of Magha.
-The Birthday of Rama is on the 8th or 9th day of the first month (Caitra)
+Mesha Sankranti is the day when the sun enters the sign of Aries (Mesha).
+Sacred Wednesdays are the 8th day of the lunar month that falls on a Wednesday.
 }
 \examples{
-shiva(2025)
-rama(2025)
-mesha_sankranti(2025)
-diwali(2025)
-sacred_wednesdays(2025)
+shiva(2025:2026)
+hindu_lunar_new_year(2025:2026)
+rama(2025:2026)
+mesha_sankranti(2025:2026)
+diwali(2025:2026)
+sacred_wednesdays(2025:2026)
 }
 \seealso{
 \link{hindu_lunar_date}
