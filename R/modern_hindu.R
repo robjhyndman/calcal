@@ -214,7 +214,7 @@ cal_hindu_solar <- cal_calendar(
 #' @param leap_month A logical vector indicating if year is a leap year
 #' @param leap_day A logical vector indicating if day is a leap day
 #' @param date A date vector on some calendar
-#' @seealso [cal_hindu_solar], [cal_hindu_lunar], [cal_old_hindu_solar], [cal_old_hindu_lunar],
+#' @seealso [cal_hindu_solar], [cal_hindu_lunar], [cal_old_hindu_solar], [cal_old_hindu_lunar], [diwali]
 #' @examples
 #' gregorian_date(2025, 1, 1:31) |>
 #'   as_hindu_solar()
@@ -553,6 +553,7 @@ mesha_sankranti <- function(year) {
 #' The Great Night of Shiva is at the end of the 11 month of Magha.
 #' Mesha Sankranti is the day when the sun enters the sign of Aries (Mesha).
 #' Sacred Wednesdays are the 8th day of the lunar month that falls on a Wednesday.
+#' Dates may vary by a day or two due to variations of the lunar calendar and local traditions.
 #'
 #' @param year A numeric vector of Gregorian years
 #' @return A list of dates on the Gregorian calendar

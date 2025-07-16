@@ -1,14 +1,16 @@
 #' Locations
 #'
-#' Create a location object
+#' Create a location object. These are used for calculating the timing of
+#' astronomical events such as sunrise and sunset.
 #'
 #' @param latitude A numeric vector of latitudes
 #' @param longitude A numeric vector of longitudes
-#' @param elevation A numeric vector of elevations above sea level
-#' @param zone A numeric vector of time zones (relative to UTC)
+#' @param elevation A numeric vector of elevations above sea level (in metres)
+#' @param zone A numeric vector of time zones (in hours, relative to UTC)
 #' @return A location vector object
 #' @examples
 #' melbourne <- location(-37.8136, 144.9631, 31, 10)
+#' sunrise("2025-01-01", melbourne)
 #' @export
 # Differs from original code as zone is in hours, not days
 location <- function(

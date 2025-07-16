@@ -54,7 +54,7 @@ test_that("hindu_holidays", {
     all(
       abs(
         diwali(2024:2026) -
-          gregorian_date(2024:2026, c(11, 10, 11), c(1, 20, 8))
+          gregorian_date(2024:2026, c(11, 10, 11), c(1, 21, 8))
       ) <=
         2
     )
@@ -69,15 +69,9 @@ test_that("hindu_holidays", {
         1
     )
   )
-  expect_true(
-    # Get within 1 day of Rama Navami
-    all(
-      abs(
-        rama(2024:2026) -
-          gregorian_date(2024:2026, c(4, 4, 3), c(17, 6, 27))
-      ) <=
-        1
-    )
+  expect_equal(
+    rama(2024:2026),
+    gregorian_date(2024:2026, c(4, 4, 3), c(17, 6, 27))
   )
   expect_equal(
     mesha_sankranti(c(2000, 2025:2026)),

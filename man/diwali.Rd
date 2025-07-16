@@ -36,6 +36,7 @@ Diwali is on the new moon day in the month of Kartik (month 8).
 The Great Night of Shiva is at the end of the 11 month of Magha.
 Mesha Sankranti is the day when the sun enters the sign of Aries (Mesha).
 Sacred Wednesdays are the 8th day of the lunar month that falls on a Wednesday.
+Dates may vary by a day or two due to variations of the lunar calendar and local traditions.
 }
 \examples{
 shiva(2025:2026)

@@ -24,9 +24,9 @@ Dates are returned as Gregorian dates
 \examples{
 tibble::tibble(
   year = 2025:2030,
-  chinese_new_year(year),
-  qing_ming(year),
-  dragon_festival(year)
+  cny = chinese_new_year(year),
+  qm = qing_ming(year),
+  dbf = dragon_festival(year)
 )
 }
 \seealso{
