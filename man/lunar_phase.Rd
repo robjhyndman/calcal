@@ -9,6 +9,9 @@ lunar_phase(date)
 \arguments{
 \item{date}{Date vector}
 }
+\value{
+A numeric vector of angles in degrees representing the lunar phase at the given dates.
+}
 \description{
 Lunar phase at date, as an angle in degrees. An angle of 0 means a new moon,
 90 degrees means the first quarter, 180 means a full moon, and 270 degrees

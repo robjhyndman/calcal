@@ -14,7 +14,7 @@ time_of_day(hour = integer(), minute = integer(), second = numeric())
 \item{second}{A numeric vector of seconds}
 }
 \value{
-A time vector object
+A time_of_day vector object, stored as a vctrs record containing hours, minutes and seconds.
 }
 \description{
 Create a time object

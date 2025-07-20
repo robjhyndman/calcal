@@ -11,9 +11,15 @@ as_time_of_day(x, ...)
 
 \item{...}{Additional arguments not currently used}
 }
+\value{
+A vector containing "time_of_day" objects
+}
 \description{
 Convert to time of day
 }
 \examples{
 as_time_of_day(Sys.time())
+}
+\seealso{
+\link{time_of_day}
 }

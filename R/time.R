@@ -9,7 +9,7 @@ EVENING <- FALSE
 #' @param hour A numeric vector of hours
 #' @param minute A numeric vector of minutes
 #' @param second A numeric vector of seconds
-#' @return A time vector object
+#' @return A time_of_day vector object, stored as a vctrs record containing hours, minutes and seconds.
 #' @export
 time_of_day <- function(
   hour = integer(),
@@ -66,6 +66,8 @@ format.time_of_day <- function(x, ...) {
 #'
 #' @param x Vector of times
 #' @param ... Additional arguments not currently used
+#' @return A vector containing "time_of_day" objects
+#' @seealso [time_of_day]
 #' @rdname time
 #' @examples
 #' as_time_of_day(Sys.time())

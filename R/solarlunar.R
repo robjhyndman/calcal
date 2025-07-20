@@ -308,6 +308,7 @@ lunar_longitude <- function(tee) {
 #' means the last quarter.
 #'
 #' @param date Date vector
+#' @return A numeric vector of angles in degrees representing the lunar phase at the given dates.
 #' @examples
 #' april2025 <- gregorian_date(2025, 4, 1:30)
 #' lunar_phase(april2025)
