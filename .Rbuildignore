@@ -10,3 +10,4 @@ pkgdown
 docs
 hexsticker
 ^cran-comments\.md$
+^CRAN-SUBMISSION$
