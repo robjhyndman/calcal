@@ -4,7 +4,7 @@
 #' relevant calendar. These are the granularities used to define dates on the calendar.
 #' `granularity()` will return a vector of numerical values for a given canonical granularity.
 #'
-#' @param calendar A calcal object defining a calendar.
+#' @param calendar An object defining a calendar, of "calendar" class.
 #' @param date A date vector on some calendar
 #' @param granularity A character string indicating the granularity to extract
 #' @rdname granularities
