@@ -10,7 +10,7 @@ granularity_names(calendar)
 granularity(date, granularity)
 }
 \arguments{
-\item{calendar}{A calcal object defining a calendar.}
+\item{calendar}{An object defining a calendar, of "calendar" class.}
 
 \item{date}{A date vector on some calendar}
 
