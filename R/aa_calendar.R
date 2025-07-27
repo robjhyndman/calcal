@@ -231,12 +231,11 @@ vec_cast.rdvec.rdvec <- function(x, to, ...) x
 #' @export
 vec_cast.double.rdvec <- function(x, to, ...) vec_data(x)
 #' @export
-vec_cast.integer.rdvec <- function(x, to, ...) vec_data(x)
-
+vec_cast.integer.rdvec <- function(x, to, ...) as.integer(vec_data(x))
 #' @export
-vec_cast.rdvec.double <- function(x, to, ...) {
-  x
-}
+vec_cast.rdvec.double <- function(x, to, ...) new_rdvec(x)
+#' @export
+vec_cast.rdvec.integer <- function(x, to, ...) new_rdvec(x)
 
 #' @export
 vec_ptype2.rdvec.rdvec <- function(x, y, ...) {
@@ -244,27 +243,27 @@ vec_ptype2.rdvec.rdvec <- function(x, y, ...) {
   if (!identical(attributes(x)$calendar, attributes(y)$calendar)) {
     stop("Not a common calendar")
   }
-  new_rdvec()
+  new_rdvec(calendar = attributes(x)$calendar)
 }
 
 #' @export
 vec_ptype2.rdvec.double <- function(x, y, ...) {
-  new_rdvec()
+  new_rdvec(calendar = attributes(x)$calendar)
 }
 
 #' @export
 vec_ptype2.double.rdvec <- function(x, y, ...) {
-  new_rdvec()
+  new_rdvec(calendar = attributes(y)$calendar)
 }
 
 #' @export
 vec_ptype2.rdvec.integer <- function(x, y, ...) {
-  new_rdvec()
+  new_rdvec(calendar = attributes(x)$calendar)
 }
 
 #' @export
 vec_ptype2.integer.rdvec <- function(x, y, ...) {
-  new_rdvec()
+  new_rdvec(calendar = attributes(y)$calendar)
 }
 
 #' @export
