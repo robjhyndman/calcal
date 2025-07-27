@@ -19,11 +19,15 @@ mod3 <- function(x, a, b) {
 next_value <- function(initial, condition_fn) {
   index <- initial
   cond <- condition_fn(index) & !is.na(index)
+  missing <- is.na(cond) | is.na(index)
+  cond[missing] <- TRUE
   while (any(!cond)) {
     j <- !cond
     index[j] <- index[j] + 1
     cond[j] <- condition_fn(index[j]) & !is.na(index[j])
+    cond[is.na(cond)] <- TRUE
   }
+  index[missing] <- NA_integer_
   return(index)
 }
 
@@ -31,11 +35,15 @@ next_value <- function(initial, condition_fn) {
 next_value2 <- function(initial, condition_fn) {
   index <- initial
   cond <- condition_fn(index) & !is.na(index)
+  missing <- is.na(cond) | is.na(index)
+  cond[missing] <- TRUE
   while (any(!cond)) {
     j <- !cond
     index[j] <- index[j] + 1
     cond <- condition_fn(index) & !is.na(index)
+    cond[is.na(cond)] <- TRUE
   }
+  index[missing] <- NA_integer_
   return(index)
 }
 
