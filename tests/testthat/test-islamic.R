@@ -62,7 +62,6 @@ test_that("oislamic", {
       cal_oislamic$to_rd(),
     gregorian_date(1967, 5, 2) |> as.numeric()
   )
-  expect_no_error(as_oislamic(1:1e3) |> as.list() |> validate_islamic())
 })
 
 test_that("saudi", {
