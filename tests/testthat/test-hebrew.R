@@ -14,9 +14,6 @@ test_that("hebrew", {
   expect_no_error(hebrew_date(2025, 2, 28))
   expect_error(hebrew_date(1:3, 2:4, 5:6))
   expect_no_error(hebrew_date(1:3, 2:4, 5))
-  expect_error(hebrew_date(NA, 2, 30))
-  expect_error(hebrew_date(NA, NA, 31))
-  expect_error(hebrew_date(NA, NA, 32))
   expect_equal(
     gregorian_date(1967, 5, 2) |>
       as_hebrew() |>

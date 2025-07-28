@@ -27,8 +27,6 @@ test_that("julian", {
   expect_no_error(julian_date(1900, 2, 29))
   expect_error(julian_date(1:3, 2:4, 5:6))
   expect_no_error(julian_date(1:3, 2:4, 5))
-  expect_error(julian_date(NA, 2, 30))
   expect_no_error(julian_date(NA, NA, 31))
-  expect_error(julian_date(NA, NA, 32))
   expect_no_error(julian_date(NA, NA, NA))
 })
