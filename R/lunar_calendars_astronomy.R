@@ -228,6 +228,7 @@ cal_samaritan <- new_calendar(
 )
 
 #' @rdname islamic
+#' @export
 oislamic_date <- function(
   year = integer(),
   month = integer(),
@@ -237,31 +238,37 @@ oislamic_date <- function(
 }
 
 #' @rdname islamic
+#' @export
 as_oislamic <- function(date) {
   as_date(date, calendar = cal_oislamic)
 }
 
 #' @rdname islamic
+#' @export
 saudi_date <- function(year = integer(), month = integer(), day = integer()) {
   new_date(year = year, month = month, day = day, calendar = cal_saudi)
 }
 
 #' @rdname islamic
+#' @export
 as_saudi <- function(date) {
   as_date(date, calendar = cal_saudi)
 }
 
 #' @rdname hebrew
+#' @export
 ohebrew_date <- function(year = integer(), month = integer(), day = integer()) {
   new_date(year = year, month = month, day = day, calendar = cal_ohebrew)
 }
 
 #' @rdname hebrew
+#' @export
 as_ohebrew <- function(date) {
   as_date(date, calendar = cal_ohebrew)
 }
 
 #' @rdname hebrew
+#' @export
 samaritan_date <- function(
   year = integer(),
   month = integer(),
@@ -271,6 +278,7 @@ samaritan_date <- function(
 }
 
 #' @rdname hebrew
+#' @export
 as_samaritan <- function(date) {
   as_date(date, calendar = cal_samaritan)
 }
