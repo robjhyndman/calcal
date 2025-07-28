@@ -7,9 +7,17 @@ iSUMMER <- 1
 iWINTER <- 2
 
 fixed_from_icelandic <- function(i_date) {
-  start <- rep(0, length(date))
-  start[i_date$season == iSUMMER] <- icelandic_summer(i_date$year)
-  start[i_date$season != iSUMMER] <- icelandic_winter(i_date$year)
+  miss <- is.na(i_date$year) |
+    is.na(i_date$season) |
+    is.na(i_date$week) |
+    is.na(i_date$weekday)
+  start <- rep(0, length(miss))
+  start[i_date$season == iSUMMER & !miss] <- icelandic_summer(i_date$year[
+    !miss
+  ])
+  start[i_date$season != iSUMMER & !miss] <- icelandic_winter(i_date$year[
+    !miss
+  ])
 
   shift <- rep(SATURDAY, length(date)) - 2 * (i_date$season == iSUMMER)
   start + 7 * (i_date$week - 1) + (i_date$weekday - shift) %% 7
@@ -17,12 +25,17 @@ fixed_from_icelandic <- function(i_date) {
 
 icelandic_from_fixed <- function(date) {
   date <- vec_data(date)
+  miss <- is.na(date)
   approx <- (date - ICELANDIC_EPOCH + 369) %/% (146097 / 400)
   year <- approx - (date < icelandic_summer(approx))
   season <- iWINTER - (date < icelandic_winter(year))
   start <- rep(0, length(date[[1]]))
-  start[season == iSUMMER] <- icelandic_summer(year[season == iSUMMER])
-  start[season == iWINTER] <- icelandic_winter(year[season == iWINTER])
+  start[season == iSUMMER & !miss] <- icelandic_summer(year[
+    season == iSUMMER & !miss
+  ])
+  start[season == iWINTER & !miss] <- icelandic_winter(year[
+    season == iWINTER & !miss
+  ])
   week <- 1 + (date - start) %/% 7
   weekday <- day_of_week_from_fixed(date)
 

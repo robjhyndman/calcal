@@ -12,21 +12,26 @@ fixed_from_babylonian <- function(date) {
   months <- (((date$year - 1) * 235 + 13) %/% 19) + month1
   # Middle of given month
   midmonth <- BABYLONIAN_EPOCH + round(MEAN_SYNODIC_MONTH * months) + 15
-  babylonian_new_month_on_or_before(midmonth) + date$day - 1
+  bnm <- rep(NA_integer_, length(midmonth))
+  bnm[!is.na(midmonth)] <-
+    babylonian_new_month_on_or_before(midmonth[!is.na(midmonth)])
+  bnm + date$day - 1
 }
 
 babylonian_from_fixed <- function(date) {
   date <- vec_data(date)
+  miss <- is.na(date)
   # Most recent new month
-  crescent <- babylonian_new_month_on_or_before(date)
+  crescent <- new_year <- rep(NA_real_, length(date))
+  crescent[!miss] <- babylonian_new_month_on_or_before(date[!miss])
   # Elapsed months since epoch
   months <- round((crescent - BABYLONIAN_EPOCH) / MEAN_SYNODIC_MONTH)
   year <- 1 + ((19 * months + 5) %/% 235)
   approx <- BABYLONIAN_EPOCH +
     round(((((year - 1) * 235 + 13) %/% 19) * MEAN_SYNODIC_MONTH))
-  new_year <- babylonian_new_month_on_or_before(approx + 15)
+  new_year[!miss] <- babylonian_new_month_on_or_before(approx[!miss] + 15)
   month1 <- 1 + round((crescent - new_year) / 29.5)
-  special <- (year %% 19) == 18
+  special <- (year %% 19) == 18 & !miss
   leap <- month1 == 13
   leap[special] <- month1[special] == 7
   month <- month1 - as.numeric((leap | (special & month1 > 6)))

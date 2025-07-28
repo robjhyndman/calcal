@@ -54,18 +54,19 @@ fixed_from_julian <- function(date, ...) {
 
 # Convert RD to julian
 julian_from_fixed <- function(date, ...) {
-  approx <- (4 * (vec_data(date) - JULIAN_EPOCH) + 1464) %/% 1461 # Nominal year
+  date <- vec_data(date)
+  approx <- (4 * (date - JULIAN_EPOCH) + 1464) %/% 1461 # Nominal year
   # Julian (year month day) corresponding to fixed date
   year <- approx - (approx <= 0)
 
-  prior_days <- date - julian_date(year, JANUARY, 1)
+  prior_days <- date - vec_data(julian_date(year, JANUARY, 1))
   # Correction to simulate a 30-day Feb
-  correction <- (date >= julian_date(year, MARCH, 1)) *
+  correction <- (date >= vec_data(julian_date(year, MARCH, 1))) *
     (2 - julian_leap_year(year))
   # Assuming a 30-day Feb
   month <- (12 * (prior_days + correction) + 373) %/% 367
   # Calculate the day by subtraction
-  day <- date - julian_date(year, month, 1) + 1
+  day <- date - vec_data(julian_date(year, month, 1)) + 1
   list(year = year, month = month, day = day)
 }
 

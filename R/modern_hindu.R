@@ -16,16 +16,26 @@ HINDU_LUNAR_ERA <- 3044
 # Convert from fixed date to Hindu lunar
 hindu_lunar_from_fixed <- function(date) {
   date <- vec_data(date)
-  critical <- hindu_sunrise(date)
-  day <- hindu_lunar_day_from_moment(critical)
-  leap_day <- (day == hindu_lunar_day_from_moment(hindu_sunrise(date - 1)))
-  last_new_moon <- hindu_new_moon_before(critical)
-  next_new_moon <- hindu_new_moon_before(floor(last_new_moon) + 35)
-  solar_month <- hindu_zodiac(last_new_moon)
-  leap_month <- (solar_month == hindu_zodiac(next_new_moon))
+  miss <- is.na(date)
+  year <- critical <- day <- last_new_moon <- next_new_moon <- solar_month <- rep(
+    NA_real_,
+    length(date)
+  )
+  leap_day <- leap_month <- rep(NA, length(date))
+  critical[!miss] <- hindu_sunrise(date[!miss])
+  day[!miss] <- hindu_lunar_day_from_moment(critical[!miss])
+  leap_day[!miss] <- (day[!miss] ==
+    hindu_lunar_day_from_moment(hindu_sunrise(date[!miss] - 1)))
+  last_new_moon[!miss] <- hindu_new_moon_before(critical[!miss])
+  next_new_moon[!miss] <- hindu_new_moon_before(
+    floor(last_new_moon[!miss]) + 35
+  )
+  solar_month[!miss] <- hindu_zodiac(last_new_moon[!miss])
+  leap_month[!miss] <- (solar_month[!miss] ==
+    hindu_zodiac(next_new_moon[!miss]))
   month <- amod(solar_month + 1, 12)
   year_date <- date + 180 * as.numeric(month <= 2)
-  year <- hindu_calendar_year(year_date) - HINDU_LUNAR_ERA
+  year[!miss] <- hindu_calendar_year(year_date[!miss]) - HINDU_LUNAR_ERA
   list(
     year = year,
     month = month,
@@ -40,20 +50,22 @@ fixed_from_hindu_lunar <- function(l_date) {
   approx <- HINDU_EPOCH +
     HINDU_SIDEREAL_YEAR *
       (l_date$year + HINDU_LUNAR_ERA + (l_date$month - 1) / 12)
-  s <- floor(
-    approx -
+  miss <- is.na(approx)
+  s <- k <- tau <- hs <- rep(NA_real_, length(approx))
+  s[!miss] <- floor(
+    approx[!miss] -
       HINDU_SIDEREAL_YEAR *
         mod3(
-          (hindu_solar_longitude(approx) / deg(360)) -
-            (l_date$month - 1) / 12,
+          (hindu_solar_longitude(approx[!miss]) / deg(360)) -
+            (l_date$month[!miss] - 1) / 12,
           -0.5,
           0.5
         )
   )
-  k <- hindu_lunar_day_from_moment(s + hr(6))
+  k[!miss] <- hindu_lunar_day_from_moment(s[!miss] + hr(6))
   # Estimate date
   est <- s + l_date$day
-  inside <- (3 < k & k < 27)
+  inside <- (3 < k & k < 27) & !miss
   mid <- hindu_lunar_from_fixed(s - 15)
   cond2 <- !inside &
     (mid$month != l_date$month |
@@ -64,17 +76,22 @@ fixed_from_hindu_lunar <- function(l_date) {
   est[cond3] <- est[cond3] - mod3(k[cond3], 15, 45)
 
   # Refine estimate
-  tau <- est -
-    mod3(hindu_lunar_day_from_moment(est + hr(6)) - l_date$day, -15, 15)
+  tau[!miss] <- est[!miss] -
+    mod3(
+      hindu_lunar_day_from_moment(est[!miss] + hr(6)) - l_date$day[!miss],
+      -15,
+      15
+    )
 
   date <- floor(tau)
-  hs <- hindu_lunar_day_from_moment(hindu_sunrise(date))
+  hs[!miss] <- hindu_lunar_day_from_moment(hindu_sunrise(date[!miss]))
   hsrange <- c(l_date$day, amod(l_date$day + 1, 30))
   j <- !(hs %in% hsrange)
+  j[!is.na(j)] <- FALSE
   while (any(j)) {
     date[j] <- date[j] + 1
     hs[j] <- hindu_lunar_day_from_moment(hindu_sunrise(date[j]))
-    j <- !(hs %in% hsrange)
+    j <- !(hs %in% hsrange) & !miss
   }
 
   date + as.numeric(l_date$leap_day)
@@ -83,16 +100,21 @@ fixed_from_hindu_lunar <- function(l_date) {
 # Convert from fixed date to Hindu solar
 hindu_solar_from_fixed <- function(date) {
   date <- vec_data(date)
-  critical <- hindu_sunrise(date + 1)
-  month <- hindu_zodiac(critical)
-  year <- hindu_calendar_year(critical) - HINDU_SOLAR_ERA
+  miss <- is.na(date)
+  critical <- month <- year <- approx <- rep(NA_real_, length(date))
+  critical[!miss] <- hindu_sunrise(date[!miss] + 1)
+  month[!miss] <- hindu_zodiac(critical[!miss])
+  year[!miss] <- hindu_calendar_year(critical[!miss]) - HINDU_SOLAR_ERA
   # Find start of month
-  approx <- date - 3 - (floor(hindu_solar_longitude(critical)) %% deg(30))
+  approx[!miss] <- date[!miss] -
+    3 -
+    (floor(hindu_solar_longitude(critical[!miss])) %% deg(30))
   start <- approx
-  j <- hindu_zodiac(hindu_sunrise(start + 1)) != month
+  j <- rep(FALSE, length(approx))
+  j[!miss] <- hindu_zodiac(hindu_sunrise(start[!miss] + 1)) != month[!miss]
   while (any(j)) {
     start[j] <- start[j] + 1
-    j <- hindu_zodiac(hindu_sunrise(start + 1)) != month
+    j[j] <- hindu_zodiac(hindu_sunrise(start[j] + 1)) != month[j]
   }
   day <- date - start + 1
   list(year = year, month = month, day = day)
@@ -108,10 +130,12 @@ fixed_from_hindu_solar <- function(s_date) {
 
   # Search for correct month
   d <- start - 3
-  j <- hindu_zodiac(hindu_sunrise(d + 1)) != s_date$month
+  j <- rep(FALSE, length(d))
+  miss <- is.na(d)
+  j[!miss] <- hindu_zodiac(hindu_sunrise(d[!miss] + 1)) != s_date$month[!miss]
   while (any(j)) {
     d[j] <- d[j] + 1
-    j <- hindu_zodiac(hindu_sunrise(d + 1)) != s_date$month
+    j[j] <- hindu_zodiac(hindu_sunrise(d[j] + 1)) != s_date$month[j]
   }
   d + s_date$day - 1
 }

@@ -61,7 +61,7 @@ fixed_from_bahai <- function(date) {
   # Add months
   case1 <- date$month == AYYAM_I_HA
   case2 <- date$month == 19
-  case3 <- !case1 & !case2
+  case3 <- !case1 & !case2 & !is.na(out)
   # 18 months have elapsed
   out[case1] <- out[case1] + 342
   # Last month of year. Either a long ayyam-i-ha or an ordinary ayyam-i-ha

@@ -45,10 +45,11 @@ fixed_from_islamic <- function(date, ...) {
 }
 
 islamic_from_fixed <- function(date, ...) {
-  year <- (30 * (vec_data(date) - ISLAMIC_EPOCH) + 10646) %/% 10631
-  prior_days <- date - islamic_date(year, 1, 1)
+  date <- vec_data(date)
+  year <- (30 * (date - ISLAMIC_EPOCH) + 10646) %/% 10631
+  prior_days <- date - vec_data(islamic_date(year, 1, 1))
   month <- (11 * prior_days + 330) %/% 325
-  day <- date - islamic_date(year, month, 1) + 1
+  day <- date - vec_data(islamic_date(year, month, 1)) + 1
   list(year = year, month = month, day = day)
 }
 

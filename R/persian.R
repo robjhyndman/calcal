@@ -6,10 +6,12 @@ PERSIAN_EPOCH <- 226896 # vec_data(julian_date(ce(622), MARCH, 19))
 TEHRAN <- location(angle(35.68, 0, 0), angle(51.42, 0, 0), mt(1100), 3.5)
 
 fixed_from_persian <- function(p_date) {
-  new_year <- persian_new_year_on_or_before(
+  miss <- is.na(p_date$year) | is.na(p_date$month) | is.na(p_date$day)
+  new_year <- rep(NA_real_, length(p_date$year))
+  new_year[!miss] <- persian_new_year_on_or_before(
     PERSIAN_EPOCH +
       180 +
-      floor(MEAN_TROPICAL_YEAR * (p_date$year - (p_date$year > 0)))
+      floor(MEAN_TROPICAL_YEAR * (p_date$year[!miss] - (p_date$year[!miss] > 0)))
   )
   new_year -
     1 + # Days in prior years
@@ -21,12 +23,14 @@ fixed_from_persian <- function(p_date) {
 
 persian_from_fixed <- function(date) {
   date <- vec_data(date)
-  new_year <- persian_new_year_on_or_before(date)
+  miss <- is.na(date)
+  new_year <- rep(NA_real_, length(date))
+  new_year[!miss] <- persian_new_year_on_or_before(date[!miss])
   y <- round((new_year - PERSIAN_EPOCH) / MEAN_TROPICAL_YEAR) + 1
   year <- y - (y <= 0) # No year zero
   day_of_year <- 1 + date - vec_data(persian_date(year, 1, 1))
   month <- ceiling(day_of_year / 31)
-  month[day_of_year > 186] <- ceiling((day_of_year[day_of_year > 186] - 6) / 30)
+  month[day_of_year > 186 & !miss] <- ceiling((day_of_year[day_of_year > 186 & !miss] - 6) / 30)
   day <- date - (vec_data(persian_date(year, month, 1)) - 1)
 
   list(year = year, month = month, day = trunc(day))
@@ -49,12 +53,13 @@ fixed_from_arithmetic_persian <- function(p_date) {
 
 arithmetic_persian_from_fixed <- function(date) {
   date <- vec_data(date)
+  miss <- is.na(date)
   year <- arithmetic_persian_year_from_fixed(date)
   day_of_year <- 1 +
     date -
     vec_data(apersian_date(year, 1, 1))
   month <- ceiling(day_of_year / 31)
-  month[day_of_year > 186] <- ceiling((day_of_year[day_of_year > 186] - 6) / 30)
+  month[day_of_year > 186 & !miss] <- ceiling((day_of_year[day_of_year > 186 & !miss] - 6) / 30)
   day <- date -
     (vec_data(apersian_date(year, month, 1)) - 1)
   list(year = year, month = month, day = trunc(day))

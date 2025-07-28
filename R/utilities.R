@@ -52,11 +52,15 @@ next_value2 <- function(initial, condition_fn) {
 final_value <- function(initial, condition_fn) {
   index <- initial
   cond <- condition_fn(initial) & !is.na(index)
+  missing <- is.na(cond) | is.na(index)
+  cond[missing] <- FALSE
   while (any(cond)) {
     j <- cond
     index[j] <- index[j] + 1
     cond <- condition_fn(index) & !is.na(index)
+    cond[is.na(cond)] <- FALSE
   }
+  index[missing] <- NA_integer_
   return(index - 1)
 }
 
@@ -93,19 +97,22 @@ invert_angular <- function(f, y, a, b) {
   # Default precision is 0.00001
   # Bisection search
   lst <- vctrs::vec_cast_common(y = y, a = a, b = b)
-  output <- rep(0, length(lst$y))
+  output <- rep(NA_real_, length(lst$y))
   epsilon <- 1 / 100000
+  miss <- is.na(lst$y) | is.na(lst$a) | is.na(lst$b)
   for (i in seq_along(output)) {
-    output[i] <- binary_search(
-      lo = lst$a[i],
-      hi = lst$b[i],
-      test_fn = function(x) {
-        ((f(x) - lst$y[i]) %% 360) < 180
-      },
-      end_fn = function(lo, hi) {
-        (hi - lo) < epsilon
-      }
-    )
+    if (!miss[i]) {
+      output[i] <- binary_search(
+        lo = lst$a[i],
+        hi = lst$b[i],
+        test_fn = function(x) {
+          ((f(x) - lst$y[i]) %% 360) < 180
+        },
+        end_fn = function(lo, hi) {
+          (hi - lo) < epsilon
+        }
+      )
+    }
   }
   output
 }

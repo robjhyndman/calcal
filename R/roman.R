@@ -51,12 +51,17 @@ format_roman <- function(x, ...) {
 }
 
 fixed_from_roman <- function(date, ...) {
+  miss <- is.na(date$year) |
+    is.na(date$month) |
+    is.na(date$event) |
+    is.na(date$count)
   kalends <- julian_date(date$year, date$month, 1) # KALENDS
   nones <- julian_date(date$year, date$month, nones_of_month(date$month)) # NONES
   ides <- julian_date(date$year, date$month, ides_of_month(date$month)) # IDES
+
   base_date <- kalends
-  base_date[date$event == 2] <- nones[date$event == 2]
-  base_date[date$event == 3] <- ides[date$event == 3]
+  base_date[date$event == 2 & !miss] <- nones[date$event == 2 & !miss]
+  base_date[date$event == 3 & !miss] <- ides[date$event == 3 & !miss]
 
   rd <- base_date -
     date$count +
@@ -73,6 +78,7 @@ fixed_from_roman <- function(date, ...) {
 
 roman_from_fixed <- function(date, ...) {
   date <- vec_data(date)
+  miss <- is.na(date)
   j_date <- cal_julian$from_rd(as_julian(date))
   month <- j_date$month
   day <- j_date$day
@@ -81,12 +87,16 @@ roman_from_fixed <- function(date, ...) {
   year_prime <- year + (month_prime == 1 & year != -1)
   year_prime[month_prime == 1 & year == -1] <- 1
   kalends1 <- vec_data(roman_date(year_prime, month_prime, KALENDS, 1, FALSE))
-  case1 <- day == 1
-  case2 <- !case1 & day <= nones_of_month(month)
-  case3 <- !case1 & !case2 & day <= ides_of_month(month)
-  case4 <- !case1 & !case2 & !case3 & (month != 2 | !julian_leap_year(year))
-  case5 <- !case1 & !case2 & !case3 & !case4 & day < 25
-  case6 <- !case1 & !case2 & !case3 & !case4 & !case5 & day == 25
+  case1 <- day == 1 & !miss
+  case2 <- !case1 & day <= nones_of_month(month) & !miss
+  case3 <- !case1 & !case2 & day <= ides_of_month(month) & !miss
+  case4 <- !case1 &
+    !case2 &
+    !case3 &
+    (month != 2 | !julian_leap_year(year)) &
+    !miss
+  case5 <- !case1 & !case2 & !case3 & !case4 & day < 25 & !miss
+  case6 <- !case1 & !case2 & !case3 & !case4 & !case5 & day == 25 & !miss
   mmonth <- rep(3, length(date))
   event <- rep(KALENDS, length(date))
   count <- 31 - day
@@ -117,6 +127,11 @@ roman_from_fixed <- function(date, ...) {
   if (any(case6)) {
     count[case6] <- 31 - day[case6]
   }
+  year[miss] <- NA_integer_
+  mmonth[miss] <- NA_integer_
+  event[miss] <- NA_integer_
+  count[miss] <- NA_integer_
+  leap[miss] <- NA
   list(
     year = year,
     month = mmonth,

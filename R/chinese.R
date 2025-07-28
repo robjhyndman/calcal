@@ -31,28 +31,36 @@ validate_korean <- function(date) {
 
 asian_from_fixed <- function(date, locfn) {
   date <- vec_data(date)
-  s1 <- chinese_winter_solstice_on_or_before(date, locfn) # Prior solstice
-  s2 <- chinese_winter_solstice_on_or_before(s1 + 370, locfn) # Following solstice
-  m12 <- chinese_new_moon_on_or_after(s1 + 1, locfn) # Month after last 11th month
-  next_m11 <- chinese_new_moon_before(s2 + 1, locfn) # Next 11th month
-  m <- chinese_new_moon_before(date + 1, locfn) # Start of month containing date
+  miss <- is.na(date)
+  s1 <- s2 <- m12 <- next_m11 <- m <- month <- rep(NA_real_, length(date))
+  s1[!miss] <- chinese_winter_solstice_on_or_before(date[!miss], locfn) # Prior solstice
+  s2[!miss] <- chinese_winter_solstice_on_or_before(s1[!miss] + 370, locfn) # Following solstice
+  m12[!miss] <- chinese_new_moon_on_or_after(s1[!miss] + 1, locfn) # Month after last 11th month
+  next_m11[!miss] <- chinese_new_moon_before(s2[!miss] + 1, locfn) # Next 11th month
+  m[!miss] <- chinese_new_moon_before(date[!miss] + 1, locfn) # Start of month containing date
 
   # If there are 13 new moons (12 full lunar months)
   leap_year <- round((next_m11 - m12) / MEAN_SYNODIC_MONTH) == 12
 
   # Month number
-  month <- amod(
-    round((m - m12) / MEAN_SYNODIC_MONTH) -
+  month[!miss] <- amod(
+    round((m[!miss] - m12[!miss]) / MEAN_SYNODIC_MONTH) -
       # Minus 1 during or after a leap month
-      (leap_year & chinese_prior_leap_month(m12, m, locfn)),
+      (leap_year[!miss] &
+        chinese_prior_leap_month(m12[!miss], m[!miss], locfn)),
     12
   )
 
   # It's a leap month if there are 13 months, no major solar term,
   # and no prior leap month
-  leap_month <- leap_year &
-    chinese_no_major_solar_term(m, locfn) &
-    !chinese_prior_leap_month(m12, chinese_new_moon_before(m, locfn), locfn)
+  leap_month <- rep(NA, length(date))
+  leap_month[!miss] <- leap_year[!miss] &
+    chinese_no_major_solar_term(m[!miss], locfn) &
+    !chinese_prior_leap_month(
+      m12[!miss],
+      chinese_new_moon_before(m[!miss], locfn),
+      locfn
+    )
 
   # Approximate since the epoch
   elapsed_years <- floor(

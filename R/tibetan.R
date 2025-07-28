@@ -30,11 +30,11 @@ tibetan_from_fixed <- function(date) {
   # Tibetan lunar date corresponding to fixed date
   cap_Y <- 365 + 4975 / 18382 # Average Tibetan year
   years <- ceiling((date - TIBETAN_ENOCH) / cap_Y)
+  miss <- is.na(date)
   # Search for year
   year0 <- final_value(years, function(y) {
     date >= vec_data(tibetan_date(y, 1, FALSE, 1, FALSE))
   })
-
   # Search for month
   month0 <- final_value(rep(1, length(date)), function(m) {
     date >= vec_data(tibetan_date(year0, m, FALSE, 1, FALSE))
@@ -72,8 +72,18 @@ format_tibetan <- function(date) {
   format_date(
     date,
     month_name = c(
-      "dbo", "nagpa", "saga", "snron", "chust", "grobz",
-      "khrum", "thask", "smind", "mgo", "rgyal", "mchu"
+      "dbo",
+      "nagpa",
+      "saga",
+      "snron",
+      "chust",
+      "grobz",
+      "khrum",
+      "thask",
+      "smind",
+      "mgo",
+      "rgyal",
+      "mchu"
     )
   )
 }
