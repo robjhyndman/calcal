@@ -87,19 +87,21 @@ fixed_from_asian <- function(date, locfn) {
       ((date$cycle - 1) * 60 + date$year - 0.5) *
         MEAN_TROPICAL_YEAR
   )
-  new_year <- chinese_new_year_on_or_before(mid_year, locfn)
+  miss <- is.na(mid_year)
+  new_year <- p <- rep(NA_real_, length(mid_year))
+  new_year[!miss] <- chinese_new_year_on_or_before(mid_year[!miss], locfn)
 
   # New moon before date - a month too early if
   # there was prior leap month that year
-  p <- chinese_new_moon_on_or_after(new_year + (date$month - 1) * 29, locfn)
+  p[!miss] <- chinese_new_moon_on_or_after(new_year[!miss] + (date$month[!miss] - 1) * 29, locfn)
   d <- chinese_from_fixed(p)
 
   # If the months match, that's the right month
   # Otherwise, there was a prior leap month that year, so we want the next month
   prior_new_moon <- p
   idx <- !(date$month == d$month & date$leap_month == d$leap_month)
-  if (any(idx)) {
-    prior_new_moon[idx] <- chinese_new_moon_on_or_after(p[idx] + 1, locfn)
+  if (any(idx, na.rm = TRUE )) {
+    prior_new_moon[idx & !miss] <- chinese_new_moon_on_or_after(p[idx & !miss] + 1, locfn)
   }
   prior_new_moon + date$day - 1
 }

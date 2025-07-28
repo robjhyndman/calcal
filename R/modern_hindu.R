@@ -67,10 +67,10 @@ fixed_from_hindu_lunar <- function(l_date) {
   est <- s + l_date$day
   inside <- (3 < k & k < 27) & !miss
   mid <- hindu_lunar_from_fixed(s - 15)
-  cond2 <- !inside &
+  cond2 <- !inside & !miss &
     (mid$month != l_date$month |
       (mid$leap_month & !l_date$leap_month))
-  cond3 <- !inside & !cond2
+  cond3 <- !inside & !cond2 & !miss
   est[inside] <- est[inside] - k[inside]
   est[cond2] <- est[cond2] - mod3(k[cond2], -15, 15)
   est[cond3] <- est[cond3] - mod3(k[cond3], 15, 45)
