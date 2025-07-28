@@ -20,30 +20,23 @@ ADARII <- 13
 HEBREW_EPOCH <- -1373427 # vec_data(julian_date(bce(3761), OCTOBER, 7))
 
 validate_hebrew <- function(date) {
-  # Remove missing
-  miss <- is.na(date$year) | is.na(date$month) | is.na(date$day)
-  date$year <- date$year[!miss]
-  date$month <- date$month[!miss]
-  date$day <- date$day[!miss]
-  if (length(date$year) > 0) {
-    max_month <- last_month_of_hebrew_year(date$year)
-    if (any(date$month > max_month)) {
-      stop(paste(
-        "Too many months in the year",
-        date$year[date$month <= max_month]
-      ))
-    }
-    days_month <- last_day_of_hebrew_month(date$year, date$month)
-    if (any(date$day > days_month)) {
-      stop(paste(
-        "Too many days in month",
-        date$year[date$day > days_month],
-        "-",
-        date$month[date$day > days_month]
-      ))
-    }
-    stopifnot(date$month >= 1, date$day >= 1, date$day <= 30)
+  max_month <- last_month_of_hebrew_year(date$year)
+  if (any(date$month > max_month)) {
+    stop(paste(
+      "Too many months in the year",
+      date$year[date$month <= max_month]
+    ))
   }
+  days_month <- last_day_of_hebrew_month(date$year, date$month)
+  if (any(date$day > days_month)) {
+    stop(paste(
+      "Too many days in month",
+      date$year[date$day > days_month],
+      "-",
+      date$month[date$day > days_month]
+    ))
+  }
+  stopifnot(date$month >= 1, date$day >= 1, date$day <= 30)
 }
 
 format_hebrew <- function(x, ...) {

@@ -118,7 +118,9 @@ as_date.list <- function(date, calendar) {
   # Common length recycling
   lst <- lapply(lst, vec_recycle, size = max(unlist(lapply(lst, length))))
   # Check the granularities are valid
-  calendar$validate_granularities(lst)
+  lst_nomissing <- na.omit(as.data.frame(lst)) |> as.list()
+  names(lst_nomissing) <- names(lst)
+  calendar$validate_granularities(na.omit(lst_nomissing))
   # Convert to RD
   if (all(unlist(lapply(lst, length)) == 0L)) {
     rd <- integer()
