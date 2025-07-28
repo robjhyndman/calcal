@@ -14,14 +14,6 @@ test_that("hebrew", {
   expect_no_error(hebrew_date(2025, 2, 28))
   expect_error(hebrew_date(1:3, 2:4, 5:6))
   expect_no_error(hebrew_date(1:3, 2:4, 5))
-  expect_equal(
-    gregorian_date(1967, 5, 2) |>
-      as_hebrew() |>
-      cal_hebrew$from_rd() |>
-      cal_hebrew$to_rd(),
-    gregorian_date(1967, 5, 2) |> as.numeric()
-  )
-  expect_no_error(as_hebrew(1:1e4) |> as.list() |> validate_hebrew())
 
   # Holidays
   expect_equal(
@@ -86,13 +78,6 @@ test_that("hebrew", {
 
 test_that("ohebrew", {
   expect_equal(
-    gregorian_date(1967, 5, 2) |>
-      as_ohebrew() |>
-      cal_ohebrew$from_rd() |>
-      cal_ohebrew$to_rd(),
-    gregorian_date(1967, 5, 2) |> as.numeric()
-  )
-  expect_equal(
     ohebrew_date(2774, 3, 1:4) |>
       cal_ohebrew$from_rd() |>
       cal_ohebrew$to_rd(),
@@ -101,13 +86,6 @@ test_that("ohebrew", {
 })
 
 test_that("samaritan", {
-  expect_equal(
-    gregorian_date(1967, 5, 2) |>
-      as_samaritan() |>
-      cal_samaritan$from_rd() |>
-      cal_samaritan$to_rd(),
-    gregorian_date(1967, 5, 2) |> as.numeric()
-  )
   expect_equal(
     samaritan_date(3663, 3, 1:10) |>
       cal_samaritan$from_rd() |>

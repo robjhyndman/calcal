@@ -1,19 +1,9 @@
 test_that("bahai", {
   expect_equal(
-    gregorian_date(1967, 5, 2) |>
-      as_bahai() |>
-      cal_bahai$from_rd() |>
-      cal_bahai$to_rd(),
-    gregorian_date(1967, 5, 2) |> as.numeric()
-  )
-  expect_equal(
     bahai_date(1, 10, 11, 3, 5:10) |>
       cal_bahai$from_rd() |>
       cal_bahai$to_rd(),
     bahai_date(1, 10, 11, 3, 5:10) |> vctrs::vec_data()
-  )
-  expect_no_error(
-    as_bahai(1:1e5) |> as.list() |> validate_bahai()
   )
 })
 

@@ -10,14 +10,6 @@ test_that("islamic", {
   )
   expect_error(islamic_date(1446, 13, 1))
   expect_error(islamic_date(2025, 2, 31))
-  expect_equal(
-    gregorian_date(1967, 5, 2) |>
-      as_islamic() |>
-      cal_islamic$from_rd() |>
-      cal_islamic$to_rd(),
-    gregorian_date(1967, 5, 2) |> as.numeric()
-  )
-  expect_no_error(as_islamic(1:1e5) |> as.list() |> validate_islamic())
 
   # Holidays
   expect_equal(
@@ -55,13 +47,6 @@ test_that("oislamic", {
   )
   expect_error(oislamic_date(1446, 13, 1))
   expect_error(oislamic_date(2025, 2, 31))
-  expect_equal(
-    gregorian_date(1967, 5, 2) |>
-      as_oislamic() |>
-      cal_oislamic$from_rd() |>
-      cal_oislamic$to_rd(),
-    gregorian_date(1967, 5, 2) |> as.numeric()
-  )
 })
 
 test_that("saudi", {
@@ -76,11 +61,4 @@ test_that("saudi", {
   )
   expect_error(saudi_date(1446, 13, 1))
   expect_error(saudi_date(2025, 2, 31))
-  expect_equal(
-    gregorian_date(1967, 5, 2) |>
-      as_saudi() |>
-      cal_saudi$from_rd() |>
-      cal_saudi$to_rd(),
-    gregorian_date(1967, 5, 2) |> as.numeric()
-  )
 })

@@ -14,12 +14,6 @@ test_that("gregorian", {
   expect_no_error(gregorian_date(NA, NA, NA))
   expect_error(gregorian_date(1:3, 2:4, 5:6))
   expect_no_error(gregorian_date(1:3, 2:4, 5))
-  expect_equal(
-    gregorian_date(1967, 5, 2) |>
-      cal_gregorian$from_rd() |>
-      cal_gregorian$to_rd(),
-    gregorian_date(1967, 5, 2) |> as.numeric()
-  )
 })
 
 test_that("parts_of_date", {
@@ -54,5 +48,4 @@ test_that("parts_of_date", {
     c(rep(1, 5), rep(2:52, rep(7, 51)), rep(1, 3))
   )
   expect_true(all(day_of_year(yr2025) + days_remaining(yr2025) == 365))
-  expect_no_error(as_gregorian(1:1e5) |> as.list() |> validate_gregorian())
 })

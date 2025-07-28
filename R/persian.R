@@ -184,7 +184,7 @@ arithmetic_persian_leap_year <- function(p_year) {
 
 arithmetic_persian_year_from_fixed <- function(date) {
   # Prior days since start of 2820-year cycle beginning in Persian year 474
-  d0 <- date - vec_data(persian_date(475, 1, 1))
+  d0 <- date - vec_data(apersian_date(475, 1, 1))
   n2820 <- d0 %/% 1029983 # Completed prior 2820-year cycles
   d1 <- d0 %% 1029983 # Prior days not in n2820
 
