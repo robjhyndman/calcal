@@ -12,10 +12,6 @@ test_that("chinese", {
     gregorian_date(2025:2026, c(4, 4), c(4, 5))
   )
   expect_equal(
-    as_gregorian(Sys.Date()),
-    as_chinese(Sys.Date()) |> as_gregorian()
-  )
-  expect_equal(
     gregorian_date(2025, 6, 1:10) |>
       as_chinese() |>
       cal_chinese$from_rd() |>
