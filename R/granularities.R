@@ -20,7 +20,7 @@
 #' @export
 granularity_names <- function(calendar) {
   if (inherits(calendar, "rdvec")) {
-    calendar <- attributes(calendar)$calendar
+    calendar <- get_calendar(calendar)
   }
   if (!inherits(calendar, "calendar")) {
     stop("`calendar` must be a calendar object", call. = FALSE)

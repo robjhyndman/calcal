@@ -7,6 +7,8 @@ SUMMER <- 90
 AUTUMN <- 180
 WINTER <- 270
 
+.calendar_registry <- new.env(parent = emptyenv())
+
 #' Define calendar objects
 #'
 #' Generate a calendar object of class "calendar". Examples of calendars
@@ -39,7 +41,7 @@ new_calendar <- function(
   from_rd,
   to_rd
 ) {
-  structure(
+  out <- structure(
     list(
       name = name,
       short_name = short_name,
@@ -51,6 +53,16 @@ new_calendar <- function(
     ),
     class = "calendar"
   )
+  .calendar_registry[[name]] <- out
+  out
+}
+
+# Return calendar given a date vector.
+# Class structure of date vector is c("rdvec", <calendar_name>, "vctrs_vctr")
+get_calendar <- function(date) {
+  classes <- class(date)
+  calendar_name <- classes[classes != "rdvec" & classes != "vctrs_vctr"]
+  .calendar_registry[[calendar_name]]
 }
 
 #' @export
@@ -147,7 +159,7 @@ as_date.default <- function(date, calendar) {
 }
 
 base_granularities <- function(date) {
-  attributes(date)$calendar$from_rd(vec_data(date))
+  get_calendar(date)$from_rd(vec_data(date))
 }
 
 #' @export
@@ -175,13 +187,12 @@ new_date <- function(..., calendar) {
 new_rdvec <- function(rd = integer(), calendar = cal_gregorian) {
   out <- new_vctr(vec_cast(rd, double()), class = "rdvec")
   class(out) <- c("rdvec", calendar$name, "vctrs_vctr")
-  attr(out, "calendar") <- calendar
   out
 }
 
 #' @export
 format.rdvec <- function(x, ...) {
-  attributes(x)$calendar$format(x)
+  get_calendar(x)$format(x)
 }
 
 # Generic date format function. Months can take names
@@ -242,39 +253,39 @@ vec_cast.rdvec.integer <- function(x, to, ...) new_rdvec(x)
 #' @export
 vec_ptype2.rdvec.rdvec <- function(x, y, ...) {
   ## Check same calendar
-  if (!identical(attributes(x)$calendar, attributes(y)$calendar)) {
+  if (!identical(get_calendar(x), get_calendar(y))) {
     stop("Not a common calendar")
   }
-  new_rdvec(calendar = attributes(x)$calendar)
+  new_rdvec(calendar = get_calendar(x))
 }
 
 #' @export
 vec_ptype2.rdvec.double <- function(x, y, ...) {
-  new_rdvec(calendar = attributes(x)$calendar)
+  new_rdvec(calendar = get_calendar(x))
 }
 
 #' @export
 vec_ptype2.double.rdvec <- function(x, y, ...) {
-  new_rdvec(calendar = attributes(y)$calendar)
+  new_rdvec(calendar = get_calendar(y))
 }
 
 #' @export
 vec_ptype2.rdvec.integer <- function(x, y, ...) {
-  new_rdvec(calendar = attributes(x)$calendar)
+  new_rdvec(calendar = get_calendar(x))
 }
 
 #' @export
 vec_ptype2.integer.rdvec <- function(x, y, ...) {
-  new_rdvec(calendar = attributes(y)$calendar)
+  new_rdvec(calendar = get_calendar(y))
 }
 
 #' @export
 vec_ptype_abbr.rdvec <- function(x, ...) {
-  attributes(x)$calendar$short_name
+  get_calendar(x)$short_name
 }
 
 #' @export
 obj_print_header.rdvec <- function(x, ...) {
-  class(x) <- c(attributes(x)$calendar$name, class(x))
+  class(x) <- c(get_calendar(x)$name, class(x))
   NextMethod()
 }

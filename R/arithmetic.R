@@ -15,7 +15,7 @@ vec_arith.rdvec.rdvec <- function(op, x, y, ...) {
 vec_arith.numeric.rdvec <- function(op, x, y, ...) {
   new_rdvec(
     vec_arith(op, x, vec_data(y)),
-    attributes(y)$calendar
+    get_calendar(y)
   )
 }
 
@@ -24,7 +24,7 @@ vec_arith.numeric.rdvec <- function(op, x, y, ...) {
 vec_arith.rdvec.numeric <- function(op, x, y, ...) {
   new_rdvec(
     vec_arith(op, vec_data(x), y),
-    attributes(x)$calendar
+    get_calendar(x)
   )
 }
 
