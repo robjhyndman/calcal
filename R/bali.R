@@ -75,7 +75,7 @@ validate_balinese <- function(date) {
 #' @format NULL
 #' @export
 cal_balinese <- new_calendar(
-  "bali",
+  "balinese",
   "Bal",
   c(
     "luang",

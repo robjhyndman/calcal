@@ -109,7 +109,7 @@ day_of_year <- function(date) {
   for (f in gran[gran != "year"]) {
     date0[[f]] <- rep(1, length(date))
   }
-  date0 <- attributes(date)$calendar$to_rd(date0)
+  date0 <- get_calendar(date)$to_rd(date0)
   as.numeric(date - date0 + 1)
 }
 
@@ -125,7 +125,7 @@ days_remaining <- function(date) {
   for (f in gran[gran != "year"]) {
     date0[[f]] <- rep(1, length(date))
   }
-  date0 <- attributes(date)$calendar$to_rd(date0)
+  date0 <- get_calendar(date)$to_rd(date0)
   as.numeric(date0 - date - 1)
 }
 
