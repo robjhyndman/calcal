@@ -343,7 +343,6 @@ observational_hebrew_first_of_nisan <- function(g_year) {
     rep(HEBREW_LOCATION, length(g_year))
   ) +
     floor(equinox)
-
   phasis_on_or_after(
     floor(equinox) - 13 - as.numeric(equinox < set),
     HEBREW_LOCATION
@@ -580,6 +579,6 @@ phasis_on_or_after <- function(date, location) {
     tau[not_visible] <- moon[not_visible] + 29 # Next new moon
   }
   next_value(tau, function(x) {
-    visible_crescent(x, lst$location)
+    visible_crescent(x, lst$location[seq_along(x)])
   })
 }

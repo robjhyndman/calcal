@@ -64,7 +64,8 @@ tan_degrees <- function(theta) {
 arctan_degrees <- function(y, x) {
   alpha <- degrees_from_radians(atan(y / x))
   result <- alpha + 180 * (x <= 0)
-  result[x == 0 & y != 0] <- sign(y) * 90
+  idx <- x == 0 & y != 0 & !is.na(y)
+  result[idx] <- sign(y[idx]) * 90
   result %% 360
 }
 
@@ -145,6 +146,7 @@ approx_moment_of_depression <- function(tee, loc, alpha, early) {
 moment_of_depression <- function(approx, loc, alpha, early) {
   tee <- approx_moment_of_depression(approx, loc, alpha, early)
   iter <- abs(approx - tee) >= sec(30) & !is.na(tee)
+  iter[is.na(alpha)] <- FALSE
   if (any(iter)) {
     tee[iter] <- moment_of_depression(tee[iter], loc[iter], alpha[iter], early)
   }
