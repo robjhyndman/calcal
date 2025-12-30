@@ -1,0 +1,405 @@
+# calcal
+
+The goal of calcal is to do calendrical calculations, based on the
+algorithms described in [Reingold and Dershowitz (2018) *Calendrical
+Calculations*, 4th edition, Cambridge University
+Press](https://doi.org/10.1017/9781107415058).
+
+It is largely a translation of the Lisp code produced by Reingold and
+Dershowitz for [Calendrica
+4.0](https://github.com/EdReingold/calendar-code2).
+
+## Installation
+
+You can install the **stable** version from
+[CRAN](https://CRAN.R-project.org/package=calcal) with:
+
+``` r
+pak::pak("calcal")
+```
+
+You can install the **development** version from
+[GitHub](https://github.com/) with:
+
+``` r
+pak::pak("robjhyndman/calcal")
+```
+
+## Example
+
+Dates in multiple calendars:
+
+``` r
+library(calcal)
+library(tibble)
+library(tidyr)
+library(dplyr)
+tibble(
+  Gregorian = gregorian_date(1990, 2, 20) + 1:10,
+  ISO = as_iso(Gregorian),
+  Islamic = as_islamic(Gregorian),
+  Hebrew = as_hebrew(Gregorian)
+)
+#> # A tibble: 10 × 4
+#>      Gregorian        ISO     Islamic         Hebrew
+#>          <Gre>      <ISO>       <Hij>          <Heb>
+#>  1 1990-Feb-21 1990-08-03 1410-Raj-25 5750-Shevat-26
+#>  2 1990-Feb-22 1990-08-04 1410-Raj-26 5750-Shevat-27
+#>  3 1990-Feb-23 1990-08-05 1410-Raj-27 5750-Shevat-28
+#>  4 1990-Feb-24 1990-08-06 1410-Raj-28 5750-Shevat-29
+#>  5 1990-Feb-25 1990-08-07 1410-Raj-29 5750-Shevat-30
+#>  6 1990-Feb-26 1990-09-01 1410-Raj-30   5750-Adar-01
+#>  7 1990-Feb-27 1990-09-02 1410-Sha-01   5750-Adar-02
+#>  8 1990-Feb-28 1990-09-03 1410-Sha-02   5750-Adar-03
+#>  9 1990-Mar-01 1990-09-04 1410-Sha-03   5750-Adar-04
+#> 10 1990-Mar-02 1990-09-05 1410-Sha-04   5750-Adar-05
+```
+
+Some religious and cultural holidays
+
+``` r
+tibble(
+  year = 2025:2028,
+  # Christian holidays
+    Easter = easter(year),
+   `Orthodox Easter` = orthodox_easter(year),
+    Christmas = christmas(year),
+   `Orthodox Christmas` = orthodox_christmas(year),
+  # Jewish holidays
+   `Rosh Hashanah` = rosh_hashanah(year),
+    Passover = passover(year),
+   `Yom Kippur` = yom_kippur(year),
+    Sukkot = sukkot(year),
+    Hanukkah = hanukkah(year),
+  # Islamic holidays
+    Ramadan = ramadan(year),
+   `Eid al-Fitr` = eid_al_fitr(year),
+   `Eid al-Adha` = eid_al_adha(year),
+  # Chinese Holidays
+   `Chinese New Year` = chinese_new_year(year),
+   `Dragon Festival` = dragon_festival(year),
+   `Qing Ming` = qing_ming(year),
+  # Hindu Holidays
+   `Hindu Lunar New Year` = hindu_lunar_new_year(year),
+   `Hindu Solar New Year` = mesha_sankranti(year),
+    Diwali = diwali(year),
+    Rama = rama(year),
+    Shiva = shiva(year)
+) |>
+  pivot_longer(-year) |>
+  pivot_wider(names_from = year, values_from = value) |>
+  arrange(`2025`)
+#> # A tibble: 20 × 5
+#>    name                      `2025`      `2026`      `2027`      `2028`
+#>    <chr>                      <Gre>       <Gre>       <Gre>       <Gre>
+#>  1 Orthodox Christmas   2025-Jan-07 2026-Jan-07 2027-Jan-07 2028-Jan-07
+#>  2 Chinese New Year     2025-Jan-29 2026-Feb-17 2027-Feb-06 2028-Jan-26
+#>  3 Shiva                2025-Feb-27 2026-Feb-16 2027-Mar-07 2028-Feb-24
+#>  4 Ramadan              2025-Mar-01 2026-Feb-18 2027-Feb-08 2028-Jan-28
+#>  5 Hindu Lunar New Year 2025-Mar-30 2026-Mar-19 2027-Apr-07 2028-Mar-27
+#>  6 Eid al-Fitr          2025-Mar-31 2026-Mar-20 2027-Mar-10 2028-Feb-27
+#>  7 Qing Ming            2025-Apr-04 2026-Apr-05 2027-Apr-05 2028-Apr-04
+#>  8 Rama                 2025-Apr-06 2026-Mar-27 2027-Apr-15 2028-Apr-04
+#>  9 Passover             2025-Apr-13 2026-Apr-02 2027-Apr-22 2028-Apr-11
+#> 10 Hindu Solar New Year 2025-Apr-14 2026-Apr-14 2027-Apr-14 2028-Apr-13
+#> 11 Easter               2025-Apr-20 2026-Apr-05 2027-Mar-28 2028-Apr-16
+#> 12 Orthodox Easter      2025-Apr-20 2026-Apr-12 2027-May-02 2028-Apr-16
+#> 13 Dragon Festival      2025-May-31 2026-Jun-19 2027-Jun-09 2028-May-28
+#> 14 Eid al-Adha          2025-Jun-07 2026-May-27 2027-May-17 2028-May-05
+#> 15 Rosh Hashanah        2025-Sep-23 2026-Sep-12 2027-Oct-02 2028-Sep-21
+#> 16 Yom Kippur           2025-Oct-02 2026-Sep-21 2027-Oct-11 2028-Sep-30
+#> 17 Sukkot               2025-Oct-07 2026-Sep-26 2027-Oct-16 2028-Oct-05
+#> 18 Diwali               2025-Oct-22 2026-Nov-10 2027-Oct-30 2028-Nov-17
+#> 19 Hanukkah             2025-Dec-15 2026-Dec-05 2027-Dec-25 2028-Dec-13
+#> 20 Christmas            2025-Dec-25 2026-Dec-25 2027-Dec-25 2028-Dec-25
+```
+
+# Package index
+
+## Package
+
+- [`calcal`](https://pkg.robjhyndman.com/calcal/reference/calcal-package.md)
+  [`calcal-package`](https://pkg.robjhyndman.com/calcal/reference/calcal-package.md)
+  : calcal: Calendrical Calculations
+
+## Create new calendars and dates
+
+- [`new_calendar()`](https://pkg.robjhyndman.com/calcal/reference/new_calendar.md)
+  [`cal_babylonian`](https://pkg.robjhyndman.com/calcal/reference/new_calendar.md)
+  [`cal_bahai`](https://pkg.robjhyndman.com/calcal/reference/new_calendar.md)
+  [`cal_balinese`](https://pkg.robjhyndman.com/calcal/reference/new_calendar.md)
+  [`cal_chinese`](https://pkg.robjhyndman.com/calcal/reference/new_calendar.md)
+  [`cal_japanese`](https://pkg.robjhyndman.com/calcal/reference/new_calendar.md)
+  [`cal_korean`](https://pkg.robjhyndman.com/calcal/reference/new_calendar.md)
+  [`cal_vietnamese`](https://pkg.robjhyndman.com/calcal/reference/new_calendar.md)
+  [`cal_coptic`](https://pkg.robjhyndman.com/calcal/reference/new_calendar.md)
+  [`cal_ethiopic`](https://pkg.robjhyndman.com/calcal/reference/new_calendar.md)
+  [`cal_egyptian`](https://pkg.robjhyndman.com/calcal/reference/new_calendar.md)
+  [`cal_armenian`](https://pkg.robjhyndman.com/calcal/reference/new_calendar.md)
+  [`cal_french`](https://pkg.robjhyndman.com/calcal/reference/new_calendar.md)
+  [`cal_afrench`](https://pkg.robjhyndman.com/calcal/reference/new_calendar.md)
+  [`cal_gregorian`](https://pkg.robjhyndman.com/calcal/reference/new_calendar.md)
+  [`cal_hebrew`](https://pkg.robjhyndman.com/calcal/reference/new_calendar.md)
+  [`cal_icelandic`](https://pkg.robjhyndman.com/calcal/reference/new_calendar.md)
+  [`cal_islamic`](https://pkg.robjhyndman.com/calcal/reference/new_calendar.md)
+  [`cal_iso`](https://pkg.robjhyndman.com/calcal/reference/new_calendar.md)
+  [`cal_julian`](https://pkg.robjhyndman.com/calcal/reference/new_calendar.md)
+  [`cal_oislamic`](https://pkg.robjhyndman.com/calcal/reference/new_calendar.md)
+  [`cal_saudi`](https://pkg.robjhyndman.com/calcal/reference/new_calendar.md)
+  [`cal_ohebrew`](https://pkg.robjhyndman.com/calcal/reference/new_calendar.md)
+  [`cal_samaritan`](https://pkg.robjhyndman.com/calcal/reference/new_calendar.md)
+  [`cal_mayan`](https://pkg.robjhyndman.com/calcal/reference/new_calendar.md)
+  [`cal_hindu_lunar`](https://pkg.robjhyndman.com/calcal/reference/new_calendar.md)
+  [`cal_hindu_solar`](https://pkg.robjhyndman.com/calcal/reference/new_calendar.md)
+  [`cal_old_hindu_solar`](https://pkg.robjhyndman.com/calcal/reference/new_calendar.md)
+  [`cal_old_hindu_lunar`](https://pkg.robjhyndman.com/calcal/reference/new_calendar.md)
+  [`cal_persian`](https://pkg.robjhyndman.com/calcal/reference/new_calendar.md)
+  [`cal_apersian`](https://pkg.robjhyndman.com/calcal/reference/new_calendar.md)
+  [`cal_roman`](https://pkg.robjhyndman.com/calcal/reference/new_calendar.md)
+  [`cal_tibetan`](https://pkg.robjhyndman.com/calcal/reference/new_calendar.md)
+  : Define calendar objects
+- [`as_date()`](https://pkg.robjhyndman.com/calcal/reference/new_date.md)
+  [`new_date()`](https://pkg.robjhyndman.com/calcal/reference/new_date.md)
+  : Create a new date vector or convert a date vector to a new calendar
+
+## Gregorian calendar
+
+- [`gregorian_date()`](https://pkg.robjhyndman.com/calcal/reference/gregorian.md)
+  [`as_gregorian()`](https://pkg.robjhyndman.com/calcal/reference/gregorian.md)
+  : Gregorian calendar dates
+
+## Babylonian calendar
+
+- [`babylonian_date()`](https://pkg.robjhyndman.com/calcal/reference/babylonian_date.md)
+  [`as_babylonian()`](https://pkg.robjhyndman.com/calcal/reference/babylonian_date.md)
+  : Babylonian calendar dates
+
+## Baháʼí calendar
+
+- [`bahai_date()`](https://pkg.robjhyndman.com/calcal/reference/bahai.md)
+  [`as_bahai()`](https://pkg.robjhyndman.com/calcal/reference/bahai.md)
+  : Bahá'í calendar dates
+
+## Balinese calendar
+
+- [`balinese_date()`](https://pkg.robjhyndman.com/calcal/reference/balinese_date.md)
+  [`as_balinese()`](https://pkg.robjhyndman.com/calcal/reference/balinese_date.md)
+  : Balinese Pawukon calendar dates
+
+## Chinese, Japanese, Korean and Vietnamese calendars
+
+- [`chinese_date()`](https://pkg.robjhyndman.com/calcal/reference/chinese.md)
+  [`japanese_date()`](https://pkg.robjhyndman.com/calcal/reference/chinese.md)
+  [`korean_date()`](https://pkg.robjhyndman.com/calcal/reference/chinese.md)
+  [`vietnamese_date()`](https://pkg.robjhyndman.com/calcal/reference/chinese.md)
+  [`as_chinese()`](https://pkg.robjhyndman.com/calcal/reference/chinese.md)
+  [`as_japanese()`](https://pkg.robjhyndman.com/calcal/reference/chinese.md)
+  [`as_korean()`](https://pkg.robjhyndman.com/calcal/reference/chinese.md)
+  [`as_vietnamese()`](https://pkg.robjhyndman.com/calcal/reference/chinese.md)
+  : Chinese, Japanese, Korean and Vietnamese calendar dates
+
+## Coptic and Ethiopic calendars
+
+- [`coptic_date()`](https://pkg.robjhyndman.com/calcal/reference/coptic.md)
+  [`ethiopic_date()`](https://pkg.robjhyndman.com/calcal/reference/coptic.md)
+  [`as_coptic()`](https://pkg.robjhyndman.com/calcal/reference/coptic.md)
+  [`as_ethiopic()`](https://pkg.robjhyndman.com/calcal/reference/coptic.md)
+  : Coptic and Ethoiopic calendar dates
+
+## Egyptian and Armenian calendars
+
+- [`egyptian_date()`](https://pkg.robjhyndman.com/calcal/reference/egyptian.md)
+  [`armenian_date()`](https://pkg.robjhyndman.com/calcal/reference/egyptian.md)
+  [`as_egyptian()`](https://pkg.robjhyndman.com/calcal/reference/egyptian.md)
+  [`as_armenian()`](https://pkg.robjhyndman.com/calcal/reference/egyptian.md)
+  : Egyptian and Armenian calendar dates
+
+## French revolutionary calendar
+
+- [`french_date()`](https://pkg.robjhyndman.com/calcal/reference/french_date.md)
+  [`afrench_date()`](https://pkg.robjhyndman.com/calcal/reference/french_date.md)
+  [`as_french()`](https://pkg.robjhyndman.com/calcal/reference/french_date.md)
+  [`as_afrench()`](https://pkg.robjhyndman.com/calcal/reference/french_date.md)
+  : French Revolutionary calendar dates
+
+## Hebrew calendar
+
+- [`hebrew_date()`](https://pkg.robjhyndman.com/calcal/reference/hebrew.md)
+  [`as_hebrew()`](https://pkg.robjhyndman.com/calcal/reference/hebrew.md)
+  [`ohebrew_date()`](https://pkg.robjhyndman.com/calcal/reference/hebrew.md)
+  [`as_ohebrew()`](https://pkg.robjhyndman.com/calcal/reference/hebrew.md)
+  [`samaritan_date()`](https://pkg.robjhyndman.com/calcal/reference/hebrew.md)
+  [`as_samaritan()`](https://pkg.robjhyndman.com/calcal/reference/hebrew.md)
+  : Hebrew calendar dates
+
+## Hindu calendars
+
+- [`hindu_solar_date()`](https://pkg.robjhyndman.com/calcal/reference/hindu_solar_date.md)
+  [`hindu_lunar_date()`](https://pkg.robjhyndman.com/calcal/reference/hindu_solar_date.md)
+  [`as_hindu_solar()`](https://pkg.robjhyndman.com/calcal/reference/hindu_solar_date.md)
+  [`as_hindu_lunar()`](https://pkg.robjhyndman.com/calcal/reference/hindu_solar_date.md)
+  [`old_hindu_solar_date()`](https://pkg.robjhyndman.com/calcal/reference/hindu_solar_date.md)
+  [`old_hindu_lunar_date()`](https://pkg.robjhyndman.com/calcal/reference/hindu_solar_date.md)
+  [`as_old_hindu_solar()`](https://pkg.robjhyndman.com/calcal/reference/hindu_solar_date.md)
+  [`as_old_hindu_lunar()`](https://pkg.robjhyndman.com/calcal/reference/hindu_solar_date.md)
+  : Hindu solar and lunar calendar dates
+
+## Icelandic calendar
+
+- [`icelandic_date()`](https://pkg.robjhyndman.com/calcal/reference/icelandic_date.md)
+  [`as_icelandic()`](https://pkg.robjhyndman.com/calcal/reference/icelandic_date.md)
+  : Icelandic calendar dates
+
+## Islamic calendar
+
+- [`islamic_date()`](https://pkg.robjhyndman.com/calcal/reference/islamic.md)
+  [`as_islamic()`](https://pkg.robjhyndman.com/calcal/reference/islamic.md)
+  [`oislamic_date()`](https://pkg.robjhyndman.com/calcal/reference/islamic.md)
+  [`as_oislamic()`](https://pkg.robjhyndman.com/calcal/reference/islamic.md)
+  [`saudi_date()`](https://pkg.robjhyndman.com/calcal/reference/islamic.md)
+  [`as_saudi()`](https://pkg.robjhyndman.com/calcal/reference/islamic.md)
+  : Islamic calendar dates
+
+## ISO calendar
+
+- [`iso_date()`](https://pkg.robjhyndman.com/calcal/reference/iso.md)
+  [`as_iso()`](https://pkg.robjhyndman.com/calcal/reference/iso.md) :
+  ISO calendar dates
+
+## Julian calendar
+
+- [`julian_date()`](https://pkg.robjhyndman.com/calcal/reference/julian.md)
+  [`as_julian()`](https://pkg.robjhyndman.com/calcal/reference/julian.md)
+  : Julian calendar dates
+
+## Mayan calendar
+
+- [`mayan_date()`](https://pkg.robjhyndman.com/calcal/reference/mayan_date.md)
+  [`as_mayan()`](https://pkg.robjhyndman.com/calcal/reference/mayan_date.md)
+  : Mayan calendar dates
+
+## Persian calendar
+
+- [`persian_date()`](https://pkg.robjhyndman.com/calcal/reference/persian_date.md)
+  [`apersian_date()`](https://pkg.robjhyndman.com/calcal/reference/persian_date.md)
+  [`as_persian()`](https://pkg.robjhyndman.com/calcal/reference/persian_date.md)
+  [`as_apersian()`](https://pkg.robjhyndman.com/calcal/reference/persian_date.md)
+  : Persian dates
+
+## Roman calendar
+
+- [`roman_date()`](https://pkg.robjhyndman.com/calcal/reference/roman.md)
+  [`as_roman()`](https://pkg.robjhyndman.com/calcal/reference/roman.md)
+  : Roman calendar dates
+
+## Tibetan calendar
+
+- [`tibetan_date()`](https://pkg.robjhyndman.com/calcal/reference/tibetan_date.md)
+  [`as_tibetan()`](https://pkg.robjhyndman.com/calcal/reference/tibetan_date.md)
+  : Tibetan calendar dates
+
+## Holidays and special days
+
+- [`advent()`](https://pkg.robjhyndman.com/calcal/reference/christian.md)
+  [`christmas()`](https://pkg.robjhyndman.com/calcal/reference/christian.md)
+  [`orthodox_christmas()`](https://pkg.robjhyndman.com/calcal/reference/christian.md)
+  [`epiphany()`](https://pkg.robjhyndman.com/calcal/reference/christian.md)
+  [`easter()`](https://pkg.robjhyndman.com/calcal/reference/christian.md)
+  [`orthodox_easter()`](https://pkg.robjhyndman.com/calcal/reference/christian.md)
+  [`pentecost()`](https://pkg.robjhyndman.com/calcal/reference/christian.md)
+  [`coptic_christmas()`](https://pkg.robjhyndman.com/calcal/reference/christian.md)
+  [`astronomical_easter()`](https://pkg.robjhyndman.com/calcal/reference/christian.md)
+  : Christian Ecclesiastical Holidays
+- [`us_memorial_day()`](https://pkg.robjhyndman.com/calcal/reference/us_holidays.md)
+  [`us_independence_day()`](https://pkg.robjhyndman.com/calcal/reference/us_holidays.md)
+  [`us_labor_day()`](https://pkg.robjhyndman.com/calcal/reference/us_holidays.md)
+  [`us_election_day()`](https://pkg.robjhyndman.com/calcal/reference/us_holidays.md)
+  [`us_daylight_saving_start()`](https://pkg.robjhyndman.com/calcal/reference/us_holidays.md)
+  [`us_daylight_saving_end()`](https://pkg.robjhyndman.com/calcal/reference/us_holidays.md)
+  [`unlucky_fridays()`](https://pkg.robjhyndman.com/calcal/reference/us_holidays.md)
+  : US Holidays
+- [`yom_kippur()`](https://pkg.robjhyndman.com/calcal/reference/jewish.md)
+  [`passover()`](https://pkg.robjhyndman.com/calcal/reference/jewish.md)
+  [`purim()`](https://pkg.robjhyndman.com/calcal/reference/jewish.md)
+  [`ta_anit_esther()`](https://pkg.robjhyndman.com/calcal/reference/jewish.md)
+  [`tishah_be_av()`](https://pkg.robjhyndman.com/calcal/reference/jewish.md)
+  [`hanukkah()`](https://pkg.robjhyndman.com/calcal/reference/jewish.md)
+  [`rosh_hashanah()`](https://pkg.robjhyndman.com/calcal/reference/jewish.md)
+  [`sukkot()`](https://pkg.robjhyndman.com/calcal/reference/jewish.md)
+  [`shavuot()`](https://pkg.robjhyndman.com/calcal/reference/jewish.md)
+  : Jewish Holidays
+- [`islamic_new_year()`](https://pkg.robjhyndman.com/calcal/reference/islamic_holidays.md)
+  [`mawlid()`](https://pkg.robjhyndman.com/calcal/reference/islamic_holidays.md)
+  [`ramadan()`](https://pkg.robjhyndman.com/calcal/reference/islamic_holidays.md)
+  [`eid_al_fitr()`](https://pkg.robjhyndman.com/calcal/reference/islamic_holidays.md)
+  [`eid_al_adha()`](https://pkg.robjhyndman.com/calcal/reference/islamic_holidays.md)
+  : Islamic holidays
+- [`chinese_new_year()`](https://pkg.robjhyndman.com/calcal/reference/chinese_new_year.md)
+  [`dragon_festival()`](https://pkg.robjhyndman.com/calcal/reference/chinese_new_year.md)
+  [`qing_ming()`](https://pkg.robjhyndman.com/calcal/reference/chinese_new_year.md)
+  : Chinese holidays
+- [`bahai_new_year()`](https://pkg.robjhyndman.com/calcal/reference/bahai_new_year.md)
+  [`naw_ruz()`](https://pkg.robjhyndman.com/calcal/reference/bahai_new_year.md)
+  [`feast_of_ridvan()`](https://pkg.robjhyndman.com/calcal/reference/bahai_new_year.md)
+  [`birth_of_the_bab()`](https://pkg.robjhyndman.com/calcal/reference/bahai_new_year.md)
+  : Bahá'í holidays
+- [`kajeng_keliwon()`](https://pkg.robjhyndman.com/calcal/reference/kajeng_keliwon.md)
+  [`tumpek()`](https://pkg.robjhyndman.com/calcal/reference/kajeng_keliwon.md)
+  : Balinese special days
+- [`tibetan_new_year()`](https://pkg.robjhyndman.com/calcal/reference/tibetan_new_year.md)
+  [`losar()`](https://pkg.robjhyndman.com/calcal/reference/tibetan_new_year.md)
+  : Tibetan holidays
+- [`hindu_lunar_new_year()`](https://pkg.robjhyndman.com/calcal/reference/diwali.md)
+  [`mesha_sankranti()`](https://pkg.robjhyndman.com/calcal/reference/diwali.md)
+  [`diwali()`](https://pkg.robjhyndman.com/calcal/reference/diwali.md)
+  [`shiva()`](https://pkg.robjhyndman.com/calcal/reference/diwali.md)
+  [`rama()`](https://pkg.robjhyndman.com/calcal/reference/diwali.md)
+  [`sacred_wednesdays()`](https://pkg.robjhyndman.com/calcal/reference/diwali.md)
+  : Hindu holidays and special days
+
+## Granularities
+
+- [`granularity_names()`](https://pkg.robjhyndman.com/calcal/reference/granularities.md)
+  [`granularity()`](https://pkg.robjhyndman.com/calcal/reference/granularities.md)
+  : Canonical granularities
+- [`day_of_week()`](https://pkg.robjhyndman.com/calcal/reference/gregorian-parts.md)
+  [`day_of_month()`](https://pkg.robjhyndman.com/calcal/reference/gregorian-parts.md)
+  [`day_of_year()`](https://pkg.robjhyndman.com/calcal/reference/gregorian-parts.md)
+  [`days_remaining()`](https://pkg.robjhyndman.com/calcal/reference/gregorian-parts.md)
+  [`week_of_month()`](https://pkg.robjhyndman.com/calcal/reference/gregorian-parts.md)
+  [`week_of_year()`](https://pkg.robjhyndman.com/calcal/reference/gregorian-parts.md)
+  [`month_of_year()`](https://pkg.robjhyndman.com/calcal/reference/gregorian-parts.md)
+  [`year()`](https://pkg.robjhyndman.com/calcal/reference/gregorian-parts.md)
+  : Compute granularities from dates
+
+## Time of day
+
+- [`time_of_day()`](https://pkg.robjhyndman.com/calcal/reference/time_of_day.md)
+  : Time of day
+- [`as_time_of_day()`](https://pkg.robjhyndman.com/calcal/reference/time.md)
+  : Convert to time of day
+
+## Locations
+
+- [`location()`](https://pkg.robjhyndman.com/calcal/reference/location.md)
+  : Locations
+
+## Astronomical functions
+
+- [`lunar_phase()`](https://pkg.robjhyndman.com/calcal/reference/lunar_phase.md)
+  : Lunar phase at date
+- [`new_moons()`](https://pkg.robjhyndman.com/calcal/reference/new_moons.md)
+  [`full_moons()`](https://pkg.robjhyndman.com/calcal/reference/new_moons.md)
+  : Full moons and new moons in Gregorian years
+- [`sunrise()`](https://pkg.robjhyndman.com/calcal/reference/sunrise.md)
+  [`sunset()`](https://pkg.robjhyndman.com/calcal/reference/sunrise.md)
+  [`moonset()`](https://pkg.robjhyndman.com/calcal/reference/sunrise.md)
+  [`moonrise()`](https://pkg.robjhyndman.com/calcal/reference/sunrise.md)
+  : Sun and moon rise and set given a date and location
+
+# Articles
+
+### All vignettes
+
+- [Creating a new
+  calendar](https://pkg.robjhyndman.com/calcal/articles/new_calendar.md):
