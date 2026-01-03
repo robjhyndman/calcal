@@ -50,10 +50,10 @@ gregorian_date(2025, 4, 19:30)
 #>  [7] 2025-Apr-25 2025-Apr-26 2025-Apr-27 2025-Apr-28 2025-Apr-29 2025-Apr-30
 as_date(Sys.Date(), calendar = cal_gregorian)
 #> <gregorian[1]>
-#> [1] 2025-Dec-30
+#> [1] 2026-Jan-03
 as_gregorian(Sys.Date())
 #> <gregorian[1]>
-#> [1] 2025-Dec-30
+#> [1] 2026-Jan-03
 as_gregorian("2016-01-01")
 #> <gregorian[1]>
 #> [1] 2016-Jan-01

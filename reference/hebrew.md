@@ -75,7 +75,7 @@ as_date(heb, calendar = cal_gregorian)
 #> [1] 2025-May-29 2025-May-30 2025-May-31
 as_date(Sys.Date(), calendar = cal_hebrew)
 #> <hebrew[1]>
-#> [1] 5786-Tevet-10
+#> [1] 5786-Tevet-14
 tibble::tibble(
   gregorian = gregorian_date(2025, 1, 1) + 0:364,
   hebrew = as_date(gregorian, calendar = cal_hebrew),
@@ -111,7 +111,7 @@ as_hebrew("2016-01-01")
 #> [1] 5776-Tevet-20
 as_hebrew(Sys.Date())
 #> <hebrew[1]>
-#> [1] 5786-Tevet-10
+#> [1] 5786-Tevet-14
 hebrew_date(5785, 3, 1:10) |> day_of_week()
 #>  [1] "Revii"   "Hamishi" "Shishi"  "Shabbat" "Rishon"  "Sheni"   "Shlishi"
 #>  [8] "Revii"   "Hamishi" "Shishi" 
