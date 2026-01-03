@@ -1,11 +1,16 @@
 test_that("balinese", {
-  expect_equal(
-    balinese_date(FALSE, 1, 1:2, 1:2, 3:4, 1:2, 1:2, 5:6, 7:8, 3:4) |>
-      cal_balinese$from_rd() |>
-      cal_balinese$to_rd() |>
-      suppressWarnings(),
-    gregorian_date(2025, 6, 15:16) |> vctrs::vec_data()
-  )
+  dates <- gregorian_date(2025, 6, 15:16) |> vctrs::vec_data()
+  bdates <- as_balinese(dates) |> as.list()
+  expect_equal(bdates$luang, c(FALSE, FALSE))
+  expect_equal(bdates$dwiwara, c(1, 1))
+  expect_equal(bdates$triwara, c(1, 2))
+  expect_equal(bdates$caturwara, c(1, 2))
+  expect_equal(bdates$pancawara, c(3, 4))
+  expect_equal(bdates$sadwara, c(1, 2))
+  expect_equal(bdates$saptawara, c(1, 2))
+  expect_equal(bdates$asatawara, c(5, 6))
+  expect_equal(bdates$sangawara, c(7, 8))
+  expect_equal(bdates$dasawara, c(3, 9))
   # Tumpek
   tumpek2025 <- tumpek(2025)
   expect_equal(diff(tumpek2025), rep(35, 9))
