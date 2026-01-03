@@ -1,6 +1,6 @@
 # Changelog
 
-## calcal (development version)
+## calcal 1.0.1
 
 - Bug fixes
 
