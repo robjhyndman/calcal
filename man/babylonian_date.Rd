@@ -32,11 +32,13 @@ A babylonian vector object
 The classical Babylonian calendar was a lunisolar calendar with a fixed 19-year Metonic cycle.
 }
 \examples{
+\dontrun{
 tibble::tibble(
   gregorian = gregorian_date(2335, 1, 1:2),
   babylonian = as_babylonian(gregorian)
 )
 babylonian_date(2335, 6, FALSE, 1:2)
+}
 }
 \seealso{
 \link{cal_babylonian}

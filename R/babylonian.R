@@ -93,11 +93,13 @@ cal_babylonian <- new_calendar(
 #' @return A babylonian vector object
 #' @seealso [cal_babylonian]
 #' @examples
+#' \dontrun{
 #' tibble::tibble(
 #'   gregorian = gregorian_date(2335, 1, 1:2),
 #'   babylonian = as_babylonian(gregorian)
 #' )
 #' babylonian_date(2335, 6, FALSE, 1:2)
+#' }
 #' @export
 babylonian_date <- function(
   year = integer(),
