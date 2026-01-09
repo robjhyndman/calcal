@@ -71,7 +71,7 @@ as_iso("2016-01-01")
 #> [1] 2015-53-05
 as_iso(Sys.Date())
 #> <iso[1]>
-#> [1] 2026-01-06
+#> [1] 2026-02-05
 tibble::tibble(
   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
   y = as_iso(x)

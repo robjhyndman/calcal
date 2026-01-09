@@ -49,16 +49,11 @@ A babylonian vector object
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
 tibble::tibble(
   gregorian = gregorian_date(2335, 1, 1:2),
   babylonian = as_babylonian(gregorian)
 )
-#> # A tibble: 2 × 2
-#>     gregorian   babylonian
-#>         <Gre>        <Bab>
-#> 1 2335-Jan-01 2645-Tebe-04
-#> 2 2335-Jan-02 2645-Tebe-05
 babylonian_date(2335, 6, FALSE, 1:2)
-#> <babylonian[2]>
-#> [1] 2335-Ulul-01 2335-Ulul-02
+} # }
 ```

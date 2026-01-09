@@ -46,7 +46,7 @@ as_date("2016-01-01", calendar = cal_julian)
 #> [1] 2015-Dec-19
 as_date(Sys.Date(), calendar = cal_julian)
 #> <julian[1]>
-#> [1] 2025-Dec-21
+#> [1] 2025-Dec-27
 tibble::tibble(
   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
   y = as_date(x, calendar = cal_gregorian),
@@ -79,7 +79,7 @@ as_julian("2016-01-01")
 #> [1] 2015-Dec-19
 as_julian(Sys.Date())
 #> <julian[1]>
-#> [1] 2025-Dec-21
+#> [1] 2025-Dec-27
 tibble::tibble(
   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
   y = as_julian(x)
