@@ -14,7 +14,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/robjhyndman/calcal/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/robjhyndman/calcal/blob/v1.0.1/DESCRIPTION)
 
 Hyndman R (2026). *calcal: Calendrical Calculations*. R package version
 1.0.1, <https://pkg.robjhyndman.com/calcal/>.

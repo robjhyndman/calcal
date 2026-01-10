@@ -78,11 +78,11 @@ coptic_date(1741, 5, 16:18)
 #> [1] 1741-Tob-16 1741-Tob-17 1741-Tob-18
 as_date(Sys.Date(), calendar = cal_ethiopic)
 #> <ethiopic[1]>
-#> [1] 2018-Ter-01
+#> [1] 2018-Ter-02
 as_coptic("2016-01-01")
 #> <coptic[1]>
 #> [1] 1732-Koi-22
 as_ethiopic(Sys.Date())
 #> <ethiopic[1]>
-#> [1] 2018-Ter-01
+#> [1] 2018-Ter-02
 ```

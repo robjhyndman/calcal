@@ -40,7 +40,7 @@ or 13 months per year."><meta property="og:image" content="https://pkg.robjhyndm
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Hebrew calendar dates</h1>
-      <small class="dont-index">Source: <a href="https://github.com/robjhyndman/calcal/blob/main/R/hebrew.R" class="external-link"><code>R/hebrew.R</code></a>, <a href="https://github.com/robjhyndman/calcal/blob/main/R/lunar_calendars_astronomy.R" class="external-link"><code>R/lunar_calendars_astronomy.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/robjhyndman/calcal/blob/v1.0.1/R/hebrew.R" class="external-link"><code>R/hebrew.R</code></a>, <a href="https://github.com/robjhyndman/calcal/blob/v1.0.1/R/lunar_calendars_astronomy.R" class="external-link"><code>R/lunar_calendars_astronomy.R</code></a></small>
       <div class="d-none name"><code>hebrew.Rd</code></div>
     </div>
 
@@ -118,7 +118,7 @@ each new month is based on a traditional reckoning of the lunar cycle,</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2025-May-29 2025-May-30 2025-May-31</span>
 <span class="r-in"><span><span class="fu"><a href="new_date.html">as_date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>, calendar <span class="op">=</span> <span class="va">cal_hebrew</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;hebrew[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5786-Tevet-20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5786-Tevet-21</span>
 <span class="r-in"><span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  gregorian <span class="op">=</span> <span class="fu"><a href="gregorian.html">gregorian_date</a></span><span class="op">(</span><span class="fl">2025</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> <span class="fl">0</span><span class="op">:</span><span class="fl">364</span>,</span></span>
 <span class="r-in"><span>  hebrew <span class="op">=</span> <span class="fu"><a href="new_date.html">as_date</a></span><span class="op">(</span><span class="va">gregorian</span>, calendar <span class="op">=</span> <span class="va">cal_hebrew</span><span class="op">)</span>,</span></span>
@@ -154,7 +154,7 @@ each new month is based on a traditional reckoning of the lunar cycle,</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5776-Tevet-20</span>
 <span class="r-in"><span><span class="fu">as_hebrew</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;hebrew[1]&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5786-Tevet-20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5786-Tevet-21</span>
 <span class="r-in"><span><span class="fu">hebrew_date</span><span class="op">(</span><span class="fl">5785</span>, <span class="fl">3</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="gregorian-parts.html">day_of_week</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "Revii"   "Hamishi" "Shishi"  "Shabbat" "Rishon"  "Sheni"   "Shlishi"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [8] "Revii"   "Hamishi" "Shishi" </span>
