@@ -14,15 +14,15 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/robjhyndman/calcal/blob/v1.0.1/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/robjhyndman/calcal/blob/main/DESCRIPTION)
 
 Hyndman R (2026). *calcal: Calendrical Calculations*. R package version
-1.0.1, <https://pkg.robjhyndman.com/calcal/>.
+1.0.1.9000, <https://pkg.robjhyndman.com/calcal/>.
 
     @Manual{,
       title = {calcal: Calendrical Calculations},
       author = {Rob Hyndman},
       year = {2026},
-      note = {R package version 1.0.1},
+      note = {R package version 1.0.1.9000},
       url = {https://pkg.robjhyndman.com/calcal/},
     }
