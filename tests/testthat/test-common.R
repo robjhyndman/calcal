@@ -72,13 +72,17 @@ test_that("validation", {
   calendars[names(calendars) %in% slow] |>
     lapply(\(x) {
       print(x$name)
-      d <- x$from_rd(1:1e4) |> as.list() |> x$validate()
+      d <- x$from_rd(1:1e4) |>
+        as.list() |>
+        x$validate()
       expect_no_error(d)
     })
   calendars[!(names(calendars) %in% c(vslow, slow))] |>
     lapply(\(x) {
       print(x$name)
-      d <- x$from_rd(1:1e5) |> as.list() |> x$validate()
+      d <- x$from_rd(1:1e5) |>
+        as.list() |>
+        x$validate()
       expect_no_error(d)
     })
 })

@@ -35,8 +35,10 @@ nth_kday <- function(n, k, date) {
   # A k-day of 0 means Sunday, 1 means Monday, and so on.
   output <- rep(NA_integer_, length(date))
   miss <- is.na(date)
-  output[n > 0 & !miss] <- kday_before(k, date[n > 0 & !miss]) + 7L * n[n > 0 & !miss]
-  output[n < 0 & !miss] <- kday_after(k, date[n < 0 & !miss]) + 7L * n[n < 0 & !miss]
+  output[n > 0 & !miss] <- kday_before(k, date[n > 0 & !miss]) +
+    7L * n[n > 0 & !miss]
+  output[n < 0 & !miss] <- kday_after(k, date[n < 0 & !miss]) +
+    7L * n[n < 0 & !miss]
   output
 }
 

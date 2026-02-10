@@ -124,7 +124,7 @@ cal_tibetan <- new_calendar(
 #' @param leap_day A logical vector of leap days
 #' @seealso [tibetan_new_year]
 #' @examples
-#' gregorian_date(2025,6,1:10) |> as_tibetan()
+#' gregorian_date(2025, 6, 1:10) |> as_tibetan()
 #' @return A `tibetan_date` object
 #'
 #' @export

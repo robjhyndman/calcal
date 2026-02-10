@@ -1,6 +1,6 @@
-#==============================================================================
+# ==============================================================================
 # Balinese Calendar
-#==============================================================================
+# ==============================================================================
 
 BALI_EPOCH <- -1721279 # fixed_from_jd(146)
 
@@ -35,7 +35,7 @@ fixed_from_bali <- function(date) {
     return(bali_on_or_before(date, vec_data(end_of_year)))
   }
 
-  #bali_on_or_before(date, BALI_EPOCH)
+  # bali_on_or_before(date, BALI_EPOCH)
 }
 
 validate_balinese <- function(date) {
@@ -114,7 +114,7 @@ cal_balinese <- new_calendar(
 #' @param dasawara A numeric vector
 #' @return A balinese vector object
 #' @examples
-#' gregorian_date(2025,6,1:10) |>
+#' gregorian_date(2025, 6, 1:10) |>
 #'   as_balinese()
 #' @seealso [kajeng_keliwon]
 #' @export

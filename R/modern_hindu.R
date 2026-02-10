@@ -485,7 +485,7 @@ hindu_new_moon_before <- function(tee) {
     },
     function(lo, hi) {
       hindu_zodiac(lo) == hindu_zodiac(hi)
-    } #{(hi - lo) < varepsilon}
+    } # {(hi - lo) < varepsilon}
   )
 }
 

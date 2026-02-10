@@ -8,9 +8,9 @@ BAHAI_LOCATION <- location(
 )
 
 # Sidereal start constant - precession at Mesha Samkranti of 285 CE
-SIDEREAL_START <- 336.1361 #precession(
-  #universal_from_local(
-  #  mesha_sankranti(ce(285)),
-  #  HINDU_LOCATION
-  #)
-#)
+SIDEREAL_START <- 336.1361 # precession(
+# universal_from_local(
+#  mesha_sankranti(ce(285)),
+#  HINDU_LOCATION
+# )
+# )

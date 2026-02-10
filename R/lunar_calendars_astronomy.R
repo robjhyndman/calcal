@@ -28,7 +28,8 @@ fixed_from_observational_islamic <- function(i_date) {
   out <- rep(NA_integer_, length(midmonth))
   miss <- is.na(midmonth)
   out[!miss] <- phasis_on_or_before(midmonth[!miss], ISLAMIC_LOCATION) +
-    i_date$day[!miss] - 1
+    i_date$day[!miss] -
+    1
   out
 }
 
@@ -100,7 +101,8 @@ fixed_from_observational_hebrew <- function(h_date) {
   # First day of month.
   out <- rep(NA_integer_, length(midmonth))
   out[!miss] <- phasis_on_or_before(midmonth[!miss], HEBREW_LOCATION) +
-    h_date$day[!miss] - 1
+    h_date$day[!miss] -
+    1
   out
 }
 

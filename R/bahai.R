@@ -1,6 +1,6 @@
-#==============================================================================
+# ==============================================================================
 # Baha'i Calendar
-#==============================================================================
+# ==============================================================================
 
 BAHAI_EPOCH <- 673222 # as.numeric(gregorian_date(1844, MARCH, 21))
 AYYAM_I_HA <- 20 # Signifies intercalary period of 4 or 5 days
@@ -167,7 +167,7 @@ as_bahai <- function(date) {
 #' tibble::tibble(
 #'   year = 2025:2030,
 #'   new_year = bahai_new_year(year),
-#'   naw_ruz =naw_ruz(year),
+#'   naw_ruz = naw_ruz(year),
 #'   ridvan = feast_of_ridvan(year),
 #'   birth_bab = birth_of_the_bab(year)
 #' )

@@ -93,15 +93,21 @@ fixed_from_asian <- function(date, locfn) {
 
   # New moon before date - a month too early if
   # there was prior leap month that year
-  p[!miss] <- chinese_new_moon_on_or_after(new_year[!miss] + (date$month[!miss] - 1) * 29, locfn)
+  p[!miss] <- chinese_new_moon_on_or_after(
+    new_year[!miss] + (date$month[!miss] - 1) * 29,
+    locfn
+  )
   d <- chinese_from_fixed(p)
 
   # If the months match, that's the right month
   # Otherwise, there was a prior leap month that year, so we want the next month
   prior_new_moon <- p
   idx <- !(date$month == d$month & date$leap_month == d$leap_month)
-  if (any(idx, na.rm = TRUE )) {
-    prior_new_moon[idx & !miss] <- chinese_new_moon_on_or_after(p[idx & !miss] + 1, locfn)
+  if (any(idx, na.rm = TRUE)) {
+    prior_new_moon[idx & !miss] <- chinese_new_moon_on_or_after(
+      p[idx & !miss] + 1,
+      locfn
+    )
   }
   prior_new_moon + date$day - 1
 }
@@ -614,9 +620,9 @@ korean_location <- function(date) {
   # Seoul city hall at a varying time zone.
   tee <- vec_data(date)
   z <- rep(9, length(tee))
-  case1 <- tee < 696608 #vec_data(gregorian_date(1908, APRIL, 1))
-  case2 <- !case1 & tee < 697978 #vec_data(gregorian_date(1912, JANUARY, 1))
-  case3 <- !case1 & !case2 & tee < 713398 #vec_data(gregorian_date(1954, MARCH, 21))
+  case1 <- tee < 696608 # vec_data(gregorian_date(1908, APRIL, 1))
+  case2 <- !case1 & tee < 697978 # vec_data(gregorian_date(1912, JANUARY, 1))
+  case3 <- !case1 & !case2 & tee < 713398 # vec_data(gregorian_date(1954, MARCH, 21))
   case4 <- !case1 &
     !case2 &
     !case3 &
@@ -635,6 +641,6 @@ vietnamese_location <- function(date) {
   tee <- vec_data(date)
   # Location for Vietnamese calendar is Hanoi; varies with
   # tee. Time zone has changed over the years.
-  z <- 7 + (tee < 718432) #vec_data(gregorian_new_year(1968))
+  z <- 7 + (tee < 718432) # vec_data(gregorian_new_year(1968))
   location(angle(21, 2, 0), angle(105, 51, 0), mt(12), z)
 }

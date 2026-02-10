@@ -2,7 +2,7 @@
 
 # Location and epoch constants
 BABYLON <- location(deg(32.4794), deg(44.4328), mt(26), 3.5)
-BABYLONIAN_EPOCH <- -113502 #vec_data(julian_date(bce(311), APRIL, 3))
+BABYLONIAN_EPOCH <- -113502 # vec_data(julian_date(bce(311), APRIL, 3))
 
 fixed_from_babylonian <- function(date) {
   # Elapsed months this year
