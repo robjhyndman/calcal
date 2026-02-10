@@ -32,7 +32,7 @@ The modern Persian calendar was adopted in 1925 in Iran and in 1957 in Afghanist
 of the calendar, using only arithmetic (rather than astronomical) calculations is available as the \code{apersian} calendar.
 }
 \examples{
-gregorian_date(2025,5,1:20) |>
+gregorian_date(2025, 5, 1:20) |>
   as_persian()
 
 }

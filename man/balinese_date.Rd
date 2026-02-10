@@ -53,7 +53,7 @@ so there is no way to convert a Balinese date into a unique date on
 another calendar.
 }
 \examples{
-gregorian_date(2025,6,1:10) |>
+gregorian_date(2025, 6, 1:10) |>
   as_balinese()
 }
 \seealso{

@@ -37,7 +37,7 @@ official Phuglugs version of the Kalachakra calendar, which is similar
 to the Hindu lunisolar calendars.
 }
 \examples{
-gregorian_date(2025,6,1:10) |> as_tibetan()
+gregorian_date(2025, 6, 1:10) |> as_tibetan()
 }
 \seealso{
 \link{tibetan_new_year}
