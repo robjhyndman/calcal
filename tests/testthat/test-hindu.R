@@ -13,10 +13,10 @@ test_that("hindu_solar", {
 
 test_that("hindu_lunar", {
   expect_equal(
-    hindu_lunar_date(1947, 3, FALSE, 1:10, FALSE) |>
+    hindu_lunar_date(1947, 3, FALSE, 19:29, FALSE) |>
       cal_hindu_lunar$from_rd() |>
       cal_hindu_lunar$to_rd(),
-    hindu_lunar_date(1947, 3, FALSE, 1:10, FALSE) |> vctrs::vec_data()
+    hindu_lunar_date(1947, 3, FALSE, 19:29, FALSE) |> vctrs::vec_data()
   )
   expect_equal(
     as_hindu_lunar(0),

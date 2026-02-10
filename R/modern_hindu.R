@@ -67,7 +67,8 @@ fixed_from_hindu_lunar <- function(l_date) {
   est <- s + l_date$day
   inside <- (3 < k & k < 27) & !miss
   mid <- hindu_lunar_from_fixed(s - 15)
-  cond2 <- !inside & !miss &
+  cond2 <- !inside &
+    !miss &
     (mid$month != l_date$month |
       (mid$leap_month & !l_date$leap_month))
   cond3 <- !inside & !cond2 & !miss
@@ -86,15 +87,14 @@ fixed_from_hindu_lunar <- function(l_date) {
   date <- floor(tau)
   hs[!miss] <- hindu_lunar_day_from_moment(hindu_sunrise(date[!miss]))
   hsrange <- c(l_date$day, amod(l_date$day + 1, 30))
-  j <- !(hs %in% hsrange)
-  j[!is.na(j)] <- FALSE
+  j <- !(hs %in% hsrange) & !miss
   while (any(j)) {
     date[j] <- date[j] + 1
     hs[j] <- hindu_lunar_day_from_moment(hindu_sunrise(date[j]))
     j <- !(hs %in% hsrange) & !miss
   }
 
-  date + as.numeric(l_date$leap_day)
+  date # + as.numeric(l_date$leap_day)
 }
 
 # Convert from fixed date to Hindu solar
