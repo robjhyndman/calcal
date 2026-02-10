@@ -81,7 +81,7 @@ A balinese vector object
 ## Examples
 
 ``` r
-gregorian_date(2025,6,1:10) |>
+gregorian_date(2025, 6, 1:10) |>
   as_balinese()
 #> <balinese[10]>
 #>  [1] TRUE-02-02-03-04-05-01-07-02-00  FALSE-01-03-04-05-06-02-08-03-03

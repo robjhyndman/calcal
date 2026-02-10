@@ -34,7 +34,7 @@ A vector of dates on the Gregorian calendar
 tibble::tibble(
   year = 2025:2030,
   new_year = bahai_new_year(year),
-  naw_ruz =naw_ruz(year),
+  naw_ruz = naw_ruz(year),
   ridvan = feast_of_ridvan(year),
   birth_bab = birth_of_the_bab(year)
 )

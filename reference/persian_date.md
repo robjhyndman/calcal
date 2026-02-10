@@ -42,7 +42,7 @@ A persian vector object
 ## Examples
 
 ``` r
-gregorian_date(2025,5,1:20) |>
+gregorian_date(2025, 5, 1:20) |>
   as_persian()
 #> <persian[20]>
 #>  [1] 1404-Ordi-11 1404-Ordi-12 1404-Ordi-13 1404-Ordi-14 1404-Ordi-15

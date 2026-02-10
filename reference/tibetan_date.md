@@ -55,7 +55,7 @@ A `tibetan_date` object
 ## Examples
 
 ``` r
-gregorian_date(2025,6,1:10) |> as_tibetan()
+gregorian_date(2025, 6, 1:10) |> as_tibetan()
 #> <tibetan[10]>
 #>  [1] 2152-snron-6   2152-snron-7   2152-snron-8   2152-snron-9   2152-snron-10 
 #>  [6] 2152-snron-11  2152-snron-12  2152-snron-12* 2152-snron-13  2152-snron-14 
