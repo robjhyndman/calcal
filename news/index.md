@@ -4,6 +4,8 @@
 
 ## calcal 1.0.1
 
+CRAN release: 2026-01-09
+
 - Bug fixes
 
 ## calcal 1.0.0
