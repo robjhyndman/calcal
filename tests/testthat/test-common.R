@@ -12,7 +12,7 @@ as_funs <- mget(as_funs, envir = calcal_env)
 test_that("missing", {
   calendars |>
     lapply(\(x) {
-      print(x$name)
+      #print(x$name)
       expect_equal(c(NA, 10), x$from_rd(c(NA, 10)) |> x$to_rd())
     })
 })
@@ -20,7 +20,7 @@ test_that("missing", {
 test_that("birthday", {
   calendars |>
     lapply(\(x) {
-      print(x$name)
+      #print(x$name)
       expect_equal(
         gregorian_date(1967, 5, 2) |>
           x$from_rd() |>
@@ -32,18 +32,21 @@ test_that("birthday", {
 
 test_that("today", {
   today <- as_gregorian(Sys.Date()) |> as.integer()
-  calendars |>
-    lapply(\(x) {
-      print(x$name)
-      today_x <- as_date(Sys.Date(), calendar = x) |> as.integer()
-      expect_equal(today, today_x)
-      expect_equal(
-        today + c(0:3, NA),
-        (today + c(0:3, NA)) |>
-          x$from_rd() |>
-          x$to_rd()
-      )
-    })
+  days <- -10:500
+  for (i in today + days) {
+    calendars |>
+      lapply(\(x) {
+        #print(x$name)
+        today_x <- as_date(Sys.Date() + i, calendar = x) |> as.integer()
+        expect_equal(today + i, today_x)
+        expect_equal(
+          today + c(0:3, NA) + i,
+          (today + c(0:3, NA) + i) |>
+            x$from_rd() |>
+            x$to_rd()
+        )
+      })
+  }
 })
 
 test_that("validation", {
