@@ -2,7 +2,7 @@ Fixed error in check results as requested.
 
 ## Test environments
 
-* KDE Neon 6.5.5 based on Ubuntu 24.04 (local): R 4.5.2
+* KDE Neon 6.6.0 based on Ubuntu 24.04 (local): R 4.5.2
 * macOS (on GitHub Actions): release
 * windows (on GitHub Actions): release
 * ubuntu 24.04.3 (on GitHub Actions): devel, release, oldrel
