@@ -31,5 +31,5 @@ A vector containing "time_of_day" objects
 ``` r
 as_time_of_day(Sys.time())
 #> <time_of_day[1]>
-#> [1] 06:02:30.76
+#> [1] 06:08:24.93
 ```

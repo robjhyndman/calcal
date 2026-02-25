@@ -2,6 +2,8 @@
 
 ## calcal (development version)
 
+- Bug fixes
+
 ## calcal 1.0.2
 
 CRAN release: 2026-02-10
