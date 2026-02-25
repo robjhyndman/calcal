@@ -63,10 +63,13 @@ fixed_from_bahai <- function(date) {
   case2 <- date$month == 19
   case3 <- !case1 & !case2 & !is.na(out)
   # 18 months have elapsed
-  out[case1] <- out[case1] + 342
+  out[case1 & !is.na(case1)] <- out[case1 & !is.na(case1)] + 342
   # Last month of year. Either a long ayyam-i-ha or an ordinary ayyam-i-ha
-  out[case2] <- out[case2] + 346 + gregorian_leap_year(g_year[case2] + 1)
-  out[case3] <- out[case3] + (date$month[case3] - 1) * 19
+  out[case2 & !is.na(case2)] <- out[case2 & !is.na(case2)] +
+    346 +
+    gregorian_leap_year(g_year[case2 & !is.na(case2)] + 1)
+  out[case3 & !is.na(case3)] <- out[case3 & !is.na(case3)] +
+    (date$month[case3 & !is.na(case3)] - 1) * 19
   # Add days
   out + date$day
 }
