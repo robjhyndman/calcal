@@ -71,7 +71,7 @@ as_islamic("2016-01-01")
 #> [1] 1437-Rab1-20
 as_islamic(Sys.Date())
 #> <islamic[1]>
-#> [1] 1447-Sha-22
+#> [1] 1447-Ram-08
 tibble::tibble(
   x = seq(as.Date("2025-01-01"), as.Date("2025-12-31"), by = "day"),
   y = as_islamic(x)

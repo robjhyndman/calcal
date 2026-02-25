@@ -101,7 +101,7 @@ as_date(chinese, calendar = cal_gregorian)
 #> [1] 2025-Jun-11 2025-Jun-12 2025-Jun-13
 as_date(Sys.Date(), calendar = cal_chinese)
 #> <chinese[1]>
-#> [1] 78-42-12-23
+#> [1] 78-43-01-09
 tibble::tibble(
   gregorian = gregorian_date(2025, 1, 1) + 0:364,
   chinese = as_chinese(gregorian)
@@ -139,5 +139,5 @@ as_chinese("2016-01-01")
 #> [1] 78-32-11-22
 as_chinese(Sys.Date())
 #> <chinese[1]>
-#> [1] 78-42-12-23
+#> [1] 78-43-01-09
 ```
