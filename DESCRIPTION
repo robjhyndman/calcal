@@ -1,6 +1,6 @@
 Package: calcal
 Title: Calendrical Calculations
-Version: 1.0.3
+Version: 1.0.3.9000
 Authors@R: c(
   person("Rob", "Hyndman", email="Rob.Hyndman@monash.edu", role=c("aut", "cre", "cph"), comment = c(ORCID = "0000-0002-2140-5352")),
   person("Edward","Reingold", role = c("cph", "ctb"), comment = "Original Lisp code"),
