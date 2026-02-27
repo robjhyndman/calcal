@@ -31,22 +31,18 @@ test_that("birthday", {
 })
 
 test_that("today", {
-  today <- as_gregorian("2026-02-25") #as_gregorian(Sys.Date()) |> as.integer()
-  days <- 0 # -10:500
-  for (i in today + days) {
-    calendars |>
-      lapply(\(x) {
-        #print(x$name)
-        today_x <- as_date(Sys.Date() + i, calendar = x) |> as.integer()
-        expect_equal(today + i, today_x)
-        expect_equal(
-          today + c(0:3, NA) + i,
-          (today + c(0:3, NA) + i) |>
-            x$from_rd() |>
-            x$to_rd()
-        )
-      })
-  }
+  today <- as_gregorian("2026-02-25") |> as.integer()
+  calendars |>
+    lapply(\(x) {
+      today_x <- as_date(today, calendar = x) |> as.integer()
+      expect_equal(today, today_x)
+      expect_equal(
+        today + c(0:3, NA),
+        (today + c(0:3, NA)) |>
+          x$from_rd() |>
+          x$to_rd()
+      )
+    })
 })
 
 test_that("validation", {
@@ -74,7 +70,7 @@ test_that("validation", {
   )
   calendars[names(calendars) %in% slow] |>
     lapply(\(x) {
-      print(x$name)
+      #print(x$name)
       d <- x$from_rd(1:1e4) |>
         as.list() |>
         x$validate()
@@ -82,7 +78,7 @@ test_that("validation", {
     })
   calendars[!(names(calendars) %in% c(vslow, slow))] |>
     lapply(\(x) {
-      print(x$name)
+      #print(x$name)
       d <- x$from_rd(1:1e5) |>
         as.list() |>
         x$validate()

@@ -1,4 +1,5 @@
 # calcal (development version)
+* Fixed test
 
 # calcal 1.0.3
 * Bug fixes
