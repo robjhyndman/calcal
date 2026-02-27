@@ -2,7 +2,11 @@
 
 ## calcal (development version)
 
+- Fixed test
+
 ## calcal 1.0.3
+
+CRAN release: 2026-02-25
 
 - Bug fixes
 
