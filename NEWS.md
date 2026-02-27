@@ -1,4 +1,4 @@
-# calcal (development version)
+# calcal 1.0.4
 * Fixed test
 
 # calcal 1.0.3
