@@ -41,5 +41,4 @@ us_election_day(2025)
 us_daylight_saving_start(2025)
 us_daylight_saving_end(2025)
 unlucky_fridays(2025)
-
 }

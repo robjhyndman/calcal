@@ -22,7 +22,6 @@ Gregorian years.
 \examples{
 kajeng_keliwon(2025)
 tumpek(2025)
-
 }
 \seealso{
 \link{balinese_date}

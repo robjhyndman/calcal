@@ -141,7 +141,6 @@ cal_apersian <- new_calendar(
 #' @examples
 #' gregorian_date(2025, 5, 1:20) |>
 #'   as_persian()
-#'
 #' @export
 persian_date <- function(year = integer(), month = integer(), day = integer()) {
   new_date(year = year, month = month, day = day, calendar = cal_persian)

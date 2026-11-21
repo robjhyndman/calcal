@@ -17,7 +17,6 @@
 #' us_daylight_saving_start(2025)
 #' us_daylight_saving_end(2025)
 #' unlucky_fridays(2025)
-#'
 #' @export
 us_memorial_day <- function(year) {
   # Fixed date of United States Memorial Day in Gregorian year--the last Monday in May

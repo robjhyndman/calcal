@@ -235,7 +235,6 @@ bali_on_or_before <- function(b_date, date) {
 #' @examples
 #' kajeng_keliwon(2025)
 #' tumpek(2025)
-#'
 #' @seealso [balinese_date]
 #' @export
 kajeng_keliwon <- function(year) {

@@ -34,5 +34,4 @@ of the calendar, using only arithmetic (rather than astronomical) calculations i
 \examples{
 gregorian_date(2025, 5, 1:20) |>
   as_persian()
-
 }

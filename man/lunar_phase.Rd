@@ -20,5 +20,4 @@ means the last quarter.
 \examples{
 april2025 <- gregorian_date(2025, 4, 1:30)
 lunar_phase(april2025)
-
 }

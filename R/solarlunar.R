@@ -312,7 +312,6 @@ lunar_longitude <- function(tee) {
 #' @examples
 #' april2025 <- gregorian_date(2025, 4, 1:30)
 #' lunar_phase(april2025)
-#'
 #' @export
 lunar_phase <- function(date) {
   tee <- vec_data(date)
