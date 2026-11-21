@@ -15,6 +15,7 @@ You can install the **stable** version from
 [CRAN](https://CRAN.R-project.org/package=calcal) with:
 
 ``` r
+
 pak::pak("calcal")
 ```
 
@@ -22,6 +23,7 @@ You can install the **development** version from
 [GitHub](https://github.com/) with:
 
 ``` r
+
 pak::pak("robjhyndman/calcal")
 ```
 
@@ -30,6 +32,7 @@ pak::pak("robjhyndman/calcal")
 Dates in multiple calendars:
 
 ``` r
+
 library(calcal)
 library(tibble)
 library(tidyr)
@@ -58,6 +61,7 @@ tibble(
 Some religious and cultural holidays
 
 ``` r
+
 tibble(
   year = 2025:2028,
   # Christian holidays

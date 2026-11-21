@@ -1,6 +1,7 @@
 # Creating a new calendar
 
 ``` r
+
 library(calcal)
 ```
 
@@ -35,6 +36,7 @@ convert from a Gregorian date to RD. The `date` argument is a list
 containing the `year`, `month`, and `day` components of the date.
 
 ``` r
+
 gregorian_to_rd <- function(date) {
   result <- 365 * (date$year - 1) + # Ordinary days since day 0 to start of year
     (date$year - 1) %/% 4 - # Adjust for leap years
@@ -58,6 +60,7 @@ start of that year, and finally calculating the month and day based on
 that.
 
 ``` r
+
 rd_to_gregorian <- function(rd) {
   # Calculate the year
   d0 <- rd - 1
@@ -88,6 +91,7 @@ The next function we need validates the granularities of the calendar.
 For the Gregorian calendar, the following function is used:
 
 ``` r
+
 validate_gregorian <- function(date) {
   if (any(date$month < 1 | date$month > 12, na.rm = TRUE)) {
     stop("month must be between 1 and 12")
@@ -107,6 +111,7 @@ Finally, we need a function to format the date as a character vector.
 For the Gregorian calendar, this can be done as follows:
 
 ``` r
+
 format_gregorian <- function(rd) {
   date <- rd_to_gregorian(rd)
   date[["year"]] <- sprintf("%02d", date[["year"]])
@@ -120,6 +125,7 @@ To create a new Gregorian calendar object, we use the `new_calendar`
 function:
 
 ``` r
+
 Gcal <- new_calendar(
   name = "Gregorian",
   short_name = "G",
@@ -134,6 +140,7 @@ Gcal <- new_calendar(
 Then we can use the `Gcal` calendar to create `rdvec` vectors:
 
 ``` r
+
 as_date("2026-01-01", calendar = Gcal) + 0:10
 #> <Gregorian[11]>
 #>  [1] 2026-January-01 2026-January-02 2026-January-03 2026-January-04
@@ -164,6 +171,7 @@ Existing helper functions will also work with the new calendar. For
 example:
 
 ``` r
+
 granularity_names(Gcal)
 #> [1] "year"  "month" "day"
 granularity(nd, "day")
@@ -181,6 +189,7 @@ The dates on this new calendar can be converted to any other defined
 calendar. For example:
 
 ``` r
+
 as_date(nd, calendar = cal_hebrew)
 #> <hebrew[7]>
 #> [1] 5785-Tammuz-22 5785-Tammuz-23 5785-Tammuz-24 5785-Tammuz-25 5785-Tammuz-26
@@ -194,6 +203,7 @@ If you want to regularly convert dates on other calendars to your new
 calendar, you can create an `as_<calendar_name>` function. For example:
 
 ``` r
+
 as_Gregorian <- function(date) {
   as_date(date, calendar = Gcal)
 }
